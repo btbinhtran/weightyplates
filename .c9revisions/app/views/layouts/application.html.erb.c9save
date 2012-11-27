@@ -1,4 +1,0 @@
-{"ts":1353966411976,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"<!DOCTYPE html>\n<html>\n<head>\n  <title>Weightyplates</title>\n  <%= stylesheet_link_tag    \"application\", :media => \"all\" %>\n  <%= javascript_include_tag \"application\" %>\n  <%= csrf_meta_tags %>\n</head>\n<body>\n\n<%= yield %>\n\n</body>\n</html>\n"]],"start1":0,"start2":0,"length1":0,"length2":240}]],"length":240}
-{"contributors":["btbinhtran@gmail.com"],"silentsave":true,"ts":1353968346980,"patch":[[{"diffs":[[1,"ps"],[0,"<!DOCTYP"]],"start1":0,"start2":0,"length1":8,"length2":10}]],"length":242,"saved":false}
-{"ts":1353968353920,"patch":[[{"diffs":[[1,"ps"],[0,"ps<!DOCT"]],"start1":0,"start2":0,"length1":8,"length2":10}]],"length":244,"saved":false}
-{"ts":1353968356512,"patch":[[{"diffs":[[-1,"psps"],[0,"<!DO"]],"start1":0,"start2":0,"length1":8,"length2":4}]],"length":240,"saved":false}
