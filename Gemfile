@@ -28,6 +28,7 @@ end
 group :test do
   gem 'rb-inotify', '0.8.8'
   gem 'capybara', '2.0.1'
+  gem 'factory_girl_rails', '4.1.0'
 end
 
 group :production do
