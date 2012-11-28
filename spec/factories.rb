@@ -38,4 +38,9 @@ FactoryGirl.define do
     best_reps 10
     best_weight 50
   end
+
+  factory :workout_entry do
+    association :workout
+    association :exercise
+  end
 end

@@ -7,6 +7,8 @@ describe EntryDetail do
 
   subject { @entry_detail}
 
+  it { should respond_to(:workout_entry) }
+
   it "should not be valid without a set" do
     @entry_detail.set_number = nil
     @entry_detail.save
