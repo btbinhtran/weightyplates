@@ -21,10 +21,15 @@ ActiveRecord::Schema.define(:version => 20121128032917) do
   end
 
   create_table "entry_details", :force => true do |t|
-    t.integer "set_number"
-    t.integer "reps"
-    t.decimal "weight"
+    t.integer  "workout_entry_id"
+    t.integer  "set_number"
+    t.integer  "reps"
+    t.decimal  "weight"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
+
+  add_index "entry_details", ["workout_entry_id"], :name => "index_entry_details_on_workout_entry_id"
 
   create_table "exercise_categories", :force => true do |t|
     t.integer  "exercise_id"
@@ -32,6 +37,9 @@ ActiveRecord::Schema.define(:version => 20121128032917) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  add_index "exercise_categories", ["category_id"], :name => "index_exercise_categories_on_category_id"
+  add_index "exercise_categories", ["exercise_id"], :name => "index_exercise_categories_on_exercise_id"
 
   create_table "exercise_stats", :force => true do |t|
     t.integer  "user_id"
@@ -73,16 +81,24 @@ ActiveRecord::Schema.define(:version => 20121128032917) do
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "workout_entries", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "exercise_id"
+    t.integer  "workout_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
+  add_index "workout_entries", ["exercise_id"], :name => "index_workout_entries_on_exercise_id"
+  add_index "workout_entries", ["workout_id"], :name => "index_workout_entries_on_workout_id"
+
   create_table "workouts", :force => true do |t|
+    t.integer  "user_id"
     t.string   "name"
     t.string   "note"
     t.string   "unit"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "workouts", ["user_id"], :name => "index_workouts_on_user_id"
 
 end
