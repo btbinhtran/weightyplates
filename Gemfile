@@ -6,6 +6,8 @@ gem 'haml-rails', '0.3.5'
 gem 'rails-backbone', '0.8.0'
 gem 'devise', '2.1.2'
 gem 'jquery-rails', '2.1.4'
+gem "marionette-rails", "~> 0.10.2"
+gem "haml_coffee_assets", "~> 1.7.2"
 
 # Gems used only for assets and not required
 # in production environments by default.
