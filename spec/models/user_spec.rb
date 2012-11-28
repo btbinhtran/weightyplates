@@ -5,8 +5,10 @@ describe User do
     @user = FactoryGirl.build(:user)
   end
 
-  it { should respond_to(:exercises) }
-  it { should respond_to(:workouts) }
+  subject { @user }
+
+  #it { should respond_to(:exercises) }
+  #it { should respond_to(:workouts) }
 
   it "should not be valid without a default_unit" do
     @user.default_unit = nil
@@ -40,13 +42,12 @@ describe User do
   end
 
   describe "when email address is already taken" do
-    before do
+    it "should not be valid" do
       @user.save
       user_with_same_email = @user.dup
       user_with_same_email.save
+      user_with_same_email.should_not be_valid
     end
-
-    it { should_not be_valid }
   end
 
   it "should not be valid without password" do
