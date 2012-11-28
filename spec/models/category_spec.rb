@@ -8,6 +8,13 @@ describe Category do
   subject { @category }
 
   #it { should respond_to(:exercises) }
+
+  it "should not be valid without a name" do
+    @category.name = nil
+    @category.save
+    @category.should_not be_valid
+  end
+
   it "should not be valid without a type" do
     @category.type = nil
     @category.save
