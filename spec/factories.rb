@@ -10,4 +10,13 @@ FactoryGirl.define do
     type "resistance"
     sequence(:name) { |i| "Cat #{i}" }
   end
+
+  factory :exercise do
+    sequence(:name) { |i| "Exercise #{i}" }
+    association :exercise_categories
+  end
+
+  factory :exercise_category do
+    association :exercise
+  end
 end
