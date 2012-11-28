@@ -23,13 +23,13 @@ group :development, :test do
   gem 'guard-rspec', '2.2.1'
   gem 'guard-spork', '1.2.3'
   gem 'spork', '0.9.2'
-  gem 'rb-inotify', '0.8.8', require: false
 end
 
 group :test do
   gem 'capybara', '2.0.1'
   gem 'factory_girl_rails', '4.1.0'
   gem 'rb-fsevent', '0.9.2', require: false
+  gem 'rb-inotify', '0.8.8', require: false
   gem 'growl', '1.0.3'
 end
 
