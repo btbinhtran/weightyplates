@@ -7,7 +7,7 @@ describe Category do
 
   subject { @category }
 
-  #it { should respond_to(:exercises) }
+  it { should respond_to(:exercises) }
 
   it "should not be valid without a name" do
     @category.name = nil

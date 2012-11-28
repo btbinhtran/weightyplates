@@ -23,4 +23,12 @@ FactoryGirl.define do
     weight      150.5
   end
 
+  factory :exercise do
+    sequence(:name) { |i| "Exercise #{i}" }
+  end
+
+  factory :exercise_category do
+    association :exercise
+  end
+
 end
