@@ -7,6 +7,8 @@ describe Workout do
 
   subject { @workout }
 
+  it { should respond_to(:user) }
+
   it "should not be valid without a name" do
     @workout.name = nil
     @workout.save
