@@ -8,6 +8,7 @@ describe User do
   subject { @user }
 
   it { should respond_to(:workouts) }
+  it { should respond_to(:exercise_stats) }
 
   it "should not be valid without a default_unit" do
     @user.default_unit = nil

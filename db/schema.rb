@@ -11,8 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
-ActiveRecord::Schema.define(:version => 20121128010629) do
+ActiveRecord::Schema.define(:version => 20121128032917) do
 
   create_table "categories", :force => true do |t|
     t.string   "type"
@@ -22,14 +21,23 @@ ActiveRecord::Schema.define(:version => 20121128010629) do
   end
 
   create_table "entry_details", :force => true do |t|
-    t.integer  "set_number"
-    t.integer  "reps"
-    t.decimal  "weight"
+    t.integer "set_number"
+    t.integer "reps"
+    t.decimal "weight"
   end
 
   create_table "exercise_categories", :force => true do |t|
     t.integer  "exercise_id"
     t.integer  "category_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "exercise_stats", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "exercise_id"
+    t.decimal  "best_weight"
+    t.integer  "best_reps"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -78,4 +86,3 @@ ActiveRecord::Schema.define(:version => 20121128010629) do
   end
 
 end
-

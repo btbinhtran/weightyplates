@@ -29,6 +29,13 @@ FactoryGirl.define do
 
   factory :exercise_category do
     association :exercise
+    association :category
   end
 
+  factory :exercise_stat do
+    association :user
+    association :exercise
+    best_reps 10
+    best_weight 50
+  end
 end
