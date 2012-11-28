@@ -13,7 +13,6 @@ FactoryGirl.define do
 
   factory :exercise do
     sequence(:name) { |i| "Exercise #{i}" }
-    association :exercise_categories
   end
 
   factory :exercise_category do
