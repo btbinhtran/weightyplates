@@ -34,6 +34,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # t.string :authentication_token
 
 
+      t.string :default_unit, default: 'lb'
+
       t.timestamps
     end
 
