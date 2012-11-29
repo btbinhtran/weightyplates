@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'test_integration_helper'
 
 describe "User authentication" do
   before do
@@ -18,10 +18,15 @@ describe "User authentication" do
 
 
   it "should redirect to dashboard upon proper sign in" do
-    visit new_user_session_path
-    fill_in "Email", with: @user.email
-    fill_in "Password", with: "testtest"
-    click_button "Sign in"
+    sign_in
     current_path.should == dashboard_index_path
+  end
+
+  describe "logout" do
+    it "should redirect to root path '/'" do
+      sign_in
+      sign_out
+      current_path.should == root_path
+    end
   end
 end
