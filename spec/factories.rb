@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    email    "bob@bob.com"
+    sequence(:email) { |i| "bob#{i}@bob.com" }
     password "testtest"
     password_confirmation "testtest"
     default_unit "lb"
