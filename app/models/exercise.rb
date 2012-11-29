@@ -7,6 +7,9 @@ class Exercise < ActiveRecord::Base
 
   def to_json(options = {})
     options[:except] ||= [:created_at, :updated_at]
+    options[:include] ||= :categories
+
     super(options)
   end
+
 end

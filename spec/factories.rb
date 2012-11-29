@@ -7,7 +7,7 @@ FactoryGirl.define do
   end
 
   factory :category do
-    type "resistance"
+    kind 'resistance'
     sequence(:name) { |i| "Cat #{i}" }
   end
 
