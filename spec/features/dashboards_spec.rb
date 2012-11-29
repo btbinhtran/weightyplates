@@ -27,7 +27,4 @@ describe "Dashboard" do
 
   end
 
-
-  
-  
 end
