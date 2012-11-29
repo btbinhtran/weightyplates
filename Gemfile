@@ -21,6 +21,7 @@ end
 
 group :development, :test do
   gem 'sqlite3', '1.3.6'
+  gem 'json_spec', '1.1.0'
   gem "rspec-rails", "2.12.0"
   gem 'guard-rspec', '2.2.1'
   gem 'guard-spork', '1.2.3'
