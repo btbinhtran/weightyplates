@@ -15,6 +15,14 @@ describe Exercise do
   end
 
   describe "#to_json" do
+    before do
+      @exercise.save!
+    end
+
+    it "should include name" do
+      @exercise.to_json.should have_json_path("name")
+    end
+
     it "should exclude created_at" do
       @exercise.to_json.should_not have_json_path("created_at")
     end
