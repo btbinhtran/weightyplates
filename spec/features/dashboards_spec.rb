@@ -12,6 +12,5 @@ describe "Dashboards" do
       page.should have_content('Fudged me')
     end
   end
-  
-  
+
 end
