@@ -1,4 +1,6 @@
 class ExercisesController < ApplicationController
+  doorkeeper_for :all
+
   respond_to :json
 
   def index
