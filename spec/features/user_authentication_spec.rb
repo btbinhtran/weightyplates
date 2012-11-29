@@ -16,10 +16,18 @@ describe "User authentication" do
     current_path.should == dashboard_index_path
   end
 
-
   it "should redirect to dashboard upon proper sign in" do
     sign_in
     current_path.should == dashboard_index_path
+  end
+
+  describe "reset password" do
+    it "should redirect to sign in page" do
+      visit new_user_password_path
+      fill_in 'user_email', with: @user.email
+      click_button 'Send me reset password instructions'
+      current_path.should == new_user_session_path
+    end
   end
 
   describe "logout" do
