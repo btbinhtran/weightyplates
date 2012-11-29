@@ -1,3 +1,4 @@
+
 <h1>The main page for the site</h1>
 
 <%= link_to 'Sign up', new_user_registration_path %>
@@ -18,4 +19,4 @@
   <div><%= f.submit "Sign in" %></div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%= link_to "Forgot password?", new_user_password_path %>
