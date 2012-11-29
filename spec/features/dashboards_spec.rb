@@ -9,9 +9,11 @@ describe "Dashboard" do
 
     it "should redirect to dashboard upon proper sign up" do
       visit new_user_registration_path
-      #find_by_id("user_password_confirmation"), with: "bob@bob.com"
-      #fill_in "Password", with: "testtest"
+      fill_in 'user_email', with: 'bob@bob.com'
+      fill_in 'user_password', with: 'testtest'
+      fill_in 'user_password_confirmation', with: 'testtest'
       click_button "Sign up"
+      current_path.should == dashboard_index_path
     end
 
 
