@@ -1,3 +1,13 @@
-// Place all the styles related to the dashboard controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "compass_twitter_bootstrap";
+@import "compass_twitter_bootstrap_responsive";
+
+.exclaim-signup {
+  text-align: center;
+}
+
+.box {
+  border: 1px black solid;
+  h2 {
+    text-align: center;
+  }
+}

@@ -1,0 +1,37 @@
+.row-fluid
+  .span6
+    .container-fluid.exclaim-signup
+      %h1 Welcome to Weighty Plates
+      %br/
+      %h2 Weighty Plates helps you keep better track of your workout routines by offering features that matters.
+      %br/
+      %a{href: "#"}
+        %h3 I want to try out Weighty Plates
+      %br/
+      %a{href: "#"}
+        %button.btn-large Sign me up already!
+  .span6
+    .container-fluid.box
+      %h2 Login for returning users
+
+      = form_for(resource, :as => resource_name, :html => {:class => 'form-horizontal'}, :url => session_path(resource_name)) do |f|
+        .control-group
+          = f.label :email, :class => 'control-label'
+          .controls
+            = f.email_field :email
+
+        .control-group
+          = f.label :password, :class => 'control-label'
+          .controls
+            = f.password_field :password
+
+        - if devise_mapping.rememberable?
+          .control-group
+            .controls
+              %label(class="control-label" for="user_remember_me")
+                = f.check_box :remember_me
+                Remember me
+          .controls
+            = f.submit "Sign in", :class => 'btn-large'
+
+      = link_to "Forgot password?", new_user_password_path
