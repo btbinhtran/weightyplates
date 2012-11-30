@@ -6,4 +6,5 @@
     %br/
     = f.email_field :email
   %div= f.submit "Send me reset password instructions"
-= render "devise/shared/links"
+%li= link_to 'Sign in instead', new_user_session_path
+%li= link_to 'Sign up instead', new_user_registration_path

@@ -14,4 +14,7 @@
     %br/
     = f.password_field :password_confirmation
   %div= f.submit "Sign up"
-= render "devise/shared/links"
+
+%li= link_to 'Sign in instead', new_user_session_path
+
+
