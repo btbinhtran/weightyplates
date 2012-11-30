@@ -21,4 +21,7 @@
                 %li= link_to 'Sign up', new_user_registration_path
 
     .container-fluid
-      .hero-unit= yield
+      .hero-unit
+        - flash.each do |name, msg|
+          = content_tag :div, msg, :id => "flash_#{name}"
+        = yield
