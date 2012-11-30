@@ -1,39 +1,37 @@
 .row-fluid
-  .span12
-    .row-fluid
-      .span6
-        .container-fluid.exclaim-signup
-          %h1 Welcome to Weighty Plates
-          %br/
-          %h2 Weighty Plates helps you keep better track of your workout routines by offering features that matters.
-          %br/
-          %a{href: "#"}
-            %h3 I want to try out Weighty Plates
-          %br/
-          %a{href: "#"}
-            %button.btn Sign me up already!
+  .span6
+    .container-fluid.exclaim-signup
+      %h1 Welcome to Weighty Plates
+      %br/
+      %h2 Weighty Plates helps you keep better track of your workout routines by offering features that matters.
+      %br/
+      %a{href: "#"}
+        %h3 I want to try out Weighty Plates
+      %br/
+      %a{href: "#"}
+        %button.btn Sign me up already!
 
-      .span6
-        .box.row-fluid
-          %h2 Login for returning users
-          = form_for(resource, :as => resource_name, :html => {:class => 'form-horizontal'}, :url => session_path(resource_name)) do |f|
+  .span6
+    .box.row-fluid
+      %h2 Login for returning users
+      = form_for(resource, :as => resource_name, :html => {:class => ''}, :url => session_path(resource_name)) do |f|
+        .row-fluid.inputrow
+          = f.label :email
+          = f.email_field :email, class: 'input-large'
 
-            .row-fluid
-              = f.label :email
-              = f.email_field :email
+        .row-fluid.inputrow
+          = f.label :password
+          = f.password_field :password, class: 'input-large'
 
-            .row-fluid
-              = f.label :password
-              = f.password_field :password
+        .row-fluid.inputrow
+          - if devise_mapping.rememberable?
+            %label(for="user_remember_me")
+            = f.check_box :remember_me
+            Remember me
 
-            .row-fluid
-              - if devise_mapping.rememberable?
-                %label(for="user_remember_me")
-                = f.check_box :remember_me
-                Remember me
+        .row-fluid.inputrow
+          = link_to "Forgot password?", new_user_password_path
+          = f.submit "Sign in", :class => 'btn-large sign-in-button'
 
-            .row-fluid
-              = f.submit "Sign in", :class => 'btn-large'
-              = link_to "Forgot password?", new_user_password_path
 
 

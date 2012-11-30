@@ -1,37 +1,35 @@
 @import "compass_twitter_bootstrap";
 @import "compass_twitter_bootstrap_responsive";
 
+
+
 .exclaim-signup {
   text-align: center;
 }
-
 
 .emailname{
   background-color: #228b22;
 }
 
-.emailField{
-  float: left;
-  width: 50%;
-
-}
-
-.span6{
-
-}
-
-.span5{
-
-}
-
-.firstRow{
-  background-color: #adff2f;
-}
-
-
 .box {
   border: 1px black solid;
+  padding-top: 5%;
   h2{
     text-align: center;
   }
+}
+
+#new_user{
+
+}
+
+.inputrow{
+  width: 80%;
+  margin: auto;
+  background-color: orange;
+}
+
+.sign-in-button{
+  margin-top: 5%;
+  margin-left: 5%;
 }
