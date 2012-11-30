@@ -1,6 +1,6 @@
 .row-fluid
   .span12
-    .row
+    .row-fluid
       .span6
         .container-fluid.exclaim-signup
           %h1 Welcome to Weighty Plates
@@ -14,25 +14,25 @@
             %button.btn Sign me up already!
 
       .span6
-        .box
+        .box.row-fluid
           %h2 Login for returning users
           = form_for(resource, :as => resource_name, :html => {:class => 'form-horizontal'}, :url => session_path(resource_name)) do |f|
 
-            .row
+            .row-fluid
               = f.label :email
               = f.email_field :email
 
-            .row
+            .row-fluid
               = f.label :password
               = f.password_field :password
 
-            .row
+            .row-fluid
               - if devise_mapping.rememberable?
                 %label(for="user_remember_me")
                 = f.check_box :remember_me
                 Remember me
 
-            .row
+            .row-fluid
               = f.submit "Sign in", :class => 'btn-large'
               = link_to "Forgot password?", new_user_password_path
 

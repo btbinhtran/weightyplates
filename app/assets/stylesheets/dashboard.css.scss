@@ -6,6 +6,16 @@
 }
 
 
+.emailname{
+  background-color: #228b22;
+}
+
+.emailField{
+  float: left;
+  width: 50%;
+  background-color: #9acd32;
+}
+
 .span6{
   background-color: orange;
 }
@@ -21,4 +31,7 @@
 
 .box {
   border: 1px black solid;
+  h2{
+    text-align: center;
+  }
 }
