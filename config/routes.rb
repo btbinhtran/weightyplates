@@ -5,7 +5,7 @@ Weightyplates::Application.routes.draw do
   resources :dashboard
   resources :exercises
 
-
+  match "*path", :to => "application#routing_error"
 
   root to: 'home#index'
 
