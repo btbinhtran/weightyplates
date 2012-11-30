@@ -12,7 +12,6 @@ describe "User authentication" do
     fill_in 'user_password', with: 'testtest'
     fill_in 'user_password_confirmation', with: 'testtest'
     click_button "Sign up"
-
     current_path.should == dashboard_index_path
   end
 
