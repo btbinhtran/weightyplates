@@ -9,6 +9,7 @@ gem 'jquery-rails', '2.1.4'
 gem "marionette-rails", "~> 0.10.2"
 gem "haml_coffee_assets", "~> 1.7.2"
 gem "thin", "1.5.0"
+gem 'doorkeeper', '~> 0.6.2'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -22,6 +23,7 @@ end
 
 group :development, :test do
   gem 'sqlite3', '1.3.6'
+  gem 'json_spec', '1.1.0'
   gem "rspec-rails", "2.12.0"
   gem 'guard-rspec', '2.2.1'
   gem 'guard-spork', '1.2.3'

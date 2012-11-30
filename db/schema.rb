@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128032917) do
+ActiveRecord::Schema.define(:version => 20121129170937) do
 
   create_table "categories", :force => true do |t|
-    t.string   "type"
+    t.string   "kind"
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -56,6 +56,45 @@ ActiveRecord::Schema.define(:version => 20121128032917) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "oauth_access_grants", :force => true do |t|
+    t.integer  "resource_owner_id", :null => false
+    t.integer  "application_id",    :null => false
+    t.string   "token",             :null => false
+    t.integer  "expires_in",        :null => false
+    t.string   "redirect_uri",      :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "revoked_at"
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_grants", ["token"], :name => "index_oauth_access_grants_on_token", :unique => true
+
+  create_table "oauth_access_tokens", :force => true do |t|
+    t.integer  "resource_owner_id"
+    t.integer  "application_id",    :null => false
+    t.string   "token",             :null => false
+    t.string   "refresh_token"
+    t.integer  "expires_in"
+    t.datetime "revoked_at"
+    t.datetime "created_at",        :null => false
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_tokens", ["refresh_token"], :name => "index_oauth_access_tokens_on_refresh_token", :unique => true
+  add_index "oauth_access_tokens", ["resource_owner_id"], :name => "index_oauth_access_tokens_on_resource_owner_id"
+  add_index "oauth_access_tokens", ["token"], :name => "index_oauth_access_tokens_on_token", :unique => true
+
+  create_table "oauth_applications", :force => true do |t|
+    t.string   "name",         :null => false
+    t.string   "uid",          :null => false
+    t.string   "secret",       :null => false
+    t.string   "redirect_uri", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "oauth_applications", ["uid"], :name => "index_oauth_applications_on_uid", :unique => true
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",   :null => false
     t.string   "encrypted_password",     :default => "",   :null => false
@@ -67,16 +106,11 @@ ActiveRecord::Schema.define(:version => 20121128032917) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
     t.string   "default_unit",           :default => "lb"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
   end
 
-  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
