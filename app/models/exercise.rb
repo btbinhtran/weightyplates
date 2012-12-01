@@ -13,10 +13,10 @@ class Exercise < ActiveRecord::Base
   validates :equipment, presence: true, inclusion: {in: ['Bands', 'Barbell', 'Body Only', 'Cable', 'Dumbbell', 'E-Z Curl Bar',
                                                          'Exercise Ball', 'Foam Roll', 'Kettlebells',
                                                          'Machine', 'Medicine Ball', 'None', 'Other']}
-  validates :mechanics, presence: true
-  validates :force, presence: true
+  validates :mechanics, presence: true, inclusion: {in: ['Compound', 'Isolation', 'N/A']}
+  validates :force, presence: true, inclusion: {in: ['Push', 'Pull', 'Static', 'N/A']}
   validates :is_sport, inclusion: {in: [true, false]}
-  validates :level, presence: true
+  validates :level, presence: true, inclusion: {in: ['Beginner', 'Expert', 'Intermediate']}
 
   def to_json(options = {})
     options[:except] ||= [:created_at, :updated_at]

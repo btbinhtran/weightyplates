@@ -97,10 +97,42 @@ describe Exercise do
     @exercise.should_not be_valid
   end
 
+  describe "mechanics" do
+    ['Compound', 'Isolation', 'N/A'].each do |mechanics|
+      it "should validate inclusion of #{mechanics}" do
+        @exercise.mechanics = mechanics
+        @exercise.save
+        @exercise.errors[:mechanics].should be_blank
+      end
+    end
+
+    it "should be invalid with anything outside of mechanics group" do
+      @exercise.mechanics = "blah"
+      @exercise.save
+      @exercise.errors[:mechanics].should_not be_blank
+    end
+  end
+
   it "should not be valid without force" do
     @exercise.force = nil
     @exercise.save
     @exercise.should_not be_valid
+  end
+
+  describe "force" do
+    ['Push', 'Pull', 'Static', 'N/A'].each do |force|
+      it "should validate inclusion of #{force}" do
+        @exercise.force = force
+        @exercise.save
+        @exercise.errors[:force].should be_blank
+      end
+    end
+
+    it "should be invalid with anything outside of forces group" do
+      @exercise.force = "blah"
+      @exercise.save
+      @exercise.errors[:force].should_not be_blank
+    end
   end
 
   it "should not be valid without is_sport" do
@@ -113,6 +145,22 @@ describe Exercise do
     @exercise.level = nil
     @exercise.save
     @exercise.should_not be_valid
+  end
+
+  describe "level" do
+    ['Beginner', 'Expert', 'Intermediate'].each do |level|
+      it "should validate inclusion of #{level}" do
+        @exercise.level = level
+        @exercise.save
+        @exercise.errors[:level].should be_blank
+      end
+    end
+
+    it "should be invalid with anything outside of levels group" do
+      @exercise.level = "blah"
+      @exercise.save
+      @exercise.errors[:level].should_not be_blank
+    end
   end
 
   describe "#to_json" do
