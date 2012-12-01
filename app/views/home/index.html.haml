@@ -1,5 +1,5 @@
 .row-fluid
-  .span6
+  .span6.exclaim-span
     .container-fluid.exclaim-signup
       %h1 Welcome to Weighty Plates
       %br/
@@ -10,7 +10,7 @@
       %br/
       %a{href: "#"}
         %button.btn Sign me up already!
-  .span6
+  .span6.loginarea-span
     .mainpage-box.row-fluid
       %h2 Login for returning users
       = form_for(resource, :as => resource_name, :html => {:class => ''}, :url => session_path(resource_name)) do |f|

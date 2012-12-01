@@ -15,8 +15,24 @@ li{
 .top-nav{
   position: static;
 }
+#login-link{
+  @media (min-width: 900px){
+    display: none !important;
+  }
+}
+.brand{
+
+  @media (min-width: 960px) {
+    margin-left: -5px !important;
+  }
+}
 .exclaim-signup {
   text-align: center;
+}
+.exclaim-span{
+  @media (max-width: 900px){
+    width: 100% !important;
+  }
 }
 .emailname{
   background-color: #228b22;
@@ -24,24 +40,23 @@ li{
 .mainpage-list{
   float: right;
 }
-.mainpage-list{
-
-  li{
-    display: inline;
-    font-size: 130%;
-    font-weight: 200;
-    line-height: 1.8;
-    margin: 0 0 0 -5px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
+.mainpage-list li {
+  display: inline;
+  font-size: 130%;
+  font-weight: 200;
+  line-height: 1.8;
+  margin: 0 0 0 -5px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .mainpage-box {
   border: 1px black solid;
   h2{
     text-align: center;
     padding: 20px;
+  }
+  @media (max-width: 900px){
+    display: none;
   }
 }
 .mainpage-inputrow{
@@ -57,3 +72,9 @@ li{
 .mainpage-lastrow{
   padding-top: 20px;
 }
+loginarea-span {
+  @media (min-width: 1280px){
+
+  }
+}
+
