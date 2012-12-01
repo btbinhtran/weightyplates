@@ -1,35 +1,59 @@
 @import "compass_twitter_bootstrap";
 @import "compass_twitter_bootstrap_responsive";
 
-
-
+*{
+  margin: 0;
+  padding: 0;
+}
+li{
+  list-style:none;
+}
+.main-container{
+  padding-left:0px;
+  padding-right: 0px;
+}
+.top-nav{
+  position: static;
+}
 .exclaim-signup {
   text-align: center;
 }
-
 .emailname{
   background-color: #228b22;
 }
+.mainpage-list{
+  float: right;
+}
+.mainpage-list{
 
-.box {
+  li{
+    display: inline;
+    font-size: 130%;
+    font-weight: 200;
+    line-height: 1.8;
+    margin: 0 0 0 -5px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+}
+.mainpage-box {
   border: 1px black solid;
-  padding-top: 5%;
   h2{
     text-align: center;
+    padding: 20px;
   }
 }
-
-#new_user{
-
-}
-
-.inputrow{
+.mainpage-inputrow{
   width: 80%;
   margin: auto;
-  background-color: orange;
 }
-
-.sign-in-button{
-  margin-top: 5%;
-  margin-left: 5%;
+.mainpage-form-field{
+  width: 98%;
+}
+.mainpage-sign-in-button{
+  float: right;
+}
+.mainpage-lastrow{
+  padding-top: 20px;
 }

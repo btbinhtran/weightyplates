@@ -5,19 +5,18 @@
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-
   %body
+    .navbar.navbar-inverse.navbar-fixed-top.top-nav
+      .navbar-inner
+        %a.brand(href="/") Weighty Plates
+        %ul.mainpage-list
+          - if user_signed_in?
+            %li= link_to 'Logout', destroy_user_session_path, :method=>'delete'
+            %li= link_to 'Edit account', edit_user_registration_path
+          - else
+            %li= link_to 'Login', new_user_session_path
+            %li= link_to 'Sign up', new_user_registration_path
     .container-fluid
-      %a.brand(href="/") Weighty Plates
-      %ul.nav
-        - if user_signed_in?
-          %li= link_to 'Logout', destroy_user_session_path, :method=>'delete'
-          %li= link_to 'Edit account', edit_user_registration_path
-        - else
-          %li= link_to 'Login', new_user_session_path
-          %li= link_to 'Sign up', new_user_registration_path
-
-
       .hero-unit
         - flash.each do |name, msg|
           = content_tag :div, msg, :id => "flash_#{name}"

@@ -10,28 +10,24 @@
       %br/
       %a{href: "#"}
         %button.btn Sign me up already!
-
   .span6
-    .box.row-fluid
+    .mainpage-box.row-fluid
       %h2 Login for returning users
       = form_for(resource, :as => resource_name, :html => {:class => ''}, :url => session_path(resource_name)) do |f|
-        .row-fluid.inputrow
+        .row-fluid.mainpage-inputrow
           = f.label :email
-          = f.email_field :email, class: 'input-large'
-
-        .row-fluid.inputrow
+          = f.email_field :email, class: 'mainpage-form-field'
+        .row-fluid.mainpage-inputrow
           = f.label :password
-          = f.password_field :password, class: 'input-large'
-
-        .row-fluid.inputrow
+          = f.password_field :password, class: 'mainpage-form-field'
+        .row-fluid.mainpage-inputrow
           - if devise_mapping.rememberable?
             %label(for="user_remember_me")
             = f.check_box :remember_me
             Remember me
-
-        .row-fluid.inputrow
+        .row-fluid.mainpage-inputrow.mainpage-lastrow
           = link_to "Forgot password?", new_user_password_path
-          = f.submit "Sign in", :class => 'btn-large sign-in-button'
+          = f.submit "Sign in", :class => 'btn-large mainpage-sign-in-button'
 
 
 
