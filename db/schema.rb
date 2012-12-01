@@ -13,13 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20121129170937) do
 
-  create_table "categories", :force => true do |t|
-    t.string   "kind"
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "entry_details", :force => true do |t|
     t.integer  "workout_entry_id"
     t.integer  "set_number"
@@ -30,16 +23,6 @@ ActiveRecord::Schema.define(:version => 20121129170937) do
   end
 
   add_index "entry_details", ["workout_entry_id"], :name => "index_entry_details_on_workout_entry_id"
-
-  create_table "exercise_categories", :force => true do |t|
-    t.integer  "exercise_id"
-    t.integer  "category_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "exercise_categories", ["category_id"], :name => "index_exercise_categories_on_category_id"
-  add_index "exercise_categories", ["exercise_id"], :name => "index_exercise_categories_on_exercise_id"
 
   create_table "exercise_stats", :force => true do |t|
     t.integer  "user_id"
@@ -52,8 +35,15 @@ ActiveRecord::Schema.define(:version => 20121129170937) do
 
   create_table "exercises", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "type"
+    t.string   "muscle"
+    t.string   "equipment"
+    t.string   "mechanics"
+    t.string   "force"
+    t.boolean  "is_sport",   :default => false
+    t.string   "level"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "oauth_access_grants", :force => true do |t|
