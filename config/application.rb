@@ -61,5 +61,8 @@ module Weightyplates
 
     # For devise
     config.autoload_paths += %W(#{config.root}/lib)
+
+    #fonts asset folder
+    config.assets.paths << "#{Rails.root}/app/assets/fonts"
   end
 end

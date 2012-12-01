@@ -1,9 +1,23 @@
 @import "compass_twitter_bootstrap";
 @import "compass_twitter_bootstrap_responsive";
 
+
+@font-face {
+  font-family: 'MolengoRegular';
+  src: font-url('Molengo-Regular-webfont.eot');
+  src: local('MolengoRegular'), font-url('Molengo-Regular-webfont.eot') format("embedded-opentype"), font-url('Molengo-Regular-webfont.woff') format("woff"), font-url('Molengo-Regular-webfont.ttf') format("truetype"), font-url('Molengo-Regular-webfont.svg') format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+/*background-image: url(font_path('logo3w.png'));*/
+
 *{
   margin: 0;
   padding: 0;
+  font-family: 'MolengoRegular';
 }
 li{
   list-style:none;
@@ -95,7 +109,7 @@ label, input, button, select, textarea{
 }
 .mainpage-sign-in-button{
   float: right;
-  width: 45%;
+  width: 300px;
   height: 40px;
 }
 .mainpage-lastrow{
@@ -113,5 +127,6 @@ label, input, button, select, textarea{
 .forgotpassword-button{
   font-size: 120%;
 }
+
 
 
