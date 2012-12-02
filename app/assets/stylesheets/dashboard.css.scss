@@ -1,19 +1,13 @@
 @import "compass_twitter_bootstrap";
 @import "compass_twitter_bootstrap_responsive";
 
-
 @font-face {
   font-family: 'MolengoRegular';
   src: font-url('Molengo-Regular-webfont.eot');
   src: local('MolengoRegular'), font-url('Molengo-Regular-webfont.eot') format("embedded-opentype"), font-url('Molengo-Regular-webfont.woff') format("woff"), font-url('Molengo-Regular-webfont.ttf') format("truetype"), font-url('Molengo-Regular-webfont.svg') format("svg");
   font-weight: normal;
   font-style: normal;
-
 }
-
-
-/*background-image: url(font_path('logo3w.png'));*/
-
 *{
   margin: 0;
   padding: 0;
@@ -25,6 +19,32 @@ li{
 label, input, button, select, textarea{
   font-size: 120%;
   line-height: 150%;
+}
+.mainpage-box {
+  border: 1px black solid;
+
+    top: 24px;
+    right: 0;
+    z-index: 999;
+    background: #fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+    background-image: -webkit-linear-gradient(top, #fff, #eee);
+    background-image: -moz-linear-gradient(top, #fff, #eee);
+    background-image: -ms-linear-gradient(top, #fff, #eee);
+    background-image: -o-linear-gradient(top, #fff, #eee);
+    background-image: linear-gradient(top, #fff, #eee);
+    padding: 15px;
+    -moz-box-shadow: 0 2px 4px -1px rgba(0,0,0,.9);
+    -webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,.9);
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.9);
+    -moz-border-radius: 3px 3 3px 3px;
+    -webkit-border-radius: 3px 3 3px 3px;
+    border-radius: 3px 3 3px 3px;
+
+  h2{
+    text-align: center;
+    padding: 20px;
+  }
 }
 .btn-custom {
   background-color: hsl(349, 92%, 22%) !important;
@@ -46,11 +66,17 @@ label, input, button, select, textarea{
   padding-left:0px;
   padding-right: 0px;
 }
+.mainbody-container{
+  @media (min-width: 1280px){
+    width: 1280px !important;
+    margin: auto !important;
+  }
+}
 .top-nav{
   position: static;
 }
 #login-link{
-  @media (min-width: 900px){
+  @media (min-width: 1100px){
     display: none !important;
   }
 }
@@ -63,7 +89,7 @@ label, input, button, select, textarea{
   text-align: center;
 }
 .exclaim-span{
-  @media (max-width: 900px){
+  @media (max-width: 1100px){
     width: 100% !important;
   }
 }
@@ -84,8 +110,8 @@ label, input, button, select, textarea{
 }
 .mainpage-signup-btn{
   height: 50px;
-  width: 55%;
-  @media (max-width: 900px){
+  width: 220px;
+  @media (max-width: 1100px){
     height: 60px;
     width: 80%;
   }
@@ -96,7 +122,7 @@ label, input, button, select, textarea{
     text-align: center;
     padding: 20px;
   }
-  @media (max-width: 900px){
+  @media (max-width: 1100px){
     display: none;
   }
 }
@@ -115,18 +141,4 @@ label, input, button, select, textarea{
 .mainpage-lastrow{
   padding-top: 20px;
 }
-.loginarea-span {
-  @media (min-width: 1280px){
-    max-width: 550px !important;
-    margin: auto !important;
-  }
-  @media (max-width: 2000px){
-    padding-left: 5% !important;
-  }
-}
-.forgotpassword-button{
-  font-size: 120%;
-}
-
-
 

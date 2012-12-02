@@ -4,6 +4,7 @@
     %title Weighty Plates
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "application"
+
     = csrf_meta_tags
   %body
     .navbar.navbar-inverse.navbar-fixed-top.top-nav
@@ -16,7 +17,7 @@
           - else
             %li#login-link= link_to 'Login', new_user_session_path
             %li#signout-link= link_to 'Sign up', new_user_registration_path
-    .container-fluid
+    .container-fluid.mainbody-container
       .hero-unit
         - flash.each do |name, msg|
           = content_tag :div, msg, :id => "flash_#{name}"
