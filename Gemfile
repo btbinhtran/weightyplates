@@ -10,6 +10,7 @@ gem "marionette-rails", "~> 0.10.2"
 gem "haml_coffee_assets", "~> 1.7.2"
 gem "thin", "1.5.0"
 gem 'doorkeeper', '~> 0.6.2'
+gem "ember-rails", "0.8.0"
 
 # Gems used only for assets and not required
 # in production environments by default.

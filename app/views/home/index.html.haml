@@ -8,8 +8,7 @@
       %a{href: "#"}
         %h3 I want to try out Weighty Plates
       %br/
-      %a{href: "#"}
-        %button.btn.mainpage-signup-btn.btn-custom Sign me up already!
+      %button.btn.mainpage-signup-btn.btn-custom Sign me up already!
   .span5.loginarea-span
     .mainpage-box.row-fluid
       %h2 Login for returning users
@@ -28,6 +27,9 @@
         .row-fluid.mainpage-inputrow.mainpage-lastrow
           = link_to "Forgot password?", new_user_password_path, class: 'forgotpassword-button'
           = f.submit "Sign in", :class => 'btn-large mainpage-sign-in-button'
+          :handlebars
+              {{#view Ember.Button}}OK{{/view}}
+
 
 
 
