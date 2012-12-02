@@ -8,4 +8,8 @@
 //
 //= require_tree ./templates/
 //= require wpapp
+//= require_tree ./models/
+//= require_tree ./controllers/
+//= require_tree ./views/
+//= require marionette-pipeline-templates
 //= require common
