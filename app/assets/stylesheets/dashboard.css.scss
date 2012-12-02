@@ -1,6 +1,11 @@
 @import "compass_twitter_bootstrap";
 @import "compass_twitter_bootstrap_responsive";
 
+/*Pixels to Ems converter*/
+@function pem($pixels) {
+  @return #{$pixels/16.0}em
+}
+
 @font-face {
   font-family: 'MolengoRegular';
   src: font-url('Molengo-Regular-webfont.eot');
@@ -67,8 +72,8 @@ label, input, button, select, textarea{
   padding-right: 0px;
 }
 .mainbody-container{
-  @media (min-width: 1280px){
-    width: 1280px !important;
+  @media (min-width: pem(1280)){
+    width: pem(1280) !important;
     margin: auto !important;
   }
 }
@@ -76,20 +81,20 @@ label, input, button, select, textarea{
   position: static;
 }
 #login-link{
-  @media (min-width: 1100px){
+  @media (min-width: pem(1100)){
     display: none !important;
   }
 }
 .brand{
-  @media (min-width: 960px) {
-    margin-left: -5px !important;
+  @media (min-width: pem(960)) {
+    margin-left: pem(-5) !important;
   }
 }
 .exclaim-signup {
   text-align: center;
 }
 .exclaim-span{
-  @media (max-width: 1100px){
+  @media (max-width: pem(1100)){
     width: 100% !important;
   }
 }
@@ -111,8 +116,8 @@ label, input, button, select, textarea{
 .mainpage-signup-btn{
   height: 50px;
   width: 220px;
-  @media (max-width: 1100px){
-    height: 60px;
+  @media (max-width: pem(1100)){
+    height: pem(60);
     width: 80%;
   }
 }
@@ -122,7 +127,7 @@ label, input, button, select, textarea{
     text-align: center;
     padding: 20px;
   }
-  @media (max-width: 1100px){
+  @media (max-width: pem(1100)){
     display: none;
   }
 }
