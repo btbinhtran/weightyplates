@@ -12,7 +12,7 @@ describe Exercise do
     @exercise.should_not be_valid
   end
 
-  it "should not be valid if name exists" do
+  it "should not be valid with duplicate name" do
     new_exercise = @exercise.dup
     @exercise.save
     new_exercise.save
@@ -26,7 +26,7 @@ describe Exercise do
   end
 
   describe "type" do
-    ['Cardio', 'Olypic Weightlifting', 'Plyometrics',
+    ['Cardio', 'Olympic Weightlifting', 'Plyometrics',
      'Powerlifting', 'Strength', 'Stretching', 'Strongman'].each do |type|
       it "should validate inclusion of #{type}" do
         @exercise.type = type
@@ -49,10 +49,10 @@ describe Exercise do
   end
 
   describe "muscle" do
-    ['Abdominals', 'Abductors',
-     'Biceps', 'Calves', 'Chest', 'Forearms', 'Glutes', 'Hamstrings',
-     'Lats', 'Lower Back', 'Middle Back', 'Neck', 'Quadriceps',
-     'Shoulders', 'Traps', 'Triceps'].each do |muscle|
+    ["Hamstrings", "Abdominals", "Adductors", "Quadriceps",
+     "Biceps", "Shoulders", "Chest", "Middle Back", "Calves",
+     "Glutes", "Lower Back", "Triceps", "Traps",
+     "Lats", "Forearms", "Neck", "Abductors"].each do |muscle|
       it "should validate inclusion of #{muscle}" do
         @exercise.muscle = muscle
         @exercise.save
