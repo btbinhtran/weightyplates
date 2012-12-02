@@ -7,4 +7,5 @@ WPApp.module 'Controllers'
 WPApp.module 'Routers'
 
 $(document).ready ->
-  MyApp.start()
+  WPApp.start()
+  console.log "In here dashb"
