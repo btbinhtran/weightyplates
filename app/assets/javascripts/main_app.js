@@ -1,6 +1,6 @@
-//=require bootstrap-all
 //= require jquery
 //= require jquery_ujs
+//=require bootstrap-all
 //= require underscore
 //= require hamlcoffee
 //= require backbone
