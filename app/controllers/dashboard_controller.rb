@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+  layout 'dashboard'
   before_filter :custom_user_auth
 
   def custom_user_auth
