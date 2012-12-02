@@ -6,11 +6,6 @@ FactoryGirl.define do
     default_unit "lb"
   end
 
-  factory :category do
-    kind 'resistance'
-    sequence(:name) { |i| "Cat #{i}" }
-  end
-
   factory :workout do
     name "workout name"
     note "a note"
@@ -25,11 +20,12 @@ FactoryGirl.define do
 
   factory :exercise do
     sequence(:name) { |i| "Exercise #{i}" }
-  end
-
-  factory :exercise_category do
-    association :exercise
-    association :category
+    type 'Strength'
+    muscle 'Chest'
+    equipment 'Machine'
+    mechanics 'Compound'
+    force 'N/A'
+    level 'Intermediate'
   end
 
   factory :exercise_stat do
