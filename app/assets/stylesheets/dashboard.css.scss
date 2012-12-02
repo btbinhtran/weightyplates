@@ -92,6 +92,21 @@ label, input, button, select, textarea{
 }
 .exclaim-signup {
   text-align: center;
+  h1 {
+    @media (max-width: pem(350)){
+      font-size: pem(34);
+    }
+  }
+  h2 {
+    @media (max-width: pem(350)){
+      font-size: pem(15);
+    }
+  }
+  a h3 {
+    @media (max-width: pem(350)){
+      font-size: pem(15);
+    }
+  }
 }
 .exclaim-span{
   @media (max-width: pem(1100)){
