@@ -1,18 +1,13 @@
 @import "compass_twitter_bootstrap";
 @import "compass_twitter_bootstrap_responsive";
 
-
 @font-face {
   font-family: 'MolengoRegular';
   src: font-url('Molengo-Regular-webfont.eot');
   src: local('MolengoRegular'), font-url('Molengo-Regular-webfont.eot') format("embedded-opentype"), font-url('Molengo-Regular-webfont.woff') format("woff"), font-url('Molengo-Regular-webfont.ttf') format("truetype"), font-url('Molengo-Regular-webfont.svg') format("svg");
   font-weight: normal;
   font-style: normal;
-
 }
-
-
-
 *{
   margin: 0;
   padding: 0;
@@ -27,27 +22,123 @@ label, input, button, select, textarea{
 }
 .mainpage-box {
   border: 1px black solid;
+
+    top: 24px;
+    right: 0;
+    z-index: 999;
+    background: #fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+    background-image: -webkit-linear-gradient(top, #fff, #eee);
+    background-image: -moz-linear-gradient(top, #fff, #eee);
+    background-image: -ms-linear-gradient(top, #fff, #eee);
+    background-image: -o-linear-gradient(top, #fff, #eee);
+    background-image: linear-gradient(top, #fff, #eee);
+    padding: 15px;
+    -moz-box-shadow: 0 2px 4px -1px rgba(0,0,0,.9);
+    -webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,.9);
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.9);
+    -moz-border-radius: 3px 3 3px 3px;
+    -webkit-border-radius: 3px 3 3px 3px;
+    border-radius: 3px 3 3px 3px;
+
   h2{
     text-align: center;
     padding: 20px;
   }
-  @media (min-width: 900px){
-
-  }
 }
-
+.btn-custom {
+  background-color: hsl(349, 92%, 22%) !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d7082e", endColorstr="#6b0417");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#d7082e), to(#6b0417));
+  background-image: -moz-linear-gradient(top, #d7082e, #6b0417);
+  background-image: -ms-linear-gradient(top, #d7082e, #6b0417);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d7082e), color-stop(100%, #6b0417));
+  background-image: -webkit-linear-gradient(top, #d7082e, #6b0417);
+  background-image: -o-linear-gradient(top, #d7082e, #6b0417);
+  background-image: linear-gradient(#d7082e, #6b0417);
+  border-color: #6b0417 #6b0417 hsl(349, 92%, 16.5%);
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.36);
+  -webkit-font-smoothing: antialiased;
+}
+.main-container{
+  padding-left:0px;
+  padding-right: 0px;
+}
 .mainbody-container{
   @media (min-width: 1280px){
     width: 1280px !important;
     margin: auto !important;
   }
 }
-
-
-/*
-
-
-
-*/
-
+.top-nav{
+  position: static;
+}
+#login-link{
+  @media (min-width: 1100px){
+    display: none !important;
+  }
+}
+.brand{
+  @media (min-width: 960px) {
+    margin-left: -5px !important;
+  }
+}
+.exclaim-signup {
+  text-align: center;
+}
+.exclaim-span{
+  @media (max-width: 1100px){
+    width: 100% !important;
+  }
+}
+.emailname{
+  background-color: #228b22;
+}
+.mainpage-list{
+  float: right;
+}
+.mainpage-list li {
+  display: inline;
+  font-size: 130%;
+  font-weight: 200;
+  line-height: 1.8;
+  margin: 0 0 0 -5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.mainpage-signup-btn{
+  height: 50px;
+  width: 220px;
+  @media (max-width: 1100px){
+    height: 60px;
+    width: 80%;
+  }
+}
+.mainpage-box {
+  border: 1px black solid;
+  h2{
+    text-align: center;
+    padding: 20px;
+  }
+  @media (max-width: 1100px){
+    display: none;
+  }
+}
+.mainpage-inputrow{
+  width: 80%;
+  margin: auto;
+}
+.mainpage-form-field{
+  width: 98%;
+}
+.mainpage-sign-in-button{
+  float: right;
+  width: 300px;
+  height: 40px;
+}
+.mainpage-lastrow{
+  padding-top: 20px;
+}
 
