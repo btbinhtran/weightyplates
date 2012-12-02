@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :workouts
+  has_many :workouts, dependent: :destroy
+
   has_many :exercise_stats
 
   # Setup accessible (or protected) attributes for your model

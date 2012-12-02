@@ -7,7 +7,29 @@ describe User do
 
   subject { @user }
 
-  it { should respond_to(:workouts) }
+  describe "workout association" do
+    before do
+      @user.save
+    end
+    let!(:older_workout) do
+      FactoryGirl.create(:workout, user: @user, created_at: 1.day.ago)
+    end
+    let!(:newer_workout) do
+      FactoryGirl.create(:workout, user: @user, created_at: 1.hour.ago)
+    end
+
+    it { should respond_to(:workouts) }
+
+    it "should destroy associated workouts" do
+      workouts = @user.workouts.dup
+      @user.destroy
+      workouts.should_not be_empty
+      workouts.each do |workout|
+        Workout.find_by_id(workout.id).should be_nil
+      end
+    end
+  end
+
   it { should respond_to(:exercise_stats) }
 
   it "should not be valid without a default_unit" do
