@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   has_many :workouts, dependent: :destroy
 
-  has_many :exercise_stats
+  has_many :exercise_stats, dependent: :destroy
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :default_unit
