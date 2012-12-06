@@ -27,6 +27,17 @@ label, input, button, select, textarea{
   font-size: 120%;
   line-height: 150%;
 }
+#flash_notice{
+  background-color: #DFF2BF;
+  border: 1px solid;
+  color: #4F8A10;
+  padding: 10px;
+  width: 101%;
+  margin-bottom: 3%;
+}
+/*Common End*/
+
+/*Front Page Begin*/
 .mainpage-box {
   border: 1px black solid;
 
@@ -92,9 +103,9 @@ label, input, button, select, textarea{
     margin-left: pem(-5) !important;
   }
 }
-/*Common End*/
 
-/*Front Page Begin*/
+
+
 .exclaim-signup {
   text-align: center;
   h1 {
@@ -181,6 +192,7 @@ label, input, button, select, textarea{
   }
 }
 .dashboard-second-row{
+  margin-top: 5%;
   .span6{
     text-align: center;
     background-color: #8b0000;
@@ -188,6 +200,19 @@ label, input, button, select, textarea{
       color: white;
     }
   }
+}
+.dashboard-third-row{
+  padding-top: 5%;
+  min-height: 200px;
+  #add-workout{
+    width: 100%;
+  }
+}
+.dashboard-fourth-row{
+  text-align: center;
+}
+.dashboard-fourth-row{
+  background-color: #c0c0c0;
 }
 
 

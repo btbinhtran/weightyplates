@@ -1,7 +1,9 @@
 %div.dashboard
   .row-fluid.dashboard-first-row
     .span12
-      %h2#dashboard-header.span6 Workout
+      %h2#dashboard-header.span4 Workout
+      .span2.main-category#dashboard-manage
+        %a{href: '#'} Manage
       .span2.main-category#dashboard-schedule
         %a{href: '#'} Schedule
       .span2.main-category#dashboard-stats
@@ -16,7 +18,13 @@
         %a{href: '#'} Past Workouts
   .row-fluid.dashboard-third-row
     .span12
+      .span3
+      .span6
+        %button#add-workout Add Workout
   .row-fluid.dashboard-fourth-row
     .span12
+      .span3
+      .span6
+        %p Upcoming workouts
 
 
