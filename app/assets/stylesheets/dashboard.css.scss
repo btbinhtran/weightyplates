@@ -6,6 +6,8 @@
   @return #{$pixels/16.0}em
 }
 
+
+/*Common Begin*/
 @font-face {
   font-family: 'MolengoRegular';
   src: font-url('Molengo-Regular-webfont.eot');
@@ -90,6 +92,9 @@ label, input, button, select, textarea{
     margin-left: pem(-5) !important;
   }
 }
+/*Common End*/
+
+/*Front Page Begin*/
 .exclaim-signup {
   text-align: center;
   h1 {
@@ -133,7 +138,7 @@ label, input, button, select, textarea{
   width: 220px;
   @media (max-width: pem(1100)){
     height: pem(60);
-    width: 80%;
+    width: 300px;
   }
 }
 .mainpage-box {
@@ -161,4 +166,30 @@ label, input, button, select, textarea{
 .mainpage-lastrow{
   padding-top: 20px;
 }
+/*Front Page End*/
 
+/*Dashboard Begin*/
+
+.dashboard-first-row{
+  #dashboard-header{
+    font-size: 280%;
+  }
+  .main-category {
+    font-size: 150%;
+    background-color: #d3d3d3;
+    text-align: center;
+  }
+}
+.dashboard-second-row{
+  .span6{
+    text-align: center;
+    background-color: #8b0000;
+    a{
+      color: white;
+    }
+  }
+}
+
+
+
+/*Dashboard End*/
