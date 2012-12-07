@@ -1,22 +1,25 @@
 ##= require jquery
 ##= require jquery_ujs
-##= require bootstrap-all
 
 ##= require underscore
 ##= require backbone
+
+##= require_self
 
 ##= require_tree ./backbone/templates
 ##= require_tree ./backbone/models
 ##= require_tree ./backbone/views
 ##= require_tree ./backbone/routers
-
+##= require_tree .
 
 window.Weightyplates =
   Models: {}
   Collections: {}
   Routers: {}
   Views: {}
-  init: -> alert "Here"
+  init: -> #alert "Here"
+    #new WeightyPlates.Routers.Dashboard
+    #Backbone.history.start()
 
 $(document).ready ->
   Weightyplates.init()
