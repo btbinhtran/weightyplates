@@ -6,6 +6,17 @@ describe Exercise do
   end
   subject { @exercise }
 
+  it "should have alphabetic default scope" do
+    FactoryGirl.create(:exercise, name: 'Car')
+    FactoryGirl.create(:exercise, name: 'Bat')
+    FactoryGirl.create(:exercise, name: 'Abe')
+
+    actual_exercises = Exercise.all
+    actual_exercises[0].name.should == 'Abe'
+    actual_exercises[1].name.should == 'Bat'
+    actual_exercises[2].name.should == 'Car'
+  end
+
   it "should not be valid without name" do
     @exercise.name = nil
     @exercise.save

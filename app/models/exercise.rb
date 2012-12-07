@@ -1,5 +1,6 @@
 class Exercise < ActiveRecord::Base
   self.inheritance_column = nil
+  default_scope order("name")
 
   attr_accessible :name, :type, :muscle, :equipment, :mechanics, :force, :is_sport, :level
 
