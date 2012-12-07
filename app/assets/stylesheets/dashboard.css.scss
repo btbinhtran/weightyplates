@@ -35,6 +35,20 @@ label, input, button, select, textarea{
   width: 101%;
   margin-bottom: 3%;
 }
+#flash_notice p {
+  padding: 10px 10px 0px 0px;
+}
+/*escaping the period of successfully*/
+.Signed.out.successfully\.{
+  background-image: url(image_path('KnobValidGreen.png'));
+  background-repeat:no-repeat;
+  margin-left: 10px;
+  margin-top: 5px;
+  padding: 5px;
+  float: left;
+  width: 32px;
+  height: 32px;
+}
 /*Common End*/
 
 /*Front Page Begin*/
@@ -209,9 +223,10 @@ label, input, button, select, textarea{
   }
 }
 .dashboard-fourth-row{
-  text-align: center;
+  background-color: #c0c0c0;
 }
-.dashboard-fourth-row{
+.dashboard-fifth-row{
+  margin-top: 2%;
   background-color: #c0c0c0;
 }
 
