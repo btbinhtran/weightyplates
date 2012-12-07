@@ -49,6 +49,13 @@ label, input, button, select, textarea{
   width: 32px;
   height: 32px;
 }
+.hero-unit{
+  background-color: #FAFAFA;
+}
+.navbar-inner{
+  background-color: #525252;
+  background-image: none !important;
+}
 /*Common End*/
 
 /*Front Page Begin*/
@@ -113,6 +120,7 @@ label, input, button, select, textarea{
   }
 }
 .brand{
+  color: white !important;
   @media (min-width: pem(960)) {
     margin-left: pem(-5) !important;
   }
@@ -185,8 +193,8 @@ label, input, button, select, textarea{
 }
 .mainpage-sign-in-button{
   float: right;
-  width: 300px;
-  height: 40px;
+  height: 35px !important;
+  width: 100px !important;
 }
 .mainpage-lastrow{
   padding-top: 20px;
