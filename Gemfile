@@ -8,6 +8,7 @@ gem 'jquery-rails', '2.1.4'
 gem "thin", "1.5.0"
 gem 'doorkeeper', '~> 0.6.2'
 gem "rabl", "~> 0.7.9"
+gem "rails-backbone", "~> 0.8.0"
 
 # Gems used only for assets and not required
 # in production environments by default.
