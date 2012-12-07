@@ -4,7 +4,7 @@ Weightyplates::Application.routes.draw do
 
   devise_scope :user do
     get '/login' => 'devise/sessions#new'
-    get '/logout' => 'devise/sessions#destroy'
+    delete '/logout' => 'devise/sessions#destroy'
   end
 
   resources :users

@@ -22,8 +22,8 @@
       .span8
   .row-fluid.dashboard-add-workout-button-row
     .span12
-      .span3
-      .span6
+      .span4
+      .span4
         %button#add-workout Add Workout
   .dashboard-add-workout-modal-row
     .span12
@@ -36,9 +36,17 @@
               .row-fluid.add-workout-name
                 %label{id: "workout-name-label", class: "span2"} Workout Name
                 %input{id: "workout-name-input", class: "span10", type: "text"}
+
       .row-fluid.add-workout-exercise
         .span12
-          #add-exercise-button
+          .span3
+            %button{id: "add-exercise-button"} + Exercise
+          .span3
+            %h2 Exercises
+          .span3
+
+          .span3
+            %button Collapse
 
 
 
