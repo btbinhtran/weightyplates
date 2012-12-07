@@ -1,15 +1,13 @@
-%div.dashboard
+%div.dashboard.fix-after1280
   .row-fluid.dashboard-first-row
     .span12
-      %h2#dashboard-header.span4 Workout
+      %h2#dashboard-header.span6 Workout
       .span2.main-category#dashboard-manage
         %a{href: '#'} Manage
       .span2.main-category#dashboard-schedule
         %a{href: '#'} Schedule
       .span2.main-category#dashboard-stats
         %a{href: '#'} Stats
-      .span2.main-category#dashboard-settings
-        %a{href: '#'} Settings
   .row-fluid.dashboard-second-row
     .span12
       .span6#workout-main
@@ -21,6 +19,20 @@
       .span3
       .span6
         %button#add-workout Add Workout
+  .dashboard-add-workout-modal-row
+    .span12
+      .row-fluid.add-workout-header
+        .span3
+          %h2 New Workout
+        .span9
+          .row-fluid.add-workout-top-right
+            .span12
+              .row-fluid.add-workout-name
+                %label{id: "workout-name-label", class: "span2"} Workout Name
+                %input{id: "workout-name-input", class: "input-xxlarge", type: "text"}
+            .span12
+              .row-fluid.add-workout-add-exercise
+                %button.btn
   .row-fluid.dashboard-fourth-row
     .span12
       .span1
