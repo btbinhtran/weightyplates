@@ -1,5 +1,5 @@
 %div.dashboard.fix-after1280
-  .row-fluid.dashboard-first-row
+  .row-fluid.dashboard-main-header-row
     .span12
       %h2#dashboard-header.span6 Workout
       .span2.main-category#dashboard-manage
@@ -8,13 +8,19 @@
         %a{href: '#'} Schedule
       .span2.main-category#dashboard-stats
         %a{href: '#'} Stats
-  .row-fluid.dashboard-second-row
+  .row-fluid.dashboard-manage-subcategory-row
     .span12
       .span6#workout-main
         %a{href: "#"} Main
       .span6#past-workouts
         %a{href: '#'} Past Workouts
-  .row-fluid.dashboard-third-row
+  .row-fluid.dashboard-upcoming-workouts-row
+    .span12
+      .span1
+      .span3
+        %p Upcoming workouts:
+      .span8
+  .row-fluid.dashboard-add-workout-button-row
     .span12
       .span3
       .span6
@@ -29,22 +35,10 @@
             .span12
               .row-fluid.add-workout-name
                 %label{id: "workout-name-label", class: "span2"} Workout Name
-                %input{id: "workout-name-input", class: "input-xxlarge", type: "text"}
-            .span12
-              .row-fluid.add-workout-add-exercise
-                %button.btn
-  .row-fluid.dashboard-fourth-row
-    .span12
-      .span1
-      .span3
-        %p Recent Workouts:
-      .span8
-  .row-fluid
-  .row-fluid.dashboard-fifth-row
-    .span12
-      .span1
-      .span3
-        %p Upcoming workouts:
-      .span8
+                %input{id: "workout-name-input", class: "span10", type: "text"}
+      .row-fluid.add-workout-exercise
+        .span12
+          #add-exercise-button
+
 
 

@@ -125,9 +125,6 @@ label, input, button, select, textarea{
     margin-left: pem(-5) !important;
   }
 }
-
-
-
 .exclaim-signup {
   text-align: center;
   h1 {
@@ -206,8 +203,7 @@ label, input, button, select, textarea{
 .dashboard {
   position: relative;
 }
-
-.dashboard-first-row{
+.dashboard-main-header-row{
   #dashboard-header{
     font-size: 280%;
   }
@@ -217,7 +213,7 @@ label, input, button, select, textarea{
     text-align: center;
   }
 }
-.dashboard-second-row{
+.dashboard-manage-subcategory-row{
   margin-top: 5%;
   .span6{
     text-align: center;
@@ -227,7 +223,10 @@ label, input, button, select, textarea{
     }
   }
 }
-.dashboard-third-row{
+.dashboard-upcoming-workouts-row{
+  font-size: 150%;
+}
+.dashboard-add-workout-button-row{
   padding-top: 5%;
   min-height: 200px;
   #add-workout{
@@ -249,14 +248,16 @@ label, input, button, select, textarea{
 .row-fluid.add-workout-name{
   padding: 2% 0;
 }
+#add-exercise-button{
+  height: 30px;
+  width: 100%;
 
+}
 
 
 /* Add Workout End*/
-.dashboard-fourth-row{
-  background-color: #c0c0c0;
-}
-.dashboard-fifth-row{
+
+.dashboard-upcoming-workouts-row{
   margin-top: 2%;
   background-color: #c0c0c0;
 }
