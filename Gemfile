@@ -5,9 +5,9 @@ gem 'haml', '3.1.7'
 gem 'haml-rails', '0.3.5'
 gem 'devise', '2.1.2'
 gem 'jquery-rails', '2.1.4'
-gem "haml_coffee_assets", "~> 1.7.2"
 gem "thin", "1.5.0"
 gem 'doorkeeper', '~> 0.6.2'
+gem "rabl", "~> 0.7.9"
 
 # Gems used only for assets and not required
 # in production environments by default.
