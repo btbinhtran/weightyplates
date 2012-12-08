@@ -2,6 +2,14 @@
 @import "compass_twitter_bootstrap_responsive";
 
 
+
+
+/*Pixels to Ems converter*/
+@function pem($pixels) {
+  @return #{$pixels/16.0}em
+}
+
+
 /*Front Page Begin*/
 .mainpage-box {
   border: 1px black solid;
@@ -49,12 +57,7 @@
   padding-left:0px;
   padding-right: 0px;
 }
-.fix-after1280{
-  @media (min-width: pem(1280)){
-    width: pem(1280) !important;
-    margin: auto !important;
-  }
-}
+
 
 #login-link{
   @media (min-width: pem(1100)){

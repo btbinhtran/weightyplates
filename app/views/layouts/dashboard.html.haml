@@ -9,7 +9,7 @@
     = csrf_meta_tags
   %body
     = render 'shared/navbar'
-    .container-fluid
+    .container-fluid.fix-after1280
       .hero-unit
         - flash.each do |name, msg|
           = content_tag :div, msg, :id => "flash_#{name}"

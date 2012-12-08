@@ -1,8 +1,5 @@
 
-/*Pixels to Ems converter*/
-@function pem($pixels) {
-  @return #{$pixels/16.0}em
-}
+
 
 /*Common Begin*/
 @font-face {
@@ -58,8 +55,8 @@ label, input, button, select, textarea{
 }
 .brand{
   color: white !important;
-  @media (min-width: pem(960)) {
-    margin-left: pem(-5) !important;
+  @media (min-width: 120em) {
+    margin-left: pem(-0.3125) !important;
   }
 }
 .mainpage-list{
@@ -73,5 +70,12 @@ label, input, button, select, textarea{
   margin: 0 0 0 -5px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.fix-after1280{
+  @media (min-width: 80em){
+    width: 80em !important;
+    margin: auto !important;
+  }
 }
 /*Common End*/
