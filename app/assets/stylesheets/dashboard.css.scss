@@ -243,7 +243,7 @@ label, input, button, select, textarea{
   position: absolute;
   top: 27%;
   background-color: yellow;
-  display: show !important;
+  display: inline !important;
 }
 
 .row-fluid.add-workout-name{
@@ -254,6 +254,10 @@ label, input, button, select, textarea{
   width: 60%;
   margin-left: 20%;
 
+}
+#collapse-button{
+  height: 45px;
+  width: 100%;
 }
 
 

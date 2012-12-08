@@ -26,6 +26,8 @@ $(document).ready ->
   $("#add-workout").click ->
     $(".dashboard-add-workout-modal-row").addClass("dashboard-add-workout-modal-row-show  row-fluid").removeClass "dashboard-add-workout-modal-row"
     #alert "something"
+  $('#collapse-button').click ->
+    $('.dashboard-add-workout-modal-row-show').addClass("dashboard-add-workout-modal-row").removeClass("dashboard-add-workout-modal-row-show")
 
 
 
