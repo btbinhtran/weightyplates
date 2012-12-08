@@ -1,5 +1,7 @@
 <h1>backbone rendered this view</h1>
 
-<% for dancer in @items.dancers: %>
-    <div><p>Gender is <%= dancer.gender %> and name is <%= dancer.name %></p></div>
+
+
+<% for workout in @workouts.workout: %>
+<div><p>Exercise is <%= workout.exercise %> - Weight is <%= workout.weight %> - Rep is <%= workout.reps%></p></div>
 <% end %>
