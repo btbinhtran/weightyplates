@@ -7,6 +7,5 @@ class Weightyplates.Views.DashboardIndex extends Backbone.View
 
   render: ->
     $(@el).html(@template(workouts: @model.toJSON()))
-    console.log(@model.toJSON().workout)
     this
 
