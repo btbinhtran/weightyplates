@@ -3,6 +3,7 @@
   %head
     = yield :head
     = render 'shared/header_tags'
+    = @home_page ? (stylesheet_link_tag "home/home") : ''
     %title Weighty Plates
     %style(id="stylesTest" type="text/css")
     = stylesheet_link_tag "application", :media => "all"
