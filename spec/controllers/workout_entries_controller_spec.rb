@@ -11,10 +11,9 @@ describe WorkoutEntriesController do
     sign_in user
   end
 
-  describe "create workout" do
+  describe "create workout entry" do
     it "should throw errors if there are missing attributes" do
       post :create, format: :json, workout_id: workout.id
-      json = ActiveSupport::JSON.decode(@response.body)
       @response.body.should have_json_path("errors")
     end
 
@@ -23,6 +22,17 @@ describe WorkoutEntriesController do
       expect do
         post(:create, workout_entry: wo_entry, workout_id: workout.id)
       end.to change(workout.workout_entries, :count).by(1)
+    end
+  end
+
+  describe "update workout entry" do
+
+    it "should update a workout entry" do
+      ex = FactoryGirl.create(:exercise)
+      wo_entry = FactoryGirl.create(:workout_entry, workout_id: workout.id, exercise_id: 1234)
+      put(:update, id: wo_entry.id, workout_id: workout.id, workout_entry: {workout_id: workout.id, exercise_id: ex.id})
+      json = ActiveSupport::JSON.decode(@response.body)
+      json['exercise_id'].should == ex.id
     end
   end
 

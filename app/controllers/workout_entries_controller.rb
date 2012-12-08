@@ -7,17 +7,35 @@ class WorkoutEntriesController < ApplicationController
     if @workout
       params[:workout_entry][:workout_id] = @workout.id if params[:workout_entry]
       respond_with(@workout.workout_entries.create(params[:workout_entry]))
+    else
+      render json: { error: "Invalid workout." }, status: :unprocessable_entity
     end
   end
 
   def update
+    @workout = current_user.workouts.find(params[:workout_id])
+    if @workout
+      params[:workout_entry][:workout_id] = @workout.id if params[:workout_entry]
+      @workout_entry = @workout.workout_entries.find(params[:id])
+      if @workout_entry.update_attributes(params[:workout_entry])
+        render json: @workout_entry, status: :ok
+      else
+        render json: @workout_entry.errors, status: :unprocessable_entity
+      end
+    else
+      render json: { error: "Invalid workout." }, status: :unprocessable_entity
+    end
+
 
   end
+
 
   def destroy
     @workout = current_user.workouts.find(params[:workout_id])
     if @workout
       respond_with(@workout.workout_entries.destroy(params[:id]))
+    else
+      render json: { error: "Invalid workout." }, status: :unprocessable_entity
     end
   end
 end
