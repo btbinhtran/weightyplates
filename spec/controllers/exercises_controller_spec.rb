@@ -17,7 +17,8 @@ describe ExercisesController do
       # get exercises_path(format: :json, access_token: token.token)
       get :index, format: :json
 
-      last_json.should have_json_size(2)
+
+      @response.body.should have_json_size(2)
     end
 
     it "should be able to search by type" do

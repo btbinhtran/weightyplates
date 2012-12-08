@@ -9,6 +9,17 @@ describe Workout do
 
   it { should respond_to(:user) }
 
+  it "should have created_at order default scope" do
+    workouts = []
+    3.times do |num|
+      workouts << FactoryGirl.create(:workout, created_at: num.hours.ago)
+    end
+
+    Workout.all.each_with_index do |workout, i|
+      workout.should == workouts[i]
+    end
+  end
+
   describe "workout entry association" do
     before do
       @workout.save
