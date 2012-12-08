@@ -49,7 +49,7 @@
 }
 .dashboard-add-workout-modal-row-show{
   position: absolute;
-  top: 27%;
+  top: 45%;
   background-color: yellow;
   display: inline !important;
 }
@@ -67,6 +67,27 @@
   height: 45px;
   width: 100%;
 }
+.add-workout-exercise {
+  background-color: orange;
+  .add-exercise-listing-area{
+    background-color: #f4a460;
+  }
+  .add-exercise-entry{
+    background-color: #778899;
+  }
+  #add-set-button{
+
+
+    width: 30%;
+    height: 35px;
+  }
+  #add-exercise-collapse{
+    height: 35px;
+
+    width: 100%;
+  }
+}
+
 
 
 /* Add Workout End*/

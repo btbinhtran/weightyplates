@@ -1,7 +1,11 @@
+
+
+
+<% if @workouts.workout.length > 0: %>
+    <% else: %>
 <h1>backbone rendered this view</h1>
-
-
-
 <% for workout in @workouts.workout: %>
+<!==
 <div><p>Exercise is <%= workout.exercise %> - Weight is <%= workout.weight %> - Rep is <%= workout.reps%></p></div>
+>
 <% end %>

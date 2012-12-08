@@ -40,12 +40,31 @@
 
       .row-fluid.add-workout-exercise
         .span12
-          .span3
-            %button{id: "add-exercise-button"} + Exercise
-          .span8
-            %h2 Exercises
-          .span1
-            %button{id: "collapse-button"} C
+          .row-fluid
+            .span3
+              %button{id: "add-exercise-button"} + Exercise
+            .span9.add-exercise-listing-area
+              .row-fluid
+                .span11
+                  %h2 Exercises
+                .span1
+                  %button{id: "collapse-button"} C
+                .span11.add-exercise-listings
+                  .row-fluid
+                    .span12
+                      .add-exercise-entry
+                        .row-fluid
+                          .span12.add-exercise-entry-header
+                            .row-fluid
+                              .span1
+                                %h2 E1
+                              .span11
+                                .row-fluid
+                                  .span11
+                                    %button{id: "add-set-button", class: "offset2"} + Set
+                                  .span1
+                                    %button{id: "add-exercise-collapse"} C
+
 
 
 
