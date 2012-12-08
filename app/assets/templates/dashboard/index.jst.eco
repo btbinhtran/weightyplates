@@ -1,3 +1,5 @@
 <h1>backbone rendered this view</h1>
 
-<%= @items.dancers %>
+<% for dancer in @items.dancers: %>
+    <div><p>Gender is <%= dancer.gender %> and name is <%= dancer.name %></p></div>
+<% end %>

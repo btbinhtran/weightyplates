@@ -10,6 +10,6 @@ class Weightyplates.Views.DashboardIndex extends Backbone.View
   render: ->
     $(@el).html(@template(items: @model.toJSON()))
     console.log(@model.toJSON())
-    console.log((@model.toJSON())[0])
+    console.log((@model.toJSON()).dancers[0].gender)
     this
 
