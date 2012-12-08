@@ -3,6 +3,8 @@
   %head
     = render 'shared/header_tags'
     %title Weighty Plates
+    - content_for :head do
+      = stylesheet_link_tag "dashboard/dashboard"
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "dashboard"
     = csrf_meta_tags
