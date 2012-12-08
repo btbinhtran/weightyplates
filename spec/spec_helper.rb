@@ -46,3 +46,7 @@ end
 Spork.each_run do
 
 end
+
+def last_json
+  @response.body
+end
