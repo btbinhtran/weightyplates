@@ -14,7 +14,9 @@ Weightyplates::Application.routes.draw do
   resources :dashboard, only: [:index]
   scope '/api' do
     resources :exercises, only: [:index]
-    resources :workouts
+    resources :workouts do
+      resources :workout_entries, only: [:create, :update, :destroy]
+    end
   end
 
   match "*path", :to => "application#routing_error"
