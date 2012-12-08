@@ -3,8 +3,12 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     '': 'index'
     'entry/:id': 'show'
 
+  initialize: ->
+    @model = new Weightyplates.Models.Dashboard()
+    @model.fetch()
+
   index: ->
-    view = new Weightyplates.Views.DashboardIndex
+    view = new Weightyplates.Views.DashboardIndex(model: @model)
     $('#container').html(view.render().el)
 
   show: (id) ->
