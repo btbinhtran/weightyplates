@@ -12,8 +12,10 @@ Weightyplates::Application.routes.draw do
   use_doorkeeper
 
   resources :dashboard, only: [:index]
-  resources :exercises, only: [:index]
-  resources :workouts
+  scope '/api' do
+    resources :exercises, only: [:index]
+    resources :workouts
+  end
 
   match "*path", :to => "application#routing_error"
 

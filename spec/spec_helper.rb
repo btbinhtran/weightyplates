@@ -13,6 +13,7 @@ Spork.prefork do
 
   RSpec.configure do |config|
     config.include JsonSpec::Helpers
+    config.include Devise::TestHelpers, :type => :controller
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
