@@ -11,8 +11,9 @@ Weightyplates::Application.routes.draw do
 
   use_doorkeeper
 
-  resources :dashboard
+  resources :dashboard, only: [:index]
   resources :exercises, only: [:index]
+  resources :workouts
 
   match "*path", :to => "application#routing_error"
 
