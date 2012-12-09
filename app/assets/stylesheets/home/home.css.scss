@@ -3,13 +3,6 @@
 
 
 
-
-/*Pixels to Ems converter*/
-@function pem($pixels) {
-  @return #{$pixels/16.0}em
-}
-
-
 /*Front Page Begin*/
 .mainpage-box {
   border: 1px black solid;

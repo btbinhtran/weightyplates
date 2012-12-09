@@ -1,3 +1,6 @@
+@import "compass_twitter_bootstrap";
+@import "compass_twitter_bootstrap_responsive";
+
 /*Common Begin*/
 @font-face {
   font-family: 'MolengoRegular';
@@ -52,8 +55,8 @@ label, input, button, select, textarea{
 }
 .brand{
   color: white !important;
-  @media (min-width: 120em) {
-    margin-left: pem(-0.3125) !important;
+  @media (min-width: 47.5em) {
+    margin-left: -0.9375em !important;
   }
 }
 .mainpage-list{
