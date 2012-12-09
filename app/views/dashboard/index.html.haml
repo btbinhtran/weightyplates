@@ -19,63 +19,34 @@
       .span3.offset1
         %p Upcoming workouts:
   .dashboard-add-workout-modal-row
-    .span12
-      .row-fluid.add-workout-header
-        .span3
-          %h2 New Workout
-        .span9
-          .row-fluid.add-workout-top-right
-            .span12
-              .row-fluid.add-workout-name
-                %label{id: "workout-name-label", class: "span3"} Workout Name
-                %input{id: "workout-name-input", class: "span6",  type: "text"}
-      .row-fluid.add-workout-exercise
-        .span12
+    .row-fluid
+      .span12
+        %h2.dashboard-add-workout-header New Entry Workout
+      .span12
+        .row-fluid
+          .span10.offset1.dashboard-add-workout-name
+            .row-fluid
+              .span3
+                %label#add-workout-name-label Workout Name
+              .span9
+                %input{id: "dashboard-workout-name-input"}
           .row-fluid
-            .span2.add-exercise-left-panel
-              %button{id: "add-exercise-button"} + Exercise
-            .span9.add-exercise-listing-area
+            .span10.offset1.dashboard-add-workout-exercise
               .row-fluid
-                .add-exercise-listing-container
-                  .row-fluid
-                    .span10.offset1.add-exercise-listing-header
-                      %h2 Exercises
-                    .span1.add-exercise-collapse-container
-                      %button{id: "collapse-button"} C
-                .span10.offset1.add-exercise-listings
-                  .row-fluid
-                    .span12
-                      .add-exercise-entry
-                        .row-fluid
-                          .span12.add-exercise-entry-header
-                            .row-fluid
-                              .span1
-                                %h2 E1
-                              .span11.add-exercise-entry-header-buttons
-                                .row-fluid
-                                  .span11
-                                    %button{id: "add-set-button", class: "offset4"} + Set
-                                  .span1
-                                    %button{id: "add-exercise-collapse"} C
-                          .row-fluid
-                            .span10.offset1.add-exercise-set-entry
-                              .span3
-                                %p S1
-                              .span8.set-weight-and-reps-area
-                                .span3
-                                  %label{id: "set-weight-label"} Weight
-                                .span3
-                                  %input{id: "set-weight-input", type: "text"}
-                                .span3
-                                  %label{id: "set-reps-label"} Reps
-                                .span3
-                                  %input{id: "set-reps-input", type: "text"}
-            .span12
-              .row-fluid
-                .span3.offset5
-                  %button{id: "add-exercise-cancel"} Cancel
                 .span3
-                  %button{id: "add-exercise-save"} Save
+                  %label.add-workout-exercise-label Exercise
+                .span4
+                  %select.add-workout-exercise-drop-downlist
+                .span5
+                  .span4
+                    %button.add-workout-exercise-filter F
+                  .span4
+                    %button{class: "add-workout-exercise-add-button"} +
+                  .span4
+                    %button{class: "add-workout-exercise-remove-button"} -
+
+
+
   .row-fluid.dashboard-add-workout-button-row
     .span12
       .span4.offset4
