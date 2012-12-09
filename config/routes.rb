@@ -16,9 +16,7 @@ Weightyplates::Application.routes.draw do
     resources :exercises, only: [:index]
     resources :workouts do
       resources :workout_entries, only: [:create, :update, :destroy] do
-        resources :entry_details, only: [:create, :update, :destroy] do
-
-        end
+        resources :entry_details, only: [:create, :update, :destroy]
       end
     end
   end
