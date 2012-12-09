@@ -16,10 +16,8 @@
         %a{href: '#'} Past Workouts
   .row-fluid.dashboard-upcoming-workouts-row
     .span12
-      .span1
-      .span3
+      .span3.offset1
         %p Upcoming workouts:
-      .span8
   .dashboard-add-workout-modal-row
     .span12
       .row-fluid.add-workout-header
@@ -29,20 +27,22 @@
           .row-fluid.add-workout-top-right
             .span12
               .row-fluid.add-workout-name
-                %label{id: "workout-name-label", class: "span2"} Workout Name
-                %input{id: "workout-name-input", class: "span10", type: "text", value: "Defaults to timestamp if none provided"}
+                %label{id: "workout-name-label", class: "span3"} Workout Name
+                %input{id: "workout-name-input", class: "span6",  type: "text", value: "Defaults to timestamp if none provided"}
       .row-fluid.add-workout-exercise
         .span12
           .row-fluid
-            .span3
+            .span2.add-exercise-left-panel
               %button{id: "add-exercise-button"} + Exercise
             .span9.add-exercise-listing-area
               .row-fluid
-                .span11
-                  %h2 Exercises
-                .span1
-                  %button{id: "collapse-button"} C
-                .span11.add-exercise-listings
+                .add-exercise-listing-container
+                  .row-fluid
+                    .span10.offset1.add-exercise-listing-header
+                      %h2 Exercises
+                    .span1.add-exercise-collapse-container
+                      %button{id: "collapse-button"} C
+                .span9.offset1.add-exercise-listings
                   .row-fluid
                     .span12
                       .add-exercise-entry
@@ -58,17 +58,15 @@
                                   .span1
                                     %button{id: "add-exercise-collapse"} C
                           .row-fluid
-                            .span1
-                            .span10.add-exercise-set-entry
+                            .span10.offset1.add-exercise-set-entry
                               .span2
-                                %p Set Entry
+                                %p S1
                               .span8
 
                               .span2
   .row-fluid.dashboard-add-workout-button-row
     .span12
-      .span4
-      .span4
+      .span4.offset4
         %button#add-workout Add Workout
         #container
 
