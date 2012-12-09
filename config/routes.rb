@@ -15,7 +15,11 @@ Weightyplates::Application.routes.draw do
   scope '/api' do
     resources :exercises, only: [:index]
     resources :workouts do
-      resources :workout_entries, only: [:create, :update, :destroy]
+      resources :workout_entries, only: [:create, :update, :destroy] do
+        resources :entry_details, only: [:create, :update, :destroy] do
+
+        end
+      end
     end
   end
 

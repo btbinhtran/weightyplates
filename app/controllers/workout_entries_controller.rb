@@ -25,8 +25,6 @@ class WorkoutEntriesController < ApplicationController
     else
       render json: { error: "Invalid workout." }, status: :unprocessable_entity
     end
-
-
   end
 
 
