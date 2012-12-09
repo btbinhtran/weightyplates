@@ -20,12 +20,6 @@
       .span3
         %p Upcoming workouts:
       .span8
-  .row-fluid.dashboard-add-workout-button-row
-    .span12
-      .span4
-      .span4
-        %button#add-workout Add Workout
-        #container
   .dashboard-add-workout-modal-row
     .span12
       .row-fluid.add-workout-header
@@ -36,8 +30,7 @@
             .span12
               .row-fluid.add-workout-name
                 %label{id: "workout-name-label", class: "span2"} Workout Name
-                %input{id: "workout-name-input", class: "span10", type: "text"}
-
+                %input{id: "workout-name-input", class: "span10", type: "text", value: "Defaults to timestamp if none provided"}
       .row-fluid.add-workout-exercise
         .span12
           .row-fluid
@@ -58,13 +51,26 @@
                             .row-fluid
                               .span1
                                 %h2 E1
-                              .span11
+                              .span11.add-exercise-entry-header-buttons
                                 .row-fluid
                                   .span11
                                     %button{id: "add-set-button", class: "offset2"} + Set
                                   .span1
                                     %button{id: "add-exercise-collapse"} C
+                          .row-fluid
+                            .span1
+                            .span10.add-exercise-set-entry
+                              .span2
+                                %p Set Entry
+                              .span8
 
+                              .span2
+  .row-fluid.dashboard-add-workout-button-row
+    .span12
+      .span4
+      .span4
+        %button#add-workout Add Workout
+        #container
 
 
 

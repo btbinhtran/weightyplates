@@ -44,16 +44,14 @@
 }
 /* Add Workout Begin*/
 .dashboard-add-workout-modal-row{
-
   display: none;
 }
 .dashboard-add-workout-modal-row-show{
-  position: absolute;
-  top: 45%;
+  margin: 2% 0%;
+  float: left;
   background-color: yellow;
   display: inline !important;
 }
-
 .row-fluid.add-workout-name{
   padding: 2% 0;
 }
@@ -61,7 +59,7 @@
   height: 45px;
   width: 60%;
   margin-left: 20%;
-
+  margin-top: 7%;
 }
 #collapse-button{
   height: 45px;
@@ -72,21 +70,26 @@
   .add-exercise-listing-area{
     background-color: #f4a460;
   }
-  .add-exercise-entry{
+  .add-exercise-entry-header{
     background-color: #778899;
   }
   #add-set-button{
-
-
     width: 30%;
     height: 35px;
   }
   #add-exercise-collapse{
     height: 35px;
-
     width: 100%;
   }
+  .add-exercise-set-entry{
+    background-color: #ff4500;
+    margin: 2% 0%;
+  }
+  .add-exercise-entry-header-buttons{
+    margin: 1.5% 0%;
+  }
 }
+
 
 
 
