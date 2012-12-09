@@ -1,5 +1,5 @@
-@import "compass_twitter_bootstrap";
-@import "compass_twitter_bootstrap_responsive";
+@import "twitter/bootstrap";
+@import "twitter/bootstrap-responsive";
 
 /*Common Begin*/
 @font-face {
@@ -17,8 +17,11 @@
 li{
   list-style:none;
 }
+h2 {
+  font-size: 140%;
+}
 label, input, button, select, textarea{
-  font-size: 120%;
+  font-size: 95%;
   line-height: 150%;
 }
 #flash_notice{
@@ -55,8 +58,8 @@ label, input, button, select, textarea{
 }
 .brand{
   color: white !important;
-  @media (min-width: 47.5em) {
-    margin-left: -0.9375em !important;
+  @media (min-width: 59.375em){
+    padding-left: 30px !important;
   }
 }
 .mainpage-list{
@@ -71,7 +74,6 @@ label, input, button, select, textarea{
   padding-left: 10px;
   padding-right: 10px;
 }
-
 .fix-after1280{
   @media (min-width: 80em){
     width: 80em !important;

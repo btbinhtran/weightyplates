@@ -22,8 +22,8 @@
         .row-fluid.mainpage-inputrow
           - if devise_mapping.rememberable?
             %label(for="user_remember_me")
-            = f.check_box :remember_me
-            Remember me
+            = f.check_box :remember_me, :id => "remember-me-checkbox"
+            %p{id: "remember-me-phrase"} Remember me
         .row-fluid.mainpage-inputrow.mainpage-lastrow
           = link_to "Forgot password?", new_user_password_path, class: 'forgotpassword-button'
           = f.submit "Sign in", :class => 'btn mainpage-sign-in-button'

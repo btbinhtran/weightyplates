@@ -10,14 +10,14 @@ gem 'doorkeeper', '~> 0.6.2'
 gem "rabl", "~> 0.7.9"
 gem "rails-backbone", "~> 0.8.0"
 gem "eco", "~> 1.0.0"
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :git => 'git://github.com/anjlab/bootstrap-rails.git', :branch => 'v2.2.2.x'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~>3.2.3'
   gem 'coffee-rails', '3.2.1'
-  gem 'compass-rails', '1.0.3'
-  gem 'compass_twitter_bootstrap', '2.0.3'
+
   gem "execjs", "1.4.0"	
   gem "therubyracer", "0.10.2"
   gem 'uglifier', '1.0.3'
