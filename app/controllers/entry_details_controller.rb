@@ -7,7 +7,6 @@ class EntryDetailsController < ApplicationController
     if @workout
       @workout_entry = @workout.workout_entries.find(params[:workout_entry_id])
       if @workout_entry
-        params[:entry_detail][:workout_entry_id] = @workout_entry.id if params[:entry_detail]
         respond_with(@workout_entry.entry_details.create(params[:entry_detail]))
       else
         render json: { error: "Invalid workout entry." }, status: :unprocessable_entity

@@ -5,7 +5,6 @@ class WorkoutEntriesController < ApplicationController
   def create
     @workout = current_user.workouts.find(params[:workout_id])
     if @workout
-      params[:workout_entry][:workout_id] = @workout.id if params[:workout_entry]
       respond_with(@workout.workout_entries.create(params[:workout_entry]))
     else
       render json: { error: "Invalid workout." }, status: :unprocessable_entity
@@ -15,7 +14,6 @@ class WorkoutEntriesController < ApplicationController
   def update
     @workout = current_user.workouts.find(params[:workout_id])
     if @workout
-      params[:workout_entry][:workout_id] = @workout.id if params[:workout_entry]
       @workout_entry = @workout.workout_entries.find(params[:id])
       if @workout_entry.update_attributes(params[:workout_entry])
         render json: @workout_entry, status: :ok
