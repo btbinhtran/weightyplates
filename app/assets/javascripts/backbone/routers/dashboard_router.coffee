@@ -4,12 +4,14 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     'entry/:id': 'show'
 
   initialize: ->
-    @model = new Weightyplates.Models.Dashboard()
-    @model.fetch()
+    @collection = new Weightyplates.Collections.DashboardItems()
+    @collection.fetch()
+
 
   index: ->
-    view = new Weightyplates.Views.DashboardIndex(model: @model)
+    view = new Weightyplates.Views.DashboardIndex(collection: @collection)
     $('#container').html(view.render().el)
+
 
   show: (id) ->
     alert "Entry #{id}"
