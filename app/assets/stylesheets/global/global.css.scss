@@ -24,6 +24,9 @@ label, input, button, select, textarea{
   font-size: 95%;
   line-height: 150%;
 }
+label{
+  cursor: text !important;
+}
 #flash_notice{
   background-color: #DFF2BF;
   border: 1px solid;

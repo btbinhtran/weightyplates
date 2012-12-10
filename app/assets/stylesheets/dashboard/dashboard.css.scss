@@ -40,6 +40,9 @@
   }
 }
 /* Add Workout Begin*/
+#collapse-button{
+  width: 100%;
+}
 .dashboard-add-workout-modal-row{
   display: none;
 }
@@ -49,30 +52,35 @@
   background-color: yellow;
   display: inline !important;
 }
-.dashboard-add-workout-header{
-  text-align: left;
-  background-color: #f4a460;
+.dashboard-add-workout-header-area{
+  margin-bottom: 3.5%;
+  background-color: #ff7f50;
 }
 .dashboard-add-workout-header{
+  text-align: left;
+  padding-left: 5%;
+  background-color: #f4a460;
   background-color: orange;
 }
 .dashboard-add-workout-name{
   background-color: #bc8f8f;
 }
 #add-workout-name-label{
-  text-align: center;
+  margin-top: 2%;
+  text-align: right;
 }
-#dashboard-workout-name-input{
+.dashboard-workout-name-input{
   width: 99%;
 }
 .dashboard-add-workout-exercise{
   background-color: #adff2f;
 }
 .add-workout-exercise-label{
-  margin-left: -25%;
-  text-align: center;
+  margin-top: 2%;
+  text-align: right;
 }
 .add-workout-exercise-drop-downlist{
+  margin-top: 0.5%;
   width: 100%;
 }
 .add-workout-exercise-filter,
@@ -83,27 +91,44 @@
 .dashboard-exercise-set{
   background-color: #d3d3d3;
 }
-#add-workout-exercise-entry-label{
+.add-workout-set-label{
   text-align: right;
 }
-#add-workout-exercise-entry-input{
+.add-workout-exercise-entry-label{
+  text-align: right;
+}
+.add-workout-exercise-entry-input{
   width: 100%;
 }
 .add-workout-units{
   text-align: center;
 }
-#add-workout-reps-input{
-  width: 100%;
+.add-workout-reps-input{
+  width: 94%;
 }
-#add-workout-reps-label{
+.add-workout-reps-label{
   text-align: right;
 }
-#add-workout-reps-add-button,
-#add-workout-reps-remove-button{
+.add-workout-reps-add-button,
+.add-workout-reps-remove-button{
   width: 100%;
 }
 .color-weights-and-reps-items{
   background-color: #778899;
+}
+.last-row-buttons-row{
+  background-color: #db7093;
+}
+.last-row-buttons{
+  width: 100%;
+}
+#last-row-cancel-button{
+  width: 94%;
+  margin-left: 6%;
+}
+.min-row-height{
+  min-height: 40px !important;
+  margin-bottom: 1.5%;
 }
 
 
