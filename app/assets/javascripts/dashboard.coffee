@@ -22,7 +22,6 @@ window.Weightyplates =
     Backbone.history.start()
 
 $(document).ready ->
-
   Weightyplates.init()
 
 
