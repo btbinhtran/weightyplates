@@ -69,6 +69,7 @@
   background-color: #adff2f;
 }
 .add-workout-exercise-label{
+  margin-left: -25%;
   text-align: center;
 }
 .add-workout-exercise-drop-downlist{
@@ -78,6 +79,31 @@
 .add-workout-exercise-add-button,
 .add-workout-exercise-remove-button{
   width: 100%;
+}
+.dashboard-exercise-set{
+  background-color: #d3d3d3;
+}
+#add-workout-exercise-entry-label{
+  text-align: right;
+}
+#add-workout-exercise-entry-input{
+  width: 100%;
+}
+.add-workout-units{
+  text-align: center;
+}
+#add-workout-reps-input{
+  width: 100%;
+}
+#add-workout-reps-label{
+  text-align: right;
+}
+#add-workout-reps-add-button,
+#add-workout-reps-remove-button{
+  width: 100%;
+}
+.color-weights-and-reps-items{
+  background-color: #778899;
 }
 
 
