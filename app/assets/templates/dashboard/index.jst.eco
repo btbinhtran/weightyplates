@@ -1,11 +1,120 @@
 
-
-
-<% if @workouts.workout.length > 0: %>
-    <% else: %>
-<h1>backbone rendered this view</h1>
-<% for workout in @workouts.workout: %>
-<!==
-<div><p>Exercise is <%= workout.exercise %> - Weight is <%= workout.weight %> - Rep is <%= workout.reps%></p></div>
->
-<% end %>
+<div class="dashboard-add-workout-modal-row row-fluid">
+    <div class="row-fluid">
+        <div class="span12 dashboard-add-workout-header-area">
+            <div class="row-fluid">
+                <div class="span4">
+                    <h2 class="dashboard-add-workout-header">New Entry Workout</h2>
+                </div>
+                <div class="span1 offset7">
+                    <button id="collapse-button">C</button>
+                </div>
+            </div>
+        </div>
+        <div class="span12">
+            <div class="row-fluid">
+                <div class="span10 offset1 dashboard-add-workout-name min-row-height">
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <label id="add-workout-name-label">Workout Name</label>
+                        </div>
+                        <div class="span9">
+                            <input class="dashboard-workout-name-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span10 offset1 dashboard-add-workout-exercise min-row-height">
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <label class="add-workout-exercise-label">Exercise</label>
+                            </div>
+                            <div class="span6">
+                                <select class="add-workout-exercise-drop-downlist"></select>
+                            </div>
+                            <div class="span3">
+                                <div class="span4">
+                                    <button class="add-workout-exercise-filter">F</button>
+                                </div>
+                                <div class="span4">
+                                    <button class="add-workout-exercise-add-button">+</button>
+                                </div>
+                                <div class="span4">
+                                    <button class="add-workout-exercise-remove-button">-</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span10 offset1 dashboard-exercise-set min-row-height">
+                        <div class="row-fluid">
+                            <div class="span2 indent-set-spacer"></div>
+                            <div class="span1 color-set-number">
+                                <label class="add-workout-set-label">S1</label>
+                            </div>
+                            <div class="span6 color-weights-and-reps-items">
+                                <div class="row-fluid">
+                                    <div class="span7">
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <div class="span4">
+                                                    <label class="add-workout-exercise-entry-label">Weight</label>
+                                                </div>
+                                                <div class="span6">
+                                                    <input class="add-workout-exercise-entry-input">
+                                                </div>
+                                                <div class="span2">
+                                                    <p class="add-workout-units">kg</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="span5">
+                                        <div class="span6">
+                                            <label class="add-workout-reps-label">Reps</label>
+                                        </div>
+                                        <div class="span6">
+                                            <input class="add-workout-reps-input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3 color-weights-and-reps-items">
+                                <div class="span4 offset4">
+                                    <button class="add-workout-reps-add-button">+</button>
+                                </div>
+                                <div class="span4">
+                                    <button class="add-workout-reps-remove-button">-</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span10 offset1 last-row-buttons-row min-row-height">
+                            <div class="row-fluid">
+                                <div class="span6 offset3">
+                                    <div class="row-fluid">
+                                        <div class="span6">
+                                            <button class="last-row-buttons">Add Note</button>
+                                        </div>
+                                        <div class="span6">
+                                            <button class="last-row-buttons" id="last-row-cancel-button">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="span3">
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <button class="last-row-buttons">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

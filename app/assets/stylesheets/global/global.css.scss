@@ -14,6 +14,9 @@
   padding: 0;
   font-family: 'MolengoRegular';
 }
+body{
+
+}
 li{
   list-style:none;
 }
@@ -54,6 +57,7 @@ label{
 }
 .hero-unit{
   background-color: #FAFAFA;
+  background-image: url(image_path('debut_light.png'));
 }
 .navbar-inner{
   background-color: #525252;
