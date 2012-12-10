@@ -9,6 +9,8 @@ class Weightyplates.Views.DashboardIndex extends Backbone.View
     if @collection.length > 0
       $(@el).html(@template(workouts: @collection.toJSON()))
 
+      #$('.button-area').html("<button id='add-workout'>Add Working outs</button>")
+
       lengthCollection = @collection.length
       entry = 0
       optionsList = []
@@ -32,4 +34,7 @@ class Weightyplates.Views.DashboardIndex extends Backbone.View
       $('#collapse-button').click ->
         hideAddWorkoutDialog()
 
+
     this
+
+
