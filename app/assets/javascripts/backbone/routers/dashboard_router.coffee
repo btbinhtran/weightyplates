@@ -18,5 +18,7 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     #$('#add-workout').html(viewButton.render().el)
     $('.add-workout-button-area').html(viewButton.render().el)
 
+    #$('.add-workout-button-area').append("<div class="container"></div>")
+
   show: (id) ->
     alert "Entry #{id}"

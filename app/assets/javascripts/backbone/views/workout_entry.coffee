@@ -38,10 +38,11 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
       template: JST['dashboard/index']
 
       initialize: ->
-        console.log('in init')
-        console.log(@template())
-        console.log($('.container'))
-        addWorkoutView = $('.container').html(@template())
+        #console.log('in init')
+        #console.log(@template())
+        #console.log($('#container'))
+        addWorkoutView = $('#container').html(@template())
+
 
       render: ->
         #console.log($(@.el))
