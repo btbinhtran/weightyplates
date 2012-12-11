@@ -10,6 +10,21 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     this
 
   loadWorkoutForm: (event) ->
+    class Weightyplates.Views.DashboardIndex extends Backbone.View
+
+      template: JST['dashboard/index']
+
+      initialize: ->
+        $('#container').html(@template())
+
+
+
+      render: ->
+        this
+
+    addWorkoutView = new Weightyplates.Views.DashboardIndex()
+
+
     @collection = new Weightyplates.Collections.DashboardItems()
     @collection.fetch()
     @collection.on('reset', @somethingHappen, this)
@@ -26,16 +41,19 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
       optionsList.push("<option>#{ theModels[entry].get "name" }</option>")
       entry++
 
-    class Weightyplates.Views.DashboardIndex extends Backbone.View
+    $('#container').find('.add-workout-exercise-drop-downlist').html(optionsList)
+    $(document).on "keypress", (event) ->
+      hideAddWorkoutDialog() if event.keyCode == 27
 
-      template: JST['dashboard/index']
+    hideAddWorkoutDialog = ->
+      $('.dashboard-add-workout-modal-row-show').addClass("dashboard-add-workout-modal-row").removeClass("dashboard-add-workout-modal-row-show")
 
-      initialize: ->
-        addWorkoutView = $('#container').html(@template())
-        addWorkoutView.find('.add-workout-exercise-drop-downlist').html(optionsList)
+    $("#add-workout").click ->
+      @blur()
+      $(".dashboard-add-workout-modal-row").addClass("dashboard-add-workout-modal-row-show  row-fluid").removeClass "dashboard-add-workout-modal-row"
 
-      render: ->
-        this
+    $('#collapse-button').click ->
+      hideAddWorkoutDialog()
 
-    addWorkoutView = new Weightyplates.Views.DashboardIndex()
+
 
