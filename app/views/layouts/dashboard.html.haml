@@ -4,7 +4,9 @@
     = render 'shared/header_tags'
     = stylesheet_link_tag "global/global"
     = stylesheet_link_tag "dashboard/dashboard"
+
     = javascript_include_tag "dashboard"
+
     = csrf_meta_tags
   %body
     = render 'shared/navbar'
@@ -12,4 +14,5 @@
       .hero-unit
         - flash.each do |name, msg|
           = content_tag :div, msg, :id => "flash_#{name}"
+
         = yield

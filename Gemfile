@@ -12,6 +12,7 @@ gem "rails-backbone", "~> 0.8.0"
 gem "eco", "~> 1.0.0"
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :git => 'git://github.com/anjlab/bootstrap-rails.git', :branch => 'v2.2.2.x'
 
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

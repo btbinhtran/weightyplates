@@ -4,6 +4,7 @@ class ExercisesController < ApplicationController
   respond_to :json
 
   def index(conditions = {})
+
     conditions[:type] = params[:type] if params[:type]
     conditions[:muscle] = params[:muscle] if params[:muscle]
     conditions[:equipment] = params[:type] if params[:equipment]
@@ -12,6 +13,7 @@ class ExercisesController < ApplicationController
     conditions[:is_sport] = params[:is_sport] if params[:is_sport]
     conditions[:level] = params[:level] if params[:level]
 
+    @exercises = Exercise.all
     respond_with Exercise.all(conditions: conditions)
   end
 end
