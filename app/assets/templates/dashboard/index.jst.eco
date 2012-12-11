@@ -2,7 +2,7 @@
 
 
 
-<div class="dashboard-add-workout-modal-row row-fluid">
+<div class="dashboard-add-workout-modal-row-show row-fluid">
     <div class="row-fluid">
         <div class="span12 dashboard-add-workout-header-area">
             <div class="row-fluid">
