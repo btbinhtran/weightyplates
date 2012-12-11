@@ -1,9 +1,6 @@
 
 
 
-<% if @workouts.length > 0: %>
-<h1>backbone rendered this view</h1>
-<% end %>
 
 <div class="dashboard-add-workout-modal-row row-fluid">
     <div class="row-fluid">

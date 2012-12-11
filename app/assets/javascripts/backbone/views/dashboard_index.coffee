@@ -6,6 +6,7 @@ class Weightyplates.Views.DashboardIndex extends Backbone.View
     @collection.on('reset', @render, this)
 
   render: ->
+    ###
     if @collection.length > 0
       $(@el).html(@template(workouts: @collection.toJSON()))
 
@@ -36,5 +37,7 @@ class Weightyplates.Views.DashboardIndex extends Backbone.View
 
 
     this
+
+    ###
 
 
