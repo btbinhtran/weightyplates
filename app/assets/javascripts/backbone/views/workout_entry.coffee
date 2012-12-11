@@ -23,6 +23,14 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
         this
 
     addWorkoutView = new Weightyplates.Views.DashboardIndex()
+    $("#add-workout").click ->
+      @blur()
+      $(".dashboard-add-workout-modal-row").addClass("dashboard-add-workout-modal-row-show  row-fluid").removeClass "dashboard-add-workout-modal-row"
+    hideAddWorkoutDialog = ->
+      $('.dashboard-add-workout-modal-row-show').addClass("dashboard-add-workout-modal-row").removeClass("dashboard-add-workout-modal-row-show")
+
+    $('#collapse-button').click ->
+      hideAddWorkoutDialog()
 
 
     @collection = new Weightyplates.Collections.DashboardItems()
@@ -48,12 +56,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     hideAddWorkoutDialog = ->
       $('.dashboard-add-workout-modal-row-show').addClass("dashboard-add-workout-modal-row").removeClass("dashboard-add-workout-modal-row-show")
 
-    $("#add-workout").click ->
-      @blur()
-      $(".dashboard-add-workout-modal-row").addClass("dashboard-add-workout-modal-row-show  row-fluid").removeClass "dashboard-add-workout-modal-row"
 
-    $('#collapse-button').click ->
-      hideAddWorkoutDialog()
 
 
 
