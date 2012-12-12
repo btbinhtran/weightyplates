@@ -6,6 +6,10 @@ class WorkoutsController < ApplicationController
     respond_with(current_user.workouts)
   end
 
+  def show
+    respond_with(current_user.workouts.find(params[:id]))
+  end
+
   def create
     respond_with(current_user.workouts.create(params[:workout]))
   end

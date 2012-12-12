@@ -1,4 +1,4 @@
-class Weightyplates.Models.Workout extends Backbone.Model
+class Weightyplates.Models.Exercises extends Backbone.Model
 
   url: '/api/workouts'
 

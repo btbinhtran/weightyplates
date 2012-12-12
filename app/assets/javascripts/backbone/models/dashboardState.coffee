@@ -1,4 +1,4 @@
-class Weightyplates.Models.Dashboard extends Backbone.Model
+class Weightyplates.Models.DashboardState extends Backbone.Model
 
   urlRoot : '/dashboard'
 

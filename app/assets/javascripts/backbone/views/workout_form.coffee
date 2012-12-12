@@ -8,7 +8,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
   initialize: ->
     #workoutModel = new class Weightyplates.Models.Workout()
 
-    @model = new Weightyplates.Models.Dashboard()
+    @model = new Weightyplates.Models.DashboardState()
     @model.fetch()
 
   render: ->
