@@ -21,6 +21,8 @@ Weightyplates::Application.routes.draw do
     end
   end
 
+  resources :calculator
+
   match "*path", :to => "application#routing_error"
 
   root to: 'home#index'
