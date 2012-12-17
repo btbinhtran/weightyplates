@@ -1,0 +1,16 @@
+!!! 5
+%html
+  %head
+    = render 'shared/header_tags'
+    = stylesheet_link_tag "global/global"
+    = stylesheet_link_tag "calculator/calculator"
+
+    = csrf_meta_tags
+  %body
+    = render 'shared/navbar'
+    .container-fluid.fix-after1280
+      .hero-unit
+        - flash.each do |name, msg|
+          = content_tag :div, msg, :id => "flash_#{name}"
+
+        = yield

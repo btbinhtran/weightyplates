@@ -21,7 +21,7 @@ Weightyplates::Application.routes.draw do
     end
   end
 
-  resources :calculator
+  get '/calculator' => 'calculator#index'
 
   match "*path", :to => "application#routing_error"
 
