@@ -1,14 +1,14 @@
 .row-fluid
   .span6.exclaim-span
     .container-fluid.exclaim-signup
-      %h1 Welcome to Weighty Plates
-      %br/
-      %h2 Better features makes for a better tracker.
-      %br/
-      %a{href: "#"}
-        %h3 I want to try out Weighty Plates
-      %br/
-      %button.btn.mainpage-signup-btn.btn-custom Sign me up already!
+      .row-fluid
+        %h1 Welcome to Weighty Plates
+      .row-fluid.tagline-phrase-area
+        %h2 Better features makes for a better tracker.
+      .row-fluid.tryout-weighty-plates-link-area
+        %a{href: calculator_path} I want to try out Weighty Plates
+      %form{action: new_user_registration_path}
+        %button{type: "submit", class: "btn mainpage-signup-btn btn-custom"} Sign me up already!
   .span5.loginarea-span
     .mainpage-box.row-fluid
       %h2 Login for returning users
@@ -22,7 +22,7 @@
         .row-fluid.mainpage-inputrow
           - if devise_mapping.rememberable?
             %label(for="user_remember_me")
-            = f.check_box :remember_me, :id => "remember-me-checkbox"
+            = f.check_box :remember_me, :id => "user_remember_me"
             %p{id: "remember-me-phrase"} Remember me
         .row-fluid.mainpage-inputrow.mainpage-lastrow
           = link_to "Forgot password?", new_user_password_path, class: 'forgotpassword-button'

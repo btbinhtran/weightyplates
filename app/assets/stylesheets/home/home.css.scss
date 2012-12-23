@@ -58,7 +58,7 @@
 .forgotpassword-button{
   font-size: 90%;
 }
-#remember-me-checkbox{
+#user_remember_me{
   float: left;
   margin: 3% 0%;
 }
@@ -82,6 +82,15 @@
   a h3 {
     @media (max-width: 21.875em){
       font-size: 0.9375em;
+    }
+  }
+  .tagline-phrase-area{
+    margin-top: 1em;
+  }
+  .tryout-weighty-plates-link-area{
+    margin-bottom: 1.8em;
+    a{
+      font-weight: bold;
     }
   }
 }
