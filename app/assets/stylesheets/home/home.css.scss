@@ -49,6 +49,12 @@
   padding-right: 0px;
 }
 
+#flash_notice p {
+  @media (max-width: 28.125em){
+    font-size: 0.8em;
+    padding: 10px 10px 0 7px;
+  }
+}
 
 #login-link{
   @media (min-width: 68.75em){
