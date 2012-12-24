@@ -6,8 +6,6 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     'click #add-workout': 'addWorkoutFormState'
 
   initialize: ->
-    #workoutModel = new class Weightyplates.Models.Workout()
-
     @model = new Weightyplates.Models.DashboardState()
     @model.fetch()
 
@@ -26,31 +24,27 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     @model.defaults.appState[0].addWorkoutForm = true
     appStateForm = @model.defaults.appState[0].addWorkoutForm
 
-    class Weightyplates.Views.DashboardIndex extends Backbone.View
+    addWorkoutView = new Weightyplates.Views.workoutForm()
 
-      template: JST['dashboard/index']
-
-      initialize: ->
-        $('#container').html(@template())
-
-      render: ->
-        this
-
-    addWorkoutView = new Weightyplates.Views.DashboardIndex()
     $("#add-workout").click ->
       @blur()
-      $(".dashboard-add-workout-modal-row").addClass("dashboard-add-workout-modal-row-show  row-fluid").removeClass "dashboard-add-workout-modal-row"
+      $(".dashboard-add-workout-modal-row")
+        .addClass("dashboard-add-workout-modal-row-show row-fluid")
+        .removeClass "dashboard-add-workout-modal-row"
+
     hideAddWorkoutDialog = ->
-      $('.dashboard-add-workout-modal-row-show').addClass("dashboard-add-workout-modal-row").removeClass("dashboard-add-workout-modal-row-show")
+      $('.dashboard-add-workout-modal-row-show')
+        .addClass("dashboard-add-workout-modal-row")
+        .removeClass("dashboard-add-workout-modal-row-show")
 
     $('#collapse-button').click ->
       hideAddWorkoutDialog()
       appStateForm = false
+
     $(document).on "keypress", (event) ->
         if event.keyCode == 27
           hideAddWorkoutDialog()
           appStateForm = false
-
 
     @collection = new Weightyplates.Collections.DashboardItems()
     @collection.fetch()
@@ -70,9 +64,10 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
 
     $('#container').find('.add-workout-exercise-drop-downlist').html(optionsList)
 
-
     hideAddWorkoutDialog = ->
-      $('.dashboard-add-workout-modal-row-show').addClass("dashboard-add-workout-modal-row").removeClass("dashboard-add-workout-modal-row-show")
+      $('.dashboard-add-workout-modal-row-show')
+        .addClass("dashboard-add-workout-modal-row")
+        .removeClass("dashboard-add-workout-modal-row-show")
 
 
 

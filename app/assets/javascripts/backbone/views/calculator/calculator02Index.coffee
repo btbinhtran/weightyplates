@@ -11,4 +11,3 @@ class Weightyplates.Views.CalculatorIndex extends Backbone.View
 
   calculateResults: ->
     viewCalculateResults = new Weightyplates.Views.CalculatorResults()
-    #console.log(viewCalculateResults.$el)
