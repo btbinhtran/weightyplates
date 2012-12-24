@@ -1,13 +1,14 @@
-
-
 class Weightyplates.Views.CalculatorIndex extends Backbone.View
 
   template: JST['calculator/calculator_index']
 
-  initialize: ->
-
+  events: ->
+    'click #calculator-calculate-button': 'calculateResults'
 
   render: ->
     $(@el).html(@template())
     this
 
+  calculateResults: ->
+    viewCalculateResults = new Weightyplates.Views.CalculatorResults()
+    #console.log(viewCalculateResults.$el)

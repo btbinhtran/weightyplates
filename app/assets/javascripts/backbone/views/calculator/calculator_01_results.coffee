@@ -2,9 +2,17 @@ class Weightyplates.Views.CalculatorResults extends Backbone.View
 
   template: JST['calculator/calculator_results']
 
-  render: ->
+  el: '.calculator-results-area'
+
+  initialize: ->
     $(@el).html(@template())
+
+  render: ->
     this
+
+
+
+
 
 
 
