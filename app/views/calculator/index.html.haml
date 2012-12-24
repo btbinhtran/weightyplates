@@ -3,36 +3,39 @@
     .span12.calculator-main-header-row-second-outermost
       .row-fluid
         .span11
-          %h2#calculator-header Calculator
+          %p#calculator-header
+            Plates Calculator:
+            %span#calculator-details Finds number of plates for one side
         .span1.calculator-preferences
           %button{id: "calculator-options-button"} O
-  .row-fluid.calculator-total-weight-input-row.class-for-padding
-    .row-fluid
+  .row-fluid.calculator-input-area
+    .row-fluid.calculator-total-weight-input-row.class-for-padding
+      .row-fluid
+        .span12
+          .row-fluid
+            .span10.offset1.calculator-total-weight
+              %label{id: "calculator-total-weight-label", class: "span2 offset2 calculator-label"} Total Weight
+              %input{id: "calculator-total-weight-input", class: "span6", type: "text"}
+    .row-fluid.calculator-bar-weight-input-row.class-for-padding
+      .row-fluid
+        .span12
+          .row-fluid
+            .span10.offset1.calculator-bar-weight
+              %label{id: "calculator-bar-weight-label", class: "span2 offset2 calculator-label"} Bar Weight
+              %input{id: "calculator-bar-weight-input", class: "span6", type: "text"}
+    .row-fluid.calculator-total-weight-input-row
       .span12
         .row-fluid
           .span10.offset1.calculator-total-weight
-            %label{id: "calculator-total-weight-label", class: "span2 offset2 calculator-label"} Total Weight
-            %input{id: "calculator-total-weight-input", class: "span6", type: "text"}
-  .row-fluid.calculator-bar-weight-input-row.class-for-padding
-    .row-fluid
-      .span12
-        .row-fluid
-          .span10.offset1.calculator-bar-weight
-            %label{id: "calculator-bar-weight-label", class: "span2 offset2 calculator-label"} Bar Weight
-            %input{id: "calculator-bar-weight-input", class: "span6", type: "text"}
-  .row-fluid.calculator-total-weight-input-row
-    .span12
-      .row-fluid
-        .span10.offset1.calculator-total-weight
-          %label{id: "calculator-calculate-button-label", class: "span2 offset2"} Calculate
-          .row-fluid
-            .span6
-              %button{id: "calculator-calculate-button"} Calculate Plates
+            %label{id: "calculator-calculate-button-label", class: "span2 offset2"} Calculate
+            .row-fluid
+              .span6
+                %button{id: "calculator-calculate-button"} Calculate Plates
   .row-fluid.calculator-results-area
     .span12
       .row-fluid
-        .span10.offset1
-          %table
+        .span5.offset4#results-table-container
+          %table.table.table-striped.results-table
             %thead
               %tr
                 %th Plate Weight

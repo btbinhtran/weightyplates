@@ -5,6 +5,17 @@
 .calculator-main-header-row-second-outermost{
   margin-bottom: 3%;
 }
+#calculator-header {
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-top: 0.6em;
+  margin-bottom: 1.8em;
+}
+#calculator-details {
+  font-weight: normal;
+  font-size: 0.9em;
+  padding-left: 0.5em;
+}
 .calculator-preferences{
   margin-top: 1.5%;
 }
@@ -24,6 +35,20 @@
 .calculator-label{
   text-align: right;
   padding-right: 3%;
+}
+.calculator-input-area{
+  margin-bottom: 1.2em;
+}
+.table th, .table td {
+  text-align: center;
+}
+.table-striped tbody tr:nth-child(odd) td {
+  background-color: #e9e9e9;
+  border-color: darkgray;
+}
+.results-table{
+  margin-left: 0.4em;
+  margin-top: 2.5em;
 }
 
 /*End Calculator*/
