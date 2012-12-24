@@ -1,0 +1,58 @@
+<div class='calculator'>
+    <div class='row-fluid calculator-main-header-row-outermost'>
+        <div class='span12 calculator-main-header-row-second-outermost'>
+            <div class='row-fluid'>
+                <div class='span11'>
+                    <p id='calculator-header'>
+                        Plates Calculator:
+                        <span id='calculator-details'>Finds number of plates for one side</span>
+                    </p>
+                </div>
+                <div class='span1 calculator-preferences'>
+                    <button id='calculator-options-button'>O</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='row-fluid calculator-input-area'>
+        <div class='row-fluid calculator-total-weight-input-row class-for-padding'>
+            <div class='row-fluid'>
+                <div class='span12'>
+                    <div class='row-fluid'>
+                        <div class='span10 offset1 calculator-total-weight'>
+                            <label class='span2 offset2 calculator-label' id='calculator-total-weight-label'>Total Weight</label>
+                            <input class='span6' id='calculator-total-weight-input' type='text'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='row-fluid calculator-bar-weight-input-row class-for-padding'>
+            <div class='row-fluid'>
+                <div class='span12'>
+                    <div class='row-fluid'>
+                        <div class='span10 offset1 calculator-bar-weight'>
+                            <label class='span2 offset2 calculator-label' id='calculator-bar-weight-label'>Bar Weight</label>
+                            <input class='span6' id='calculator-bar-weight-input' type='text'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='row-fluid calculator-total-weight-input-row'>
+            <div class='span12'>
+                <div class='row-fluid'>
+                    <div class='span10 offset1 calculator-total-weight'>
+                        <label class='span2 offset2' id='calculator-calculate-button-label'>Calculate</label>
+                        <div class='row-fluid'>
+                            <div class='span6'>
+                                <button id='calculator-calculate-button'>Calculate Plates</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='row-fluid calculator-results-area'></div>
+</div>

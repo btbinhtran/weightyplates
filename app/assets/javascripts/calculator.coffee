@@ -6,11 +6,11 @@
 
 ##= require_self
 
-##= require_tree ../templates/dashboard
-##= require_tree ./backbone/models/dashboard
-##= require_tree ./backbone/collection/dashboard
-##= require_tree ./backbone/views/dashboard
-##= require_tree ./backbone/routers/dashboard
+##= require_tree ../templates/calculator
+##= require_tree ./backbone/models/calculator
+##= require_tree ./backbone/collection/calculator
+##= require_tree ./backbone/views/calculator
+##= require_tree ./backbone/routers/calculator
 
 ##= require application.js
 
@@ -20,22 +20,8 @@ window.Weightyplates =
   Routers: {}
   Views: {}
   init: -> #alert "Here"
-    new Weightyplates.Routers.Dashboard
+    new Weightyplates.Routers.Calculator
     Backbone.history.start()
 
 $(document).ready ->
   Weightyplates.init()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
