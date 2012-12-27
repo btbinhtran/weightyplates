@@ -65,7 +65,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
       optionsList.push("<option>#{ theModels[entry].get "name" }</option>")
       entry++
 
-    $('#container').find('.add-workout-exercise-drop-downlist').html(optionsList)
+    $('#workout-form-container').find('.add-workout-exercise-drop-downlist').html(optionsList)
 
     hideAddWorkoutDialog = ->
       $('.dashboard-add-workout-modal-row-show')

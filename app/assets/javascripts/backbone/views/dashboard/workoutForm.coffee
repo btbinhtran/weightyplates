@@ -8,12 +8,14 @@ class Weightyplates.Views.workoutForm extends Backbone.View
     'click #last-row-save-button': 'saveWorkout'
 
   initialize: ->
-    @$el.html(@template())
+    @model = new Weightyplates.Models.Exercises()
+    @$el.html(@template(model: @model))
 
   render: ->
     this
 
   saveWorkout: ->
-    alert "save attempt"
+    #console.log(@collection.create name: "a name")
+    #console.log @model.save name: "a name"
 
 

@@ -2,6 +2,11 @@ class WorkoutsController < ApplicationController
   respond_to :json
   before_filter :authenticate_user!
 
+  def new
+    puts action_name
+    respond_with(current_user.workouts.create(params[:workout]))
+  end
+
   def index
     respond_with(current_user.workouts)
   end
