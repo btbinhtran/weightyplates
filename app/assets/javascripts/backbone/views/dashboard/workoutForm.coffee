@@ -16,6 +16,6 @@ class Weightyplates.Views.workoutForm extends Backbone.View
 
   saveWorkout: ->
     #console.log(@collection.create name: "a name")
-    #console.log @model.save name: "a name"
+    @model.save()
 
 

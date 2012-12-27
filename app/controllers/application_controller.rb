@@ -8,6 +8,6 @@ class ApplicationController < ActionController::Base
   end
 
   def render_not_found
-    render :file => "#{Rails.root}/public/404.html"
+    render :file => "#{Rails.root}/public/404", :formats => [:html], :status => 404, :layout => false
   end
 end

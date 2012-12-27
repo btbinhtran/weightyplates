@@ -1,14 +1,14 @@
 class Weightyplates.Models.Exercises extends Backbone.Model
 
-  url: '/api/workouts/new'
+  url: '/api/workouts'
 
   defaults:{
   "id": 1,
-  "workoutName": "",
+  "workoutName": "a name",
   "workoutEntriesDetails": [
-    { "exerciseId": "",
-    "reps": "",
-    "setNumber": ""
+    { "exerciseId": 1,
+    "reps": 1,
+    "setNumber": 1
     }
   ]
   }
