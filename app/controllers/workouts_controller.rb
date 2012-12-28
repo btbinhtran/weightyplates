@@ -13,7 +13,7 @@ class WorkoutsController < ApplicationController
   end
 
   def create
-    puts action_name
+    #puts action_name
     puts "attempt to create new workout"
     respond_with(current_user.workouts.create(params[:workout]))
   end

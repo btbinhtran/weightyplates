@@ -16,6 +16,14 @@ class Weightyplates.Views.workoutForm extends Backbone.View
 
   saveWorkout: ->
     #console.log(@collection.create name: "a name")
-    @model.save()
+    #@model.save()
+    data = @model
+    signForm = $.ajax(
+      type: "POST"
+      url: "/api/workouts.json"
+      dataType: "JSON"
+      #data: data
+    )
+
 
 
