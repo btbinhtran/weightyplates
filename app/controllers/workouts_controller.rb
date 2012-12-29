@@ -13,6 +13,7 @@ class WorkoutsController < ApplicationController
   end
 
   def create
+    puts "params are #{params}"
     respond_with(current_user.workouts.create(params[:workout]))
   end
 
