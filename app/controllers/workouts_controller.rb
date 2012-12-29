@@ -13,8 +13,15 @@ class WorkoutsController < ApplicationController
   end
 
   def create
-    puts "params are #{params}"
-    respond_with(current_user.workouts.create(params[:workout]))
+
+    #respond_with(current_user.workouts.create(params[:workout]))
+    def workout_Fields_Satisfy
+      puts "ok save"
+      @workout = current_user.workouts.first
+      puts @workout
+    end
+
+    respond_with(current_user.workouts.create(params[:workout]), :callback => workout_Fields_Satisfy)
   end
 
   def update

@@ -8,16 +8,12 @@ class Weightyplates.Views.workoutForm extends Backbone.View
     'click #last-row-save-button': 'saveWorkout'
 
   initialize: ->
-    @model = new Weightyplates.Models.Exercises()
-    @model.fetch()
-    @model.on('reset', @$el.html(@template(model: @model)), this)
+     @$el.html(@template())
 
   render: ->
     this
 
   saveWorkout: ->
-    data = @model
-    console.log data.defaults
 
     $.ajax
       type: "POST"
@@ -27,7 +23,14 @@ class Weightyplates.Views.workoutForm extends Backbone.View
         "workout":
           "unit": "kg",
           "name": "a name"
-      success: (data) ->
-        @render()
+      success: () ->
+        console.log "successful post"
+
+      error:(jqXHR, textStatus, errorThrown) ->
+        console.log(
+          "The following error occured: "+
+          textStatus, errorThrown
+        )
+
 
 
