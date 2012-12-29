@@ -18,11 +18,12 @@ class Weightyplates.Views.workoutForm extends Backbone.View
   saveWorkout: ->
     data = @model
     console.log data.defaults
+
     $.ajax(
       type: "POST"
       url: "/api/workouts.json"
       dataType: "JSON"
-      data: {"name": "A NAME", "unit": "kg"}
+      data: [{ "unit": "kg", "name": "a name"}]
     )
 
 
