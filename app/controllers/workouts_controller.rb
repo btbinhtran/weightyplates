@@ -27,10 +27,22 @@ class WorkoutsController < ApplicationController
 
       puts "workout_entries"
 
-      if @workout
-        puts "that workout exist"
-        respond_with(@workout.workout_entries.create(backup_orig_params))
-      end
+      puts backup_orig_params
+      puts backup_orig_params[:workout_entry]
+      #@workout.workout_entries.create(backup_orig_params)
+
+      @user_workout = current_user.workouts.find(@workout[:id])
+
+      puts @user_workout
+
+      @user_workout.workout_entries.create(backup_orig_params[:workout_entry])
+
+
+
+        #puts @instance_variable = Workout.all
+
+        #puts @another_variable = WorkoutEntry.all
+
 
     end
 
