@@ -15,6 +15,7 @@ class WorkoutsController < ApplicationController
     #only executes when workout is successfully created
     def workout_Fields_Satisfy(backup_orig_params)
 
+
       #the first actually references the newest created workout
       @workout = current_user.workouts.first
 
@@ -29,6 +30,7 @@ class WorkoutsController < ApplicationController
       #create the workout_entry
       @workout.workout_entries.create(backup_orig_params[:workout_entry])
 
+      puts "workout_entry created"
     end
 
     #params is the original params
