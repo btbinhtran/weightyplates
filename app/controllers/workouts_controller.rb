@@ -12,57 +12,39 @@ class WorkoutsController < ApplicationController
 
   def create
 
-    #respond_with(current_user.workouts.create(params[:workout]))
+    #only executes when workout is successfully created
     def workout_Fields_Satisfy(backup_orig_params)
-      puts "ok save"
-      @workout = current_user.workouts.first
-      #puts @workout
 
-      puts "can it reference the backup variable?"
+      #the first actually references the newest created workout
+      @workout = current_user.workouts.first
+
+      #backup is formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
+      #but only needs workout_entry, so delete the others
       backup_orig_params.delete("unit")
       backup_orig_params.delete("name")
+
+      #assign the workout id to the workout_entry
       backup_orig_params[:workout_entry][:workout_id] = @workout[:id]
 
-      puts backup_orig_params
-
-      puts "workout_entries"
-
-      puts backup_orig_params
-      puts backup_orig_params[:workout_entry]
-      #@workout.workout_entries.create(backup_orig_params)
-
-      @user_workout = current_user.workouts.find(@workout[:id])
-
-      puts @user_workout
-
-      @user_workout.workout_entries.create(backup_orig_params[:workout_entry])
-
-
-
-        #puts @instance_variable = Workout.all
-
-        #puts @another_variable = WorkoutEntry.all
-
+      #create the workout_entry
+      @workout.workout_entries.create(backup_orig_params[:workout_entry])
 
     end
 
+    #params is the original params
+    #formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
     params_copy = params[:workout]
-    backup_orig_params = params_copy.dup
-    puts "the params in a variable"
-    puts params_copy
 
-    puts 'delete portion of params'
+    #backup_orig_params is a shallow copy for backup
+    backup_orig_params = params_copy.dup
+
+    #need to remove workout_entry to be able to write workout
     params_copy.delete("workout_entry")
 
-    puts "does the params have deleted key"
-    puts params_copy
-
-
-
+    #the callback will create the workout_entry for the given workout
     respond_with(current_user.workouts.create(params[:workout]), :callback => workout_Fields_Satisfy(backup_orig_params))
 
-    puts "is it backup still good?"
-    puts backup_orig_params
+
   end
 
   def update
