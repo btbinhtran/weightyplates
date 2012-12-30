@@ -2,6 +2,11 @@ class WorkoutEntriesController < ApplicationController
   respond_to :json
   before_filter :authenticate_user!
 
+  def index
+    @workout = current_user.workouts.find(params[:workout_id])
+    respond_with(@workout.workout_entries.all)
+  end
+
   def create
     @workout = current_user.workouts.find(params[:workout_id])
     if @workout

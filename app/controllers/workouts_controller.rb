@@ -15,29 +15,40 @@ class WorkoutsController < ApplicationController
   def create
 
     #respond_with(current_user.workouts.create(params[:workout]))
-    def workout_Fields_Satisfy
+    def workout_Fields_Satisfy(backup_orig_params)
       puts "ok save"
       @workout = current_user.workouts.first
-      puts @workout
+      #puts @workout
+
+      puts "can it reference the backup variable"
+      backup_orig_params.delete("unit")
+      backup_orig_params.delete("name")
+      backup_orig_params[:workout_entry][:workout_id] = @workout[:id]
+
+      puts backup_orig_params
     end
 
-    the_params = params[:workout]
-    backup = the_params.dup
+    params_copy = params[:workout]
+    backup_orig_params = params_copy.dup
     puts "the params in a variable"
-    puts the_params
+    puts params_copy
 
-    puts 'attempt delete portion of params'
-    the_params.delete("something")
+    puts 'delete portion of params'
+    params_copy.delete("workout_entry")
 
-    puts "is it backup still good?"
-    puts backup
+
+
+
 
     puts "does the params  have deleted key"
-    puts the_params
+    puts params_copy
 
 
 
-    respond_with(current_user.workouts.create(params[:workout]), :callback => workout_Fields_Satisfy)
+    respond_with(current_user.workouts.create(params[:workout]), :callback => workout_Fields_Satisfy(backup_orig_params))
+
+    puts "is it backup still good?"
+    puts backup_orig_params
   end
 
   def update

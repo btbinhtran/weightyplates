@@ -21,9 +21,14 @@ class Weightyplates.Views.workoutForm extends Backbone.View
       dataType: "JSON"
       data:
         "workout":
-          "unit": "kg",
-          "name": "a name",
-          "something": 'just a little something'
+          "unit": "kg"
+          "name": "a name"
+          "workout_entry":
+            "exercise_id": 1
+            "workout_id": null
+
+
+
       success: () ->
         console.log "successful post"
 
