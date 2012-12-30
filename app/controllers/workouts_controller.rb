@@ -2,8 +2,6 @@ class WorkoutsController < ApplicationController
   respond_to :json
   before_filter :authenticate_user!
 
-
-
   def index
     respond_with(current_user.workouts)
   end
@@ -20,12 +18,20 @@ class WorkoutsController < ApplicationController
       @workout = current_user.workouts.first
       #puts @workout
 
-      puts "can it reference the backup variable"
+      puts "can it reference the backup variable?"
       backup_orig_params.delete("unit")
       backup_orig_params.delete("name")
       backup_orig_params[:workout_entry][:workout_id] = @workout[:id]
 
       puts backup_orig_params
+
+      puts "workout_entries"
+
+      if @workout
+        puts "that workout exist"
+        respond_with(@workout.workout_entries.create(backup_orig_params))
+      end
+
     end
 
     params_copy = params[:workout]
@@ -36,11 +42,7 @@ class WorkoutsController < ApplicationController
     puts 'delete portion of params'
     params_copy.delete("workout_entry")
 
-
-
-
-
-    puts "does the params  have deleted key"
+    puts "does the params have deleted key"
     puts params_copy
 
 
