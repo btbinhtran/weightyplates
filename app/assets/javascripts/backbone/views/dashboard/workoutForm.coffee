@@ -34,8 +34,8 @@ class Weightyplates.Views.workoutForm extends Backbone.View
 
       error:(jqXHR, textStatus, errorThrown) ->
         console.log(
-          "The following error occured: "+
-          textStatus, errorThrown
+          "The following error occured: " +
+           textStatus + errorThrown
         )
 
 

@@ -27,13 +27,13 @@ describe WorkoutsController do
   end
 
   describe "create workout" do
-    it "should throw errors if there are missing attributes" do
+    it "should not throw errors with defaulted units and defaulted name" do
       post :create, format: :json
-      @response.body.should have_json_path("errors")
+      @response.body.should_not have_json_path("errors")
     end
 
     it "should add a workout" do
-      wo = { name: "Blah blah", unit: "lb" }
+      wo = { name: "Blah blah", unit: "lb", workout_entry: { exercise_id: 1, workout_id: 2} }
       expect do
         post(:create, workout: wo)
       end.to change(user.workouts, :count).by(1)

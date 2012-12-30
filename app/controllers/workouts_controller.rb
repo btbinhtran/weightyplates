@@ -33,13 +33,12 @@ class WorkoutsController < ApplicationController
 
     #params is the original params
     #formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
-    params_copy = params[:workout]
 
     #backup_orig_params is a shallow copy for backup
-    backup_orig_params = params_copy.dup
+    backup_orig_params = params[:workout].dup
 
     #need to remove workout_entry to be able to write workout
-    params_copy.delete("workout_entry")
+    params[:workout].delete("workout_entry")
 
     #the callback will create the workout_entry for the given workout
     respond_with(current_user.workouts.create(params[:workout]), :callback => workout_Fields_Satisfy(backup_orig_params))
