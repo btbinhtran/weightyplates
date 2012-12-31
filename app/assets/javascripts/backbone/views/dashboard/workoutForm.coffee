@@ -21,10 +21,10 @@ class Weightyplates.Views.workoutForm extends Backbone.View
       dataType: "JSON"
       data:
         "workout":
-          "unit": "kg"
+          "unit": $('.add-workout-units').text()
           "name": $('.dashboard-workout-name-input').val() || new Date()
           "workout_entry":
-            "exercise_id": 1
+            "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
             "workout_id": null
 
 
