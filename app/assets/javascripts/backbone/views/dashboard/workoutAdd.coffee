@@ -73,6 +73,8 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
       dataTypeAttribute = "data-type='" + (theModels[entry].get "type") + "' "
 
       exerciseName = theModels[entry].get "name"
+      exerciseName = exerciseName.replace(/'/g, '&#039;')
+
       valueAttribute = "value='" + exerciseName + "'"
 
       optionEntry = "<option " + dataIdAttribute + dataEquipmentAttribute + dataForceAttribute + dataIsSportAttribute + dataLevelAttribute + dataMechanicsAttribute + dataMuscleAttribute + dataTypeAttribute  + valueAttribute + ">" + exerciseName + "</option>"
