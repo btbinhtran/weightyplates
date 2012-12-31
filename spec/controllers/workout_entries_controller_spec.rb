@@ -23,6 +23,13 @@ describe WorkoutEntriesController do
         post(:create, workout_entry: wo_entry, workout_id: workout.id)
       end.to change(workout.workout_entries, :count).by(1)
     end
+
+    it "should not have errors when a workout entry is successfully created" do
+      wo_entry = { :exercise_id => exercise.id }
+      post(:create, workout_entry: wo_entry, workout_id: workout.id)
+      @response.body.should_not have_json_path("errors")
+    end
+
   end
 
   describe "update workout entry" do

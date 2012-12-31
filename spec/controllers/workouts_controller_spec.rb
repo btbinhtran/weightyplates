@@ -27,8 +27,9 @@ describe WorkoutsController do
   end
 
   describe "create workout" do
-    it "should not throw errors with defaulted units and defaulted name" do
-      post :create, format: :json
+    it "should not throw errors with defaulted units and name with additional valid details" do
+      wo = { name: "Blah blah", unit: "lb", workout_entry: { exercise_id: 1, workout_id: 2} }
+      post(:create, workout: wo, format: :json)
       @response.body.should_not have_json_path("errors")
     end
 

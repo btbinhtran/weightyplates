@@ -15,11 +15,8 @@ class WorkoutsController < ApplicationController
     #only executes when workout is successfully created
     def workout_Fields_Satisfy(backup_orig_params)
 
-
       #the first actually references the newest created workout
       @workout = current_user.workouts.first
-
-
 
       #create the workout_entry
       if @workout
@@ -46,7 +43,7 @@ class WorkoutsController < ApplicationController
     #formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
 
     #backup_orig_params is a shallow copy for backup
-    backup_orig_params = params[:workout].dup
+    backup_orig_params = params[:workout].dup unless params[:workout].nil?
 
     #need to remove workout_entry to be able to write workout
     params[:workout].delete("workout_entry")
