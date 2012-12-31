@@ -64,7 +64,7 @@
                                                     <input class="add-workout-exercise-entry-input">
                                                 </div>
                                                 <div class="span2">
-                                                    <p class="add-workout-units">kg</p>
+                                                    <p class="add-workout-units">lb</p>
                                                 </div>
                                             </div>
                                         </div>

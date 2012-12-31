@@ -62,7 +62,22 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     optionsList = []
     optionsList.push("<option></option>")
     while entry < theCollectionLength
-      optionsList.push("<option>#{ theModels[entry].get "name" }</option>")
+
+      dataIdAttribute = "data-id='" + (theModels[entry].get "id") + "' "
+      dataEquipmentAttribute = "data-equipment='" + (theModels[entry].get "equipment") + "' "
+      dataForceAttribute = "data-force='" + (theModels[entry].get "force") + "' "
+      dataIsSportAttribute = "data-isSport='" + (theModels[entry].get "is_sport") + "' "
+      dataLevelAttribute = "data-level='" + (theModels[entry].get "level") + "' "
+      dataMechanicsAttribute = "data-force='" + (theModels[entry].get "mechanics") + "' "
+      dataMuscleAttribute = "data-muscle='" + (theModels[entry].get "muscle") + "' "
+      dataTypeAttribute = "data-type='" + (theModels[entry].get "type") + "' "
+
+      exerciseName = theModels[entry].get "name"
+      valueAttribute = "value='" + exerciseName + "'"
+
+      optionEntry = "<option " + dataIdAttribute + dataEquipmentAttribute + dataForceAttribute + dataIsSportAttribute + dataLevelAttribute + dataMechanicsAttribute + dataMuscleAttribute + dataTypeAttribute  + valueAttribute + ">" + exerciseName + "</option>"
+
+      optionsList.push(optionEntry)
       entry++
 
     $('#workout-form-container').find('.add-workout-exercise-drop-downlist').html(optionsList)
