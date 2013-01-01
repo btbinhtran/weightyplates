@@ -6,17 +6,16 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     'click #add-workout': 'addWorkoutFormState'
 
   initialize: ->
-    @model = new Weightyplates.Models.DashboardState()
-    @model.fetch()
 
   render: ->
+
     $(@el).html(@template())
+
     this
 
-  saveWorkout: ->
-    alert "attempt save"
-
   addWorkoutFormState: (event) ->
+    #console.log $(@el)
+
     if @model.defaults.appState[0].addWorkoutForm == true
       $('#add-workout').click (event)->
         event.preventDefault()
