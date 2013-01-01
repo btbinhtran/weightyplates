@@ -9,6 +9,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
 
   render: ->
     $(@el).html(@template())
+
     this
 
   addWorkoutFormState: (event) ->
