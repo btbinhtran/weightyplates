@@ -1,0 +1,1 @@
+class Weightyplates.Models.ListOfExercises extends Backbone.Model

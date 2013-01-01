@@ -8,9 +8,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
   initialize: ->
 
   render: ->
-
     $(@el).html(@template())
-
     this
 
   addWorkoutFormState: (event) ->
@@ -47,36 +45,32 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
           hideAddWorkoutDialog()
           appStateForm = false
 
-    @collection = new Weightyplates.Collections.DashboardItems()
-    @collection.fetch()
-    @collection.on('reset', @theCollectionLoaded, this)
+    @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
 
-  theCollectionLoaded: ->
-    thisIsMe = @collection
-    theModels = thisIsMe.models
-    theCollectionLength = thisIsMe.length
+    @theListOfExercisesLoaded()
+
+  theListOfExercisesLoaded: ->
+
+    theExerciseModel = @modelOfExercises.attributes.model
+    theExerciseModelLength = theExerciseModel.length
 
     entry = 0
     optionsList = []
     optionsList.push("<option></option>")
-    while entry < theCollectionLength
 
-      dataIdAttribute = "data-id='" + (theModels[entry].get "id") + "' "
-      dataEquipmentAttribute = "data-equipment='" + (theModels[entry].get "equipment") + "' "
-      dataForceAttribute = "data-force='" + (theModels[entry].get "force") + "' "
-      dataIsSportAttribute = "data-isSport='" + (theModels[entry].get "is_sport") + "' "
-      dataLevelAttribute = "data-level='" + (theModels[entry].get "level") + "' "
-      dataMechanicsAttribute = "data-mechanics='" + (theModels[entry].get "mechanics") + "' "
-      dataMuscleAttribute = "data-muscle='" + (theModels[entry].get "muscle") + "' "
-      dataTypeAttribute = "data-type='" + (theModels[entry].get "type") + "' "
-
-      exerciseName = theModels[entry].get "name"
+    while entry < theExerciseModelLength
+      dataIdAttribute = "data-id='" + (theExerciseModel[entry].id) + "' "
+      dataEquipmentAttribute = "data-equipment='" + (theExerciseModel[entry].equipment) + "' "
+      dataForceAttribute = "data-force='" + (theExerciseModel[entry].force) + "' "
+      dataIsSportAttribute = "data-isSport='" + (theExerciseModel[entry].is_sport) + "' "
+      dataLevelAttribute = "data-level='" + (theExerciseModel[entry].level) + "' "
+      dataMechanicsAttribute = "data-mechanics='" + (theExerciseModel[entry].mechanics) + "' "
+      dataMuscleAttribute = "data-muscle='" + (theExerciseModel[entry].muscle) + "' "
+      dataTypeAttribute = "data-type='" + (theExerciseModel[entry].type) + "' "
+      exerciseName = theExerciseModel[entry].name
       exerciseName = exerciseName.replace(/'/g, '&#039;')
-
       valueAttribute = "value='" + exerciseName + "'"
-
       optionEntry = "<option " + dataIdAttribute + dataEquipmentAttribute + dataForceAttribute + dataIsSportAttribute + dataLevelAttribute + dataMechanicsAttribute + dataMuscleAttribute + dataTypeAttribute  + valueAttribute + ">" + exerciseName + "</option>"
-
       optionsList.push(optionEntry)
       entry++
 
