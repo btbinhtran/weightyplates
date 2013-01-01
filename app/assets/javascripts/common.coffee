@@ -4,3 +4,4 @@ $(document).ready () ->
   $('#close-button').click ->
     $('#flash_notice').remove()
 
+

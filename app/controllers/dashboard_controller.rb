@@ -10,7 +10,9 @@ class DashboardController < ApplicationController
 
 
   def index
-    @preload_data = File.read("#{Rails.root}/db/exercises.json")
+    @exercises = Exercise.all
+    #@preload_data = File.read("#{Rails.root}/db/exercises.json")
+    gon.rabl
   end
 
 end

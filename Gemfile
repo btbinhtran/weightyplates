@@ -10,6 +10,7 @@ gem 'doorkeeper', '~> 0.6.2'
 gem "rabl", "~> 0.7.9"
 gem "rails-backbone", "~> 0.8.0"
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :git => 'git://github.com/anjlab/bootstrap-rails.git', :branch => 'v2.2.2.x'
+gem "gon", "~> 4.0.2"
 
 
 # Gems used only for assets and not required

@@ -77,6 +77,9 @@ GEM
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
     ffi (1.2.0)
+    gon (4.0.2)
+      actionpack (>= 2.3.0)
+      json
     growl (1.0.3)
     guard (1.5.4)
       listen (>= 0.4.2)
@@ -234,6 +237,7 @@ DEPENDENCIES
   doorkeeper (~> 0.6.2)
   execjs (= 1.4.0)
   factory_girl_rails (= 4.1.0)
+  gon (~> 4.0.2)
   growl (= 1.0.3)
   guard-rspec (= 2.2.1)
   guard-spork (= 1.2.3)
