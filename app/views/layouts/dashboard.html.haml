@@ -6,7 +6,7 @@
     = stylesheet_link_tag "dashboard/dashboard"
 
     = javascript_include_tag "dashboard"
-
+    = content_tag 'script', '', id: 'preload-data', data: {preload: @preload_data}
     = csrf_meta_tags
   %body
     = render 'shared/navbar'

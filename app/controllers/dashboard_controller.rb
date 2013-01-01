@@ -10,7 +10,8 @@ class DashboardController < ApplicationController
 
 
   def index
-
+    @preload_data = 'some data in advance'
+    render :layout => 'dashboard'
   end
 
 end

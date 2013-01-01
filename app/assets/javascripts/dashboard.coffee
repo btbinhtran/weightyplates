@@ -21,7 +21,7 @@ window.Weightyplates =
   Routers: {}
   Views: {}
   init: -> #alert "Here"
-    new Weightyplates.Routers.Dashboard
+    new Weightyplates.Routers.Dashboard()
     Backbone.history.start()
 
 $(document).ready ->
