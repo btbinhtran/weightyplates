@@ -1,5 +1,7 @@
 %div.dashboard
-  #preload{"data-preload" => render(template: "dashboard/index.json.rabl")}
+
+  = content_tag 'div', '', id: 'preload-data', data: {preload: @preload_data}
+
   .row-fluid.dashboard-main-header-row
     .span12
       %h2#dashboard-header.span6 Workout

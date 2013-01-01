@@ -14,7 +14,6 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     this
 
   addWorkoutFormState: (event) ->
-    #console.log $(@el)
 
     if @model.defaults.appState[0].addWorkoutForm == true
       $('#add-workout').click (event)->
