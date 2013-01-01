@@ -67,7 +67,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
       dataForceAttribute = "data-force='" + (theModels[entry].get "force") + "' "
       dataIsSportAttribute = "data-isSport='" + (theModels[entry].get "is_sport") + "' "
       dataLevelAttribute = "data-level='" + (theModels[entry].get "level") + "' "
-      dataMechanicsAttribute = "data-force='" + (theModels[entry].get "mechanics") + "' "
+      dataMechanicsAttribute = "data-mechanics='" + (theModels[entry].get "mechanics") + "' "
       dataMuscleAttribute = "data-muscle='" + (theModels[entry].get "muscle") + "' "
       dataTypeAttribute = "data-type='" + (theModels[entry].get "type") + "' "
 
