@@ -28,13 +28,13 @@ describe WorkoutsController do
 
   describe "create workout" do
     it "should not throw errors with defaulted units and name with additional valid details" do
-      wo = { name: "Blah blah", unit: "lb", workout_entry: { exercise_id: 1, workout_id: 2} }
+      wo = { "name" =>"Blah blah", "unit" => "lb", "workout_entry" => { '0' => {exercise_id: 1, workout_id: 2 },  '1' => {exercise_id: 1, workout_id: 2 } } }
       post(:create, workout: wo, format: :json)
       @response.body.should_not have_json_path("errors")
     end
 
     it "should add a workout" do
-      wo = { name: "Blah blah", unit: "lb", workout_entry: { exercise_id: 1, workout_id: 2} }
+      wo = { "name" =>"Blah blah", "unit" => "lb", "workout_entry" => { '0' => {exercise_id: 1, workout_id: 2 },  '1' => {exercise_id: 1, workout_id: 2 } } }
       expect do
         post(:create, workout: wo)
       end.to change(user.workouts, :count).by(1)

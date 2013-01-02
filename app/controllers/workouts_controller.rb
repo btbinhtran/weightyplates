@@ -22,23 +22,23 @@ class WorkoutsController < ApplicationController
       @workout = current_user.workouts.first
 
       #create the workout_entry
-      if @workout
-        #backup is formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
-        #but only needs workout_entry, so delete the others
-        backup_orig_params.delete("unit")
-        backup_orig_params.delete("name")
 
-        #assign the workout id to each of the workout_entry
-        backup_orig_params[:workout_entry].each do |workout_number, param|
-          param[:workout_id] = @workout[:id]
-        end
+      #backup is formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
+      #but only needs workout_entry, so delete the others
+      backup_orig_params.delete("unit")
+      backup_orig_params.delete("name")
 
-        #create the each workout_entry
-        backup_orig_params[:workout_entry].each_value do |value|
-          @workout.workout_entries.create(value)
-        end
-        return
+      #assign the workout id to each of the workout_entry
+      backup_orig_params[:workout_entry].each do |workout_number, param|
+        param[:workout_id] = @workout[:id]
       end
+
+      #create the each workout_entry
+      backup_orig_params[:workout_entry].each_value do |value|
+        @workout.workout_entries.create(value)
+      end
+      return
+
     end
 
     #params is the original params

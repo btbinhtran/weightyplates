@@ -36,9 +36,6 @@ class Weightyplates.Views.workoutForm extends Backbone.View
               [
                 {
                   "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
-                },
-                {
-                  "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
                 }
 
               ]
