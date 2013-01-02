@@ -11,7 +11,7 @@ class Weightyplates.Views.workoutForm extends Backbone.View
     @$el.html(@template())
 
     $workoutNameInput = $('input.dashboard-workout-name-input')
-    workoutNameHint = "Optional(defaults to timestamp)"
+    workoutNameHint = "Optional (defaults to timestamp)"
 
     $workoutNameInput.val(workoutNameHint).addClass('hint').on("focus", ->
       $(this).val("").removeClass("hint") if $(this).attr('class') == "dashboard-workout-name-input hint"
@@ -32,8 +32,11 @@ class Weightyplates.Views.workoutForm extends Backbone.View
           "unit": $('.add-workout-units').text()
           "name": $('input.dashboard-workout-name-input').val() || new Date()
           "workout_entry":
-            "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
-            "workout_id": null
+            "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id'),
+
+
+
+
 
       success: () ->
         console.log "successful post"

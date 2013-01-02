@@ -12,6 +12,9 @@ class WorkoutsController < ApplicationController
 
   def create
 
+    puts "the params are "
+    puts params[:workout]
+
     #only executes when workout is successfully created
     def workout_Fields_Satisfy(backup_orig_params)
 
@@ -32,11 +35,6 @@ class WorkoutsController < ApplicationController
 
         return
       end
-
-
-
-
-
     end
 
     #params is the original params
