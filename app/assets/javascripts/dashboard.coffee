@@ -13,6 +13,8 @@
 ##= require_tree ./backbone/views/dashboard
 ##= require_tree ./backbone/routers/dashboard
 
+##= require backbone-associations-min.js
+
 ##= require application.js
 
 window.Weightyplates =

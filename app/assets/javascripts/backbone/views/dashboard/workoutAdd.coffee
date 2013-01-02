@@ -60,15 +60,17 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     optionsList.push("<option></option>")
 
     while entry < theExerciseModelLength
-      dataIdAttribute = "data-id='" + (theExerciseModel[entry].id) + "' "
-      dataEquipmentAttribute = "data-equipment='" + (theExerciseModel[entry].equipment) + "' "
-      dataForceAttribute = "data-force='" + (theExerciseModel[entry].force) + "' "
-      dataIsSportAttribute = "data-isSport='" + (theExerciseModel[entry].is_sport) + "' "
-      dataLevelAttribute = "data-level='" + (theExerciseModel[entry].level) + "' "
-      dataMechanicsAttribute = "data-mechanics='" + (theExerciseModel[entry].mechanics) + "' "
-      dataMuscleAttribute = "data-muscle='" + (theExerciseModel[entry].muscle) + "' "
-      dataTypeAttribute = "data-type='" + (theExerciseModel[entry].type) + "' "
-      exerciseName = theExerciseModel[entry].name
+      theEntry = theExerciseModel[entry]
+
+      dataIdAttribute = "data-id='" + (theEntry.id) + "' "
+      dataEquipmentAttribute = "data-equipment='" + (theEntry.equipment) + "' "
+      dataForceAttribute = "data-force='" + (theEntry.force) + "' "
+      dataIsSportAttribute = "data-isSport='" + (theEntry.is_sport) + "' "
+      dataLevelAttribute = "data-level='" + (theEntry.level) + "' "
+      dataMechanicsAttribute = "data-mechanics='" + (theEntry.mechanics) + "' "
+      dataMuscleAttribute = "data-muscle='" + (theEntry.muscle) + "' "
+      dataTypeAttribute = "data-type='" + (theEntry.type) + "' "
+      exerciseName = theEntry.name
       exerciseName = exerciseName.replace(/'/g, '&#039;')
       valueAttribute = "value='" + exerciseName + "'"
       optionEntry = "<option " + dataIdAttribute + dataEquipmentAttribute + dataForceAttribute + dataIsSportAttribute + dataLevelAttribute + dataMechanicsAttribute + dataMuscleAttribute + dataTypeAttribute  + valueAttribute + ">" + exerciseName + "</option>"
