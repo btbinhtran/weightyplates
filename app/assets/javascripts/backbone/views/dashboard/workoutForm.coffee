@@ -23,6 +23,9 @@ class Weightyplates.Views.workoutForm extends Backbone.View
     this
 
   saveWorkout: ->
+
+
+
     $.ajax
       type: "POST"
       url: "/api/workouts"
@@ -31,7 +34,13 @@ class Weightyplates.Views.workoutForm extends Backbone.View
         "workout":
           {
             "unit": $('.add-workout-units').text()
-            "name": $('input.dashboard-workout-name-input').val() || new Date()
+            "name":
+              (->
+                if $("input.dashboard-workout-name-input hint").length is 0
+                  new Date()
+                else
+                  $("input.dashboard-workout-name-input").val()
+              )()
             "workout_entry":
               [
                 {
