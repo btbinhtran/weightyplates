@@ -28,11 +28,15 @@ class WorkoutsController < ApplicationController
         backup_orig_params.delete("unit")
         backup_orig_params.delete("name")
 
-        #assign the workout id to the workout_entry
-        backup_orig_params[:workout_entry][:workout_id] = @workout[:id]
+        #assign the workout id to each of the workout_entry
+        backup_orig_params[:workout_entry].each do |workout_number, param|
+          param[:workout_id] = @workout[:id]
+        end
 
-        @workout.workout_entries.create(backup_orig_params[:workout_entry])
-
+        #create the each workout_entry
+        backup_orig_params[:workout_entry].each_value do |value|
+          @workout.workout_entries.create(value)
+        end
         return
       end
     end
