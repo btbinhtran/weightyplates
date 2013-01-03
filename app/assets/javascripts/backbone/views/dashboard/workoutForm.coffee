@@ -6,10 +6,19 @@ class Weightyplates.Views.workoutForm extends Backbone.View
 
   events:
     'click #last-row-save-button': 'saveWorkout'
+    'click #collapse-button': 'hideAddWorkoutDialog'
 
   initialize: ->
     @$el.html(@template())
 
+
+  render: ->
+
+    this
+
+
+
+  hintInWorkoutName: ->
     $workoutNameInput = $('input.dashboard-workout-name-input')
     workoutNameHint = "Optional (defaults to timestamp)"
 
@@ -19,13 +28,15 @@ class Weightyplates.Views.workoutForm extends Backbone.View
       $(this).val(workoutNameHint).addClass "hint" if $(this).val().length == 0
     )
 
-  render: ->
-    this
+  hideAddWorkoutDialog: ->
+    console.log "clicking"
+    $('.dashboard-add-workout-modal-row-show')
+      .addClass("dashboard-add-workout-modal-row")
+      .removeClass("dashboard-add-workout-modal-row-show")
+    console.log appStateForm
+    #appStateForm = false
 
   saveWorkout: ->
-
-
-
     $.ajax
       type: "POST"
       url: "/api/workouts"

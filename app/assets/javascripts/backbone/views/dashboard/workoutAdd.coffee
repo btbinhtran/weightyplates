@@ -9,37 +9,30 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
 
   render: ->
     $(@el).html(@template())
-
     this
 
-  addWorkoutFormState: (event) ->
 
+
+  addWorkoutFormState: (event) ->
     if @model.defaults.appState[0].addWorkoutForm == true
-      $('#add-workout').click (event)->
-        event.preventDefault()
+      event.preventDefault()
     else if @model.defaults.appState[0].addWorkoutForm == false
       @loadWorkoutForm(event)
 
   loadWorkoutForm: (event) ->
+    addWorkoutView = new Weightyplates.Views.workoutForm(model: @model)
+
     @model.defaults.appState[0].addWorkoutForm = true
     appStateForm = @model.defaults.appState[0].addWorkoutForm
 
-    addWorkoutView = new Weightyplates.Views.workoutForm()
 
-    $("#add-workout").click ->
-      @blur()
-      $(".dashboard-add-workout-modal-row")
-        .addClass("dashboard-add-workout-modal-row-show row-fluid")
-        .removeClass "dashboard-add-workout-modal-row"
 
-    hideAddWorkoutDialog = ->
-      $('.dashboard-add-workout-modal-row-show')
-        .addClass("dashboard-add-workout-modal-row")
-        .removeClass("dashboard-add-workout-modal-row-show")
+    event.target.blur()
 
-    $('#collapse-button').click ->
-      hideAddWorkoutDialog()
-      appStateForm = false
+    $(".dashboard-add-workout-modal-row")
+      .addClass("dashboard-add-workout-modal-row-show row-fluid")
+      .removeClass "dashboard-add-workout-modal-row"
+
 
     $(document).on "keypress", (event) ->
         if event.keyCode == 27
@@ -79,10 +72,6 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
 
     $('#workout-form-container .add-workout-exercise-drop-downlist').html(optionsList)
 
-    hideAddWorkoutDialog = ->
-      $('.dashboard-add-workout-modal-row-show')
-        .addClass("dashboard-add-workout-modal-row")
-        .removeClass("dashboard-add-workout-modal-row-show")
 
 
 
