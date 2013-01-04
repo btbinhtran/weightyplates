@@ -3,13 +3,10 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     '': 'index'
 
   initialize: ->
-
-    bunchOfModels = []
-    bunchOfModels.push(dashboardState = new Weightyplates.Models.DashboardState())
-    bunchOfModels.push(workoutFormInputs = new Weightyplates.Models.WorkoutFormInputs())
-
-    @collection = new Weightyplates.Collections.DashboardItems(bunchOfModels)
-
+    @collection = new Weightyplates.Collections.DashboardItems([
+      new Weightyplates.Models.DashboardState(),
+      new Weightyplates.Models.WorkoutFormInputs()
+    ])
 
     @collection.fetch()
 

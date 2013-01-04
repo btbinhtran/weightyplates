@@ -5,6 +5,7 @@ class Weightyplates.Models.DashboardState extends Backbone.Model
   defaults:
     onIndexDashboard: true
     showingWorkoutForm: false
+    hidingWorkoutForm: false
 
 
 

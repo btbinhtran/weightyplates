@@ -19,14 +19,15 @@ class Weightyplates.Views.workoutForm extends Backbone.View
   render: ->
     this
 
+  getEventTarget: (event)->
+    $(event.target)
+
   focusInWorkoutName: (event) ->
-    eventTarget = event.target
-    $this = $(eventTarget)
+    $this = @getEventTarget(event)
     $this.val("").removeClass("hint") if $this.attr('class') == "dashboard-workout-name-input hint"
 
   blurInWorkoutName: (event) ->
-    eventTarget = event.target
-    $this = $(eventTarget)
+    $this = @getEventTarget(event)
     $this.val(@modelWorkoutFormState.get "workoutNameHint").addClass "hint" if $this.val().length == 0
 
   hintInWorkoutName: ->
@@ -36,6 +37,7 @@ class Weightyplates.Views.workoutForm extends Backbone.View
   hideAddWorkoutDialog: (event) ->
     if event.keyCode == 27
       @model.set("showingWorkoutForm", false)
+      @model.set("hidingWorkoutForm", true)
       $('.dashboard-add-workout-modal-row-show')
         .addClass("dashboard-add-workout-modal-row")
         .removeClass("dashboard-add-workout-modal-row-show")
@@ -51,10 +53,11 @@ class Weightyplates.Views.workoutForm extends Backbone.View
             "unit": $('.add-workout-units').text()
             "name":
               (->
-                if $("input.dashboard-workout-name-input hint").length is 0
+                $inputWorkoutName = $("input.dashboard-workout-name-input")
+                if $inputWorkoutName.length && $inputWorkoutName.not(".hint") > 0
+                  $inputWorkoutName.val()
+                else if $inputWorkoutName.hasClass('hint')
                   new Date()
-                else
-                  $("input.dashboard-workout-name-input").val()
               )()
             "workout_entry":
               [
@@ -64,15 +67,8 @@ class Weightyplates.Views.workoutForm extends Backbone.View
 
               ]
           }
-
-
-
-
-
-
       success: () ->
         console.log "successful post"
-
       error: (jqXHR, textStatus, errorThrown) ->
         console.log(
           "The following error occurred: " +

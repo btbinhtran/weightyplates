@@ -14,19 +14,24 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
   addWorkoutFormState: (event) ->
     if @collection.models[0].get("showingWorkoutForm") == true
       event.preventDefault()
-    else
-      @collection.models[0].get("showingWorkoutForm") == false
-      @loadWorkoutForm(event)
+    else if @collection.models[0].get("showingWorkoutForm") == false && @collection.models[0].get("hidingWorkoutForm") == false
+      event.target.blur()
+      @loadWorkoutForm()
+    else if @collection.models[0].get("hidingWorkoutForm") == true
+      @collection.models[0].set("showingWorkoutForm", false)
+      @collection.models[0].set("hidingWorkoutForm", false)
+      $('.dashboard-add-workout-modal-row')
+        .addClass("dashboard-add-workout-modal-row-show")
+        .removeClass("dashboard-add-workout-modal-row")
 
-  loadWorkoutForm: (event) ->
+  loadWorkoutForm: () ->
     addWorkoutView = new Weightyplates.Views.workoutForm(model: @collection.models[0])
     @collection.models[0].set("showingWorkoutForm", true)
-    event.target.blur()
     @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
     @theListOfExercisesLoaded()
 
   theListOfExercisesLoaded: ->
-
+    console.log "adding"
     theExerciseModel = @modelOfExercises.attributes.model
     theExerciseModelLength = theExerciseModel.length
 
