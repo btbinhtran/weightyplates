@@ -6,7 +6,7 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
 
     bunchOfModels = []
     bunchOfModels.push(dashboardState = new Weightyplates.Models.DashboardState())
-    bunchOfModels.push(workoutEntry = new Weightyplates.Models.WorkoutEntry())
+    bunchOfModels.push(workoutFormInputs = new Weightyplates.Models.WorkoutFormInputs())
 
     @collection = new Weightyplates.Collections.DashboardItems(bunchOfModels)
 
