@@ -3,11 +3,18 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     '': 'index'
 
   initialize: ->
-    @model = new Weightyplates.Models.DashboardState
-    @model.fetch()
+
+    bunchOfModels = []
+    bunchOfModels.push(dashboardState = new Weightyplates.Models.DashboardState())
+    bunchOfModels.push(workoutEntry = new Weightyplates.Models.WorkoutEntry())
+
+    @collection = new Weightyplates.Collections.DashboardItems(bunchOfModels)
+
+
+    @collection.fetch()
 
   index: ->
-    viewButton = new Weightyplates.Views.WorkoutEntryButton(model: @model)
+    viewButton = new Weightyplates.Views.WorkoutEntryButton(collection: @collection)
     $('.add-workout-button-area').html(viewButton.render().el)
 
 

@@ -8,7 +8,7 @@ gem 'jquery-rails', '2.1.4'
 gem "thin", "1.5.0"
 gem 'doorkeeper', '~> 0.6.2'
 gem "rabl", "~> 0.7.9"
-gem "rails-backbone", "~> 0.8.0"
+gem "backbone-on-rails", "~> 0.9.9.0"
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :git => 'git://github.com/anjlab/bootstrap-rails.git', :branch => 'v2.2.2.x'
 gem "gon", "~> 4.0.2"
 
