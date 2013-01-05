@@ -1,4 +1,4 @@
-class Weightyplates.Views.workoutForm extends Backbone.View
+class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   template: JST['dashboard/workout_form']
 
@@ -8,11 +8,15 @@ class Weightyplates.Views.workoutForm extends Backbone.View
     'click #last-row-save-button': 'saveWorkout'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
-    'click #collapse-button': 'closeAddWorkoutDialog'
+    'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
 
   initialize: ->
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
     @$el.html(@template())
+    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
+
+    $('#workout-entry-exercise-row').html(viewExerciseEntry.render().el)
+
     _.bindAll(this);
     $(document).on('keypress', this.closeAddWorkoutDialog);
     @hintInWorkoutName()

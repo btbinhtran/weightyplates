@@ -1,0 +1,41 @@
+.row-fluid
+  .span10.offset1.dashboard-add-workout-exercise.min-row-height
+    .row-fluid
+      .span3
+        %label.add-workout-exercise-label Exercise
+      .span6
+        %select.add-workout-exercise-drop-downlist
+      .span3
+        .span4
+          %button.add-workout-exercise-filter F
+        .span4
+          %button.add-workout-exercise-add-button +
+        .span4
+          %button.add-workout-exercise-remove-button -
+.row-fluid
+  .span10.offset1.dashboard-exercise-set.min-row-height
+    .row-fluid
+      .span2.indent-set-spacer
+      .span1.color-set-number
+        %label.add-workout-set-label S1
+      .span6.color-weights-and-reps-items
+        .row-fluid
+          .span7
+            .row-fluid
+              .span12
+                .span4
+                  %label.add-workout-exercise-entry-label Weight
+                .span6
+                  %input.add-workout-exercise-entry-input
+                .span2
+                  %p.add-workout-units lb
+          .span5
+            .span6
+              %label.add-workout-reps-label Reps
+            .span6
+              %input.add-workout-reps-input
+      .span3.color-weights-and-reps-items
+        .span4.offset4
+          %button.add-workout-reps-add-button +
+        .span4
+          %button.add-workout-reps-remove-button -

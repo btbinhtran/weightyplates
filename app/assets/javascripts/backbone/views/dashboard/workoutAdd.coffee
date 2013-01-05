@@ -26,7 +26,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
       @collection.models[0].set("hidingWorkoutForm", false)
 
   loadWorkoutForm: () ->
-    addWorkoutView = new Weightyplates.Views.workoutForm(model: @collection.models[0])
+    addWorkoutView = new Weightyplates.Views.WorkoutForm(model: @collection.models[0])
     @collection.models[0].set("showingWorkoutForm", true)
     @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
     @theListOfExercisesLoaded()
