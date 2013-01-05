@@ -9,13 +9,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
+    'click .add-workout-exercise-add-button': 'addExercise'
 
   initialize: ->
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
     @$el.html(@template())
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
 
-    $('#workout-entry-exercise-row').html(viewExerciseEntry.render().el)
+    $('.workout-entry-exercise-row').html(viewExerciseEntry.render().el)
 
     _.bindAll(this);
     $(document).on('keypress', this.closeAddWorkoutDialog);
@@ -46,6 +47,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       $('.dashboard-add-workout-modal-row-show')
         .addClass("dashboard-add-workout-modal-row")
         .removeClass("dashboard-add-workout-modal-row-show")
+
+  addExercise: ->
+    console.log "adding exercise"
+    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
+    $('.workout-entry-exercise-row').last().after().append(viewExerciseEntry.render().el)
 
   saveWorkout: ->
     $.ajax
