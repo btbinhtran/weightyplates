@@ -9,30 +9,20 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
-    'click .add-workout-exercise-add-button': 'addExercise'
-    'click .add-workout-exercise-remove-button': 'removeExercise'
 
   initialize: ->
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
-
-    @$el.html(@template())
-
-    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
-
     @modelWorkoutFormInputs = new Weightyplates.Models.WorkoutFormInputs
+    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState, callingFrom: "form")
+    @render(viewExerciseEntry)
 
-
-    exerciseViews = @modelWorkoutFormInputs.get("exerciseViews")
-    exerciseViews.push viewExerciseEntry
-    @modelWorkoutFormInputs.set("exerciseViews", exerciseViews)
-
-    $('.workout-entry-exercise-row').html(viewExerciseEntry.render().el).attr('id', viewExerciseEntry.cid )
+  render: (viewExerciseEntry)->
+    @$el.html(@template())
+    $('.workout-entry-exercise-row').append(viewExerciseEntry.render().el)
 
     _.bindAll(this);
     $(document).on('keypress', this.closeAddWorkoutDialog);
     @hintInWorkoutName()
-
-  render: ->
     this
 
   getEventTarget: (event)->
@@ -57,41 +47,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       $('.dashboard-add-workout-modal-row-show')
         .addClass("dashboard-add-workout-modal-row")
         .removeClass("dashboard-add-workout-modal-row-show")
-
-  addExercise: ->
-    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
-
-    exerciseViews = @modelWorkoutFormInputs.get("exerciseViews")
-    exerciseViews.push viewExerciseEntry
-    @modelWorkoutFormInputs.set("exerciseViews", exerciseViews)
-
-
-
-    $('.workout-entry-exercise-row').last().after().append(viewExerciseEntry.render().el)
-
-  removeExercise: (event)->
-    #console.log @
-    #console.log event
-    console.log event.target
-
-
-    viewId = $(event.target).closest('.workout-entry-exercise-row').attr("id")
-    #  .closest('.workout-entry-exercise-row')
-    #console.log event.target.constructor()
-    ##console.log @modelWorkoutFormInputs
-    exerciseViews = @modelWorkoutFormInputs.get("exerciseViews")
-    ##console.log exerciseViews
-    #delete exerciseViews[0]
-    _.each(exerciseViews, (view)->
-
-      #console.log view
-      #if viewId == view.cid
-      console.log view.cid
-      #view.remove()
-      #view.off()
-
-      #view.close()
-    )
 
 
   saveWorkout: ->

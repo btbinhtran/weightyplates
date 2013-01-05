@@ -32,7 +32,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     @theListOfExercisesLoaded()
 
   theListOfExercisesLoaded: ->
-    console.log "adding"
+
     theExerciseModel = @modelOfExercises.attributes.model
     theExerciseModelLength = theExerciseModel.length
 
