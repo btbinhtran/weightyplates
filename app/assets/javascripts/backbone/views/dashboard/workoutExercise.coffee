@@ -7,7 +7,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   className: "row-fluid"
 
   initialize: ->
-    @$el.html(@template())
+    @render()
 
   render: ->
+    @$el.html(@template())
     this
