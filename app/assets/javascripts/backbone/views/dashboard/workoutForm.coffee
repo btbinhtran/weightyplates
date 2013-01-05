@@ -10,11 +10,19 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
     'click .add-workout-exercise-add-button': 'addExercise'
+    'click .add-workout-exercise-remove-button': 'removeExercise'
 
   initialize: ->
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
     @$el.html(@template())
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
+
+    @modelWorkoutFormInputs = new Weightyplates.Models.WorkoutFormInputs
+
+
+    exerciseViews = @modelWorkoutFormInputs.get("exerciseViews")
+    exerciseViews.push viewExerciseEntry
+    @modelWorkoutFormInputs.set("exerciseViews", exerciseViews)
 
     $('.workout-entry-exercise-row').html(viewExerciseEntry.render().el)
 
@@ -49,9 +57,31 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         .removeClass("dashboard-add-workout-modal-row-show")
 
   addExercise: ->
-    console.log "adding exercise"
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
+
+    exerciseViews = @modelWorkoutFormInputs.get("exerciseViews")
+    exerciseViews.push viewExerciseEntry
+    @modelWorkoutFormInputs.set("exerciseViews", exerciseViews)
+
+
+
     $('.workout-entry-exercise-row').last().after().append(viewExerciseEntry.render().el)
+
+  removeExercise: ->
+    ##console.log @modelWorkoutFormInputs
+    exerciseViews = @modelWorkoutFormInputs.get("exerciseViews")
+    ##console.log exerciseViews
+    #delete exerciseViews[0]
+    _.each(exerciseViews, (view)->
+
+      view.undelegateEvents()
+
+      view.$el.removeData().off()
+      view.remove()
+      Backbone.View.prototype.remove.call(this)
+      #view.close()
+    )
+
 
   saveWorkout: ->
     $.ajax
