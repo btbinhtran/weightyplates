@@ -2,7 +2,7 @@
 
   .row-fluid.dashboard-main-header-row
     .span12
-      %h2#dashboard-header.span6 Workout
+      %h2#dashboard-header.span6 Dashboard
       .span2.main-category#dashboard-manage
         %a{href: '#'} Manage
       .span2.main-category#dashboard-schedule
@@ -12,7 +12,7 @@
   .row-fluid.dashboard-manage-subcategory-row
     .span12
       .span6#workout-main
-        %a{href: "#"} Main
+        %a{href: "#", class:'dashboard-active-subcategory'} Main
       .span6#past-workouts
         %a{href: '#'} Past Workouts
   .row-fluid.dashboard-upcoming-workouts-row

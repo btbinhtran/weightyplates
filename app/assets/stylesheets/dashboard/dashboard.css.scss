@@ -10,18 +10,30 @@
   }
   .main-category {
     margin-top: 5%;
-    background-color: #d3d3d3;
     text-align: center;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    a {
+      font-size: 1.2em;
+    }
   }
 }
 .dashboard-manage-subcategory-row{
+  position: relative;
   margin-top: 5%;
   .span6{
+    width: 50%;
+    margin-left: 0%;
     text-align: center;
-    background-color: #8b0000;
-    min-height: 35px;
+    background-color: #C2081D;
+    min-height: 40px;
     a{
       color: white;
+      position: absolute;
+      top: 0.2em;
+    }
+    a.dashboard-active-subcategory{
+      font-weight: 600;
     }
   }
 }
@@ -29,6 +41,7 @@
   font-size: 120%;
   p{
     padding-top: 3%;
+    font-size: 0.85em;
   }
 }
 .dashboard-add-workout-button-row{
