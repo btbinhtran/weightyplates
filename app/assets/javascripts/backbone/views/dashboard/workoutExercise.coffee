@@ -9,19 +9,20 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-remove-button': 'removeExercise'
 
   initialize: ()->
+    exerciseCount = @model.get "exerciseCount"
+    exercisePhrase = "Exercise #{exerciseCount}"
+    @render(exercisePhrase, exerciseCount)
+
+  render: (exercisePhrase, exerciseCount)->
     $rowContent = @$el.html()
     $newContent = $rowContent + @template()
     @$el.html($newContent)
-
-    exerciseCount = @model.get "exerciseCount"
-    exercisePhrase = "Exercise #{exerciseCount}"
     @$el.find('.add-workout-exercise-label').last().text(exercisePhrase)
     @model.set("exerciseCount", exerciseCount + 1)
-
-  render: ->
     this
 
   addExercise: (event)->
+    event.preventDefault()
     if  $(event.target).parent().is(":visible") == true
       viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @model, addingExercise: "addExercise")
     #@$el.append(viewExerciseEntry.render().el)
