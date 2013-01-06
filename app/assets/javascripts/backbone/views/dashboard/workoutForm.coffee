@@ -18,7 +18,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   render: (viewExerciseEntry)->
     @$el.html(@template())
-    $('.workout-entry-exercise-row').append(viewExerciseEntry.render().el)
+    $('.workout-entry-exercise-and-sets-row').append(viewExerciseEntry.render().el)
 
     _.bindAll(this);
     $(document).on('keypress', this.closeAddWorkoutDialog);

@@ -14,7 +14,7 @@
               %label#add-workout-name-label Workout Name
             .span9
               %input.dashboard-workout-name-input
-        .row-fluid.workout-entry-exercise-row
+        .row-fluid.workout-entry-exercise-and-sets-row
         .row-fluid
           #last-row-add-note-button.span10.offset1.last-row-buttons-row.min-row-height
             .row-fluid
