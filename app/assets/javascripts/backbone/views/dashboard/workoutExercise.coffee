@@ -20,7 +20,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @$el.find('.add-workout-exercise-label').text(exercisePhrase)
 
     @model.set("exerciseCount", exerciseCount + 1)
-
+    console.log @
 
   render: ->
 
