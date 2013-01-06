@@ -2,18 +2,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   template: JST['dashboard/workout_entry_exercise']
 
-  tagName: "div"
+  el: '.workout-entry-exercise-and-sets-row'
 
-  className: "exercises-and-sets row-fluid"
 
   events:
     'click .add-workout-exercise-add-button': 'addExercise'
     'click .add-workout-exercise-remove-button': 'removeExercise'
 
   initialize: (options)->
+    console.log @$el
 
-
-    @$el.html(@template())
+    @$el.append(@template())
 
     exerciseCount = @model.get "exerciseCount"
     exercisePhrase = "Exercise #{exerciseCount}"
@@ -29,6 +28,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   addExercise: (options)->
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @model, addingExercise: "addExercise")
-    @$el.parent().append(viewExerciseEntry.render().el)
+    #@$el.parent().append(viewExerciseEntry.render().el)
 
   removeExercise: (event)->

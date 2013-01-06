@@ -13,13 +13,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   initialize: ->
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
     @modelWorkoutFormInputs = new Weightyplates.Models.WorkoutFormInputs
-    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState, callingFrom: "form")
-    @render(viewExerciseEntry)
 
-  render: (viewExerciseEntry)->
+    @render()
+
+  render: ()->
     @$el.html(@template())
-    $('.workout-entry-exercise-and-sets-row').append(viewExerciseEntry.render().el)
-
+    #$('.workout-entry-exercise-and-sets-row').append(viewExerciseEntry.render().el)
+    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState, callingFrom: "form")
     _.bindAll(this);
     $(document).on('keypress', this.closeAddWorkoutDialog);
     @hintInWorkoutName()
