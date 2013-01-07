@@ -21,9 +21,7 @@
   padding: 0;
   font-family: 'MolengoRegular';
 }
-a{
-  text-decoration: none;
-}
+
 
 body{
   color: #5d5253;
@@ -82,6 +80,16 @@ label{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5d5253', endColorstr='#ff4f4647', GradientType=0);
   border-color: #545353;
 }
+.navbar-inner{
+  a{
+    text-decoration: none;
+    color: #EFEFEF;
+  }
+  a:hover{
+    color: #DBDBDB;
+    text-decoration: none;
+  }
+}
 /*escaping the period of successfully*/
 .Signed.out.successfully\.{
   background-image: url(image_path('KnobValidGreen.png'));
@@ -107,6 +115,7 @@ label{
 }
 .mainpage-list{
   float: right;
+  margin-top: 3px;
 }
 .mainpage-list li {
   display: inline;

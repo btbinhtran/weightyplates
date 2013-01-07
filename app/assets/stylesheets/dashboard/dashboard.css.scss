@@ -15,6 +15,10 @@
     border-bottom: 2px solid;
     a {
       font-size: 1.2em;
+      color: #5D5253;
+    }
+    a:hover {
+      color: #A2A3A3;
     }
   }
 }
@@ -32,9 +36,21 @@
       position: absolute;
       top: 0.2em;
     }
-    a.dashboard-active-subcategory{
-      font-weight: 600;
-    }
+  }
+  #workout-main a{
+    left: 24%;
+  }
+  #past-workouts a{
+    left: 70%;
+  }
+  .dashboard-active-subcategory{
+    font-weight: 600;
+    -moz-box-shadow: 1px  1px  2px  #2e2d2e;
+    -webkit-box-shadow: 1px  1px  2px  #2e2d2e;
+    box-shadow: 1px  1px  2px  #2e2d2e;
+  }
+  .dashboard-inactive-subcategory{
+    background-color: #CC2538;
   }
 }
 .dashboard-upcoming-workouts-row{
