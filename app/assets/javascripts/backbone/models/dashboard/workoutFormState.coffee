@@ -5,3 +5,4 @@ class Weightyplates.Models.WorkoutFormState extends Backbone.Model
     exerciseCount: 1
     anOptionListFilled: false
     optionListEntries: null
+    attemptExerciseCreation: -1
