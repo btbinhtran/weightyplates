@@ -13,14 +13,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   initialize: ->
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
     @modelWorkoutFormInputs = new Weightyplates.Models.WorkoutFormInputs
-
     @render()
 
   render: ()->
     @$el.html(@template())
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
-    _.bindAll(this);
-    $(document).on('keypress', this.closeAddWorkoutDialog);
+    _.bindAll(this)
+    $(document).on('keypress', this.closeAddWorkoutDialog)
     @hintInWorkoutName()
     this
 
@@ -46,7 +45,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       $('.dashboard-add-workout-modal-row-show')
         .addClass("dashboard-add-workout-modal-row")
         .removeClass("dashboard-add-workout-modal-row-show")
-
 
   saveWorkout: ->
     $.ajax
