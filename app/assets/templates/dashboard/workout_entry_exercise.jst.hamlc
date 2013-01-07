@@ -2,7 +2,7 @@
   .span10.offset1.dashboard-add-workout-exercise.min-row-height
     .row-fluid
       .span3
-        %label.add-workout-exercise-label Exercise
+        %label.add-workout-exercise-label#an-Exercise-label Exercise
       .span6
         %select.add-workout-exercise-drop-downlist
       .span3

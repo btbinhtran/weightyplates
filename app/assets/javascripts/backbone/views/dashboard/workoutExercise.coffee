@@ -12,7 +12,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exerciseCount = @model.get "exerciseCount"
     exercisePhrase = "Exercise #{exerciseCount}"
 
+    ###
     if @model.get("anOptionListFilled") == false
+      console.log "should only run once"
       @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
       theExerciseModel = @modelOfExercises.attributes.model
       theExerciseModelLength = theExerciseModel.length
@@ -36,28 +38,41 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         optionsList.push(optionEntry)
         entry++
 
+
     #$('#workout-form-container .add-workout-exercise-drop-downlist').html(optionsList)
       @model.set("anOptionListFilled", true)
+     ###
 
+    @render(exercisePhrase, exerciseCount)
 
-    @render(exercisePhrase, exerciseCount, optionsList)
-
-  render: (exercisePhrase, exerciseCount, optionsList)->
+  render: (exercisePhrase, exerciseCount)->
     $rowContent = @$el.html()
     $newContent = $rowContent + @template()
+    #console.log @template().find('#an-Exercise-label')
     @$el.html($newContent)
-    @$el.find('.add-workout-exercise-label').last().text(exercisePhrase)
+    console.log @$el.find('#an-Exercise-label')
+    #console.log @$el.children().first()
 
+    $toBeLabelExercise = @$el.find('#an-Exercise-label')
+    $toBeLabelExercise.text(exercisePhrase)
+    $toBeLabelExercise.attr("id", "")
+    #@$el.children().last().find('.add-workout-exercise-label').text(exercisePhrase)
 
-    console.log "exercise count "
+    ###
+    console.log "exercise count"
     console.log exerciseCount
     if @model.get("anOptionListFilled") == true && exerciseCount >= 2
       console.log "list got filled before"
-      console.log @$el
-      copyOfOptionListEntries = @$el.children().first().find('.add-workout-exercise-drop-downlist').html()
-      console.log @$el.children().prev().last().find('.add-workout-exercise-drop-downlist').html(copyOfOptionListEntries)
+
+      @$el.children().prev().last().find('.add-workout-exercise-drop-downlist').html(@model.get "optionListEntries")
     else
-      @$el.find('.add-workout-exercise-drop-downlist').html(optionsList)
+      console.log "first time"
+      $listWithEntries = @$el.find('.add-workout-exercise-drop-downlist')
+      $listWithEntries.attr("id", "firstOptionList")
+      $listWithEntries.html(optionsList)
+      @model.set("optionListEntries", optionsList)
+
+    ###
     @model.set("exerciseCount", exerciseCount + 1)
     this
 
