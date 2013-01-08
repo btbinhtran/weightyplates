@@ -6,14 +6,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-add-button': 'addExercise'
     'click .add-workout-exercise-remove-button': 'removeExercise'
 
-
   initialize: ()->
+    exerciseCount = @model.get "exerciseCount"
+    exercisePhrase = "Exercise #{exerciseCount}"
 
 
-    #exerciseCount = @model.get "exerciseCount"
-    #exercisePhrase = "Exercise #{exerciseCount}"
-
-    ###
     if @model.get("anOptionListFilled") == false
       console.log "should only run once"
       @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
@@ -38,61 +35,42 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         optionEntry = "<option " + dataIdAttribute + dataEquipmentAttribute + dataForceAttribute + dataIsSportAttribute + dataLevelAttribute + dataMechanicsAttribute + dataMuscleAttribute + dataTypeAttribute  + valueAttribute + ">" + exerciseName + "</option>"
         optionsList.push(optionEntry)
         entry++
-
-
-    #$('#workout-form-container .add-workout-exercise-drop-downlist').html(optionsList)
+      optionListEntries = optionsList
       @model.set("anOptionListFilled", true)
-     ###
-
-    #@render(exercisePhrase, exerciseCount)
-    #$rowContent = @$el.html()
-    #$newContent = $rowContent + @template()
-    #console.log @template().find('#an-Exercise-label')
-    #@$el.html($newContent)
-    @render()
-
-  render: ()->
-
-    console.log "rendering"
-    $workoutExeciseMainRow = $('.workout-entry-exercise-and-sets-row')
-
-    $workoutExeciseMainRow.append(@template())
-    #$toBeLabelExercise = @$el.find('#an-Exercise-label')
-    #$toBeLabelExercise.text(exercisePhrase)
-    #$toBeLabelExercise.attr("id", "")
-
-    #@$el.children().last().find('.add-workout-exercise-label').text(exercisePhrase)
-
-    ###
-    console.log "exercise count"
-    console.log exerciseCount
-    if @model.get("anOptionListFilled") == true && exerciseCount >= 2
-      console.log "list got filled before"
-
-      @$el.children().prev().last().find('.add-workout-exercise-drop-downlist').html(@model.get "optionListEntries")
+      @model.set("optionListEntries", optionListEntries)
     else
-      console.log "first time"
-      $listWithEntries = @$el.find('.add-workout-exercise-drop-downlist')
-      $listWithEntries.attr("id", "firstOptionList")
-      $listWithEntries.html(optionsList)
-      @model.set("optionListEntries", optionsList)
+      #reference the data from the model that was stored the first time
+      optionsList = @model.get("optionListEntries")
 
-    ###
-    #@model.set("exerciseCount", exerciseCount + 1)
-    #console.log "exerciseCount is "
-    #console.log @model.get("exerciseCount")
+    #increment the exercise count for the exercise label
+    @model.set("exerciseCount", exerciseCount + 1)
 
-    @$el = $workoutExeciseMainRow.find('#an-exercise-row').addClass("recentlyAdded").removeAttr("id")
-    #console.log $('.workout-entry-exercise-and-sets-row').find('.dashboard-add-workout-exercise')
+    #render the template
+    @render(exercisePhrase, optionsList)
+
+  render: (exercisePhrase, optionsList)->
+    #the main exercise row
+    $workoutExeciseMainRow = $('.workout-entry-exercise-and-sets-row')
+    #append template because there will be further exercise entries
+    $workoutExeciseMainRow.append(@template())
+    #going into the exercise dropdown row
+    $workoutRowFound = $workoutExeciseMainRow.find('#an-exercise-row')
+    #define the @$el element because it is empty
+    @$el = $workoutRowFound.addClass("recentlyAdded").removeAttr("id")
+    #add the option entries into the dropdown and remove the id so new entries can be referenced
+    $workoutRowFound.find('.add-workout-exercise-drop-downlist').html(optionsList)
+    $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
+    #removing reference of id for the entry details
     @$el.parent().nextAll(".row-fluid").first().find('#an-entries-details').addClass("recentlyAdded").removeAttr("id")
+    #define the el element because it is empty
     @el = @$el[0]
-
-    _.bindAll(this)
+    #make all references of 'this' to reference the main object
+    _.bindAll(@)
+    #return this
     this
 
   addExercise: (event)->
-    console.log "click"
-
-    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
+    #generate a new exercise entry
+    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @model)
 
   removeExercise: (event)->

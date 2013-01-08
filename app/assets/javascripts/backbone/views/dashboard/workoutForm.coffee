@@ -11,7 +11,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
 
   initialize: ->
-    _.bindAll(this)
+    _.bindAll(@)
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
     @modelWorkoutFormInputs = new Weightyplates.Models.WorkoutFormInputs
     @render()
@@ -19,7 +19,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   render: ()->
     @$el.html(@template())
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
-    $(document).on('keypress', this.closeAddWorkoutDialog)
+    $(document).on('keypress', @closeAddWorkoutDialog)
     @hintInWorkoutName()
     this
 
