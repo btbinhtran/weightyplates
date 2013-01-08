@@ -1,5 +1,5 @@
 .row-fluid
-  .span10.offset1.dashboard-add-workout-exercise.min-row-height
+  .span10.offset1.dashboard-add-workout-exercise.min-row-height#an-exercise-row
     .row-fluid
       .span3
         %label.add-workout-exercise-label#an-Exercise-label Exercise
@@ -13,7 +13,7 @@
         .span4
           %button.add-workout-exercise-remove-button -
 .row-fluid
-  .span10.offset1.dashboard-exercise-set.min-row-height
+  .span10.offset1.dashboard-exercise-set.min-row-height#an-entries-details
     .row-fluid
       .span2.indent-set-spacer
       .span1.color-set-number

@@ -54,8 +54,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @render()
 
   render: ()->
-    #console.log @template()
-    @template()
+
     console.log "rendering"
 
     #console.log @$el.find('#an-Exercise-label')
@@ -86,9 +85,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #@model.set("exerciseCount", exerciseCount + 1)
     #console.log "exerciseCount is "
     #console.log @model.get("exerciseCount")
-    @$el = $('.workout-entry-exercise-and-sets-row').find('.dashboard-add-workout-exercise')
+
+    @$el = $('.workout-entry-exercise-and-sets-row').find('#an-exercise-row').addClass("recentlyAdded").removeAttr("id")
     #console.log $('.workout-entry-exercise-and-sets-row').find('.dashboard-add-workout-exercise')
-    console.log @$el
+    @$el.parent().nextAll(".row-fluid").first().find('#an-entries-details').addClass("recentlyAdded").removeAttr("id")
+    @el = @$el[0]
+    console.log @
     _.bindAll(this)
     this
 
@@ -98,7 +100,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #console.log $(event.target)
     console.log "click"
 
-    #viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
+    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
+
     #console.log @
     #$('.workout-entry-exercise-and-sets-row').append(viewExerciseEntry.render())
 

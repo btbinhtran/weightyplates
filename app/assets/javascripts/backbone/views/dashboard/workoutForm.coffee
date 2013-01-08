@@ -53,7 +53,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     console.log "attempt create"
     #console.log @modelWorkoutFormState
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
-    $('.workout-entry-exercise-and-sets-row').append(viewExerciseEntry.render().el)
+    #$('.workout-entry-exercise-and-sets-row').append(viewExerciseEntry.render().$el)
 
   saveWorkout: ->
     $.ajax
