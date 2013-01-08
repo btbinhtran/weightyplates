@@ -2,8 +2,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   template: JST['dashboard/workout_entry_exercise']
 
-  #el: '.workout-entry-exercise-and-sets-row'
-
   events:
     'click .add-workout-exercise-add-button': 'addExercise'
     'click .add-workout-exercise-remove-button': 'removeExercise'
@@ -56,11 +54,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   render: ()->
 
     console.log "rendering"
+    $workoutExeciseMainRow = $('.workout-entry-exercise-and-sets-row')
 
-    #console.log @$el.find('#an-Exercise-label')
-    #console.log @$el.children().first()
-    console.log @
-    $('.workout-entry-exercise-and-sets-row').append(@template())
+    $workoutExeciseMainRow.append(@template())
     #$toBeLabelExercise = @$el.find('#an-Exercise-label')
     #$toBeLabelExercise.text(exercisePhrase)
     #$toBeLabelExercise.attr("id", "")
@@ -86,30 +82,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #console.log "exerciseCount is "
     #console.log @model.get("exerciseCount")
 
-    @$el = $('.workout-entry-exercise-and-sets-row').find('#an-exercise-row').addClass("recentlyAdded").removeAttr("id")
+    @$el = $workoutExeciseMainRow.find('#an-exercise-row').addClass("recentlyAdded").removeAttr("id")
     #console.log $('.workout-entry-exercise-and-sets-row').find('.dashboard-add-workout-exercise')
     @$el.parent().nextAll(".row-fluid").first().find('#an-entries-details').addClass("recentlyAdded").removeAttr("id")
     @el = @$el[0]
-    console.log @
+
     _.bindAll(this)
     this
 
   addExercise: (event)->
-    #event.preventDefault()
-    #condition is needed to prevent double creation of exercise
-    #console.log $(event.target)
     console.log "click"
 
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise()
-
-    #console.log @
-    #$('.workout-entry-exercise-and-sets-row').append(viewExerciseEntry.render())
-
-    #force a change to the model
-    #@model.set("attemptExerciseCreation",(@model.get("attemptExerciseCreation")) * -1)
-    ###
-    if  $(event.target).is(":visible") == true
-      viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @model, addingExercise: "addExercise")
-    ###
 
   removeExercise: (event)->
