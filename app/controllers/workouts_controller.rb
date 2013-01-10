@@ -18,6 +18,8 @@ class WorkoutsController < ApplicationController
     #only executes when workout is successfully created
     def workout_Fields_Satisfy(backup_orig_params)
 
+
+
       #the first actually references the newest created workout
       @workout = current_user.workouts.first
 
@@ -28,15 +30,34 @@ class WorkoutsController < ApplicationController
       backup_orig_params.delete("unit")
       backup_orig_params.delete("name")
 
+      ##puts "deleted result"
+      puts "initial backup"
+      another_backup = backup_orig_params.dup
+      puts another_backup
+
+      #puts backup_orig_params[:workout_entry]
+
       #assign the workout id to each of the workout_entry
       backup_orig_params[:workout_entry].each do |workout_number, param|
+        param.delete(:entry_detail)
+        puts "getting a specific item"
+        puts param
+        puts "monitor another backup"
+        puts another_backup
+
         param[:workout_id] = @workout[:id]
       end
 
       #create the each workout_entry
       backup_orig_params[:workout_entry].each_value do |value|
+
         @workout.workout_entries.create(value)
       end
+
+      puts "another backup is "
+      puts another_backup
+
+
       return
 
     end

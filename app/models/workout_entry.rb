@@ -7,4 +7,12 @@ class WorkoutEntry < ActiveRecord::Base
 
   validates :exercise_id, presence: true
   validates :workout_id, presence: true
+
+  after_create :something
+
+  private
+    def something
+      puts "something"
+    end
+
 end
