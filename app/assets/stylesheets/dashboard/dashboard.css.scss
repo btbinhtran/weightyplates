@@ -81,6 +81,8 @@
   float: left;
   /*background-color: yellow;*/
   display: inline !important;
+  border: 1px solid #c0c0c0;
+  background-color: white;
 }
 .dashboard-add-workout-header-area{
   margin-bottom: 3.5%;
@@ -186,7 +188,10 @@
   margin-bottom: 1.5%;
 }
 .dashboard-upcoming-workouts-row{
-  background-color: #c0c0c0;
+  width: 99.6%;
+  background-color: #fafafa;
+  border: 2px solid;
+  border-top: none;
 }
 
 
