@@ -32,30 +32,29 @@ class WorkoutsController < ApplicationController
 
       ##puts "deleted result"
       puts "initial backup"
-      another_backup = backup_orig_params.dup
+      another_backup = backup_orig_params.clone
       puts another_backup
 
       #puts backup_orig_params[:workout_entry]
 
       #assign the workout id to each of the workout_entry
       backup_orig_params[:workout_entry].each do |workout_number, param|
-        param.delete(:entry_detail)
-        puts "getting a specific item"
-        puts param
-        puts "monitor another backup"
-        puts another_backup
-
         param[:workout_id] = @workout[:id]
       end
 
+      some_copy = nil
+
       #create the each workout_entry
       backup_orig_params[:workout_entry].each_value do |value|
-
+        puts "almost create"
+        some_copy = value.dup
+        value.delete("entry_detail")
         @workout.workout_entries.create(value)
+
       end
 
-      puts "another backup is "
-      puts another_backup
+      puts "the copied value"
+      puts some_copy
 
 
       return
