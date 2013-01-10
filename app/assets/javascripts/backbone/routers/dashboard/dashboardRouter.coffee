@@ -3,12 +3,9 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     '': 'index'
 
   initialize: ->
-    @collection = new Weightyplates.Collections.DashboardItems([
-      new Weightyplates.Models.DashboardState(),
-      new Weightyplates.Models.WorkoutFormInputs()
-    ])
+    @collection = new Weightyplates.Collections.DashboardItems()
 
-    @collection.fetch()
+    @collection.reset(Weightyplates.PreloadModels)
 
   index: ->
     viewButton = new Weightyplates.Views.WorkoutEntryButton(collection: @collection)

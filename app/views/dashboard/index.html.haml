@@ -1,5 +1,9 @@
+%script{id: "preload-model-data", type: "text/javascript"}
+  :plain
+    Weightyplates.PreloadModels = [];
+    Weightyplates.PreloadModels.push(new Weightyplates.Models.DashboardState())
+    Weightyplates.PreloadModels.push(new Weightyplates.Models.WorkoutFormInputs())
 %div.dashboard
-
   .row-fluid.dashboard-main-header-row
     .span12
       %h2#dashboard-header.span6 Dashboard
