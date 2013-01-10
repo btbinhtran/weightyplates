@@ -10,9 +10,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exerciseCount = @model.get "exerciseCount"
     exercisePhrase = "Exercise #{exerciseCount}"
 
-
-    if @model.get("anOptionListFilled") == false
-      console.log "should only run once"
+    if @model.get("isOneOptionListFilled") == false
       @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
       theExerciseModel = @modelOfExercises.attributes.model
       theExerciseModelLength = theExerciseModel.length
@@ -36,7 +34,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         optionsList.push(optionEntry)
         entry++
       optionListEntries = optionsList
-      @model.set("anOptionListFilled", true)
+      @model.set("isOneOptionListFilled", true)
       @model.set("optionListEntries", optionListEntries)
     else
       #reference the data from the model that was stored the first time

@@ -79,21 +79,36 @@
 .dashboard-add-workout-modal-row-show{
   margin: 2% 0%;
   float: left;
-  background-color: yellow;
+  /*background-color: yellow;*/
   display: inline !important;
 }
 .dashboard-add-workout-header-area{
   margin-bottom: 3.5%;
-  background-color: #ff7f50;
+  /*background-color: #ff7f50;*/
+  background-image: linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
+  background-image: -o-linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
+  background-image: -moz-linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
+  background-image: -webkit-linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
+  background-image: -ms-linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
+
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.05, rgb(112,109,105)),
+    color-stop(0.31, rgb(140,134,126)),
+    color-stop(0.82, rgb(153,148,141))
+  );
 }
 .dashboard-add-workout-header{
   text-align: left;
   padding-left: 5%;
-  background-color: #f4a460;
-  background-color: orange;
+  color: white;
+  /*background-color: #f4a460;
+  background-color: orange;*/
 }
 .dashboard-add-workout-name{
-  background-color: #bc8f8f;
+  /*background-color: #bc8f8f;*/
 }
 #add-workout-name-label{
   margin-top: 2%;
@@ -106,7 +121,7 @@
   color: #A9A9A9;
 }
 .dashboard-add-workout-exercise{
-  background-color: #adff2f;
+  /*background-color: #adff2f;*/
 }
 .add-workout-exercise-label{
   margin-top: 2%;
@@ -123,35 +138,41 @@
   width: 100%;
 }
 .dashboard-exercise-set{
-  background-color: #d3d3d3;
+  /*background-color: #d3d3d3;*/
 }
 .add-workout-set-label{
   text-align: right;
+  margin-top: 0.2em;
 }
 .add-workout-exercise-entry-label{
   text-align: right;
+  margin-top: 0.2em;
 }
 .add-workout-exercise-entry-input{
   width: 100%;
 }
 .add-workout-units{
   text-align: center;
+  margin-bottom: 0;
+  margin-top: 0.1em;
 }
 .add-workout-reps-input{
   width: 94%;
 }
 .add-workout-reps-label{
   text-align: right;
+  margin-bottom: 0;
+  margin-top: 0.2em;
 }
 .add-workout-reps-add-button,
 .add-workout-reps-remove-button{
   width: 100%;
 }
 .color-weights-and-reps-items{
-  background-color: #778899;
+  /*background-color: #778899;*/
 }
 .last-row-buttons-row{
-  background-color: #db7093;
+  /*background-color: #db7093;*/
 }
 .last-row-buttons{
   width: 100%;
@@ -164,15 +185,14 @@
   min-height: 40px !important;
   margin-bottom: 1.5%;
 }
-
+.dashboard-upcoming-workouts-row{
+  background-color: #c0c0c0;
+}
 
 
 /* Add Workout End*/
 
-.dashboard-upcoming-workouts-row{
-  margin-top: 2%;
-  background-color: #c0c0c0;
-}
+
 
 
 

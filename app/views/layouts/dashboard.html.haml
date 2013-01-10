@@ -6,6 +6,11 @@
     = stylesheet_link_tag "dashboard/dashboard"
     = include_gon
     = javascript_include_tag "dashboard"
+    %script{id: "preload-model-data", type: "text/javascript"}
+      :plain
+        Weightyplates.PreloadModels = [];
+        Weightyplates.PreloadModels.push(new Weightyplates.Models.DashboardState())
+        Weightyplates.PreloadModels.push(new Weightyplates.Models.WorkoutFormInputs())
     = csrf_meta_tags
   %body
     = render 'shared/navbar'
