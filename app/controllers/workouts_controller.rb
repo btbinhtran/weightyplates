@@ -55,10 +55,15 @@ class WorkoutsController < ApplicationController
         @workout.workout_entries.create(value)
         @workout_entry = @workout.workout_entries.first
 
+        puts "the defined workout_entry"
+        puts @workout_entry
+
       end
 
       puts "the copied value"
       puts workout_details
+
+
 
       puts "workout entry"
       workout_details.each do |workout_detail_number, param|
@@ -72,21 +77,35 @@ class WorkoutsController < ApplicationController
             #puts value.fetch("weight")
             #converted_hash = Hash[*value.to_a.flatten.map(&:to_i)]
             #puts converted_hash
+=begin
             modifiedHash = Hash[ value.map{ |a, b| [ a,
                                         begin
                                           Integer b
                                         rescue ArgumentError
                                           b
                                         end ] } ]
+=end
             #puts modifiedHash
-            weightValue = modifiedHash.fetch("weight").to_f
-            modifiedHash["weight"] = weightValue
+            ##weightValue = modifiedHash.fetch("weight").to_f
+            ##modifiedHash["weight"] = weightValue
+
+            #puts modifiedHash
 
             #@workout_entry.entry_details.create(modifiedHash)
 
-            modifiedHash.each_value do |inner_value|
+            #puts "now the defined workout_entry is"
+            #puts @workout_entry
+
+            #puts "does it have any entry details"
+            #puts @workout_entry.entry_details
+
+            puts value
+            @workout_entry.entry_details.create(value)
+            #@workout_entry.entry_details.create({"weight"=>"4213", "reps"=>"8", "set_number"=>"1"})
+            #puts value
+            value.each_value do |inner_value|
               #puts inner_value
-              @workout_entry.entry_details.create(inner_value)
+              #@workout_entry.entry_details.create(inner_value)
             end
 
 
