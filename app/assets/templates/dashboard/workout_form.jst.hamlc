@@ -8,7 +8,7 @@
           %button#workout-form-main-close-button C
     .span12
       .row-fluid
-        .span10.offset1.dashboard-add-workout-name.min-row-height
+        .span9.offset1.dashboard-add-workout-name.min-row-height
           .row-fluid
             .span3
               %label#add-workout-name-label Workout Name
@@ -16,7 +16,7 @@
               %input.dashboard-workout-name-input
         .workout-entry-exercise-and-sets-row
         .row-fluid
-          #last-row-add-note-button.span10.offset1.last-row-buttons-row.min-row-height
+          #last-row-add-note-button.span9.offset1.last-row-buttons-row.min-row-height
             .row-fluid
               .span6.offset3
                 .row-fluid

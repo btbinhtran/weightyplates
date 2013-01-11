@@ -9,7 +9,7 @@
     font-size: 280%;
   }
   .main-category {
-    margin-top: 5%;
+    margin-top: 8%;
     text-align: center;
     border-top: 2px solid;
     border-bottom: 2px solid;
@@ -61,8 +61,11 @@
   }
 }
 .dashboard-add-workout-button-row{
-  padding-top: 5%;
   min-height: 200px;
+  .add-button-secondary-container{
+    background-color: #CC2538;
+    padding: 1em 0em;
+  }
   #add-workout{
     width: 60%;
     margin-left: 20%;
@@ -81,7 +84,11 @@
   float: left;
   /*background-color: yellow;*/
   display: inline !important;
-  border: 1px solid #c0c0c0;
+  border: 1px solid #999999;
+  -moz-box-shadow:    0px 0px 2px 2px #CCC;
+  -webkit-box-shadow: 0px 0px 2px 2px #CCC;
+  -o-box-shadow:      0px 0px 2px 2px #CCC;
+  box-shadow:         0px 0px 2px 2px #CCC;
   background-color: white;
 }
 .dashboard-add-workout-header-area{
@@ -110,6 +117,7 @@
   background-color: orange;*/
 }
 .dashboard-add-workout-name{
+  margin-top: 1.5%;
   /*background-color: #bc8f8f;*/
 }
 #add-workout-name-label{
@@ -178,6 +186,9 @@
 }
 .last-row-buttons{
   width: 100%;
+}
+#last-row-add-note-button{
+  margin-bottom: 4%;
 }
 #last-row-cancel-button{
   width: 94%;

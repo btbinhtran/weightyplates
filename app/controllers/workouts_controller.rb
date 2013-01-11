@@ -40,15 +40,14 @@ class WorkoutsController < ApplicationController
       backup_orig_params[:workout_entry].each_value do |value|
         puts "almost create"
 
-        workout_details = value.dup
+        entry_details = value.dup
         value.delete("entry_detail")
 
         @workout.workout_entries.create(value)
         @workout_entry = @workout.workout_entries.first
 
-        #puts "the defined workout_entry"
-        #puts @workout_entry
-        workout_details.each do |workout_detail_number, param|
+
+        entry_details.each do |workout_detail_number, param|
           if param.kind_of?(Hash)
             param.each_value do |value|
               @workout_entry.entry_details.create(value)
