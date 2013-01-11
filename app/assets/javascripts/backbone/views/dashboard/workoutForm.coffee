@@ -54,31 +54,44 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       data:
         "workout":
           {
-            "unit": $('.add-workout-units').text()
-            "name":
-              (->
-                $inputWorkoutName = $("input.dashboard-workout-name-input")
-                if $inputWorkoutName.length && $inputWorkoutName.not(".hint") > 0
-                  $inputWorkoutName.val()
-                else if $inputWorkoutName.hasClass('hint')
-                  new Date()
-              )()
-            "workout_entry":
-              [
-                {
-                  "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
-                  "entry_detail":
-                    [
-                      {
-                      "weight": $('.add-workout-exercise-entry-input').val()
-                      "reps": $('.add-workout-reps-input').val()
-                      "set_number": $('.add-workout-set-label').text().replace(/S/g, '')*1
-                      }
+          "unit": $('.add-workout-units').text()
+          "name": (->
+            $inputWorkoutName = $("input.dashboard-workout-name-input")
+            if $inputWorkoutName.length && $inputWorkoutName.not(".hint") > 0
+              $inputWorkoutName.val()
+            else if $inputWorkoutName.hasClass('hint')
+              new Date()
+          )()
+          "workout_entry": [
+            {
+            "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
+            "entry_detail": [
+              {
+              "weight": $('.add-workout-exercise-entry-input').val()
+              "reps": $('.add-workout-reps-input').val()
+              "set_number": $('.add-workout-set-label').text().replace(/S/g, '') * 1
+              },
+              {
+              "weight": $('.add-workout-exercise-entry-input').val()
+              "reps": $('.add-workout-reps-input').val()
+              "set_number": $('.add-workout-set-label').text().replace(/S/g, '') * 1
+              }
 
-                    ]
-                }
+            ]
+            },
+            {
+            "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
+            "entry_detail": [
+              {
+              "weight": $('.add-workout-exercise-entry-input').val()
+              "reps": $('.add-workout-reps-input').val()
+              "set_number": $('.add-workout-set-label').text().replace(/S/g, '') * 1
+              }
 
-              ]
+            ]
+            }
+
+          ]
           }
       success: () ->
         console.log "successful post"
