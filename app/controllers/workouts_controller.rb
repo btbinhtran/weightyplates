@@ -51,7 +51,7 @@ class WorkoutsController < ApplicationController
         workout_details = value.dup
         value.delete("entry_detail")
 
-
+        puts value
         @workout.workout_entries.create(value)
         @workout_entry = @workout.workout_entries.first
 
@@ -67,11 +67,28 @@ class WorkoutsController < ApplicationController
         if param.kind_of?(Hash)
           param.each_value do |value|
             puts "workout details now"
+            #puts value
 
+            #puts value.fetch("weight")
+            #converted_hash = Hash[*value.to_a.flatten.map(&:to_i)]
+            #puts converted_hash
+            modifiedHash = Hash[ value.map{ |a, b| [ a,
+                                        begin
+                                          Integer b
+                                        rescue ArgumentError
+                                          b
+                                        end ] } ]
+            #puts modifiedHash
+            weightValue = modifiedHash.fetch("weight").to_f
+            modifiedHash["weight"] = weightValue
 
-            #@workout_entries = @workout.workout_entries
+            #@workout_entry.entry_details.create(modifiedHash)
 
-            @workout_entry.entry_details.create(value)
+            modifiedHash.each_value do |inner_value|
+              #puts inner_value
+              @workout_entry.entry_details.create(inner_value)
+            end
+
 
             #
 
