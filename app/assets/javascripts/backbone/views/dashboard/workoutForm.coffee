@@ -72,6 +72,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
                       {
                       "weight": $('.add-workout-exercise-entry-input').val()
                       "rep": $('.add-workout-reps-input').val()
+                      "set": $('.add-workout-set-label').text().replace(/S/g, '')*1
                       }
 
                     ]

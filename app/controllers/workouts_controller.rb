@@ -43,18 +43,50 @@ class WorkoutsController < ApplicationController
       end
 
       some_copy = nil
+      workout_details = nil
 
       #create the each workout_entry
       backup_orig_params[:workout_entry].each_value do |value|
         puts "almost create"
-        some_copy = value.dup
+        workout_details = value.dup
         value.delete("entry_detail")
+
+
         @workout.workout_entries.create(value)
+        @workout_entry = @workout.workout_entries.first
 
       end
 
       puts "the copied value"
-      puts some_copy
+      puts workout_details
+
+      puts "workout entry"
+      workout_details.each do |workout_detail_number, param|
+        puts "attempt workout details"
+        #puts param.fetch("entry_detail")
+        if param.kind_of?(Hash)
+          param.each_value do |value|
+            puts "workout details now"
+
+
+            #@workout_entries = @workout.workout_entries
+
+            @workout_entry.entry_details.create(value)
+
+            #
+
+            #puts @workout_entries
+            #puts "workout details get info"
+            #puts @workout_entries.entry_details
+            #puts .entry_details.create(value)
+            #puts value
+
+          end
+
+        end
+
+      end
+      #puts @workout_entry[:workout_id]
 
 
       return
