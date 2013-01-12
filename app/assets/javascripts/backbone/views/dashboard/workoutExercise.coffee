@@ -6,38 +6,18 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-add-button': 'addExercise'
     'click .add-workout-exercise-remove-button': 'removeExercise'
     'click .add-workout-reps-remove-button': 'removeDetails'
+    #'hover .add-workout-exercise-drop-downlist': 'hoverOptionList'
+
 
   initialize: ()->
+
     exerciseCount = @model.get "exerciseCount"
+
     #need to add one for starting at a zero index
     exercisePhrase = "Exercise #{exerciseCount + 1}"
 
     if @model.get("isOneOptionListFilled") == false
-      @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
-      theExerciseModel = @modelOfExercises.attributes.model
-      theExerciseModelLength = theExerciseModel.length
-      entry = 0
-      optionsList = []
-      optionsList.push("<option></option>")
-      while entry < theExerciseModelLength
-        theEntry = theExerciseModel[entry]
-        dataIdAttribute = "data-id='" + (theEntry.id) + "' "
-        dataEquipmentAttribute = "data-equipment='" + (theEntry.equipment) + "' "
-        dataForceAttribute = "data-force='" + (theEntry.force) + "' "
-        dataIsSportAttribute = "data-isSport='" + (theEntry.is_sport) + "' "
-        dataLevelAttribute = "data-level='" + (theEntry.level) + "' "
-        dataMechanicsAttribute = "data-mechanics='" + (theEntry.mechanics) + "' "
-        dataMuscleAttribute = "data-muscle='" + (theEntry.muscle) + "' "
-        dataTypeAttribute = "data-type='" + (theEntry.type) + "' "
-        exerciseName = theEntry.name
-        exerciseName = exerciseName.replace(/'/g, '&#039;')
-        valueAttribute = "value='" + exerciseName + "'"
-        optionEntry = "<option " + dataIdAttribute + dataEquipmentAttribute + dataForceAttribute + dataIsSportAttribute + dataLevelAttribute + dataMechanicsAttribute + dataMuscleAttribute + dataTypeAttribute  + valueAttribute + ">" + exerciseName + "</option>"
-        optionsList.push(optionEntry)
-        entry++
-      optionListEntries = optionsList
       @model.set("isOneOptionListFilled", true)
-      @model.set("optionListEntries", optionListEntries)
       @model.set("firstExercise", @)
     else
       #reference the data from the model that was stored the first time
@@ -48,7 +28,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("exerciseCount", exerciseCount + 1)
 
     #render the template
-    @render(exercisePhrase, optionsList)
+    @render(exercisePhrase, @model.get "optionListEntries")
 
   render: (exercisePhrase, optionsList)->
 
@@ -71,7 +51,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $workoutRowFound.find('#an-entries-details').removeAttr("id")
 
     #add the option list entries
-    $workoutRowFound.find('.add-workout-exercise-drop-downlist').html(optionsList)
+    #$workoutRowFound.find('.add-workout-exercise-drop-downlist').html(optionsList)
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
@@ -85,6 +65,21 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #make all references of 'this' to reference the main object
     _.bindAll(@)
+
+
+
+    $optionLists = @$el.find('.add-workout-exercise-drop-downlist')
+
+    settings =
+      sensitivity: 4
+      interval: 100
+      over: ->
+        console.log "in"
+      out: ->
+
+
+    $optionLists.hoverIntent settings
+
 
     #return this
     this
@@ -119,6 +114,29 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     else
      alert "A workout must have at least one exercise."
+
+
+  hoverOptionList: (event)->
+
+    #console.log event.type
+
+
+    if $(event.target).html() == ""
+      classNameFormat = "." + $(event.target).attr("class")
+
+      #console.log classNameFormat
+
+
+
+
+
+
+
+      #$(classNameFormat).hoverIntent settings
+
+
+
+
 
   removeDetails: ->
     console.log "deleting"
