@@ -1,6 +1,6 @@
-.exercise-grouping.row-fluid
+.exercise-grouping.row-fluid#exercise-grouping
   .row-fluid
-    .span9.offset1.dashboard-add-workout-exercise.min-row-height#an-exercise-row
+    .span9.offset1.dashboard-add-workout-exercise.min-row-height
       .row-fluid
         .span3
           %label.add-workout-exercise-label#an-Exercise-label Exercise
