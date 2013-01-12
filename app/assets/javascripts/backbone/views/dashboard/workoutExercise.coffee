@@ -88,13 +88,18 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   checkForEntries: (event) ->
-    #console.log "click"
+
+    #the event element
     $eventTarget = $(event.target)
 
-    console.log $eventTarget
+    #if the hover intent did not load the entries then insert the entries
     if $eventTarget.html() == ""
+
+      #adding the options
       $eventTarget.html(@model.get("optionListEntries"))
-      #$eventTarget.off()
+
+      #remove the event listener on the entry list for checking entries
+      @events = _.omit(@events, "click .add-workout-exercise-drop-downlist")
 
 
   addExercise: (event)->
