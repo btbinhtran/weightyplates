@@ -5,10 +5,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   events:
     'click .add-workout-exercise-add-button': 'addExercise'
     'click .add-workout-exercise-remove-button': 'removeExercise'
+    'click .add-workout-reps-remove-button': 'removeDetails'
 
   initialize: ()->
     exerciseCount = @model.get "exerciseCount"
-    exercisePhrase = "Exercise #{exerciseCount}"
+    #need to add one for starting at a zero index
+    exercisePhrase = "Exercise #{exerciseCount + 1}"
 
     if @model.get("isOneOptionListFilled") == false
       @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
@@ -49,21 +51,38 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   render: (exercisePhrase, optionsList)->
     #the main exercise row
     $workoutExeciseMainRow = $('.workout-entry-exercise-and-sets-row')
+
     #append template because there will be further exercise entries
     $workoutExeciseMainRow.append(@template())
+
     #going into the exercise dropdown row
     $workoutRowFound = $workoutExeciseMainRow.find('#an-exercise-row')
+
     #define the @$el element because it is empty
     @$el = $workoutRowFound.addClass("recentlyAdded").removeAttr("id")
+
+    @$el.parent().addClass("#{@cid}")
     #add the option entries into the dropdown and remove the id so new entries can be referenced
+
     $workoutRowFound.find('.add-workout-exercise-drop-downlist').html(optionsList)
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
+
     #removing reference of id for the entry details
-    @$el.parent().nextAll(".row-fluid").first().find('#an-entries-details').addClass("recentlyAdded").removeAttr("id")
+    $exerciseDetail = @$el.parent().nextAll(".row-fluid").first().find('#an-entries-details').addClass("recentlyAdded").removeAttr("id").addClass("#{@cid}")
+
+    $exerciseDetailParent = $exerciseDetail.parent().addClass("#{@cid}")
+
     #define the el element because it is empty
     @el = @$el[0]
+
+    #keep track of the view exercises being added
+    exerciseViews = @model.get("exerciseViews")
+    exerciseViews.push({viewExercise:@, viewDetails: $exerciseDetailParent})
+    @model.set("exerciseViews", exerciseViews)
+
     #make all references of 'this' to reference the main object
     _.bindAll(@)
+
     #return this
     this
 
@@ -72,3 +91,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @model)
 
   removeExercise: (event)->
+    if @model.get("exerciseCount") > 1
+      #console.log @
+      #console.log @model.get("exerciseViews")
+      #@stopListening()
+      #$parentElement = @$el.parent().parent()
+      #@remove()
+
+    else
+     alert "A workout must have at least one exercise."
+
+  removeDetails: ->
+    console.log "deleting"
