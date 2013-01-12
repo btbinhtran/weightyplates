@@ -38,9 +38,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       optionListEntries = optionsList
       @model.set("isOneOptionListFilled", true)
       @model.set("optionListEntries", optionListEntries)
+      @model.set("firstExercise", @)
     else
       #reference the data from the model that was stored the first time
       optionsList = @model.get("optionListEntries")
+      @model.set("lastExercise", @)
 
     #increment the exercise count for the exercise label
     @model.set("exerciseCount", exerciseCount + 1)
@@ -79,7 +81,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exerciseViews = @model.get("exerciseViews")
     exerciseViews.push({viewExercise:@, viewDetails: $exerciseDetailParent})
     @model.set("exerciseViews", exerciseViews)
-
     ###
 
     #make all references of 'this' to reference the main object
@@ -94,11 +95,24 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   removeExercise: (event)->
     if @model.get("exerciseCount") > 1
-      #console.log @
-      #console.log @model.get("exerciseViews")
+
+      notTheLast = (@model.get("lastExercise").cid != @cid)
+
+      #if not last entry, then the first and middle entries will need to save ref
+      if notTheLast
+        #the first or middle entry
+          $siblings = @$el.nextAll()
+
+      #remove view and event listeners attached to it; event handlers first
       @stopListening()
-      #$parentElement = @$el.parent().parent()
       @remove()
+
+      #decrementing the exercise labels when deleting exercise entries
+      if notTheLast
+        $siblingExerciseLabels = $siblings.find('.add-workout-exercise-label')
+        $siblingExerciseLabels.each ->
+          oldNumber = parseInt($(this).text().replace(/Exercise /g, ''))
+          $(this).text("Exercise #{oldNumber - 1}")
 
       #decrement the exercise count
       @model.set("exerciseCount", @model.get("exerciseCount") - 1)
