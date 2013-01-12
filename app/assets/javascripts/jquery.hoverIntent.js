@@ -29,8 +29,6 @@
  */
 (function($) {
     $.fn.hoverIntent = function(f,g) {
-        console.log("attempt");
-
         // default configuration options
         var cfg = {
             sensitivity: 7,

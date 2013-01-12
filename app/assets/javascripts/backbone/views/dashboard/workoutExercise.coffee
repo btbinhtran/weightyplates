@@ -6,8 +6,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-add-button': 'addExercise'
     'click .add-workout-exercise-remove-button': 'removeExercise'
     'click .add-workout-reps-remove-button': 'removeDetails'
-    #'hover .add-workout-exercise-drop-downlist': 'hoverOptionList'
-
+    'click .add-workout-exercise-drop-downlist': 'checkForEntries'
 
   initialize: ()->
 
@@ -16,8 +15,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #need to add one for starting at a zero index
     exercisePhrase = "Exercise #{exerciseCount + 1}"
 
-    if @model.get("isOneOptionListFilled") == false
-      @model.set("isOneOptionListFilled", true)
+    #marking the first exercise row and later rows
+    if @model.get("isFirstExerciseRow") == false
+      @model.set("isFirstExerciseRow", true)
       @model.set("firstExercise", @)
     else
       #reference the data from the model that was stored the first time
@@ -31,6 +31,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @render(exercisePhrase, @model.get "optionListEntries")
 
   render: (exercisePhrase, optionsList)->
+
+    viewElModel = @model
 
     #the main exercise row
     $workoutExeciseMainRow = $('.workout-entry-exercise-and-sets-row')
@@ -66,23 +68,34 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-
-
-    $optionLists = @$el.find('.add-workout-exercise-drop-downlist')
-
+    #settings for the hoverIntent plugin
+    #load the exercises when the mouses hovers
     settings =
-      sensitivity: 4
-      interval: 100
+      sensitivity: 10
+      interval: 10
       over: ->
-        console.log "in"
+        $(@).html(optionsList)
+        $(@).off()
       out: ->
 
+    #insert entries into option list
+    $optionLists =  $workoutRowFound.find('.add-workout-exercise-drop-downlist')
 
+    #attaching event listener here because it's not a backbone event
     $optionLists.hoverIntent settings
-
 
     #return this
     this
+
+  checkForEntries: (event) ->
+    #console.log "click"
+    $eventTarget = $(event.target)
+
+    console.log $eventTarget
+    if $eventTarget.html() == ""
+      $eventTarget.html(@model.get("optionListEntries"))
+      #$eventTarget.off()
+
 
   addExercise: (event)->
     #generate a new exercise entry
@@ -114,29 +127,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     else
      alert "A workout must have at least one exercise."
-
-
-  hoverOptionList: (event)->
-
-    #console.log event.type
-
-
-    if $(event.target).html() == ""
-      classNameFormat = "." + $(event.target).attr("class")
-
-      #console.log classNameFormat
-
-
-
-
-
-
-
-      #$(classNameFormat).hoverIntent settings
-
-
-
-
 
   removeDetails: ->
     console.log "deleting"
