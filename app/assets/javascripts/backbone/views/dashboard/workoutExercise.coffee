@@ -7,9 +7,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-remove-button': 'removeExercise'
     'click .add-workout-reps-remove-button': 'removeDetails'
     'click .add-workout-exercise-drop-downlist': 'checkForEntries'
+    'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
 
   initialize: ()->
-
     exerciseCount = @model.get "exerciseCount"
 
     #need to add one for starting at a zero index
@@ -31,7 +31,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @render(exercisePhrase, @model.get "optionListEntries")
 
   render: (exercisePhrase, optionsList)->
-
     viewElModel = @model
 
     #the main exercise row
@@ -88,19 +87,13 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   checkForEntries: (event) ->
-    console.log 'out'
+    #if entries are not there, add entries
+    if $(event.target).html() == ""
+      $(event.target).html(@model.get "optionListEntries")
 
-
-
-
-
-    #if entries are there, remove the event listener
-    if $(event.target).html() != ""
-      console.log "in"
-      @$el.off("click", ".add-workout-exercise-drop-downlist")
-
-
-
+    #remove event listeners regardless
+    @$el.off("focus", ".add-workout-exercise-drop-downlist")
+    @$el.off("click", ".add-workout-exercise-drop-downlist")
 
   addExercise: (event)->
     #generate a new exercise entry
@@ -109,6 +102,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   removeExercise: (event)->
     if @model.get("exerciseCount") > 1
 
+      #more care is needed if the exercise is not the last
       notTheLast = (@model.get("lastExercise").cid != @cid)
 
       #if not last entry, then the first and middle entries will need to save ref

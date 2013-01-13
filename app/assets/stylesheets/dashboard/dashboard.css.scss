@@ -16,6 +16,7 @@
     a {
       font-size: 1.2em;
       color: #5D5253;
+      display: inline-block;
     }
     a:hover {
       color: #A2A3A3;
@@ -24,7 +25,7 @@
 }
 .dashboard-manage-subcategory-row{
   position: relative;
-  margin-top: 5%;
+  margin-top: 4%;
   .span6{
     width: 50%;
     margin-left: 0%;
@@ -34,19 +35,24 @@
     a{
       color: white;
       position: absolute;
-      top: 0.2em;
+      padding-top: 0.2em;
+      left: 0em;
     }
   }
   #workout-main a{
-    left: 24%;
+    width: 50%;
+    height: 100%;
   }
   #past-workouts a{
-    left: 70%;
+    height: 100%;
+    left: 50%;
+    width: 50%;
   }
   .dashboard-active-subcategory{
     font-weight: 600;
     -moz-box-shadow: 1px  1px  2px  #2e2d2e;
     -webkit-box-shadow: 1px  1px  2px  #2e2d2e;
+    -o-box-shadow: 1px  1px  2px  #2e2d2e;
     box-shadow: 1px  1px  2px  #2e2d2e;
   }
   .dashboard-inactive-subcategory{
@@ -75,20 +81,22 @@
 /* Add Workout Begin*/
 #workout-form-main-close-button{
   width: 100%;
+  margin-top: 10px;
+  margin-left: -25%;
 }
 .dashboard-add-workout-modal-row{
   display: none;
 }
 .dashboard-add-workout-modal-row-show{
-  margin: 2% 0%;
+  width: 80%;
+  margin: 4.5% 10%;
   float: left;
   /*background-color: yellow;*/
   display: inline !important;
   border: 1px solid #999999;
-  -moz-box-shadow:    0px 0px 2px 2px #CCC;
-  -webkit-box-shadow: 0px 0px 2px 2px #CCC;
-  -o-box-shadow:      0px 0px 2px 2px #CCC;
-  box-shadow:         0px 0px 2px 2px #CCC;
+
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
 }
 .dashboard-add-workout-header-area{
@@ -111,13 +119,13 @@
 }
 .dashboard-add-workout-header{
   text-align: left;
-  padding-left: 5%;
+  padding-left: 12%;
   color: white;
   /*background-color: #f4a460;
   background-color: orange;*/
 }
 .dashboard-add-workout-name{
-  margin-top: 1.5%;
+  margin-top: 4%;
   /*background-color: #bc8f8f;*/
 }
 #add-workout-name-label{
@@ -186,9 +194,11 @@
 }
 .last-row-buttons{
   width: 100%;
+  height: 35px;
 }
 #last-row-add-note-button{
-  margin-bottom: 4%;
+  margin-bottom: 6%;
+  margin-top: 1%;
 }
 #last-row-cancel-button{
   width: 94%;
@@ -199,13 +209,25 @@
   margin-bottom: 1.5%;
 }
 .dashboard-upcoming-workouts-row{
-  width: 99.6%;
+  width: 99.8%;
   background-color: #fafafa;
-  border: 2px solid;
+  border: 1px solid #858585;
   border-top: none;
 }
 
-
+#workout-name-container{
+  margin-bottom: 2.5%;
+}
+#last-row-container{
+  margin: auto;
+  width: 80%;
+}
+#for-side-borders{
+  border: 1px solid;
+  border-bottom: none;
+  border-top: none;
+  width: 99.8%;
+}
 /* Add Workout End*/
 
 

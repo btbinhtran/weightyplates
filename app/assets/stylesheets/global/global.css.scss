@@ -25,6 +25,7 @@
 
 body{
   color: #5d5253;
+  background-image: url(image_path('pepperGray.jpg'));
 }
 li{
   list-style:none;
@@ -102,8 +103,8 @@ label{
   height: 32px;
 }
 .hero-unit{
-  background-color: #FAFAFA;
-  background-image: url(image_path('pepperGray.jpg'));
+  /*background-color: #FAFAFA;*/
+  background-color:transparent;
 }
 
 .brand{

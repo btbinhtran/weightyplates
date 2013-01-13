@@ -2,19 +2,21 @@
   .row-fluid
     .span12.dashboard-add-workout-header-area
       .row-fluid
-        .span4
-          %h2.dashboard-add-workout-header New Entry Workout
-        .span1.offset7
+        .span7
+          %h2.dashboard-add-workout-header New Workout Entry
+        .span1.offset4
           %button#workout-form-main-close-button C
     .span12
       .row-fluid
-        .span9.offset1.dashboard-add-workout-name.min-row-height
+        .span9.offset1.dashboard-add-workout-name.min-row-height#workout-name-container
           .row-fluid
             .span3
               %label#add-workout-name-label Workout Name
             .span9
               %input.dashboard-workout-name-input
         .workout-entry-exercise-and-sets-row
+        .row-fluid#last-row-container
+          %hr#last-row-rule
         .row-fluid
           #last-row-add-note-button.span9.offset1.last-row-buttons-row.min-row-height
             .row-fluid
