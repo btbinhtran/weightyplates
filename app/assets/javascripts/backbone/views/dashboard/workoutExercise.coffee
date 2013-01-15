@@ -11,6 +11,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
 
   initialize: ()->
+
     exerciseCount = @model.get "exerciseCount"
 
     #need to add one for starting at a zero index
@@ -52,12 +53,19 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     $detailsContainer = $workoutRowFound.find('.an-entry-detail')
 
+    $detailsContainer.append("<div class='row-fluid' id='latest-details-container'></div>")
+
     #the workout details row
-    $detailsRow = new Weightyplates.Views.WorkoutDetail(detailContainer: $detailsContainer, model: @model)
+    $detailsRow = new Weightyplates.Views.WorkoutDetail()
 
     #define a private model event in child view that communicates with this view, the parent
-    $detailsRow.model.on('change:privateCall', @someStuff)
-    @model.on('change:addDetails', @createDetails)
+    #$detailsRow.model.on('change:privateCall', @someStuff)
+
+
+
+
+
+    #$detailsRow.render()
 
 
 
@@ -113,11 +121,18 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   someStuff: ->
     console.log "some stuff"
+    #console.log @
+
+    $detailsContainer = @.get("recentDetailsContainer")
+
+
+
+    $detailsContainer.append(new Weightyplates.Views.WorkoutDetail(detailContainer: $detailsContainer))
 
   createDetails:  ->
     console.log "create"
     #@ is the model so use get directly
-    $detailsContainer = @.get "recentDetailsContainer"
+
 
     #add another workout details
     $detailsContainer.append(new Weightyplates.Views.WorkoutDetail(detailContainer: $detailsContainer, model: @model))

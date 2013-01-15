@@ -2,15 +2,19 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
   template: JST['dashboard/workout_entry_detail']
 
+  el: '#latest-details-container'
+
   events:
     'click .add-workout-reps-add-button': 'addDetails'
 
   initialize: (options) ->
 
+    ###
     class privateModel extends Backbone.Model
 
       defaults:
-        privateCall: 'private'
+        privateCall: -1
+        recentDetailsContainer: null
 
     @model = new privateModel()
 
@@ -19,20 +23,27 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
 
     $detailsContainer = options.detailContainer
-    #console.log options
-    #console.log $detailsContainer
-    #$container = $('.workout-entry-exercise-and-sets-row').find('#an-entries-details')
-    #console.log "container now is "
-    #console.log $container
 
-    #console.log options
-
-    #if options.fromAdd != undefined
-    #  console.log options.fromAdd
     @render($detailsContainer)
 
-  render: (container) ->
+    ###
 
+    @render()
+
+
+  render: () ->
+    #console.log @
+
+    @$el.append(@template())
+
+    @$el.removeAttr("id")
+
+
+
+    #@el = @template()
+
+    #console.log @
+    ###
     containerContents = container.html()
 
     newContents = containerContents + @template()
@@ -46,31 +57,23 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el = container
 
 
-
-
-    #remove the id from entry details; subsequent entries will have the same id
-    #container.removeAttr("id")
-
-    #console.log container
-
     #define the el element because it is empty
     @el = @$el[0]
 
-    this
+    ###
+
+    @
 
   addDetails: ->
     console.log "outer add"
 
-    @model.set("privateCall", "something else")
+    @$el.parent().append("<div class='row-fluid' id='latest-details-container'></div>")
+
+    new Weightyplates.Views.WorkoutDetail()
+    #@model.set("recentDetailsContainer", @$el)
+
+    #@model.set("privateCall", @model.get("privateCall") * -1)
 
 
-    ###
-    #check on model to prevent double rendering
-    if @model
-      console.log "add in"
-      @model.set("recentDetailsContainer", @$el)
-      @model.set("addDetails", @model.get("addDetails")* -1)
-
-    ###
 
 
