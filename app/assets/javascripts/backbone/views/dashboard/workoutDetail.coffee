@@ -48,9 +48,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     this
 
   addDetails: ->
-
+    console.log "outer add"
     #check on model to prevent double rendering
     if @model
+      console.log "add in"
       @model.set("recentDetailsContainer", @$el)
       @model.set("addDetails", @model.get("addDetails")* -1)
 

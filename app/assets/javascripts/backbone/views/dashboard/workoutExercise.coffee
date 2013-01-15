@@ -110,7 +110,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   #--------------------------------------------------------
 
   createDetails:  ->
-
+    console.log "create"
     #@ is the model so use get directly
     $detailsContainer = @.get "recentDetailsContainer"
 
