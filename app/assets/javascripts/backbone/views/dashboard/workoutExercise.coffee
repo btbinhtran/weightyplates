@@ -53,8 +53,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $detailsContainer = $workoutRowFound.find('.an-entry-detail')
 
     #the workout details row
-    new Weightyplates.Views.WorkoutDetail(detailContainer: $detailsContainer, model: @model)
+    $detailsRow = new Weightyplates.Views.WorkoutDetail(detailContainer: $detailsContainer, model: @model)
 
+    #define a private model event in child view that communicates with this view, the parent
+    $detailsRow.model.on('change:privateCall', @someStuff)
     @model.on('change:addDetails', @createDetails)
 
 
@@ -108,6 +110,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   #--------------------------------------------------------
+
+  someStuff: ->
+    console.log "some stuff"
 
   createDetails:  ->
     console.log "create"

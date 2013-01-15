@@ -7,6 +7,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
   initialize: (options) ->
 
+    class privateModel extends Backbone.Model
+
+      defaults:
+        privateCall: 'private'
+
+    @model = new privateModel()
+
+    #console.log @model
+
+
+
     $detailsContainer = options.detailContainer
     #console.log options
     #console.log $detailsContainer
@@ -49,10 +60,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
   addDetails: ->
     console.log "outer add"
+
+    @model.set("privateCall", "something else")
+
+
+    ###
     #check on model to prevent double rendering
     if @model
       console.log "add in"
       @model.set("recentDetailsContainer", @$el)
       @model.set("addDetails", @model.get("addDetails")* -1)
+
+    ###
 
 
