@@ -15,8 +15,7 @@ class Weightyplates.Models.WorkoutFormState extends Backbone.Model
     exerciseViews: []
     firstExercise: null
     lastExercise: null
-    age: null
-    enteredDataOptionList: 0
-    enteredDataWeight: 0
-    enteredDataReps: 0
+    addDetails: 1
+    recentDetailsContainer: null
+
 

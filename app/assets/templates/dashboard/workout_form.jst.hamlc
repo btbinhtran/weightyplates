@@ -23,7 +23,7 @@
               .span6.offset3
                 .row-fluid
                   .span6
-                    %button.last-row-buttons.btn Add Note
+                    %button#last-row-note-button.last-row-buttons.btn Add Note
                   .span6
                     %button#last-row-cancel-button.last-row-buttons.btn Cancel
               .span3

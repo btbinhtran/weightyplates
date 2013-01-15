@@ -5,20 +5,31 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   events:
     'click .add-workout-reps-add-button': 'addDetails'
 
-  initialize: () ->
+  initialize: (options) ->
 
-    #$detailsContainer = options.exerciseParentContainer
-    #console.log "first"
+    $detailsContainer = options.detailContainer
+    #console.log options
     #console.log $detailsContainer
-    $container = $('.workout-entry-exercise-and-sets-row').find('#an-entries-details')
-    console.log "container now is "
-    console.log $container
-    @render($container)
+    #$container = $('.workout-entry-exercise-and-sets-row').find('#an-entries-details')
+    #console.log "container now is "
+    #console.log $container
+
+    #console.log options
+
+    #if options.fromAdd != undefined
+    #  console.log options.fromAdd
+    @render($detailsContainer)
 
   render: (container) ->
 
+    containerContents = container.html()
+
+    newContents = containerContents + @template()
     #insert the template
-    container.append(@template())
+
+    container.html(newContents)
+
+    #.append(@template())
 
     #define the @$el element because it is empty
     @$el = container
@@ -29,7 +40,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #remove the id from entry details; subsequent entries will have the same id
     #container.removeAttr("id")
 
-    console.log container
+    #console.log container
 
     #define the el element because it is empty
     @el = @$el[0]
@@ -38,6 +49,14 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
   addDetails: ->
     console.log "adding"
+
+    @model.set("recentDetailsContainer", @$el)
+    console.log "modify model"
+    #console.log @
+    console.log "now trigger"
+    @model.set("addDetails", @model.get("addDetails")* -1)
+    #@model.set("addDetails", 67867857858758587)
+    #console.log @model.get("addDetails")
     #console.log @$el
-    new Weightyplates.Views.WorkoutDetail()
+    #new Weightyplates.Views.WorkoutDetail(detailContainer: @$el, fromAdd: true)
 

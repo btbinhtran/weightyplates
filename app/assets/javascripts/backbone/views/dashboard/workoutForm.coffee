@@ -9,6 +9,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     #'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
+    'click #last-row-note-button': 'addNote'
 
   initialize: ->
     _.bindAll(@)
@@ -86,6 +87,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         .addClass("dashboard-add-workout-modal-row")
         .removeClass("dashboard-add-workout-modal-row-show")
     ###
+
+  addNote: ->
+
 
   saveWorkout: ->
     $.ajax

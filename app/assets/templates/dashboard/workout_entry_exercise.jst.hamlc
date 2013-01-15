@@ -14,4 +14,4 @@
           .span4
             %button.btn.add-workout-exercise-remove-button -
   .row-fluid
-    .span9.offset1.dashboard-exercise-set.min-row-height#an-entries-details
+    .span9.offset1.dashboard-exercise-set.min-row-height.an-entry-detail
