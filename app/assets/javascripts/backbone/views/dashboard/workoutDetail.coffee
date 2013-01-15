@@ -48,15 +48,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     this
 
   addDetails: ->
-    console.log "adding"
 
-    @model.set("recentDetailsContainer", @$el)
-    console.log "modify model"
-    #console.log @
-    console.log "now trigger"
-    @model.set("addDetails", @model.get("addDetails")* -1)
-    #@model.set("addDetails", 67867857858758587)
-    #console.log @model.get("addDetails")
-    #console.log @$el
-    #new Weightyplates.Views.WorkoutDetail(detailContainer: @$el, fromAdd: true)
+    #check on model to prevent double rendering
+    if @model
+      @model.set("recentDetailsContainer", @$el)
+      @model.set("addDetails", @model.get("addDetails")* -1)
+
 
