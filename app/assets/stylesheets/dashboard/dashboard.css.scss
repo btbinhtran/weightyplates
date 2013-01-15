@@ -128,6 +128,7 @@
 .dashboard-add-workout-name{
   margin-top: 4%;
   /*background-color: #bc8f8f;*/
+
 }
 #add-workout-name-label{
   margin-top: 2%;
@@ -158,6 +159,9 @@
 }
 .dashboard-exercise-set{
   /*background-color: #d3d3d3;*/
+  .details-set-weight{
+    padding-bottom: 0.5em;
+  }
 }
 .add-workout-set-label{
   text-align: right;

@@ -8,10 +8,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-drop-downlist': 'checkForEntries'
     'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
 
-
+  el: '.workout-entry-exercise-and-sets-row'
 
   initialize: ()->
-
     exerciseCount = @model.get "exerciseCount"
 
     #need to add one for starting at a zero index
@@ -29,9 +28,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #increment the exercise count for the exercise label
     @model.set("exerciseCount", exerciseCount + 1)
 
-
-
-
     #render the template
     @render(exercisePhrase, @model.get "optionListEntries")
 
@@ -39,7 +35,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     viewElModel = @model
 
     #the main exercise row
-    $workoutExeciseMainRow = $('.workout-entry-exercise-and-sets-row')
+    $workoutExeciseMainRow = @$el
 
     #append template because there will be further exercise entries
     $workoutExeciseMainRow.append(@template())
@@ -47,42 +43,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #find the recently added exercise entry from the template append
     $workoutRowFound = $workoutExeciseMainRow.find('#exercise-grouping')
 
-    #console.log $workoutRowFound.find('.an-entry-detail')
-
-    #--------------------------------------------
-
+    #details container is for the set and weight rows
     $detailsContainer = $workoutRowFound.find('.an-entry-detail')
 
-    $detailsContainer.append("<div class='row-fluid' id='latest-details-container'></div>")
+    #preparing an additional container for the set and weight rows
+    $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #the workout details row
     $detailsRow = new Weightyplates.Views.WorkoutDetail()
 
-    #define a private model event in child view that communicates with this view, the parent
-    #$detailsRow.model.on('change:privateCall', @someStuff)
-
-
-
-
-
-    #$detailsRow.render()
-
-
-
-
-
-    #--------------------------------------------
-
     #define the @$el element because it is empty
     @$el = $workoutRowFound.removeAttr("id")
-
-    #define the el element because it is empty
-    @el = @$el[0]
-
-    #console.log @$el
-
-    #add the option list entries
-    #$workoutRowFound.find('.add-workout-exercise-drop-downlist').html(optionsList)
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
@@ -90,7 +61,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #keep track of the view exercises being added
     exerciseViews = @model.get("exerciseViews")
 
-    #console.log exerciseViews
     exerciseViews.push(viewExercise: @)
     @model.set("exerciseViews", exerciseViews)
 
@@ -107,41 +77,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         $(@).off()
       out: ->
 
-        #insert entries into option list
+    #insert entries into option list
     $optionLists =  $workoutRowFound.find('.add-workout-exercise-drop-downlist')
 
     #attaching event listener here because it's not a backbone event
     $optionLists.hoverIntent settings
 
-
     #return this
     this
-
-  #--------------------------------------------------------
-
-  someStuff: ->
-    console.log "some stuff"
-    #console.log @
-
-    $detailsContainer = @.get("recentDetailsContainer")
-
-
-
-    $detailsContainer.append(new Weightyplates.Views.WorkoutDetail(detailContainer: $detailsContainer))
-
-  createDetails:  ->
-    console.log "create"
-    #@ is the model so use get directly
-
-
-    #add another workout details
-    $detailsContainer.append(new Weightyplates.Views.WorkoutDetail(detailContainer: $detailsContainer, model: @model))
-
-
-
-
-
-   #--------------------------------------------------------
 
   checkForEntries: (event) ->
     #if entries are not there, add entries
