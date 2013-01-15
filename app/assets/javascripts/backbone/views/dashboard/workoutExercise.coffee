@@ -44,16 +44,13 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $workoutRowFound = $workoutExeciseMainRow.find('#exercise-grouping')
 
     #the workout details row
-    $workoutDetails = new Weightyplates.Views.WorkoutDetail(exerciseParentContainer: $workoutRowFound)
+    $workoutDetails = new Weightyplates.Views.WorkoutDetail()
 
     #define the @$el element because it is empty
     @$el = $workoutRowFound.removeAttr("id")
 
     #define the el element because it is empty
     @el = @$el[0]
-
-    #remove the id from entry details; subsequent entries will have the same id
-    $workoutRowFound.find('#an-entries-details').removeAttr("id")
 
     #add the option list entries
     #$workoutRowFound.find('.add-workout-exercise-drop-downlist').html(optionsList)
@@ -108,7 +105,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   addExercise: (event)->
     #generate a new exercise entry
-    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @model)
+    new Weightyplates.Views.WorkoutExercise(model: @model)
 
   removeExercise: (event)->
     if @model.get("exerciseCount") > 1
