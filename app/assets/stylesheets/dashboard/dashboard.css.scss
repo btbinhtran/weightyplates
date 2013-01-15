@@ -17,6 +17,7 @@
       font-size: 1.2em;
       color: #5D5253;
       display: inline-block;
+      width: 100%;
     }
     a:hover {
       color: #A2A3A3;
@@ -223,11 +224,17 @@
   width: 80%;
 }
 #for-side-borders{
-  border: 1px solid;
+  border: 1px solid #969696;
   border-bottom: none;
   border-top: none;
   width: 99.8%;
+  background-color: #f5f5f5;
 }
+#last-row-rule{
+  margin-top: 2%;
+}
+
+
 /* Add Workout End*/
 
 

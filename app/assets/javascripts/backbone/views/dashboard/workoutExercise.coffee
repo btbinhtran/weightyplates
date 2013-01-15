@@ -9,6 +9,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-drop-downlist': 'checkForEntries'
     'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
 
+
   initialize: ()->
     exerciseCount = @model.get "exerciseCount"
 
@@ -42,6 +43,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #find the recently added exercise entry from the template append
     $workoutRowFound = $workoutExeciseMainRow.find('#exercise-grouping')
 
+    #the workout details row
+    $workoutDetails = new Weightyplates.Views.WorkoutDetail(exerciseParentContainer: $workoutRowFound)
+
     #define the @$el element because it is empty
     @$el = $workoutRowFound.removeAttr("id")
 
@@ -57,12 +61,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
 
-    ###
     #keep track of the view exercises being added
     exerciseViews = @model.get("exerciseViews")
-    exerciseViews.push({viewExercise:@, viewDetails: $exerciseDetailParent})
+
+    #console.log exerciseViews
+    exerciseViews.push(viewExercise:@)
     @model.set("exerciseViews", exerciseViews)
-    ###
 
     #make all references of 'this' to reference the main object
     _.bindAll(@)
@@ -83,8 +87,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #attaching event listener here because it's not a backbone event
     $optionLists.hoverIntent settings
 
+
+
+
+
     #return this
     this
+
+
+
 
   checkForEntries: (event) ->
     #if entries are not there, add entries
@@ -129,4 +140,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
      alert "A workout must have at least one exercise."
 
   removeDetails: ->
+
     console.log "deleting"
+    @model.set("age", $('.add-workout-reps-input').val())

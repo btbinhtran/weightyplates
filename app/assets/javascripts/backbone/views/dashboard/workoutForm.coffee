@@ -8,12 +8,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #last-row-save-button': 'saveWorkout'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
-    'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
+    #'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
 
   initialize: ->
     _.bindAll(@)
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
     @modelWorkoutFormInputs = new Weightyplates.Models.WorkoutFormInputs
+
+
     @render()
 
   render: ()->
@@ -44,8 +46,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     optionListEntries = optionsList
     @modelWorkoutFormState.set("optionListEntries", optionListEntries)
 
+
+
+
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
-    $(document).on('keypress', @closeAddWorkoutDialog)
+
+    #$(document).on('keypress', @closeAddWorkoutDialog)
     @hintInWorkoutName()
     this
 
@@ -65,12 +71,21 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     $workoutNameInput.val(@modelWorkoutFormState.get "workoutNameHint").addClass('hint')
 
   closeAddWorkoutDialog: (event) ->
+
+    #console.log $('.add-workout-reps-input')
+
+    #@modelWorkoutFormState.set("age", $('.add-workout-reps-input').val())
+    #console.log @modelWorkoutFormState.get "age"
+    #console.log  _.size(@modelWorkoutFormState.get("exerciseViews"))
+
+    ###
     if event.keyCode == 27 || event.type == "click"
       @model.set("showingWorkoutForm", false)
       @model.set("hidingWorkoutForm", true)
       $('.dashboard-add-workout-modal-row-show')
         .addClass("dashboard-add-workout-modal-row")
         .removeClass("dashboard-add-workout-modal-row-show")
+    ###
 
   saveWorkout: ->
     $.ajax

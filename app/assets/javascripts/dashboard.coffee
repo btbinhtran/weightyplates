@@ -3,6 +3,8 @@
 ##= require jquery.hoverIntent
 ##= require hamlcoffee
 
+##= require i18n
+
 ##= require underscore
 ##= require backbone
 
@@ -14,9 +16,10 @@
 ##= require_tree ./backbone/views/dashboard
 ##= require_tree ./backbone/routers/dashboard
 
-##= require backbone-associations-min.js
+##= require backbone-associations-min
 
-##= require application.js
+
+##= require application
 
 window.Weightyplates =
   Models: {}
@@ -29,6 +32,8 @@ window.Weightyplates =
 
 $(document).ready ->
   Weightyplates.init()
+
+
 
 
 

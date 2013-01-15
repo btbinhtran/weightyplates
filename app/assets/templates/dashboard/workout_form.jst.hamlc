@@ -5,7 +5,7 @@
         .span7
           %h2.dashboard-add-workout-header New Workout Entry
         .span1.offset4
-          %button#workout-form-main-close-button C
+          %button#workout-form-main-close-button.btn C
     .span12
       .row-fluid
         .span9.offset1.dashboard-add-workout-name.min-row-height#workout-name-container
@@ -23,10 +23,10 @@
               .span6.offset3
                 .row-fluid
                   .span6
-                    %button.last-row-buttons Add Note
+                    %button.last-row-buttons.btn Add Note
                   .span6
-                    %button#last-row-cancel-button.last-row-buttons Cancel
+                    %button#last-row-cancel-button.last-row-buttons.btn Cancel
               .span3
                 .row-fluid
                   .span12
-                    %button#last-row-save-button.last-row-buttons Save
+                    %button#last-row-save-button.last-row-buttons.btn Save
