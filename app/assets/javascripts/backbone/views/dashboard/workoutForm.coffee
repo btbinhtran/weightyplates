@@ -18,7 +18,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @render()
 
   render: ()->
-
     #load the view template
     @$el.html(@template())
 

@@ -8,6 +8,8 @@
 ##= require underscore
 ##= require backbone
 
+##= require backbone-associations-min
+
 ##= require_self
 
 ##= require_tree ../templates/dashboard
@@ -15,9 +17,6 @@
 ##= require_tree ./backbone/collection/dashboard
 ##= require_tree ./backbone/views/dashboard
 ##= require_tree ./backbone/routers/dashboard
-
-##= require backbone-associations-min
-
 
 ##= require application
 
