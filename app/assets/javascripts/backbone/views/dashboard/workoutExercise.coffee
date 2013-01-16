@@ -37,6 +37,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #the main exercise row
     $workoutExeciseMainRow = @$el
 
+    #----------------------------------------------Generate a Exercise View and Details
+
     #append template because there will be further exercise entries
     $workoutExeciseMainRow.append(@template())
 
@@ -50,13 +52,33 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #the workout details row
-    $detailsRow = new Weightyplates.Views.WorkoutDetail()
+    new Weightyplates.Views.WorkoutDetail()
 
     #define the @$el element because it is empty
     @$el = $workoutRowFound.removeAttr("id")
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
+
+    exerciseAssociation = new Weightyplates.Models.ExercisesAssociations()
+
+    console.log exerciseAssociation
+
+    detailAssociation = new Weightyplates.Models.DetailsAssociations({set: 1, weight: 5, set_number: 2})
+
+    #console.log detailAssociation
+
+    exerciseAssociation.relations[0].relatedModel = Weightyplates.Models.DetailsAssociations()
+
+    #exerciseAssociation.set({details: detailAssociation})
+
+    #console.log exerciseAssociation
+
+    #console.log exerciseAssociation.relations[0].relatedModel
+
+    #exerciseAssociation.set({details: detailAssociation})
+
+    #----------------------------------------------Track Exercise Views
 
     #keep track of the view exercises being added
     exerciseViews = @model.get("exerciseViews")
@@ -66,6 +88,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #make all references of 'this' to reference the main object
     _.bindAll(@)
+
+    #----------------------------------------------Event Listener: Hover Intent
 
     #settings for the hoverIntent plugin
     #load the exercises when the mouses hovers

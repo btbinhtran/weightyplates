@@ -27,6 +27,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #form view gets the workoutFormState model
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
 
+    new Weightyplates.Models.ExercisesAssociations()
+
     #$(document).on('keypress', @closeAddWorkoutDialog)
     @hintInWorkoutName()
     this
