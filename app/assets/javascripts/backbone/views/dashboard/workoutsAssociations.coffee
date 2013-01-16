@@ -1,12 +1,10 @@
 class Weightyplates.Models.WorkoutsAssociations extends Backbone.AssociatedModel
 
-  paramRoot: 'workout'
-
   constructor: () ->
     @relations = [
                   {
                     type: Backbone.Many,
-                    key: 'exercises',
+                    key: 'workout_entry',
                     relatedModel: Weightyplates.Models.ExercisesAssociations
                   }
                 ]

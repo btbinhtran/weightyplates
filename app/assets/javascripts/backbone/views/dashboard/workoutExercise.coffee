@@ -72,21 +72,24 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     workoutAssociation = new Weightyplates.Models.WorkoutsAssociations()
 
-    #console.log detailAssociation
+    userAssociation = new Weightyplates.Models.UserSessionAssociations()
 
 
 
-    exerciseAssociation.set({details: [detailAssociation, detailAssociation2]})
-    exerciseAssociation2.set({details: [detailAssociation2, detailAssociation2]})
 
-    workoutAssociation.set({exercises: [exerciseAssociation, exerciseAssociation2]})
+    exerciseAssociation.set({entry_detail: [detailAssociation, detailAssociation2]})
+    exerciseAssociation2.set({entry_detail: [detailAssociation2, detailAssociation2]})
+
+    workoutAssociation.set({workout_entry: [exerciseAssociation, exerciseAssociation2]})
+
+    userAssociation.set({workout:workoutAssociation })
 
     #console.log workoutAssociation
     #console.log exerciseAssociation.get("details").models
     #console.log exerciseAssociation.get("details").models[0]
     #console.log exerciseAssociation.get("details").models[0].get "reps"
 
-    console.log JSON.stringify(workoutAssociation)
+    console.log JSON.stringify(userAssociation)
 
 
 
