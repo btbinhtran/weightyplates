@@ -1,41 +1,14 @@
 class Weightyplates.Models.ExercisesAssociations extends Backbone.AssociatedModel
 
-
-
-  #Detail = new Weightyplates.Models.DetailsAssociations()
-
-  constructor: (name) ->
-    @name = name
+  constructor: (detailsConstructor) ->
     @relations = [
                   {
                     type: Backbone.Many,
                     key: 'details',
-                    relatedModel: name
+                    relatedModel: detailsConstructor
                   }
                 ]
     super
 
-
-
-  #constructor: () ->
-
-
-  ###
-  constructor: (relation) ->
-    @relations = [
-                  {
-                    type: Backbone.Many,
-                    key: 'details',
-                    relatedModel: null
-                  }
-                ]
-
-
-  ###
-
-
-
-
-  #relations:
 
 

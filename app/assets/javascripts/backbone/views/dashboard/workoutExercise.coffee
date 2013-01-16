@@ -61,30 +61,24 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
 
 
-
+    #example usage with backbone association
     detailAssociation = new Weightyplates.Models.DetailsAssociations({reps: 1, weight: 5, set_number: 2})
+
+    detailAssociation2 = new Weightyplates.Models.DetailsAssociations({reps: 8, weight: 4, set_number: 9})
 
     exerciseAssociation = new Weightyplates.Models.ExercisesAssociations(  Weightyplates.Models.DetailsAssociations)
 
     console.log detailAssociation
 
-    exerciseAssociation.set({details: [detailAssociation]})
+    exerciseAssociation.set({details: [detailAssociation, detailAssociation2]})
 
-    console.log exerciseAssociation.get("details").models
-    console.log exerciseAssociation.get("details").models[0]
-    console.log exerciseAssociation.get("details").models[0].get "reps"
+    #console.log exerciseAssociation.get("details").models
+    #console.log exerciseAssociation.get("details").models[0]
+    #console.log exerciseAssociation.get("details").models[0].get "reps"
 
-    #console.log detailAssociation
+    console.log JSON.stringify(exerciseAssociation)
 
-    #exerciseAssociation.relations[0].relatedModel = Weightyplates.Models.DetailsAssociations()
 
-    #exerciseAssociation.set({details: detailAssociation})
-
-    #console.log exerciseAssociation
-
-    #console.log exerciseAssociation.relations[0].relatedModel
-
-    #exerciseAssociation.set({details: detailAssociation})
 
     #----------------------------------------------Track Exercise Views
 
@@ -100,7 +94,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #----------------------------------------------Event Listener: Hover Intent
 
     #settings for the hoverIntent plugin
-    #load the exercises when the mouses hovers
+    #only load the exercises when the mouses hovers over the select list
     settings =
       sensitivity: 10
       interval: 10
@@ -119,7 +113,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   checkForEntries: (event) ->
-    #if entries are not there, add entries
+    #if entries are not present, add entries
     if $(event.target).html() == ""
       $(event.target).html(@model.get "optionListEntries")
 
