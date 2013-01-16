@@ -60,11 +60,19 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
 
-    exerciseAssociation = new Weightyplates.Models.ExercisesAssociations(name:  "hey")
 
-    console.log exerciseAssociation
 
-    detailAssociation = new Weightyplates.Models.DetailsAssociations({set: 1, weight: 5, set_number: 2})
+    detailAssociation = new Weightyplates.Models.DetailsAssociations({reps: 1, weight: 5, set_number: 2})
+
+    exerciseAssociation = new Weightyplates.Models.ExercisesAssociations(  Weightyplates.Models.DetailsAssociations)
+
+    console.log detailAssociation
+
+    exerciseAssociation.set({details: [detailAssociation]})
+
+    console.log exerciseAssociation.get("details").models
+    console.log exerciseAssociation.get("details").models[0]
+    console.log exerciseAssociation.get("details").models[0].get "reps"
 
     #console.log detailAssociation
 
