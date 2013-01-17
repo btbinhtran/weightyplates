@@ -31,6 +31,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #creating exerciseAssociation model for this view
     @exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: null})
 
+    #model shared between the form and the exercise
+    exerciseAssociatedModels = @model.get("exerciseAssociatedModels")
+
+    #add to the exercise association model array tracker
+    exerciseAssociatedModels.push(@exerciseAssociation)
+    @model.set("exerciseAssociatedModels", exerciseAssociatedModels)
+
+    #indicate which exercise associated model was recently added
     @model.set("recentlyAddedExerciseAssociatedModel", @exerciseAssociation)
 
     #model between exercises and details

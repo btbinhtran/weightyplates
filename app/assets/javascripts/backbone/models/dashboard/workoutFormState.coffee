@@ -37,6 +37,7 @@ class Weightyplates.Models.WorkoutFormState extends Backbone.Model
     lastExercise: null
     recentlyAddedExerciseAssociatedModel: null
     signalParentForm: -1
+    exerciseAssociatedModels: []
 
 
 
