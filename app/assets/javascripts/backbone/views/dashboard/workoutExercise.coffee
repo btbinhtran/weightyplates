@@ -140,31 +140,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   updateAssociatedModel: ->
     console.log "exercise needs updating"
-    #@set("signalParentForm", @get("signalParentForm") * -1)
-
-    #exerciseAssociation
-    #console.log @
-
-    #console.log @model
-
-    #indicate which view has recently change and triggers change in parent
-    #@model.set("recentlyAddedExerciseAssociatedModel", @exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
 
     #entry details updated the parent exercise
-    @exerciseAssociation.set({entry_detail: [@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]})
+    #subsequent entry details will be added
+    if @exerciseAssociation.get("entry_detail")
+       #console.log @exerciseAssociation.get("entry_detail").length
+      @exerciseAssociation.get("entry_detail").add(@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
+    else
+      @exerciseAssociation.set({entry_detail: [@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]})
 
+    #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
-
-
-
-
-
-    #console.log @exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")
-
-
-    #@exerciseAssociation.set({entry_detail: [@get("recentlyAddedDetailsAssociatedModel")]})
-
-    #@model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
   checkForEntries: (event) ->
     #if entries are not present, add entries
