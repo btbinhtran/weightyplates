@@ -61,7 +61,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
 
 
-    #example usage with backbone association
+    ###example usage with backbone association
     detailAssociation = new Weightyplates.Models.DetailsAssociations({reps: 1, weight: 5, set_number: 2})
 
     detailAssociation2 = new Weightyplates.Models.DetailsAssociations({reps: 8, weight: 4, set_number: 9})
@@ -90,7 +90,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #console.log exerciseAssociation.get("details").models[0].get "reps"
 
     console.log JSON.stringify(userAssociation)
-
+    ###
 
 
     #----------------------------------------------Track Exercise Views

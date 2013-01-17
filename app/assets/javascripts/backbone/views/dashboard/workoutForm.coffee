@@ -14,7 +14,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   initialize: ->
     _.bindAll(@)
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
-    @modelWorkoutFormInputs = new Weightyplates.Models.WorkoutFormInputs
     @render()
 
   render: ()->
@@ -27,7 +26,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #form view gets the workoutFormState model
     viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
 
-    new Weightyplates.Models.ExercisesAssociations()
+    #create a user model for workouts and further nesting of models
+    userSessionAssociation = new Weightyplates.Models.UserSessionAssociations()
 
     #$(document).on('keypress', @closeAddWorkoutDialog)
     @hintInWorkoutName()
@@ -69,6 +69,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
 
   saveWorkout: ->
+
+    ###
     $.ajax
       type: "POST"
       url: "/api/workouts"
@@ -122,6 +124,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           "The following error occurred: " +
           textStatus + errorThrown
         )
-
+    ###
 
 
