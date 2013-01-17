@@ -29,13 +29,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("exerciseCount", exerciseCount + 1)
 
     #creating exerciseAssociation model for this view
-    exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: null})
+    @exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: null})
 
-    #indicate which view has recently changed
-    @model.set("recentlyAddedExerciseAssociatedModel", exerciseAssociation)
+    #model between exercises and details
+    @exerciseAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails()
 
-    #request a change by signalling the parent view
-    @model.set("requestParentWorkoutView", (@model.get "requestParentWorkoutView") * -1)
+    #allows child view to request a change in associated model for the parent
+    @exerciseAndDetailsModel.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModel, @)
+
+
 
     #render the template
     @render(exercisePhrase, @model.get "optionListEntries")
@@ -61,7 +63,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #the workout details row
-    new Weightyplates.Views.WorkoutDetail()
+    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetailsModel)
 
     #define the @$el element because it is empty
     @$el = $workoutRowFound.removeAttr("id")
@@ -133,6 +135,25 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #return this
     this
+
+  updateAssociatedModel: ->
+    console.log "exercise needs updating"
+    #@set("signalParentForm", @get("signalParentForm") * -1)
+
+    #exerciseAssociation
+    #console.log @
+
+    #console.log @model
+
+    #indicate which view has recently change and triggers change in parent
+    @model.set("recentlyAddedExerciseAssociatedModel", @exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
+
+
+
+
+    #@exerciseAssociation.set({entry_detail: [@get("recentlyAddedDetailsAssociatedModel")]})
+
+    #@model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
   checkForEntries: (event) ->
     #if entries are not present, add entries

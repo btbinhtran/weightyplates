@@ -28,8 +28,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     console.log "user session"
     console.log @associatedModelUser
 
-    #allows child view to request a change in associated mdoel for the parent
-    @modelWorkoutFormState.on("change:requestParentWorkoutView", @updateAssociatedModel)
+    #allows child view to request a change in associated model for the parent
+    @modelWorkoutFormState.on("change:recentlyAddedExerciseAssociatedModel", @updateAssociatedModel)
+
+    @modelWorkoutFormState.on("change:signalParentForm", @updateAssociatedModel)
 
     #call render
     @render()

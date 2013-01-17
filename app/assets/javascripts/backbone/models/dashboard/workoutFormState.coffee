@@ -11,14 +11,14 @@ class Weightyplates.Models.WorkoutFormState extends Backbone.Model
     optionsList.push("<option></option>")
     while entry < theExerciseModelLength
       theEntry = theExerciseModel[entry]
-      dataIdAttribute = "data-id='" + (theEntry.id) + "' "
-      dataEquipmentAttribute = "data-equipment='" + (theEntry.equipment) + "' "
-      dataForceAttribute = "data-force='" + (theEntry.force) + "' "
-      dataIsSportAttribute = "data-isSport='" + (theEntry.is_sport) + "' "
-      dataLevelAttribute = "data-level='" + (theEntry.level) + "' "
-      dataMechanicsAttribute = "data-mechanics='" + (theEntry.mechanics) + "' "
-      dataMuscleAttribute = "data-muscle='" + (theEntry.muscle) + "' "
-      dataTypeAttribute = "data-type='" + (theEntry.type) + "' "
+      dataIdAttribute = "data-id='#{(theEntry.id)}'"
+      dataEquipmentAttribute = "data-equipment='#{theEntry.equipment}'"
+      dataForceAttribute = "data-force='#{theEntry.force}'"
+      dataIsSportAttribute = "data-isSport='#{theEntry.is_sport}'"
+      dataLevelAttribute = "data-level='#{theEntry.level})'"
+      dataMechanicsAttribute = "data-mechanics='#{theEntry.mechanics}'"
+      dataMuscleAttribute = "data-muscle='#{theEntry.muscle}'"
+      dataTypeAttribute = "data-type='#{theEntry.type}'"
       exerciseName = theEntry.name
       exerciseName = exerciseName.replace(/'/g, '&#039;')
       valueAttribute = "value='" + exerciseName + "'"
@@ -35,8 +35,8 @@ class Weightyplates.Models.WorkoutFormState extends Backbone.Model
     exerciseViews: []
     firstExercise: null
     lastExercise: null
-    detailView: []
-    requestParentWorkoutView: -1
     recentlyAddedExerciseAssociatedModel: null
+    signalParentForm: -1
+
 
 
