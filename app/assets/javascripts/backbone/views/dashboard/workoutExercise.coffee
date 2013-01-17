@@ -28,6 +28,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #increment the exercise count for the exercise label
     @model.set("exerciseCount", exerciseCount + 1)
 
+    #creating exerciseAssociation model for this view
+    exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: null})
+
+    #indicate which view has recently changed
+    @model.set("recentlyAddedExerciseAssociatedModel", exerciseAssociation)
+
+    #request a change by signalling the parent view
+    @model.set("requestParentWorkoutView", (@model.get "requestParentWorkoutView") * -1)
+
     #render the template
     @render(exercisePhrase, @model.get "optionListEntries")
 

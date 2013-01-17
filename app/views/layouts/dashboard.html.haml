@@ -4,7 +4,7 @@
     = render 'shared/header_tags'
     = stylesheet_link_tag "global/global"
     = stylesheet_link_tag "dashboard/dashboard"
-    = include_gon
+    = include_gon(need_type: true)
     = javascript_include_tag "dashboard"
     = render 'shared/preload_backbone_models'
     = csrf_meta_tags

@@ -10,5 +10,8 @@ class Weightyplates.Models.ExercisesAssociations extends Backbone.AssociatedMode
                 ]
     super
 
+  defaults:
+    exercise_id: null
+
 
 

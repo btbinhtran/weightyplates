@@ -13,25 +13,44 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   initialize: ->
     _.bindAll(@)
+
+    #model for workout state
     @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
+
+    #prepare the option entries
+    @modelWorkoutFormState.set("optionListEntries", @modelWorkoutFormState.prepareEntries())
+
+    #create a user model for workouts and further nesting of models
+    @associatedModelUser = new Weightyplates.Models.UserSessionAssociations()
+    @associatedWorkout = new Weightyplates.Models.WorkoutsAssociations()
+    @associatedModelUser.set({workout: [@associatedWorkout]})
+
+    console.log "user session"
+    console.log @associatedModelUser
+
+    #allows child view to request a change in associated mdoel for the parent
+    @modelWorkoutFormState.on("change:requestParentWorkoutView", @updateAssociatedModel)
+
+    #call render
     @render()
 
   render: ()->
     #load the view template
     @$el.html(@template())
 
-    #prepare the option entries
-    @modelWorkoutFormState.set("optionListEntries", @modelWorkoutFormState.prepareEntries())
-
     #form view gets the workoutFormState model
-    viewExerciseEntry = new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
-
-    #create a user model for workouts and further nesting of models
-    userSessionAssociation = new Weightyplates.Models.UserSessionAssociations()
+    new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
 
     #$(document).on('keypress', @closeAddWorkoutDialog)
     @hintInWorkoutName()
     this
+
+  updateAssociatedModel: ->
+    console.log "want a change"
+    #console.log @
+
+    @associatedWorkout.set({workout_entry: [@modelWorkoutFormState.get "recentlyAddedExerciseAssociatedModel"]})
+    console.log JSON.stringify(@associatedModelUser)
 
   getEventTarget: (event)->
     $(event.target)
