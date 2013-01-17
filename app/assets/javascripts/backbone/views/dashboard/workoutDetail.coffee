@@ -17,6 +17,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     console.log @model
 
     #to signal to parent view, exercise, what child has been added
+    #modelContents = @model.get("recentlyAddedDetailsAssociatedModel")
+    #modelContents.push[detailsAssociation]
     @model.set("recentlyAddedDetailsAssociatedModel", detailsAssociation)
 
 

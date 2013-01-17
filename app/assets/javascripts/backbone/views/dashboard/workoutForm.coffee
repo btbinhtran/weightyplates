@@ -20,7 +20,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #prepare the option entries
     @modelWorkoutFormState.set("optionListEntries", @modelWorkoutFormState.prepareEntries())
 
-    #create a user model for workouts and further nesting of models
+    #create an associated user model for workouts and further nesting of associated models
     @associatedModelUser = new Weightyplates.Models.UserSessionAssociations()
     @associatedWorkout = new Weightyplates.Models.WorkoutsAssociations()
     @associatedModelUser.set({workout: [@associatedWorkout]})
@@ -29,7 +29,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     console.log @associatedModelUser
 
     #allows child view to request a change in associated model for the parent
-    @modelWorkoutFormState.on("change:recentlyAddedExerciseAssociatedModel", @updateAssociatedModel)
+    #@modelWorkoutFormState.on("change:recentlyAddedExerciseAssociatedModel", @updateAssociatedModel)
 
     @modelWorkoutFormState.on("change:signalParentForm", @updateAssociatedModel)
 

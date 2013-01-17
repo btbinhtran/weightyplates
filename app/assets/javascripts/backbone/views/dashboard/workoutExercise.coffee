@@ -31,6 +31,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #creating exerciseAssociation model for this view
     @exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: null})
 
+    @model.set("recentlyAddedExerciseAssociatedModel", @exerciseAssociation)
+
     #model between exercises and details
     @exerciseAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails()
 
@@ -146,9 +148,18 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #console.log @model
 
     #indicate which view has recently change and triggers change in parent
-    @model.set("recentlyAddedExerciseAssociatedModel", @exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
+    #@model.set("recentlyAddedExerciseAssociatedModel", @exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
+
+    #entry details updated the parent exercise
+    @exerciseAssociation.set({entry_detail: [@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]})
+
+    @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
 
+
+
+
+    #console.log @exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")
 
 
     #@exerciseAssociation.set({entry_detail: [@get("recentlyAddedDetailsAssociatedModel")]})
