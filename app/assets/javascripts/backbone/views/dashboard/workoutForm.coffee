@@ -52,9 +52,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log @
 
     if @associatedWorkout.get("workout_entry")
-        if @associatedWorkout.get("workout_entry").length >= 1
-          console.log "don't overwrite"
-          @associatedWorkout.get("workout_entry").add(@modelWorkoutFormState.get("recentlyAddedExerciseAssociatedModel"))
+
+      console.log "don't overwrite"
+      @associatedWorkout.get("workout_entry").add(@modelWorkoutFormState.get("recentlyAddedExerciseAssociatedModel"))
     else
       @associatedWorkout.set({workout_entry: [@modelWorkoutFormState.get "recentlyAddedExerciseAssociatedModel"]})
 

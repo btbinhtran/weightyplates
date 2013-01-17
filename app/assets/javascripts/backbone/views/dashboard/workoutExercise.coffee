@@ -8,9 +8,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-drop-downlist': 'checkForEntries'
     'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
 
-  el: '.workout-entry-exercise-and-sets-row'
+  el: '#exercise-grouping'
 
   initialize: ()->
+    console.log "new exercise is _______________"
+
+
     exerciseCount = @model.get "exerciseCount"
 
     #need to add one for starting at a zero index
@@ -59,18 +62,25 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     viewElModel = @model
 
     #the main exercise row
-    $workoutExeciseMainRow = @$el
+    $workoutExeciseRow = @$el
+
+    console.log "new container is "
+    console.log @
+
+
+
 
     #----------------------------------------------Generate a Exercise View and Details
 
     #append template because there will be further exercise entries
-    $workoutExeciseMainRow.append(@template())
+    $workoutExeciseRow.append(@template())
 
-    #find the recently added exercise entry from the template append
-    $workoutRowFound = $workoutExeciseMainRow.find('#exercise-grouping')
+    #remove the id of the exercise row because subsequent exercise will have the same id
+    @$el.removeAttr("id")
 
     #details container is for the set and weight rows
-    $detailsContainer = $workoutRowFound.find('.an-entry-detail')
+    $detailsContainer = $workoutExeciseRow.find('.an-entry-detail')
+    #$detailsContainer = $workoutRowFound.find('.an-entry-detail')
 
     #preparing an additional container for the set and weight rows
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
@@ -78,50 +88,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #the workout details row
     new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetailsModel)
 
-    #define the @$el element because it is empty
-    @$el = $workoutRowFound.removeAttr("id")
-
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
-
-
-    ###example usage with backbone association
-    detailAssociation = new Weightyplates.Models.DetailsAssociations({reps: 1, weight: 5, set_number: 2})
-
-    detailAssociation2 = new Weightyplates.Models.DetailsAssociations({reps: 8, weight: 4, set_number: 9})
-
-    exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: 2})
-
-    exerciseAssociation2 = new Weightyplates.Models.ExercisesAssociations({exercise_id: 3})
-
-    workoutAssociation = new Weightyplates.Models.WorkoutsAssociations()
-
-    userAssociation = new Weightyplates.Models.UserSessionAssociations()
-
-
-
-
-    exerciseAssociation.set({entry_detail: [detailAssociation, detailAssociation2]})
-    exerciseAssociation2.set({entry_detail: [detailAssociation2, detailAssociation2]})
-
-    workoutAssociation.set({workout_entry: [exerciseAssociation, exerciseAssociation2]})
-
-    userAssociation.set({workout:workoutAssociation })
-
-    #console.log workoutAssociation
-    #console.log exerciseAssociation.get("details").models
-    #console.log exerciseAssociation.get("details").models[0]
-    #console.log exerciseAssociation.get("details").models[0].get "reps"
-
-    console.log JSON.stringify(userAssociation)
-    ###
 
 
     #----------------------------------------------Track Exercise Views
 
     #keep track of the view exercises being added
     exerciseViews = @model.get("exerciseViews")
-
     exerciseViews.push(viewExercise: @)
     @model.set("exerciseViews", exerciseViews)
 
@@ -141,7 +115,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       out: ->
 
     #insert entries into option list
-    $optionLists =  $workoutRowFound.find('.add-workout-exercise-drop-downlist')
+    $optionLists =  $workoutExeciseRow.find('.add-workout-exercise-drop-downlist')
 
     #attaching event listener here because it's not a backbone event
     $optionLists.hoverIntent settings
@@ -153,7 +127,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     console.log "exercise needs updating"
 
     #entry details updated the parent exercise
-    #subsequent entry details will be added
+    #subsequent entry details will be added instead
     if @exerciseAssociation.get("entry_detail")
        #console.log @exerciseAssociation.get("entry_detail").length
       @exerciseAssociation.get("entry_detail").add(@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
@@ -173,11 +147,19 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @$el.off("click", ".add-workout-exercise-drop-downlist")
 
   addExercise: (event)->
+    console.log "adding another exercise ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    console.log @$el
+
+    #create a new grouping container for the new exercise
+    @$el.parent().append("<div class='exercise-grouping row-fluid' id='exercise-grouping'></div>")
+
     #generate a new exercise entry
     new Weightyplates.Views.WorkoutExercise(model: @model)
 
   removeExercise: (event)->
     if @model.get("exerciseCount") > 1
+
+      ###FOR REORDERING
 
       #more care is needed if the exercise is not the last
       notTheLast = (@model.get("lastExercise").cid != @cid)
@@ -187,10 +169,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         #the first or middle entry
         $siblings = @$el.nextAll()
 
+      ###
+
       #remove view and event listeners attached to it; event handlers first
       @stopListening()
       @undelegateEvents()
       @remove()
+
+      ###FOR REORDERING
 
       #decrementing the exercise labels when deleting exercise entries
       if notTheLast
@@ -199,8 +185,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           oldNumber = parseInt($(this).text().replace(/Exercise /g, ''))
           $(this).text("Exercise #{oldNumber - 1}")
 
+
+
       #decrement the exercise count
       @model.set("exerciseCount", @model.get("exerciseCount") - 1)
+
+      ###
 
     else
       alert "A workout must have at least one exercise."
