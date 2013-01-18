@@ -25,8 +25,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @associatedWorkout = new Weightyplates.Models.WorkoutsAssociations()
     @associatedModelUser.set({workout: [@associatedWorkout]})
 
-    console.log "user session"
-    console.log @associatedModelUser
+    #console.log "user session"
+    #console.log @associatedModelUser
 
     #allows child view to request a change in associated model for the parent
     #@modelWorkoutFormState.on("change:recentlyAddedExerciseAssociatedModel", @updateAssociatedModel)
@@ -48,18 +48,18 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     this
 
   updateAssociatedModel: ->
-    console.log "want a change"
+    #console.log "want a change"
     #console.log @
 
     if @associatedWorkout.get("workout_entry")
 
-      console.log "don't overwrite"
+      #console.log "don't overwrite"
       @associatedWorkout.get("workout_entry").add(@modelWorkoutFormState.get("recentlyAddedExerciseAssociatedModel"))
     else
       @associatedWorkout.set({workout_entry: [@modelWorkoutFormState.get "recentlyAddedExerciseAssociatedModel"]})
 
 
-    console.log JSON.stringify(@associatedModelUser)
+    #console.log JSON.stringify(@associatedModelUser)
 
   getEventTarget: (event)->
     $(event.target)

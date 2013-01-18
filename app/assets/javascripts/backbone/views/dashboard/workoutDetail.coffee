@@ -22,8 +22,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @model.set("detailViews", detailView)
 
 
-    console.log "details"
-    console.log @model.get "detailViews"
+    #console.log "details"
+    #console.log @model.get "detailViews"
 
     @render()
 

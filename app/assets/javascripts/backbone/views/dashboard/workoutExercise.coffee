@@ -11,7 +11,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   el: '#exercise-grouping'
 
   initialize: ()->
-    console.log "new exercise is _______________"
+    #console.log "new exercise is _______________"
 
 
     exerciseCount = @model.get "exerciseCount"
@@ -64,8 +64,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #the main exercise row
     $workoutExeciseRow = @$el
 
-    console.log "new container is "
-    console.log @
+    #console.log "new container is "
+    #console.log @
 
 
 
@@ -124,7 +124,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   updateAssociatedModel: ->
-    console.log "exercise needs updating"
+    #console.log "exercise needs updating"
 
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
@@ -147,8 +147,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @$el.off("click", ".add-workout-exercise-drop-downlist")
 
   addExercise: (event)->
-    console.log "adding another exercise ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-    console.log @$el
+    #console.log "adding another exercise ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    #console.log @$el
 
     #create a new grouping container for the new exercise
     @$el.parent().append("<div class='exercise-grouping row-fluid' id='exercise-grouping'></div>")
