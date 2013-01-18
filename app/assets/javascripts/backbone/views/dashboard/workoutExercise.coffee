@@ -50,6 +50,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #allows child view to request a change in associated model for the parent
     @amongExercises.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
+    #console.log "among exercises"
+    #console.log @amongExercises
+
+    @amongExercises.on("change:signalExerciseForm", @updateAssociatedModelRemove, @)
+
+
     #render the template
     @render(exercisePhrase, @model.get("optionListEntries"), exerciseViewsCount)
 
@@ -125,6 +131,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       @exerciseAssociation.get("entry_detail").add(@amongExercises.get("recentlyAddedDetailsAssociatedModel"))
     else
       @exerciseAssociation.set({entry_detail: [@amongExercises.get("recentlyAddedDetailsAssociatedModel")]})
+
+    #signal to parent that a update is needed
+    @model.set("signalParentForm", @model.get("signalParentForm") * -1)
+
+  updateAssociatedModelRemove: ->
+    console.log "request removal"
+
+    #a detail entry will be removed
+    @exerciseAssociation.get("entry_detail").remove(@amongExercises.get("recentlyRemovedDetailsAssociatedModel"))
 
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
