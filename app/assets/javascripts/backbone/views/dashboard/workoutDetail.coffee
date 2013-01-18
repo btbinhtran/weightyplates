@@ -43,6 +43,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #remove the id some subsequent templates can have the same id name
     @$el.removeAttr("id")
 
+    #remove the remove button in the beginning when there is only one detail
+    if @privateModel.get("detailViews").length == 1
+      $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button').addClass('hide-add-workout-reps-remove-button')
+      @privateModel.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
+      #console.log @model.get "hiddenExerciseRemoveButton"
+    else
+      $hiddenDetailRemove = @privateModel.get "hiddenDetailRemoveButton"
+      $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
+
     this
 
   addDetails: ->
@@ -58,28 +67,28 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #list of all the views
     detailViews = @privateModel.get("detailViews")
 
-    #only allow removal if there is at least two details row
-    if detailViews.length >= 2
+    #the current view id
+    currentCiewId = @cid
 
-      #the current view id
-      currentCiewId = @cid
+    #remove detailViews reference when deleting this view
+    detailViewsFiltered = _(detailViews).reject((el) ->
+      el.viewId is currentCiewId
+    )
 
-      #remove detailViews reference when deleting this view
-      detailViewsFiltered = _(detailViews).reject((el) ->
-        el.viewId is currentCiewId
-      )
+    #update the privateModel after removal
+    @privateModel.set("detailViews", detailViewsFiltered)
 
-      #update the privateModel after removal
-      @privateModel.set("detailViews", detailViewsFiltered)
+    #delete all events before removing view
+    @stopListening()
+    @undelegateEvents()
+    @remove()
 
-      #delete all events before removing view
-      @stopListening()
-      @undelegateEvents()
-      @remove()
-
-    else
-      alert "Must have at least one set for exercise"
-
+    #remove the exercise remove button, if only one exercise left is left as a result
+    if detailViewsFiltered.length == 1
+      $hiddenDetailRemove = @privateModel.get("detailViews")[0].view.$el
+        .find('.add-workout-reps-remove-button')
+        .addClass('hide-add-workout-reps-remove-button')
+      @privateModel.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
 
 
 
