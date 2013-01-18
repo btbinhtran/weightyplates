@@ -18,15 +18,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #keep track of the exerciseviews and count
     exerciseViews = @model.get("exerciseViews")
     exerciseViewsCount = @model.get("exerciseViewsCount") + 1
-
-
-
-    exerciseViews.push({viewId: @cid, viewExerciseNumber: exerciseViewsCount})
+    exerciseViews.push({view:@, viewId: @cid, viewExerciseNumber: exerciseViewsCount})
     @model.set("exerciseViewsCount", exerciseViewsCount)
     @model.set("exerciseViews", exerciseViews)
 
-    console.log "first exer view count"
-    console.log  @model.get("exerciseViews").length
+    #console.log "first exer view count"
+    #console.log  @model.get("exerciseViews").length
 
     #need to add one for starting at a zero index
     exercisePhrase = "Exercise #{exerciseViewsCount}"
@@ -74,18 +71,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #remove the id of the exercise row because subsequent exercise will have the same id
     @$el.removeAttr("id")
 
-    #remove the delete button if there is only one exercise present
-
-    #$('.add-workout-exercise-remove-button')
-
-
-
-
+    #remove the remove button in the beginning when there is only one exercise
     if @model.get("exerciseViews").length == 1
-      console.log "only one exercise present"
-      @$el.find('.add-workout-exercise-remove-button').addClass('hide-add-workout-button')
-
-
+      #console.log "only one exercise present"
+      $hiddenExerciseRemove = @$el.find('.add-workout-exercise-remove-button').addClass('hide-add-workout-button')
+      @model.set("hiddenExerciseRemoveButton",$hiddenExerciseRemove)
+      #console.log @model.get "hiddenExerciseRemoveButton"
+    else
+      $hiddenExerciseRemove = @model.get "hiddenExerciseRemoveButton"
+      $hiddenExerciseRemove.removeClass('hide-add-workout-button')
 
     #details container is for the set and weight rows
     $detailsContainer = $workoutExeciseRow.find('.an-entry-detail')
@@ -158,25 +152,27 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #list of all the views
     exerciseViews = @model.get("exerciseViews")
 
-    #console.log @model.get("exerciseViews")
-    if exerciseViews.length >= 2
+    #the current view id
+    currentCiewId = @cid
 
-      #the current view id
-      currentCiewId = @cid
+    #remove exerciseViews reference when deleting this view
+    exerciseViewsFiltered = _(exerciseViews).reject((el) ->
+      el.viewId is currentCiewId
+    )
 
-      #remove exerciseViews reference when deleting this view
-      exerciseViewsFiltered = _(exerciseViews).reject((el) ->
-        el.viewId is currentCiewId
-      )
+    #update the privateModel after removal
+    @model.set("exerciseViews", exerciseViewsFiltered)
 
-      #update the privateModel after removal
-      @model.set("exerciseViews", exerciseViewsFiltered)
+    #remove the exercise remove button, if only one exercise left is left as a result
+    if exerciseViewsFiltered.length == 1
+      $hiddenExerciseRemove = @model.get("exerciseViews")[0].view.$el
+        .find('.add-workout-exercise-remove-button')
+        .addClass('hide-add-workout-button')
+      @model.set("hiddenExerciseRemoveButton",$hiddenExerciseRemove)
 
-      #remove view and event listeners attached to it; event handlers first
-      @stopListening()
-      @undelegateEvents()
-      @remove()
+    #remove view and event listeners attached to it; event handlers first
+    @stopListening()
+    @undelegateEvents()
+    @remove()
 
-    else
-      alert "A workout must have at least one exercise."
 

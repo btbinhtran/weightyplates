@@ -36,7 +36,7 @@ class Weightyplates.Models.WorkoutFormState extends Backbone.Model
     exerciseViewsCount: null
     firstExercise: null
     lastExercise: null
-    hiddenRemoveButton: null
+    hiddenExerciseRemoveButton: null
     recentlyAddedExerciseAssociatedModel: null
     signalParentForm: -1
     exerciseAssociatedModels: []

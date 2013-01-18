@@ -21,7 +21,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #keep track of the view exercises being added and count them
     detailViews = @privateModel.get("detailViews")
     detailViewsCount = @privateModel.get("detailViewsCount") + 1
-    detailViews.push({viewId: @cid, viewSetNumber: detailViewsCount})
+    detailViews.push({view:@, viewId: @cid, viewSetNumber: detailViewsCount})
     @privateModel.set("detailViewsCount", detailViewsCount)
     @privateModel.set("detailViews", detailViews)
 
