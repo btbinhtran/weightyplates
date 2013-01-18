@@ -28,9 +28,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log "user session"
     #console.log @associatedModelUser
 
-    #allows child view to request a change in associated model for the parent
-    #@modelWorkoutFormState.on("change:recentlyAddedExerciseAssociatedModel", @updateAssociatedModel)
-
     @modelWorkoutFormState.on("change:signalParentForm", @updateAssociatedModel)
 
     #call render
@@ -52,8 +49,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log @
 
     if @associatedWorkout.get("workout_entry")
-
-      #console.log "don't overwrite"
+      #add instead of overwriting if there already a workout entry
       @associatedWorkout.get("workout_entry").add(@modelWorkoutFormState.get("recentlyAddedExerciseAssociatedModel"))
     else
       @associatedWorkout.set({workout_entry: [@modelWorkoutFormState.get "recentlyAddedExerciseAssociatedModel"]})

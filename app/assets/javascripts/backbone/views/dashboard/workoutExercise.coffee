@@ -86,7 +86,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #the workout details row has a private model between the exercises and its details
-    new Weightyplates.Views.WorkoutDetail(model: @amongExercises, privateModel: new Weightyplates.Models.ExerciseDetails())
+    new Weightyplates.Views.WorkoutDetail(model: @amongExercises, privateModel: new Weightyplates.Models.ExerciseDetails(detailViews: [], detailViewsCount: null))
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
