@@ -22,25 +22,24 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #@model.set("detailViews", detailView)
 
 
-    console.log "private model is"
+    #console.log "private model is"
 
     #keep track of the view exercises being added and count
     @privateModel = options.privateModel
     privateModel = @privateModel.get("detailViews")
     privateModel.push(@)
+    privateModelCount = privateModel.length
     @privateModel.set("detailViewsCount", privateModel.length)
     @privateModel.set("detailViews", privateModel)
 
+    @render(privateModelCount)
 
-    console.log @privateModel
-    #console.log "details"
-    #console.log @model.get "detailViews"
-
-    @render()
-
-  render: () ->
+  render: (privateModelCount) ->
     #insert template into element
     @$el.append(@template())
+
+    #attach the right set number onto the set label
+    @$el.find('.add-workout-set-label').text('S' + privateModelCount)
 
     #remove the id some subsequent templates can have the same id name
     @$el.removeAttr("id")
