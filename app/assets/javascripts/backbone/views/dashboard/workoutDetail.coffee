@@ -16,12 +16,23 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #to signal to parent view, exercise, what child has been added
     @model.set("recentlyAddedDetailsAssociatedModel", detailsAssociation)
 
-    #keep track of the view exercises being added
-    detailView = @model.get("detailViews")
-    detailView.push(detailViews: @)
-    @model.set("detailViews", detailView)
+
+    #detailView = @model.get("detailViews")
+    #detailView.push(detailViews: @)
+    #@model.set("detailViews", detailView)
 
 
+    console.log "private model is"
+
+    #keep track of the view exercises being added and count
+    @privateModel = options.privateModel
+    privateModel = @privateModel.get("detailViews")
+    privateModel.push(@)
+    @privateModel.set("detailViewsCount", privateModel.length)
+    @privateModel.set("detailViews", privateModel)
+
+
+    console.log @privateModel
     #console.log "details"
     #console.log @model.get "detailViews"
 
@@ -44,7 +55,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #create the new details view
-    new Weightyplates.Views.WorkoutDetail(model: @model)
+    new Weightyplates.Views.WorkoutDetail(model: @model, privateModel: @privateModel)
 
 
 

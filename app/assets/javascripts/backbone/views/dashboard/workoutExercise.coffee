@@ -34,8 +34,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #creating exerciseAssociation model for this view
     @exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: null})
 
-    if @model.get("exerciseAssociatedModels").length == 1
-      console.log "something is already there"
+    #if @model.get("exerciseAssociatedModels").length == 1
+    #  console.log "something is already there"
 
     #model shared between the form and the exercise
     exerciseAssociatedModels = @model.get("exerciseAssociatedModels")
@@ -48,10 +48,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("recentlyAddedExerciseAssociatedModel", @exerciseAssociation)
 
     #model between exercises and details
-    @exerciseAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails()
+    @amongExercises = new Weightyplates.Models.AmongExercises()
 
     #allows child view to request a change in associated model for the parent
-    @exerciseAndDetailsModel.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModel, @)
+    @amongExercises.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModel, @)
 
 
 
@@ -85,8 +85,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #preparing an additional container for the set and weight rows
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
-    #the workout details row
-    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetailsModel)
+    #the workout details row has a private model between the exercises and its details
+    new Weightyplates.Views.WorkoutDetail(model: @amongExercises, privateModel: new Weightyplates.Models.ExerciseDetails())
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
@@ -130,9 +130,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #subsequent entry details will be added instead
     if @exerciseAssociation.get("entry_detail")
        #console.log @exerciseAssociation.get("entry_detail").length
-      @exerciseAssociation.get("entry_detail").add(@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
+      @exerciseAssociation.get("entry_detail").add(@amongExercises.get("recentlyAddedDetailsAssociatedModel"))
     else
-      @exerciseAssociation.set({entry_detail: [@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]})
+      @exerciseAssociation.set({entry_detail: [@amongExercises.get("recentlyAddedDetailsAssociatedModel")]})
 
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
