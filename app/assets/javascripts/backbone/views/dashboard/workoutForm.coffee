@@ -12,6 +12,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #last-row-note-button': 'addNote'
 
   initialize: ->
+    #make all references of 'this' to reference the main object
     _.bindAll(@)
 
     #model for workout state
@@ -28,7 +29,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log "user session"
     #console.log @associatedModelUser
 
-    @modelWorkoutFormState.on("change:signalParentForm", @updateAssociatedModel)
+    @modelWorkoutFormState.on("change:signalParentForm", @updateAssociatedModelAdd)
 
     #call render
     @render()
@@ -44,7 +45,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @hintInWorkoutName()
     this
 
-  updateAssociatedModel: ->
+  updateAssociatedModelAdd: ->
     #console.log "want a change"
     #console.log @
 

@@ -9,12 +9,16 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
 
   initialize: (options) ->
-    #keep track of the view exercises being added and count them
+    #make all references of 'this' to reference the main object
+    _.bindAll(@)
+
+    #get the private model from options
     @privateModel = options.privateModel
 
     #console.log "private model is now"
     #console.log @privateModel
 
+    #keep track of the view exercises being added and count them
     detailViews = @privateModel.get("detailViews")
     detailViewsCount = @privateModel.get("detailViewsCount") + 1
     detailViews.push({viewId: @cid, viewSetNumber: detailViewsCount})
@@ -39,9 +43,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #remove the id some subsequent templates can have the same id name
     @$el.removeAttr("id")
 
-    #make all references of 'this' to reference the main object
-    _.bindAll(@)
-
     this
 
   addDetails: ->
@@ -52,9 +53,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     new Weightyplates.Views.WorkoutDetail(model: @model, privateModel: @privateModel)
 
   removeDetails: ()->
-    console.log "removing"
-
-
+    #console.log "removing"
 
     #list of all the views
     detailViews = @privateModel.get("detailViews")

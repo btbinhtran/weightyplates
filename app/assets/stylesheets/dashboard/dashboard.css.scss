@@ -95,10 +95,16 @@
   /*background-color: yellow;*/
   display: inline !important;
   border: 1px solid #999999;
-
-
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
+  .workout-form-contents{
+    margin-left: 0%;
+  }
+  .workout-entry-exercise-and-sets-row{
+    .hide-add-workout-button{
+      visibility: hidden;
+    }
+  }
 }
 .dashboard-add-workout-header-area{
   margin-bottom: 3.5%;

@@ -6,6 +6,8 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     'click #add-workout': 'addWorkoutFormState'
 
   initialize: ->
+    #make all references of 'this' to reference the main object
+    _.bindAll(@)
 
   render: ->
     $(@el).html(@template())

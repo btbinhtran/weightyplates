@@ -10,39 +10,26 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   el: '#exercise-grouping'
 
+  #==============================================Initialize
   initialize: ()->
-    #console.log "new exercise is _______________"
+    #make all references of 'this' to reference the main object
+    _.bindAll(@)
 
-
-    #exerciseCount = @model.get "exerciseCount"
-
-
-
-
+    #keep track of the exerciseviews and count
     exerciseViews = @model.get("exerciseViews")
     exerciseViewsCount = @model.get("exerciseViewsCount") + 1
+
+
+
     exerciseViews.push({viewId: @cid, viewExerciseNumber: exerciseViewsCount})
     @model.set("exerciseViewsCount", exerciseViewsCount)
     @model.set("exerciseViews", exerciseViews)
 
+    console.log "first exer view count"
+    console.log  @model.get("exerciseViews").length
+
     #need to add one for starting at a zero index
     exercisePhrase = "Exercise #{exerciseViewsCount}"
-
-
-    ###FOR REORDERING
-    #marking the first exercise row and later rows
-    if @model.get("isFirstExerciseRow") == false
-      @model.set("isFirstExerciseRow", true)
-      @model.set("firstExercise", @)
-    else
-      #reference the data from the model that was stored the first time
-      optionsList = @model.get("optionListEntries")
-      @model.set("lastExercise", @)
-
-    ###
-
-    #increment the exercise count for the exercise label
-    #@model.set("exerciseCount", exerciseCount + 1)
 
     #creating exerciseAssociation model for this view
     @exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: null})
@@ -64,14 +51,13 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @amongExercises = new Weightyplates.Models.AmongExercises()
 
     #allows child view to request a change in associated model for the parent
-    @amongExercises.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModel, @)
-
-
+    @amongExercises.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
     #render the template
-    @render(exercisePhrase, @model.get "optionListEntries")
+    @render(exercisePhrase, @model.get("optionListEntries"), exerciseViewsCount)
 
-  render: (exercisePhrase, optionsList)->
+  #==============================================Render
+  render: (exercisePhrase, optionsList, exerciseViewsCount)->
     viewElModel = @model
 
     #the main exercise row
@@ -79,9 +65,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #console.log "new container is "
     #console.log @
-
-
-
 
     #----------------------------------------------Generate a Exercise View and Details
 
@@ -91,9 +74,21 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #remove the id of the exercise row because subsequent exercise will have the same id
     @$el.removeAttr("id")
 
+    #remove the delete button if there is only one exercise present
+
+    #$('.add-workout-exercise-remove-button')
+
+
+
+
+    if @model.get("exerciseViews").length == 1
+      console.log "only one exercise present"
+      @$el.find('.add-workout-exercise-remove-button').addClass('hide-add-workout-button')
+
+
+
     #details container is for the set and weight rows
     $detailsContainer = $workoutExeciseRow.find('.an-entry-detail')
-    #$detailsContainer = $workoutRowFound.find('.an-entry-detail')
 
     #preparing an additional container for the set and weight rows
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
@@ -104,19 +99,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
-
-
-    #----------------------------------------------Track Exercise Views
-
-    #keep track of the view exercises being added
-    #exerciseViews = @model.get("exerciseViews")
-    #exerciseViews.push(viewExercise: @)
-    #@model.set("exerciseViews", exerciseViews)
-
-
-
-    #make all references of 'this' to reference the main object
-    _.bindAll(@)
 
     #----------------------------------------------Event Listener: Hover Intent
 
@@ -139,7 +121,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #return this
     this
 
-  updateAssociatedModel: ->
+  updateAssociatedModelAdd: ->
     #console.log "exercise needs updating"
 
     #entry details updated the parent exercise
@@ -173,7 +155,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     new Weightyplates.Views.WorkoutExercise(model: @model)
 
   removeExercise: ()->
-
     #list of all the views
     exerciseViews = @model.get("exerciseViews")
 
@@ -182,18 +163,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
       #the current view id
       currentCiewId = @cid
-
-      ###FOR REORDERING
-
-      #more care is needed if the exercise is not the last
-      notTheLast = (@model.get("lastExercise").cid != @cid)
-
-      #if not last entry, then the first and middle entries will need to save ref
-      if notTheLast
-        #the first or middle entry
-        $siblings = @$el.nextAll()
-
-      ###
 
       #remove exerciseViews reference when deleting this view
       exerciseViewsFiltered = _(exerciseViews).reject((el) ->
@@ -207,22 +176,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       @stopListening()
       @undelegateEvents()
       @remove()
-
-      ###FOR REORDERING
-
-      #decrementing the exercise labels when deleting exercise entries
-      if notTheLast
-        $siblingExerciseLabels = $siblings.find('.add-workout-exercise-label')
-        $siblingExerciseLabels.each ->
-          oldNumber = parseInt($(this).text().replace(/Exercise /g, ''))
-          $(this).text("Exercise #{oldNumber - 1}")
-
-
-
-      #decrement the exercise count
-      @model.set("exerciseCount", @model.get("exerciseCount") - 1)
-
-      ###
 
     else
       alert "A workout must have at least one exercise."
