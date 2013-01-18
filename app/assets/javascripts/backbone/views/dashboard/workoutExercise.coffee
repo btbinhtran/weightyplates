@@ -14,11 +14,22 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #console.log "new exercise is _______________"
 
 
-    exerciseCount = @model.get "exerciseCount"
+    #exerciseCount = @model.get "exerciseCount"
+
+
+
+
+    exerciseViews = @model.get("exerciseViews")
+    exerciseViewsCount = @model.get("exerciseViewsCount") + 1
+    exerciseViews.push({viewId: @cid, viewExerciseNumber: exerciseViewsCount})
+    @model.set("exerciseViewsCount", exerciseViewsCount)
+    @model.set("exerciseViews", exerciseViews)
 
     #need to add one for starting at a zero index
-    exercisePhrase = "Exercise #{exerciseCount + 1}"
+    exercisePhrase = "Exercise #{exerciseViewsCount}"
 
+
+    ###FOR REORDERING
     #marking the first exercise row and later rows
     if @model.get("isFirstExerciseRow") == false
       @model.set("isFirstExerciseRow", true)
@@ -28,8 +39,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       optionsList = @model.get("optionListEntries")
       @model.set("lastExercise", @)
 
+    ###
+
     #increment the exercise count for the exercise label
-    @model.set("exerciseCount", exerciseCount + 1)
+    #@model.set("exerciseCount", exerciseCount + 1)
 
     #creating exerciseAssociation model for this view
     @exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({exercise_id: null})
@@ -86,6 +99,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #the workout details row has a private model between the exercises and its details
+    #have to initialize private model to default values because it can take on old values from other exercise sets
     new Weightyplates.Views.WorkoutDetail(model: @amongExercises, privateModel: new Weightyplates.Models.ExerciseDetails(detailViews: [], detailViewsCount: null))
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
@@ -95,9 +109,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #----------------------------------------------Track Exercise Views
 
     #keep track of the view exercises being added
-    exerciseViews = @model.get("exerciseViews")
-    exerciseViews.push(viewExercise: @)
-    @model.set("exerciseViews", exerciseViews)
+    #exerciseViews = @model.get("exerciseViews")
+    #exerciseViews.push(viewExercise: @)
+    #@model.set("exerciseViews", exerciseViews)
+
+
 
     #make all references of 'this' to reference the main object
     _.bindAll(@)
@@ -156,8 +172,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #generate a new exercise entry
     new Weightyplates.Views.WorkoutExercise(model: @model)
 
-  removeExercise: (event)->
-    if @model.get("exerciseCount") > 1
+  removeExercise: ()->
+
+    #list of all the views
+    exerciseViews = @model.get("exerciseViews")
+
+    #console.log @model.get("exerciseViews")
+    if exerciseViews.length >= 2
+
+      #the current view id
+      currentCiewId = @cid
 
       ###FOR REORDERING
 
@@ -170,6 +194,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         $siblings = @$el.nextAll()
 
       ###
+
+      #remove exerciseViews reference when deleting this view
+      exerciseViewsFiltered = _(exerciseViews).reject((el) ->
+        el.viewId is currentCiewId
+      )
+
+      #update the privateModel after removal
+      @model.set("exerciseViews", exerciseViewsFiltered)
 
       #remove view and event listeners attached to it; event handlers first
       @stopListening()
