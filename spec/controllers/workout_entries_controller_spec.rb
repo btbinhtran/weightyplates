@@ -18,14 +18,14 @@ describe WorkoutEntriesController do
     end
 
     it "should add a workout entry" do
-      wo_entry = { :exercise_id => exercise.id }
+      wo_entry = { :exercise_id => exercise.id, :workout_entry_number => 1}
       expect do
         post(:create, workout_entry: wo_entry, workout_id: workout.id)
       end.to change(workout.workout_entries, :count).by(1)
     end
 
     it "should not have errors when a workout entry is successfully created" do
-      wo_entry = { :exercise_id => exercise.id }
+      wo_entry = { :exercise_id => exercise.id, :workout_entry_number => 1 }
       post(:create, workout_entry: wo_entry, workout_id: workout.id)
       @response.body.should_not have_json_path("errors")
     end
@@ -37,14 +37,14 @@ describe WorkoutEntriesController do
     it "should update a workout entry" do
       ex = FactoryGirl.create(:exercise)
       wo_entry = FactoryGirl.create(:workout_entry, workout_id: workout.id, exercise_id: 1234)
-      put(:update, id: wo_entry.id, workout_id: workout.id, workout_entry: {workout_id: workout.id, exercise_id: ex.id})
+      put(:update, id: wo_entry.id, workout_entry_number: 1, workout_id: workout.id, workout_entry: {workout_id: workout.id, exercise_id: ex.id})
       json = ActiveSupport::JSON.decode(@response.body)
       json['exercise_id'].should == ex.id
     end
   end
 
   it "should be able to delete workout entry" do
-    wo_entry = FactoryGirl.create(:workout_entry, workout_id: workout.id)
+    wo_entry = FactoryGirl.create(:workout_entry, workout_entry_number: 1, workout_id: workout.id)
     expect do
       delete :destroy, workout_id: workout.id, id: wo_entry.id
     end.to change(workout.workout_entries, :count).by(-1)

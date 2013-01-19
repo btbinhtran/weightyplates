@@ -107,8 +107,9 @@ ActiveRecord::Schema.define(:version => 20121129170937) do
   create_table "workout_entries", :force => true do |t|
     t.integer  "exercise_id"
     t.integer  "workout_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "workout_entry_number"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   add_index "workout_entries", ["exercise_id"], :name => "index_workout_entries_on_exercise_id"

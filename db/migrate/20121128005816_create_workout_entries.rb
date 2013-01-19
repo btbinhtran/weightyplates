@@ -3,6 +3,7 @@ class CreateWorkoutEntries < ActiveRecord::Migration
     create_table :workout_entries do |t|
       t.integer :exercise_id
       t.integer :workout_id
+      t.integer :workout_entry_number
 
       t.timestamps
     end

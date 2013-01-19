@@ -38,5 +38,6 @@ FactoryGirl.define do
   factory :workout_entry do
     association :workout
     association :exercise
+    workout_entry_number 1
   end
 end
