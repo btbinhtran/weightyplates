@@ -98,54 +98,21 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
 
   saveWorkout: ->
+    #console.log
+    jsonData = JSON.stringify(@associatedModelUser)
+    #console.log jsonData[workout]
+    #console.log jsonData[workout][0]
+
+
 
     ###
     $.ajax
       type: "POST"
       url: "/api/workouts"
       dataType: "JSON"
-      data:
-        "workout":
-          {
-          "unit": $('.add-workout-units').text()
-          "name": (->
-            $inputWorkoutName = $("input.dashboard-workout-name-input")
-            if $inputWorkoutName.length && $inputWorkoutName.not(".hint") > 0
-              $inputWorkoutName.val()
-            else if $inputWorkoutName.hasClass('hint')
-              new Date()
-          )()
-          "workout_entry": [
-            {
-            "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
-            "entry_detail": [
-              {
-              "weight": $('.add-workout-exercise-entry-input').val()
-              "reps": $('.add-workout-reps-input').val()
-              "set_number": $('.add-workout-set-label').text().replace(/S/g, '') * 1
-              },
-              {
-              "weight": $('.add-workout-exercise-entry-input').val()
-              "reps": $('.add-workout-reps-input').val()
-              "set_number": $('.add-workout-set-label').text().replace(/S/g, '') * 1
-              }
+      contentType: 'application/json',
+      data: jsonData
 
-            ]
-            },
-            {
-            "exercise_id": $('.add-workout-exercise-drop-downlist').find(':selected').data('id')
-            "entry_detail": [
-              {
-              "weight": $('.add-workout-exercise-entry-input').val()
-              "reps": $('.add-workout-reps-input').val()
-              "set_number": $('.add-workout-set-label').text().replace(/S/g, '') * 1
-              }
-
-            ]
-            }
-
-          ]
-          }
       success: () ->
         console.log "successful post"
       error: (jqXHR, textStatus, errorThrown) ->
