@@ -29,7 +29,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log "user session"
     #console.log @associatedModelUser
 
-    @modelWorkoutFormState.on("change:signalParentForm", @updateAssociatedModelAdd)
+    @modelWorkoutFormState.on("change:signalParentForm", @updateAssociatedModel)
 
     #call render
     @render()
@@ -45,13 +45,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @hintInWorkoutName()
     this
 
-  updateAssociatedModelAdd: ->
-    #console.log "want a change"
-    #console.log @
+  updateAssociatedModel: ->
 
+    #add and removal check for entries
     if @associatedWorkout.get("workout_entry")
-      #add instead of overwriting if there already a workout entry
-      @associatedWorkout.get("workout_entry").add(@modelWorkoutFormState.get("recentlyAddedExerciseAssociatedModel"))
+      #remove if there is already and entry
+      if @associatedWorkout.get("workout_entry").get(@modelWorkoutFormState.get("recentlyRemovedExerciseAssociatedModel"))
+        @associatedWorkout.get("workout_entry").remove(@modelWorkoutFormState.get("recentlyRemovedExerciseAssociatedModel"))
+       else
+        #add instead of overwriting if there already a workout entry
+        @associatedWorkout.get("workout_entry").add(@modelWorkoutFormState.get("recentlyAddedExerciseAssociatedModel"))
+
     else
       @associatedWorkout.set({workout_entry: [@modelWorkoutFormState.get "recentlyAddedExerciseAssociatedModel"]})
 

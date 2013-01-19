@@ -178,6 +178,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #update the privateModel after removal
     @model.set("exerciseViews", exerciseViewsFiltered)
 
+    #remove view and event listeners attached to it; event handlers first
+    @stopListening()
+    @undelegateEvents()
+    @remove()
+
     #remove the exercise remove button, if only one exercise left is left as a result
     if exerciseViewsFiltered.length == 1
       $hiddenExerciseRemove = @model.get("exerciseViews")[0].view.$el
@@ -185,9 +190,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         .addClass('hide-add-workout-button')
       @model.set("hiddenExerciseRemoveButton",$hiddenExerciseRemove)
 
-    #remove view and event listeners attached to it; event handlers first
-    @stopListening()
-    @undelegateEvents()
-    @remove()
+    #send signal to form to remove the exercise entry from json
+    signalParentForm = @model.get "signalParentForm"
+    console.log "exercise remove signal"
+    @model.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
+    @model.set("signalParentForm", signalParentForm * -1)
 
 

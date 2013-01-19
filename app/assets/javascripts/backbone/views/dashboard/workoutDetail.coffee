@@ -64,7 +64,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   removeDetails: ()->
     #console.log "removing"
 
-    #list of all the views
+    #list of views
     detailViews = @privateModel.get("detailViews")
 
     #the current view id
@@ -90,9 +90,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         .addClass('hide-add-workout-reps-remove-button')
       @privateModel.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
 
+    #send signal to exercise to remove the detail entry from json
     signalExerciseForm = @model.get "signalExerciseForm"
     console.log "remove signal"
-    @model.set("recentlyRemovedDetailsAssociatedModel",@detailsAssociation)
+    @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
     @model.set("signalExerciseForm", signalExerciseForm * -1)
 
 
