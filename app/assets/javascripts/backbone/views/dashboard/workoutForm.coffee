@@ -98,10 +98,16 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
 
   saveWorkout: ->
-    #console.log
+
     jsonData = JSON.stringify(@associatedModelUser)
-    #console.log jsonData[workout]
-    #console.log jsonData[workout][0]
+
+    #formatting the jsonData by removing the first '[' and last ']'
+    jsonDataLastRightBracketIndex = jsonData.lastIndexOf(']')
+
+    rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + jsonData.substring(jsonDataLastRightBracketIndex + 1)
+
+    properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
+
 
 
 
@@ -111,7 +117,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       url: "/api/workouts"
       dataType: "JSON"
       contentType: 'application/json',
-      data: jsonData
+      data: properlyFormattedJson
 
       success: () ->
         console.log "successful post"
