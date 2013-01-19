@@ -7,6 +7,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-remove-button': 'removeExercise'
     'click .add-workout-exercise-drop-downlist': 'checkForEntries'
     'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
+    'change .add-workout-exercise-drop-downlist': 'listChange'
 
   el: '#exercise-grouping'
 
@@ -54,7 +55,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #console.log @amongExercises
 
     @amongExercises.on("change:signalExerciseForm", @updateAssociatedModelRemove, @)
-
 
     #render the template
     @render(exercisePhrase, @model.get("optionListEntries"), exerciseViewsCount)
@@ -195,5 +195,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     console.log "exercise remove signal"
     @model.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
     @model.set("signalParentForm", signalParentForm * -1)
+
+  listChange: (event)->
+    #getting the selected value from the option list
+    selectedValue = $(event.target).find(':selected').data("id")
+    if selectedValue
+      console.log "value selection"
 
 

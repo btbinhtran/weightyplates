@@ -60,7 +60,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @associatedWorkout.set({workout_entry: [@modelWorkoutFormState.get "recentlyAddedExerciseAssociatedModel"]})
 
 
-    console.log JSON.stringify(@associatedModelUser)
+    #console.log JSON.stringify(@associatedModelUser)
 
   getEventTarget: (event)->
     $(event.target)
