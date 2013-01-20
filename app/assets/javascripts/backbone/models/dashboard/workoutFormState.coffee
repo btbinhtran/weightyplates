@@ -1,6 +1,6 @@
 class Weightyplates.Models.WorkoutFormState extends Backbone.Model
 
-  validate: (attrs,  options) ->
+  #validate: (attrs,  options) ->
 
   prepareEntries: ->
     @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
@@ -26,6 +26,7 @@ class Weightyplates.Models.WorkoutFormState extends Backbone.Model
       optionsList.push(optionEntry)
       entry++
     optionListEntries = optionsList
+
 
   defaults:
     workoutNameHint: "Optional (defaults to timestamp)"

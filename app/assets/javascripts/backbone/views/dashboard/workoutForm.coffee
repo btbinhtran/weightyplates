@@ -26,6 +26,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @associatedWorkout = new Weightyplates.Models.WorkoutsAssociations()
     @associatedModelUser.set({workout: [@associatedWorkout]})
 
+
     #console.log "user session"
     #console.log @associatedModelUser
 
@@ -33,6 +34,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #call render
     @render()
+
+
 
   render: ()->
     #load the view template

@@ -6,20 +6,15 @@
 (function (window, document, undefined) {
     // Checks to make sure Backbone, Backbone.Model and the private validate method are on the page
 
-    //console.log(window.Backbone.Model.prototype._validate);
-     //console.log(options)
-
-
-    //console.log(window.Backbone.Model.prototype._validate)
     if(window.Backbone && window.Backbone.Model && window.Backbone.Model.prototype._validate) {
         // Run validation against the next complete set of model attributes,
         // returning `true` if all is well. If a specific `error` callback has
         // been passed, call that instead of firing the general `"error"` event.
 
-
-        //var options = null;
         window.Backbone.Model.prototype._validate = function(attrs, options) {
 
+            //make options an empty object if not defined
+            var options = options || (options = {});
 
             if (options.silent || !this.validate) {	      
                 return true;
