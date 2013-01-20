@@ -7,7 +7,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-remove-button': 'removeExercise'
     'click .add-workout-exercise-drop-downlist': 'checkForEntries'
     'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
-    'change .add-workout-exercise-drop-downlist': 'listChange'
+    #'change .add-workout-exercise-drop-downlist': 'listChange'
     'blur .add-workout-exercise-drop-downlist': 'validateListChange'
 
   el: '#exercise-grouping'
@@ -179,14 +179,19 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
     @model.set("signalParentForm", signalParentForm * -1)
 
-  listChange: (event)->
-    #getting the selected value from the option list
-    selectedId = $("#{event.target.tagName} option:selected").data("id")
-
-    if selectedId
-      console.log selectedId
+  #listChange: ()->
 
   validateListChange: ->
     console.log "validating"
+
+
+
+    #getting the selected value from the option list
+    selectedOption = @$el.find('select option:selected')
+    selectedId = selectedOption.data("id")
+
+
+    if _.isNumber(selectedId) and selectedOption.text() != ""
+      console.log selectedId
 
 

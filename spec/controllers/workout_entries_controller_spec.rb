@@ -36,7 +36,7 @@ describe WorkoutEntriesController do
 
     it "should update a workout entry" do
       ex = FactoryGirl.create(:exercise)
-      wo_entry = FactoryGirl.create(:workout_entry, workout_id: workout.id, exercise_id: 1234)
+      wo_entry = FactoryGirl.create(:workout_entry, workout_id: workout.id, exercise_id: 450)
       put(:update, id: wo_entry.id, workout_entry_number: 1, workout_id: workout.id, workout_entry: {workout_id: workout.id, exercise_id: ex.id})
       json = ActiveSupport::JSON.decode(@response.body)
       json['exercise_id'].should == ex.id

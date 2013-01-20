@@ -5,9 +5,9 @@ class WorkoutEntry < ActiveRecord::Base
 
   attr_accessible :workout_id, :exercise_id, :workout_entry_number
 
-  validates :exercise_id, presence: true
-  validates :workout_id, presence: true
-  validates :workout_entry_number, presence: true
+  validates :exercise_id, presence: true, numericality: {only_integer: true}, :inclusion => { :in => 1..790 }
+  validates :workout_id, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
+  validates :workout_entry_number, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
 
 =begin
   after_create :something
