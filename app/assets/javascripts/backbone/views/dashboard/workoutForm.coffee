@@ -35,8 +35,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #call render
     @render()
 
-
-
   render: ()->
     #load the view template
     @$el.html(@template())
@@ -49,7 +47,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     this
 
   updateAssociatedModel: ->
-
     #add and removal check for entries
     if @associatedWorkout.get("workout_entry")
       #remove if there is already and entry
@@ -98,7 +95,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     ###
 
   addNote: ->
-
+    console.log JSON.stringify(@associatedModelUser)
 
   saveWorkout: ->
 
