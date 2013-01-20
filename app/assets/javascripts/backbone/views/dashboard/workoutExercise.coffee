@@ -8,6 +8,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-drop-downlist': 'checkForEntries'
     'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
     'change .add-workout-exercise-drop-downlist': 'listChange'
+    'blur .add-workout-exercise-drop-downlist': 'validateListChange'
 
   el: '#exercise-grouping'
 
@@ -23,17 +24,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("exerciseViewsCount", exerciseViewsCount)
     @model.set("exerciseViews", exerciseViews)
 
-    #console.log "first exer view count"
-    #console.log  @model.get("exerciseViews").length
-
     #need to add one for starting at a zero index
     exercisePhrase = "Exercise #{exerciseViewsCount}"
 
     #creating exerciseAssociation model for this view
     @exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({workout_entry_number: exerciseViewsCount, exercise_id: null})
-
-    #if @model.get("exerciseAssociatedModels").length == 1
-    #  console.log "something is already there"
 
     #model shared between the form and the exercise
     exerciseAssociatedModels = @model.get("exerciseAssociatedModels")
@@ -51,9 +46,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #allows child view to request a change in associated model for the parent
     @amongExercises.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
-    #console.log "among exercises"
-    #console.log @amongExercises
-
     @amongExercises.on("change:signalExerciseForm", @updateAssociatedModelRemove, @)
 
     #render the template
@@ -65,9 +57,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #the main exercise row
     $workoutExeciseRow = @$el
-
-    #console.log "new container is "
-    #console.log @
 
     #----------------------------------------------Generate a Exercise View and Details
 
@@ -136,8 +125,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
   updateAssociatedModelRemove: ->
-    console.log "request removal"
-
     #a detail entry will be removed
     @exerciseAssociation.get("entry_detail").remove(@amongExercises.get("recentlyRemovedDetailsAssociatedModel"))
 
@@ -154,9 +141,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @$el.off("click", ".add-workout-exercise-drop-downlist")
 
   addExercise: (event)->
-    #console.log "adding another exercise ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-    #console.log @$el
-
     #create a new grouping container for the new exercise
     @$el.parent().append("<div class='exercise-grouping row-fluid' id='exercise-grouping'></div>")
 
@@ -192,14 +176,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #send signal to form to remove the exercise entry from json
     signalParentForm = @model.get "signalParentForm"
-    console.log "exercise remove signal"
     @model.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
     @model.set("signalParentForm", signalParentForm * -1)
 
   listChange: (event)->
     #getting the selected value from the option list
-    selectedValue = $(event.target).find(':selected').data("id")
-    if selectedValue
-      console.log "value selection"
+    selectedId = $("#{event.target.tagName} option:selected").data("id")
+
+    if selectedId
+      console.log selectedId
+
+  validateListChange: ->
+    console.log "validating"
 
 

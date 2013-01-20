@@ -108,7 +108,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
-
+    console.log "clicking save"
 
 
     ###
