@@ -1,5 +1,7 @@
 class Weightyplates.Models.DashboardState extends Backbone.Model
 
+  #validate: (attrs,  options) ->
+
   urlRoot : '/dashboard'
 
   defaults:

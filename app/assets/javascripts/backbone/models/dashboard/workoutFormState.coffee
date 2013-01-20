@@ -1,6 +1,6 @@
 class Weightyplates.Models.WorkoutFormState extends Backbone.Model
 
-  #validate: (attrs) ->
+  validate: (attrs,  options) ->
 
   prepareEntries: ->
     @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
