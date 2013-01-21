@@ -21,7 +21,7 @@ class Weightyplates.Models.ExercisesAssociations extends Backbone.AssociatedMode
       value.length >= minLength
 
   validate: (attrs, options)->
-    #check to make sure that the options present
+    #check to make sure that the options present; initializing variables  runs validate but options aren't passed
     if !_.isEmpty(options)
 
       #for storing the error messages on the attribute changed
