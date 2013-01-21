@@ -10,8 +10,6 @@ class Weightyplates.Models.ExercisesAssociations extends Backbone.AssociatedMode
                 ]
     super
 
-
-
   patterns:
     digits: "[0-9]"
 
@@ -19,21 +17,29 @@ class Weightyplates.Models.ExercisesAssociations extends Backbone.AssociatedMode
     pattern: (value,pattern) ->
       new RegExp(pattern, "gi").test(value) ? true : false
 
-  validate: (attrs)->
-    #console.log "attempt to validate"
-    errors = @errors = {}
+    minLength: (value, minLength) ->
+      value.length >= minLength
 
-    console.log "out"
-    console.log attrs.exercise_id
-    if(attrs.exercise_id != null)
-      console.log "in1"
-      if (!attrs.exercise_id)
-        console.log "in2"
-        errors.exercise_id = 'Exercise is required'
+  validate: (attrs, options)->
+    #check to make sure that the options present
+    if !_.isEmpty(options)
 
+      #for storing the error messages on the attribute changed
+      errors = @errors = {}
 
-    errors if !_.isEmpty(errors)
+      #references to what was attribute was changed
+      changedAttribute = options.changedAttribute
+      toValidateAttribute = attrs[changedAttribute]
 
+      #make sure the attribute exist before checking
+      if(toValidateAttribute != null)
+
+        #check for the presence of an exercise id
+        if (!toValidateAttribute)
+          errors[changedAttribute] = 'An exercise is required'
+
+      #return the errors on the attribute if present
+      errors if !_.isEmpty(errors)
 
   defaults:
     exercise_id: null

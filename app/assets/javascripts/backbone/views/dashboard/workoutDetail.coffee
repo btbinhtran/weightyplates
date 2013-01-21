@@ -29,17 +29,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @detailsAssociation = new Weightyplates.Models.DetailsAssociations({set_number: detailViewsCount, weight: null, reps: null})
 
 
-    console.log "details"
+    #console.log "details"
 
     #to signal to parent view, exercise, what child has been added
     @model.set("recentlyAddedDetailsAssociatedModel", @detailsAssociation)
 
-    console.log "near details render"
+    #console.log "near details render"
 
     @render(detailViewsCount)
 
   render: (detailViewsCount) ->
-    console.log "start details render"
+    #console.log "start details render"
 
     #insert template into element
     @$el.append(@template())
@@ -59,7 +59,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $hiddenDetailRemove = @privateModel.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
 
-    console.log "details render"
+    #console.log "details render"
 
     this
 
@@ -101,7 +101,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #send signal to exercise to remove the detail entry from json
     signalExerciseForm = @model.get "signalExerciseForm"
-    console.log "remove signal"
+    #console.log "remove signal"
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
     @model.set("signalExerciseForm", signalExerciseForm * -1)
 

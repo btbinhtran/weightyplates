@@ -15,7 +15,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   #==============================================Initialize
   initialize: ()->
 
-    console.log "exercises"
+    #console.log "exercises"
 
     #make all references of 'this' to reference the main object
     _.bindAll(@)
@@ -33,7 +33,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #creating exerciseAssociation model for this view
     @exerciseAssociation = new Weightyplates.Models.ExercisesAssociations({workout_entry_number: exerciseViewsCount, exercise_id: null})
 
-    console.log "exercise set id to null"
+    #console.log "exercise set id to null"
 
     #model shared between the form and the exercise
     exerciseAssociatedModels = @model.get("exerciseAssociatedModels")
@@ -48,17 +48,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #model between exercises and details
     @amongExercises = new Weightyplates.Models.AmongExercises()
 
-    console.log "before exer on change"
+    #console.log "before exer on change"
 
     #allows child view to request a change in associated model for the parent
     @amongExercises.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
 
-    console.log "After exercise on change"
+    #console.log "After exercise on change"
 
     @amongExercises.on("change:signalExerciseForm", @updateAssociatedModelRemove, @)
 
-    console.log "another after exerc"
+    #console.log "another after exerc"
 
     #render the template
     @render(exercisePhrase, @model.get("optionListEntries"), exerciseViewsCount)
@@ -94,7 +94,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #preparing an additional container for the set and weight rows
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
-    console.log "exer private model"
+    #console.log "exer private model"
 
     #the workout details row has a private model between the exercises and its details
     #have to initialize private model to default values because it can take on old values from other exercise sets
@@ -125,24 +125,24 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   updateAssociatedModelAdd: ->
-    console.log "exercise needs updating"
+    #console.log "exercise needs updating"
 
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
     if @exerciseAssociation.get("entry_detail")
-      console.log "in the get and update exer"
+      #console.log "in the get and update exer"
       #console.log @exerciseAssociation.get("entry_detail").length
       @exerciseAssociation.get("entry_detail").add(@amongExercises.get("recentlyAddedDetailsAssociatedModel"))
     else
-      console.log "in the set exer"
+      #console.log "in the set exer"
       @exerciseAssociation.set({entry_detail: [@amongExercises.get("recentlyAddedDetailsAssociatedModel")]})
 
-    console.log "after the setting and getting"
+    #console.log "after the setting and getting"
 
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
-    console.log "yet another after set and get"
+    #console.log "yet another after set and get"
 
   updateAssociatedModelRemove: ->
     #a detail entry will be removed
@@ -202,7 +202,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   #listChange: ()->
 
   validateListChange: ->
-    console.log "validating"
+    #console.log "validating"
     #console.log @exerciseAssociation
 
 
@@ -210,10 +210,13 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     selectedOption = @$el.find('select option:selected')
     selectedId = selectedOption.data("id")
 
-    @exerciseAssociation.set("exercise_id", "", {validateAll: true})
+    #attempt to set the attribute
+    attributeToChange = "exercise_id"
+    @exerciseAssociation.set(attributeToChange, selectedId, {validateAll: true, changedAttribute: attributeToChange})
 
     console.log "errors are "
     console.log @exerciseAssociation.errors["exercise_id"] || ''
+    #console.log @exerciseAssociation
 
 
     #if _.isNumber(selectedId) and selectedOption.text() != ""
