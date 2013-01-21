@@ -7,7 +7,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'click .add-workout-exercise-remove-button': 'removeExercise'
     'click .add-workout-exercise-drop-downlist': 'checkForEntries'
     'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
-    #'change .add-workout-exercise-drop-downlist': 'listChange'
     'blur .add-workout-exercise-drop-downlist': 'validateListChange'
 
   el: '#exercise-grouping'
@@ -199,13 +198,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
     @model.set("signalParentForm", signalParentForm * -1)
 
-  #listChange: ()->
-
   validateListChange: ->
-    #console.log "validating"
-    #console.log @exerciseAssociation
-
-
     #getting the selected value from the option list
     selectedOption = @$el.find('select option:selected')
     selectedId = selectedOption.data("id")
@@ -214,24 +207,21 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     attributeToChange = "exercise_id"
     @exerciseAssociation.set(attributeToChange, selectedId, {validateAll: true, changedAttribute: attributeToChange})
 
-    console.log "errors are "
-    console.log @exerciseAssociation.errors["exercise_id"] || ''
-    #console.log @exerciseAssociation
+    #get errors if they exist
+    @exerciseAssociation.errors["exercise_id"] || ''
 
-    console.log
+    #cache element
+    $controlGroup = @$el.find('.control-group')
+    $dropDownList = @$el.find('.add-workout-exercise-drop-downlist')
 
-    if @exerciseAssociation.errors["exercise_id"]
-      @$el.find('.control-group').addClass('error')
-      @$el.find('.add-workout-exercise-drop-downlist').attr("id", "inputError")
-      @$el.find('.add-workout-exercise-drop-downlist').after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
-    else
-      @$el.find('.control-group').removeClass('error')
-      @$el.find('.add-workout-exercise-drop-downlist').removeAttr("id")
-      @$el.find('.add-workout-exercise-drop-downlist').siblings().remove()
-
-
-
-    #if _.isNumber(selectedId) and selectedOption.text() != ""
-    #  console.log selectedId
-
-
+    #generate the error or remove if validated
+    if @amongExercises.get("dropDownListError") == false and @exerciseAssociation.errors["exercise_id"]
+      $controlGroup.addClass('error')
+      $dropDownList.attr("id", "inputError")
+      $dropDownList.after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
+      @amongExercises.set("dropDownListError", true)
+    else if !@exerciseAssociation.errors["exercise_id"]
+        $controlGroup.removeClass('error')
+        $dropDownList.removeAttr("id")
+        $dropDownList.siblings().remove()
+        @amongExercises.set("dropDownListError", false)

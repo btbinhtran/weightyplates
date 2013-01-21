@@ -4,3 +4,4 @@ class Weightyplates.Models.AmongExercises extends Backbone.Model
     recentlyAddedDetailsAssociatedModel: []
     recentlyRemovedDetailsAssociatedModel: null
     signalExerciseForm: -1
+    dropDownListError: false
