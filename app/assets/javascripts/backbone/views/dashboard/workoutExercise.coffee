@@ -223,7 +223,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     if @exerciseAssociation.errors["exercise_id"]
       @$el.find('.control-group').addClass('error')
       @$el.find('.add-workout-exercise-drop-downlist').attr("id", "inputError")
-      @$el.find('.add-workout-exercise-drop-downlist').after("<span class='help-inline'>#{@exerciseAssociation.errors["exercise_id"]}</span>")
+      @$el.find('.add-workout-exercise-drop-downlist').after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
     else
       @$el.find('.control-group').removeClass('error')
       @$el.find('.add-workout-exercise-drop-downlist').removeAttr("id")

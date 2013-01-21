@@ -151,6 +151,15 @@
 }
 .dashboard-add-workout-exercise{
   /*background-color: #adff2f;*/
+  .control-group{
+    margin-bottom: 0%;
+  }
+  .select-list-error-msg{
+    float: left;
+    margin-bottom: 0;
+    margin-top: 13px;
+    width: 135%;
+  }
 }
 .add-workout-exercise-label{
   margin-top: 2%;
