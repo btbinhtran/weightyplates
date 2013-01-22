@@ -17,10 +17,10 @@ class Weightyplates.Models.ExercisesAssociations extends Backbone.AssociatedMode
     pattern: (value,pattern) ->
       new RegExp(pattern, "gi").test(value) ? true : false
 
-    minLength: (value, minLength) ->
-      value.length >= minLength
+    #minLength: (value, minLength) ->
+    #  value.length >= minLength
 
-  validate: (attrs, options)->
+  validate: (attrs, options) ->
     #check to make sure that the options present; initializing variables  runs validate but options aren't passed
     if !_.isEmpty(options)
 

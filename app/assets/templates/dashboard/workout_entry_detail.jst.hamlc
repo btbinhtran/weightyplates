@@ -9,7 +9,7 @@
         .span12
           .span4
             %label.add-workout-exercise-entry-label Weight
-          .span6
+          .span6.control-group.weight-control
             %input.add-workout-exercise-entry-input
           .span2
             %p.add-workout-units lb

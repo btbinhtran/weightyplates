@@ -4,7 +4,7 @@
     .row-fluid
       .span3
         %label.add-workout-exercise-label#an-Exercise-label Exercise
-      .span6.control-group
+      .span6.control-group.dropdown-control
         %select.add-workout-exercise-drop-downlist
       .span3
         .span4

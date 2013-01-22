@@ -7,6 +7,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   events:
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
+    'blur .add-workout-exercise-entry-input': 'validateWeightChange'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
@@ -23,7 +24,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     detailViewsCount = @privateModel.get("detailViewsCount") + 1
     detailViews.push({view:@, viewId: @cid, viewSetNumber: detailViewsCount})
     @privateModel.set("detailViewsCount", detailViewsCount)
-    @privateModel.set("detailViews", detailViews)
+                .set("detailViews", detailViews)
 
     #creating detailsAssociation model for this view
     @detailsAssociation = new Weightyplates.Models.DetailsAssociations({set_number: detailViewsCount, weight: null, reps: null})
@@ -103,6 +104,27 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     signalExerciseForm = @model.get "signalExerciseForm"
     #console.log "remove signal"
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
-    @model.set("signalExerciseForm", signalExerciseForm * -1)
+          .set("signalExerciseForm", signalExerciseForm * -1)
+
+  validateWeightChange: (event)->
+    console.log "validating weight"
+
+    eventTarget = event.target
+    weightInputValue = eventTarget.value
+
+    #attempt to set the attribute
+    attributeToChange = "weight"
+    @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
+
+    console.log "weight element is find is"
+
+    $controlGroup = @$el.find('.weight-control')
+    $weightInputSelector = "input.#{eventTarget.className}"
+    $weightInput = $controlGroup.find($weightInputSelector)
+
+
+    console.log weightInputValue
+
+
 
 

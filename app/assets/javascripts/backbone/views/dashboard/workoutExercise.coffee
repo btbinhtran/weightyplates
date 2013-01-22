@@ -198,9 +198,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
     @model.set("signalParentForm", signalParentForm * -1)
 
-  validateListChange: ->
+  validateListChange: (event)->
     #getting the selected value from the option list
-    selectedOption = @$el.find('select option:selected')
+    selectedOption = $("select.#{event.target.className} option:selected")
     selectedId = selectedOption.data("id")
 
     #attempt to set the attribute
@@ -211,17 +211,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @exerciseAssociation.errors["exercise_id"] || ''
 
     #cache element
-    $controlGroup = @$el.find('.control-group')
-    $dropDownList = @$el.find('.add-workout-exercise-drop-downlist')
+    $controlGroup = @$el.find('.dropdown-control')
+    $dropDownList = $("select.#{event.target.className}")
 
     #generate the error or remove if validated
     if @amongExercises.get("dropDownListError") == false and @exerciseAssociation.errors["exercise_id"]
       $controlGroup.addClass('error')
       $dropDownList.attr("id", "inputError")
-      $dropDownList.after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
+                  .after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
       @amongExercises.set("dropDownListError", true)
     else if !@exerciseAssociation.errors["exercise_id"]
         $controlGroup.removeClass('error')
         $dropDownList.removeAttr("id")
-        $dropDownList.siblings().remove()
+                    .siblings().remove()
         @amongExercises.set("dropDownListError", false)
