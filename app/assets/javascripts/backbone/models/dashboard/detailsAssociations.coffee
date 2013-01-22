@@ -20,6 +20,7 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
     #console.log "validating"
     if !_.isEmpty(options)
 
+      #define error object for errors
       errors = @errors = {}
 
       #references to what was attribute was changed
@@ -27,17 +28,16 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
       toValidateAttribute = attrs[changedAttribute]
 
       #make sure the attribute exist before checking
-      if(toValidateAttribute != null)
-
+      if(_.has(attrs, changedAttribute))
         #check for the presence of an exercise id
         if (!toValidateAttribute)
           errors[changedAttribute] = 'A weight is required'
-
         #only digits allowed
-        if(!@validators.onlyDigits(attrs[changedAttribute]))
+        else if(!@validators.onlyDigits(attrs[changedAttribute]))
           errors[changedAttribute] = 'Weight can only have digits'
+        else
+          #safety for clearing out unwanted errors
+          errors = @errors = {}
 
-
-      console.log errors
       #return the errors on the attribute if present
       errors if !_.isEmpty(errors)

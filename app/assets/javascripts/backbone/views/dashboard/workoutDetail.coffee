@@ -109,6 +109,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   validateWeightChange: (event)->
     console.log "validating weight"
 
+    #get the element and its value
     eventTarget = event.target
     weightInputValue = eventTarget.value
 
@@ -116,14 +117,22 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     attributeToChange = "weight"
     @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
 
-    console.log "weight element is find is"
-
+    #cache elements
     $controlGroup = @$el.find('.weight-control')
     $weightInputSelector = "input.#{eventTarget.className}"
     $weightInput = $controlGroup.find($weightInputSelector)
 
+    @detailsAssociation.errors["exercise_id"] || ''
 
-    console.log weightInputValue
+    console.log @privateModel
+
+    #generate the error or remove if validated
+    if @privateModel.get("weightInputError") == false and  @detailsAssociation.errors["weight"]
+      $controlGroup.addClass('error')
+
+
+
+
 
 
 

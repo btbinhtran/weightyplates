@@ -210,18 +210,19 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #get errors if they exist
     @exerciseAssociation.errors["exercise_id"] || ''
 
-    #cache element
+    #cache elements
     $controlGroup = @$el.find('.dropdown-control')
-    $dropDownList = $("select.#{event.target.className}")
+    $dropDownList = $(".#{event.target.className}")
 
-    #generate the error or remove if validated
-    if @amongExercises.get("dropDownListError") == false and @exerciseAssociation.errors["exercise_id"]
+    #adding and removal of validation error messages
+    #first blick if for removing and second block is for adding
+    if _.has(@exerciseAssociation.errors, "exercise_id") == false and @amongExercises.get("dropDownListError") == true
+      $controlGroup.removeClass('error')
+      $dropDownList.siblings().remove()
+      @amongExercises.set("dropDownListError", false)
+    else if _.has(@exerciseAssociation.errors, "exercise_id") == true and @amongExercises.get("dropDownListError") == false
       $controlGroup.addClass('error')
-      $dropDownList.attr("id", "inputError")
-                  .after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
+      $dropDownList.after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
       @amongExercises.set("dropDownListError", true)
-    else if !@exerciseAssociation.errors["exercise_id"]
-        $controlGroup.removeClass('error')
-        $dropDownList.removeAttr("id")
-                    .siblings().remove()
-        @amongExercises.set("dropDownListError", false)
+
+
