@@ -26,6 +26,9 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
       changedAttribute = options.changedAttribute
       toValidateAttribute = attrs[changedAttribute]
 
+      #for determining if there are too many leading zeros for integer or decimal
+      parts = toValidateAttribute.toString().split('.')
+
       #make sure the attribute exist before checking
       if(_.has(attrs, changedAttribute))
 
@@ -41,10 +44,11 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
           else if((toValidateAttribute * 1) <= 0)
             errors[changedAttribute] = 'Weight must be greater than 0.'
           else if(!isNaN(toValidateAttribute * 1) and _.indexOf(toValidateAttribute, ".") == (toValidateAttribute.length - 1))
-            errors[changedAttribute] = 'Weight can not end with a period.'
-
-
-
+            errors[changedAttribute] = "Weight can't end with a period."
+          else if(parts[0].length > 1 and parts[0]*1 == 0)
+            errors[changedAttribute] = "Too many leading zeros in decimal"
+          else if(_.indexOf(toValidateAttribute, ".") == -1 and (toValidateAttribute.replace(/^0+/, '').length != toValidateAttribute.length))
+            errors[changedAttribute] = "Weight has too many leading zeros"
           else
             #safety for clearing out unwanted errors
             errors = @errors = {}

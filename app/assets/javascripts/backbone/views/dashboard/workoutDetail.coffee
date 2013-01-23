@@ -141,6 +141,14 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $weightLabelArea.find('.weight-list-error-msg').remove()
       @privateModel.set("weightInputError", false)
 
+      #console.log "new weight value is"
+      #console.log @getInputValue(event)
+
+      @detailsAssociation.set("weight", weightInputValue)
+      #console.log "weight now is"
+      #@detailsAssociation.get("weight")
+
+
 
 
 
