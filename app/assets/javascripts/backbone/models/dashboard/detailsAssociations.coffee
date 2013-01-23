@@ -6,7 +6,7 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
     set_number: null
 
   patterns:
-    digits: "[0-9]"
+    digits: "/^\d+$/"
 
   validators:
     pattern: (value,pattern) ->
@@ -31,10 +31,10 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
       if(_.has(attrs, changedAttribute))
         #check for the presence of an exercise id
         if (!toValidateAttribute)
-          errors[changedAttribute] = 'A weight is required'
+          errors[changedAttribute] = 'A weight is required.'
         #only digits allowed
-        else if(!@validators.onlyDigits(attrs[changedAttribute]))
-          errors[changedAttribute] = 'Weight can only have digits'
+        else if(isNaN(toValidateAttribute * 1))
+          errors[changedAttribute] = 'Weight can only have digits.'
         else
           #safety for clearing out unwanted errors
           errors = @errors = {}

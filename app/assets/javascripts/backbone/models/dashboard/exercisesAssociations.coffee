@@ -36,7 +36,7 @@ class Weightyplates.Models.ExercisesAssociations extends Backbone.AssociatedMode
 
         #check for the presence of an exercise id
         if (!toValidateAttribute)
-          errors[changedAttribute] = 'An exercise is required'
+          errors[changedAttribute] = 'An exercise is required.'
 
       #return the errors on the attribute if present
       errors if !_.isEmpty(errors)

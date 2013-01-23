@@ -107,7 +107,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           .set("signalExerciseForm", signalExerciseForm * -1)
 
   validateWeightChange: (event)->
-    console.log "validating weight"
+    #console.log "validating weight"
 
     #get the element and its value
     eventTarget = event.target
@@ -118,15 +118,29 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
 
     #cache elements
-    $controlGroup = @$el.find('.weight-control')
+    $parentElement = @$el
+    $controlGroup = $parentElement.find('.weight-control')
+    $weightLabelArea = $parentElement.find('.add-workout-exercise-entry-label').parent()
     $weightInputSelector = "input.#{eventTarget.className}"
     $weightInput = $controlGroup.find($weightInputSelector)
 
-    @detailsAssociation.errors["exercise_id"] || ''
+    @detailsAssociation.errors["weight"] || ''
 
     #generate the error or remove if validated
-    if @privateModel.get("weightInputError") == false and  @detailsAssociation.errors["weight"]
+    if _.has(@detailsAssociation.errors, "weight") == true
       $controlGroup.addClass('error')
+      #append to the error msg box if there is not one yet
+      if @privateModel.get("weightInputError") == false
+        $weightLabelArea.append("<div class='alert alert-error weight-list-error-msg'>#{@detailsAssociation.errors["weight"]}</div>")
+        @privateModel.set("weightInputError", true)
+      else
+        errorMsg = @detailsAssociation.errors["weight"]
+        $weightLabelArea.find('.weight-list-error-msg').html(errorMsg)
+    else
+      $controlGroup.removeClass('error')
+      $weightLabelArea.find('.weight-list-error-msg').remove()
+      @privateModel.set("weightInputError", false)
+
 
 
 
