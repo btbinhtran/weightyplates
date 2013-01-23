@@ -14,7 +14,6 @@ gem "anjlab-bootstrap-rails", "~> 2.2.2.1", :require => 'bootstrap-rails', :git 
 #gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :git => 'git://github.com/anjlab/bootstrap-rails.git', :branch => 'v2.2.2.x'
 gem "gon", "~> 4.0.2"
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -39,9 +38,9 @@ group :test do
   gem 'capybara', '2.0.2'
   gem 'factory_girl_rails', '4.1.0'
   gem 'rb-fsevent', '0.9.3', require: false
-  gem 'rb-inotify', '0.9.0'
+  gem 'rb-inotify', '~>0.9.0'
   gem 'growl', '1.0.3'
-  gem "listen", "~> 0.7.2"
+  gem "listen", "0.7.2"
 end
 
 group :production do

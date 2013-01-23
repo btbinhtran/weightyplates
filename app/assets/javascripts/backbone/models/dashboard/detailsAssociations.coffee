@@ -16,8 +16,14 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
       changedAttribute = options.changedAttribute
       toValidateAttribute = attrs[changedAttribute]
 
-      #for determining if there are too many leading zeros for integer or decimal
-      parts = toValidateAttribute.toString().split('.')
+      #break decimal into two parts for checking excess zeros
+      parts = toValidateAttribute.split('.')
+
+      #break based on single e because its also represents a scientific notation number
+      scientificParts = toValidateAttribute.split('e')
+
+      #console.log
+      #console.log scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1)
 
       #make sure the attribute exist before checking
       if(_.has(attrs, changedAttribute))
@@ -39,6 +45,8 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
             errors[changedAttribute] = "Too many leading zeros in decimal."
           else if(_.indexOf(toValidateAttribute, ".") == -1 and (toValidateAttribute.replace(/^0+/, '').length != toValidateAttribute.length))
             errors[changedAttribute] = "Weight has too many leading zeros."
+          else if(scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1))
+            errors[changedAttribute] = "Can't use scientific notation."
           else
             #safety for clearing out unwanted errors
             errors = @errors = {}
