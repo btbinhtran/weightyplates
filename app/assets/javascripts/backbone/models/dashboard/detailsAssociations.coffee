@@ -5,16 +5,6 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
     reps: null
     set_number: null
 
-  patterns:
-    digits: "/^\d+$/"
-
-  validators:
-    pattern: (value,pattern) ->
-      new RegExp(pattern, "gi").test(value) ? true : false
-
-    onlyDigits: (value) ->
-      Weightyplates.Models.DetailsAssociations.prototype.validators.pattern(value, Weightyplates.Models.DetailsAssociations.prototype.patterns.digits)
-
   validate: (attrs, options) ->
     #maker sure the validateAll option is pass before validating
     if !_.isEmpty(options)
@@ -46,9 +36,9 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
           else if(!isNaN(toValidateAttribute * 1) and _.indexOf(toValidateAttribute, ".") == (toValidateAttribute.length - 1))
             errors[changedAttribute] = "Weight can't end with a period."
           else if(parts[0].length > 1 and parts[0]*1 == 0)
-            errors[changedAttribute] = "Too many leading zeros in decimal"
+            errors[changedAttribute] = "Too many leading zeros in decimal."
           else if(_.indexOf(toValidateAttribute, ".") == -1 and (toValidateAttribute.replace(/^0+/, '').length != toValidateAttribute.length))
-            errors[changedAttribute] = "Weight has too many leading zeros"
+            errors[changedAttribute] = "Weight has too many leading zeros."
           else
             #safety for clearing out unwanted errors
             errors = @errors = {}
