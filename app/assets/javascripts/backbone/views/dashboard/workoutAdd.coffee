@@ -14,6 +14,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     this
 
   addWorkoutFormState: (event) ->
+    console.log "clicking on add button"
     event.target.blur()
     if @collection.models[0].get("showingWorkoutForm") == true
       event.preventDefault()
@@ -21,7 +22,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
       @loadWorkoutForm()
       @collection.models[0].set("showingWorkoutForm", true)
     else if @collection.models[0].get("hidingWorkoutForm") == true
-      console.log "third"
+      #console.log "third"
       $('.dashboard-add-workout-modal-row')
         .addClass("dashboard-add-workout-modal-row-show")
         .removeClass("dashboard-add-workout-modal-row")

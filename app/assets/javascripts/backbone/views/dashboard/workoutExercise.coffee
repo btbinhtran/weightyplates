@@ -200,7 +200,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   validateListChange: (event)->
     #getting the selected value from the option list
-    selectedOption = $("select.#{event.target.className} option:selected")
+    $parentElement = @$el
+    selectedOption = $parentElement.find("select.#{event.target.className} option:selected")
     selectedId = selectedOption.data("id")
 
     #attempt to set the attribute
@@ -211,8 +212,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @exerciseAssociation.errors["exercise_id"] || ''
 
     #cache elements
-    $controlGroup = @$el.find('.dropdown-control')
-    $dropDownList = $(".#{event.target.className}")
+    $controlGroup = $parentElement.find('.dropdown-control')
+    $dropDownList = $parentElement.find(".#{event.target.className}")
 
     #adding and removal of validation error messages
     #first blick if for removing and second block is for adding

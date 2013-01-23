@@ -124,8 +124,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     @detailsAssociation.errors["exercise_id"] || ''
 
-    console.log @privateModel
-
     #generate the error or remove if validated
     if @privateModel.get("weightInputError") == false and  @detailsAssociation.errors["weight"]
       $controlGroup.addClass('error')
