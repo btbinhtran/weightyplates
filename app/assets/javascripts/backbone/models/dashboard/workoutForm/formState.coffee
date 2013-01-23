@@ -1,4 +1,4 @@
-class Weightyplates.Models.DashboardState extends Backbone.Model
+class Weightyplates.Models.FormState extends Backbone.Model
 
   #validate: (attrs,  options) ->
 

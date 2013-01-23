@@ -1,4 +1,4 @@
-class Weightyplates.Models.WorkoutFormState extends Backbone.Model
+class Weightyplates.Models.FormAndExercises extends Backbone.Model
 
   #validate: (attrs,  options) ->
 

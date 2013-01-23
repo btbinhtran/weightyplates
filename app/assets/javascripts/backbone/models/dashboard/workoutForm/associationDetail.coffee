@@ -1,4 +1,4 @@
-class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
+class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
   defaults:
     weight: null

@@ -6,7 +6,7 @@ class Weightyplates.Models.AssociationUserSession extends Backbone.AssociatedMod
       {
       type: Backbone.Many,
       key: 'workout',
-      relatedModel: Weightyplates.Models.WorkoutsAssociations
+      relatedModel: Weightyplates.Models.AssociationWorkout
       }
     ]
     super

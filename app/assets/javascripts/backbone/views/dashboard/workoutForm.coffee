@@ -16,21 +16,21 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     _.bindAll(@)
 
     #model for workout state
-    @modelWorkoutFormState = new Weightyplates.Models.WorkoutFormState()
+    @modelFormAndExercises = new Weightyplates.Models.FormAndExercises()
 
     #prepare the option entries
-    @modelWorkoutFormState.set("optionListEntries", @modelWorkoutFormState.prepareEntries())
+    @modelFormAndExercises.set("optionListEntries", @modelFormAndExercises.prepareEntries())
 
     #create an associated user model for workouts and further nesting of associated models
     @associatedModelUser = new Weightyplates.Models.AssociationUserSession()
-    @associatedWorkout = new Weightyplates.Models.WorkoutsAssociations()
+    @associatedWorkout = new Weightyplates.Models.AssociationWorkout()
     @associatedModelUser.set({workout: [@associatedWorkout]})
 
 
     #console.log "user session"
     #console.log @associatedModelUser
 
-    @modelWorkoutFormState.on("change:signalParentForm", @updateAssociatedModel)
+    @modelFormAndExercises.on("change:signalParentForm", @updateAssociatedModel)
 
     #call render
     @render()
@@ -39,8 +39,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #load the view template
     @$el.html(@template())
 
-    #form view gets the workoutFormState model
-    new Weightyplates.Views.WorkoutExercise(model: @modelWorkoutFormState)
+    #form view gets the FormAndExercises model
+    new Weightyplates.Views.WorkoutExercise(model: @modelFormAndExercises)
 
     #$(document).on('keypress', @closeAddWorkoutDialog)
     @hintInWorkoutName()
@@ -50,14 +50,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #add and removal check for entries
     if @associatedWorkout.get("workout_entry")
       #remove if there is already and entry
-      if @associatedWorkout.get("workout_entry").get(@modelWorkoutFormState.get("recentlyRemovedExerciseAssociatedModel"))
-        @associatedWorkout.get("workout_entry").remove(@modelWorkoutFormState.get("recentlyRemovedExerciseAssociatedModel"))
+      if @associatedWorkout.get("workout_entry").get(@modelFormAndExercises.get("recentlyRemovedExerciseAssociatedModel"))
+        @associatedWorkout.get("workout_entry").remove(@modelFormAndExercises.get("recentlyRemovedExerciseAssociatedModel"))
        else
         #add instead of overwriting if there already a workout entry
-        @associatedWorkout.get("workout_entry").add(@modelWorkoutFormState.get("recentlyAddedExerciseAssociatedModel"))
+        @associatedWorkout.get("workout_entry").add(@modelFormAndExercises.get("recentlyAddedExerciseAssociatedModel"))
 
     else
-      @associatedWorkout.set({workout_entry: [@modelWorkoutFormState.get "recentlyAddedExerciseAssociatedModel"]})
+      @associatedWorkout.set({workout_entry: [@modelFormAndExercises.get "recentlyAddedExerciseAssociatedModel"]})
 
 
     #console.log JSON.stringify(@associatedModelUser)
@@ -71,19 +71,19 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   blurInWorkoutName: (event) ->
     $this = @getEventTarget(event)
-    $this.val(@modelWorkoutFormState.get "workoutNameHint").addClass "hint" if $this.val().length == 0
+    $this.val(@modelFormAndExercises.get "workoutNameHint").addClass "hint" if $this.val().length == 0
 
   hintInWorkoutName: ->
     $workoutNameInput = $('input.dashboard-workout-name-input')
-    $workoutNameInput.val(@modelWorkoutFormState.get "workoutNameHint").addClass('hint')
+    $workoutNameInput.val(@modelFormAndExercises.get "workoutNameHint").addClass('hint')
 
   closeAddWorkoutDialog: (event) ->
 
     #console.log $('.add-workout-reps-input')
 
-    #@modelWorkoutFormState.set("age", $('.add-workout-reps-input').val())
-    #console.log @modelWorkoutFormState.get "age"
-    #console.log  _.size(@modelWorkoutFormState.get("exerciseViews"))
+    #@modelFormAndExercises.set("age", $('.add-workout-reps-input').val())
+    #console.log @modelFormAndExercises.get "age"
+    #console.log  _.size(@modelFormAndExercises.get("exerciseViews"))
 
     ###
     if event.keyCode == 27 || event.type == "click"

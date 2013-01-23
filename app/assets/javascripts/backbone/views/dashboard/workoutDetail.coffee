@@ -27,7 +27,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
                 .set("detailViews", detailViews)
 
     #creating detailsAssociation model for this view
-    @detailsAssociation = new Weightyplates.Models.DetailsAssociations({set_number: detailViewsCount, weight: null, reps: null})
+    @detailsAssociation = new Weightyplates.Models.AssociationDetail({set_number: detailViewsCount, weight: null, reps: null})
 
 
     #console.log "details"

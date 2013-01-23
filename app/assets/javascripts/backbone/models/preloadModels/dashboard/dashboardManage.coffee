@@ -1,2 +1,2 @@
 Weightyplates.PreloadModels = [];
-Weightyplates.PreloadModels.push(new Weightyplates.Models.DashboardState())
+Weightyplates.PreloadModels.push(new Weightyplates.Models.FormState())
