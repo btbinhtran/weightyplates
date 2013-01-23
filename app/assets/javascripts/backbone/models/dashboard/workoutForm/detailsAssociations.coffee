@@ -22,9 +22,6 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
       #break based on single e because its also represents a scientific notation number
       scientificParts = toValidateAttribute.split('e')
 
-      #console.log
-      #console.log scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1)
-
       #make sure the attribute exist before checking
       if(_.has(attrs, changedAttribute))
 
@@ -36,17 +33,17 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
           else if(isNaN(toValidateAttribute * 1))
             errors[changedAttribute] = 'Weight can only have digits.'
           else if(toValidateAttribute == "-0")
-            errors[changedAttribute] = 'Negative zero does not exist.'
+            errors[changedAttribute] = "Weight can't be negative zero."
           else if((toValidateAttribute * 1) <= 0)
             errors[changedAttribute] = 'Weight must be greater than 0.'
           else if(!isNaN(toValidateAttribute * 1) and _.indexOf(toValidateAttribute, ".") == (toValidateAttribute.length - 1))
             errors[changedAttribute] = "Weight can't end with a period."
           else if(parts[0].length > 1 and parts[0]*1 == 0)
-            errors[changedAttribute] = "Too many leading zeros in decimal."
+            errors[changedAttribute] = "Weight has too many leading zeros in decimal."
           else if(_.indexOf(toValidateAttribute, ".") == -1 and (toValidateAttribute.replace(/^0+/, '').length != toValidateAttribute.length))
-            errors[changedAttribute] = "Weight has too many leading zeros."
+            errors[changedAttribute] = "Weight whole number can't have leading zeros."
           else if(scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1))
-            errors[changedAttribute] = "Can't use scientific notation."
+            errors[changedAttribute] = "Weight can't be in scientific notation."
           else
             #safety for clearing out unwanted errors
             errors = @errors = {}

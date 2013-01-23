@@ -1,8 +1,8 @@
 
 .span2.indent-set-spacer
-.span1.color-set-number
+.span1.group-set-number
   %label.add-workout-set-label S
-.span6.color-weights-and-reps-items
+.span6.group-weights-and-reps-items
   .row-fluid
     .span7
       .row-fluid
@@ -18,7 +18,7 @@
         %label.add-workout-reps-label Reps
       .span6
         %input{type: "text", class: "add-workout-reps-input"}
-.span3.color-weights-and-reps-items
+.span3.group-weights-and-reps-items
   .span4.offset4
     %button.btn.add-workout-reps-add-button +
   .span4

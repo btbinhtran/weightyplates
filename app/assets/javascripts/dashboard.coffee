@@ -14,7 +14,7 @@
 ##= require_self
 
 ##= require_tree ../templates/dashboard
-##= require_tree ./backbone/models/dashboard
+##= require_tree ./backbone/models/dashboard/workoutForm
 ##= require_tree ./backbone/models/preloadModels/dashboard
 ##= require_tree ./backbone/collection/dashboard
 ##= require_tree ./backbone/views/dashboard

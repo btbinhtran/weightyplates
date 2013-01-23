@@ -1,4 +1,4 @@
-class Weightyplates.Models.UserSessionAssociations extends Backbone.AssociatedModel
+class Weightyplates.Models.AssociationUserSession extends Backbone.AssociatedModel
 
 
   constructor: () ->

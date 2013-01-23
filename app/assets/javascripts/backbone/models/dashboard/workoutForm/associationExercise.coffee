@@ -1,4 +1,4 @@
-class Weightyplates.Models.ExercisesAssociations extends Backbone.AssociatedModel
+class Weightyplates.Models.AssociationExercise extends Backbone.AssociatedModel
 
   constructor: () ->
     @relations = [

@@ -22,7 +22,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @modelWorkoutFormState.set("optionListEntries", @modelWorkoutFormState.prepareEntries())
 
     #create an associated user model for workouts and further nesting of associated models
-    @associatedModelUser = new Weightyplates.Models.UserSessionAssociations()
+    @associatedModelUser = new Weightyplates.Models.AssociationUserSession()
     @associatedWorkout = new Weightyplates.Models.WorkoutsAssociations()
     @associatedModelUser.set({workout: [@associatedWorkout]})
 
