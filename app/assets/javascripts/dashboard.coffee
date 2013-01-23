@@ -3,7 +3,7 @@
 
 ##= require jquery.hoverIntent
 ##= require hamlcoffee
-##= require i18n
+##= require parser
 
 ##= require underscore
 ##= require backbone

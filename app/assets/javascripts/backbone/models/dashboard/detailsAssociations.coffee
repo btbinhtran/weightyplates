@@ -15,9 +15,8 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
     onlyDigits: (value) ->
       Weightyplates.Models.DetailsAssociations.prototype.validators.pattern(value, Weightyplates.Models.DetailsAssociations.prototype.patterns.digits)
 
-
   validate: (attrs, options) ->
-    #console.log "validating"
+    #maker sure the validateAll option is pass before validating
     if !_.isEmpty(options)
 
       #define error object for errors
@@ -29,15 +28,26 @@ class Weightyplates.Models.DetailsAssociations extends Backbone.AssociatedModel
 
       #make sure the attribute exist before checking
       if(_.has(attrs, changedAttribute))
-        #check for the presence of an exercise id
-        if (!toValidateAttribute)
-          errors[changedAttribute] = 'A weight is required.'
-        #only digits allowed
-        else if(isNaN(toValidateAttribute * 1))
-          errors[changedAttribute] = 'Weight can only have digits.'
-        else
-          #safety for clearing out unwanted errors
-          errors = @errors = {}
+
+        #checking weight attribute
+        if changedAttribute == "weight"
+          #check for the presence of an weight
+          if (!toValidateAttribute)
+            errors[changedAttribute] = 'A weight is required.'
+          else if(isNaN(toValidateAttribute * 1))
+            errors[changedAttribute] = 'Weight can only have digits.'
+          else if(toValidateAttribute == "-0")
+            errors[changedAttribute] = 'Negative zero does not exist.'
+          else if((toValidateAttribute * 1) <= 0)
+            errors[changedAttribute] = 'Weight must be greater than 0.'
+          else if(!isNaN(toValidateAttribute * 1) and _.indexOf(toValidateAttribute, ".") == (toValidateAttribute.length - 1))
+            errors[changedAttribute] = 'Weight can not end with a period.'
+
+
+
+          else
+            #safety for clearing out unwanted errors
+            errors = @errors = {}
 
       #return the errors on the attribute if present
       errors if !_.isEmpty(errors)
