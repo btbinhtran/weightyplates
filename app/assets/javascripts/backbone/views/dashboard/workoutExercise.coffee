@@ -96,7 +96,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #the workout details row has a private model between the exercises and its details
     #have to initialize private model to default values because it can take on old values from other exercise sets
-    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetails, privateModel: new Weightyplates.Models.ExerciseAndDetails(detailViews: [], detailViewsCount: null))
+    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetails, exerciseAndDetails: new Weightyplates.Models.ExerciseAndDetails(detailViews: [], detailViewsCount: null))
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
@@ -177,7 +177,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       el.viewId is currentCiewId
     )
 
-    #update the privateModel after removal
+    #update the model after removal
     @model.set("exerciseViews", exerciseViewsFiltered)
 
     #remove view and event listeners attached to it; event handlers first

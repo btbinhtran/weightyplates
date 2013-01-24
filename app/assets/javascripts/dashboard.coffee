@@ -9,7 +9,7 @@
 ##= require backbone
 
 ##= require Backbone.validateAll
-##= require backbone-associations-min
+##= require backbone-associations
 
 ##= require_self
 

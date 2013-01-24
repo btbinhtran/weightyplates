@@ -13,17 +13,20 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-    #get the private model from options
-    @privateModel = options.privateModel
+    #get the exerciseAndDetails model from options
+    @exerciseAndDetails = options.exerciseAndDetails
+
+    #private model for details
+    @privateDetails = new Weightyplates.Models.PrivateDetails()
 
     #console.log "private model is now"
-    #console.log @privateModel
+    #console.log @exerciseAndDetails
 
     #keep track of the view exercises being added and count them
-    detailViews = @privateModel.get("detailViews")
-    detailViewsCount = @privateModel.get("detailViewsCount") + 1
+    detailViews = @exerciseAndDetails.get("detailViews")
+    detailViewsCount = @exerciseAndDetails.get("detailViewsCount") + 1
     detailViews.push({view:@, viewId: @cid, viewSetNumber: detailViewsCount})
-    @privateModel.set("detailViewsCount", detailViewsCount)
+    @exerciseAndDetails.set("detailViewsCount", detailViewsCount)
                 .set("detailViews", detailViews)
 
     #creating detailsAssociation model for this view
@@ -52,12 +55,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el.removeAttr("id")
 
     #remove the remove button in the beginning when there is only one detail
-    if @privateModel.get("detailViews").length == 1
+    if @exerciseAndDetails.get("detailViews").length == 1
       $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button').addClass('hide-add-workout-reps-remove-button')
-      @privateModel.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
+      @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
       #console.log @model.get "hiddenExerciseRemoveButton"
     else
-      $hiddenDetailRemove = @privateModel.get "hiddenDetailRemoveButton"
+      $hiddenDetailRemove = @exerciseAndDetails.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
 
     #console.log "details render"
@@ -69,13 +72,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #create the new details view
-    new Weightyplates.Views.WorkoutDetail(model: @model, privateModel: @privateModel)
+    new Weightyplates.Views.WorkoutDetail(model: @model, exerciseAndDetails: @exerciseAndDetails)
 
   removeDetails: ()->
     #console.log "removing"
 
     #list of views
-    detailViews = @privateModel.get("detailViews")
+    detailViews = @exerciseAndDetails.get("detailViews")
 
     #the current view id
     currentCiewId = @cid
@@ -85,8 +88,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       el.viewId is currentCiewId
     )
 
-    #update the privateModel after removal
-    @privateModel.set("detailViews", detailViewsFiltered)
+    #update the exerciseAndDetails after removal
+    @exerciseAndDetails.set("detailViews", detailViewsFiltered)
 
     #delete all events before removing view
     @stopListening()
@@ -95,10 +98,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #remove the exercise remove button, if only one exercise left is left as a result
     if detailViewsFiltered.length == 1
-      $hiddenDetailRemove = @privateModel.get("detailViews")[0].view.$el
+      $hiddenDetailRemove = @exerciseAndDetails.get("detailViews")[0].view.$el
         .find('.add-workout-reps-remove-button')
         .addClass('hide-add-workout-reps-remove-button')
-      @privateModel.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
+      @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
 
     #send signal to exercise to remove the detail entry from json
     signalExerciseForm = @model.get "signalExerciseForm"
@@ -129,23 +132,25 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     if _.has(@detailsAssociation.errors, "weight") == true
       $controlGroup.addClass('error')
 
-      console.log "model in question"
-      console.log @privateModel
+      #console.log "model in question"
+      #console.log @exerciseAndDetails
+      #console.log @privateDetails
 
       #append to the error msg box if there is not one yet
-      if @privateModel.get("weightInputError") == false
-        console.log "appending error"
+      if @privateDetails.get("weightInputError") == false
+        #console.log "appending error"
+        #console.log @privateDetails
         $weightLabelArea.append("<div class='alert alert-error weight-list-error-msg'>#{@detailsAssociation.errors["weight"]}</div>")
-        @privateModel.set("weightInputError", true)
+        @privateDetails.set("weightInputError", true)
       else
-        console.log "adding error"
+        #console.log "adding error"
         errorMsg = @detailsAssociation.errors["weight"]
-        console.log $weightLabelArea
+        #console.log $weightLabelArea
         $weightLabelArea.find('.weight-list-error-msg').html(errorMsg)
     else
       $controlGroup.removeClass('error')
       $weightLabelArea.find('.weight-list-error-msg').remove()
-      @privateModel.set("weightInputError", false)
+      @privateDetails.set("weightInputError", false)
 
       @detailsAssociation.set("weight", weightInputValue)
 
