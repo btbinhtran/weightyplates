@@ -3,8 +3,12 @@
     .container-fluid.exclaim-signup
       .row-fluid
         %h1 Welcome to Weighty Plates
+
       .row-fluid.tagline-phrase-area
-        %h2 Better features makes for a better tracker.
+
+        .workout-dumbbell-image-area
+          %img{alt: "workout-dumbbell-img", src: "/assets/icons/home/1359028030_physical_education.png"}
+        %h2{id: "better-features-tag"} Better features makes for a better tracker.
       .row-fluid.tryout-weighty-plates-link-area
         %a{href: calculator_path} I want to try out Weighty Plates
       %form{action: new_user_registration_path}

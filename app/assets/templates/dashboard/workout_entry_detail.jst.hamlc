@@ -3,7 +3,7 @@
 .span1.group-set-number
   %label.add-workout-set-label S
 .span6.group-weights-and-reps-items
-  .row-fluid
+  .row-fluid.weight-and-rep-inputs
     .span7
       .row-fluid
         .span12
@@ -16,7 +16,7 @@
     .span5
       .span5
         %label.add-workout-reps-label Reps
-      .span6
+      .span6.rep-control.control-group
         %input{type: "text", class: "add-workout-reps-input"}
 .span3.group-weights-and-reps-items
   .span4.offset4
