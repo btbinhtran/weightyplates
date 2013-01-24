@@ -5,9 +5,9 @@
         .span7
           %h2.dashboard-add-workout-header New Workout Entry
         .span1.offset4
-          %button#workout-form-main-close-button.btn C
+          %button#workout-form-main-close-button.btn.btn-custom X
     .span12.workout-form-contents
-      .row-fluid
+      .row-fluid.workout-form-second-wrapper
         .span9.offset1.dashboard-add-workout-name.min-row-height#workout-name-container
           .row-fluid
             .span3

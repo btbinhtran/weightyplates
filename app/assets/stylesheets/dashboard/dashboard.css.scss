@@ -9,9 +9,7 @@
     font-size: 280%;
   }
   .main-category {
-    margin-top: 8%;
     text-align: center;
-    border-top: 2px solid;
     border-bottom: 2px solid;
     a {
       font-size: 1.2em;
@@ -22,6 +20,13 @@
     a:hover {
       color: #A2A3A3;
     }
+  }
+  .dashboard-image-area{
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 50px;
+    margin: auto;
+    margin-bottom: 2.3em;
   }
 }
 .dashboard-manage-subcategory-row{
@@ -82,8 +87,9 @@
 /* Add Workout Begin*/
 #workout-form-main-close-button{
   width: 100%;
-  margin-top: 10px;
+  margin-top: 13px;
   margin-left: -25%;
+  font-weight: bold;
 }
 .dashboard-add-workout-modal-row{
   display: none;
@@ -99,6 +105,9 @@
   background-color: white;
   .workout-form-contents{
     margin-left: 0%;
+    .workout-form-second-wrapper{
+      margin-left: 3.6%;
+    }
   }
   .workout-entry-exercise-and-sets-row{
     .hide-add-workout-button{
@@ -110,7 +119,7 @@
     .an-entry-detail{
       .weight-list-error-msg{
         font-size: 0.85em;
-        margin-bottom: 0.5em;
+        margin-bottom: 0.8em;
         margin-top: 1.4em;
         width: 750%;
       }
@@ -118,22 +127,9 @@
   }
 }
 .dashboard-add-workout-header-area{
-  margin-bottom: 3.5%;
+  margin-bottom: 6%;
   /*background-color: #ff7f50;*/
-  background-image: linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
-  background-image: -o-linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
-  background-image: -moz-linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
-  background-image: -webkit-linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
-  background-image: -ms-linear-gradient(bottom, rgb(112,109,105) 5%, rgb(140,134,126) 31%, rgb(153,148,141) 82%);
-
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0.05, rgb(112,109,105)),
-    color-stop(0.31, rgb(140,134,126)),
-    color-stop(0.82, rgb(153,148,141))
-  );
+  background: linear-gradient(to bottom, #464646 0%, #343434 100%) repeat scroll 0 0 transparent;
 }
 .dashboard-add-workout-header{
   text-align: left;
@@ -252,7 +248,7 @@
   margin-bottom: 2.5%;
 }
 #last-row-container{
-  margin: auto;
+  margin-left: 8%;
   width: 80%;
 }
 #for-side-borders{

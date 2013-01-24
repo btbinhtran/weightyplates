@@ -8,6 +8,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-exercise-entry-input': 'validateWeightChange'
+    'blur .add-workout-reps-input': 'validateRepChange'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
@@ -132,10 +133,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     if _.has(@detailsAssociation.errors, "weight") == true
       $controlGroup.addClass('error')
 
-      #console.log "model in question"
-      #console.log @exerciseAndDetails
-      #console.log @privateDetails
-
       #append to the error msg box if there is not one yet
       if @privateDetails.get("weightInputError") == false
         #console.log "appending error"
@@ -153,6 +150,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @privateDetails.set("weightInputError", false)
 
       @detailsAssociation.set("weight", weightInputValue)
+
+  validateRepChange: (event)->
 
 
 
