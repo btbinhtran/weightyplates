@@ -119,9 +119,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       dataType: "JSON"
       contentType: 'application/json',
       data: properlyFormattedJson
-
       success: () ->
-        console.log "successful post"
+
+        #console.log @
       error: (jqXHR, textStatus, errorThrown) ->
         console.log(
           "The following error occurred: " +

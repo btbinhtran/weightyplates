@@ -15,9 +15,9 @@ ActiveRecord::Schema.define(:version => 20121129170937) do
 
   create_table "entry_details", :force => true do |t|
     t.integer  "workout_entry_id"
-    t.integer  "set_number"
-    t.integer  "reps"
-    t.decimal  "weight"
+    t.integer  "set_number",       :null => false
+    t.integer  "reps",             :null => false
+    t.decimal  "weight",           :null => false
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(:version => 20121129170937) do
   create_table "workout_entries", :force => true do |t|
     t.integer  "exercise_id"
     t.integer  "workout_id"
-    t.integer  "workout_entry_number"
+    t.integer  "workout_entry_number", :null => false
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
   end
@@ -117,9 +117,9 @@ ActiveRecord::Schema.define(:version => 20121129170937) do
 
   create_table "workouts", :force => true do |t|
     t.integer  "user_id"
-    t.string   "name"
+    t.string   "name",       :null => false
     t.string   "note"
-    t.string   "unit"
+    t.string   "unit",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

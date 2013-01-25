@@ -3,9 +3,9 @@ class CreateWorkouts < ActiveRecord::Migration
     create_table :workouts do |t|
       t.integer :id
       t.integer :user_id
-      t.string :name
+      t.string :name, :null => false
       t.string :note
-      t.string :unit
+      t.string :unit, :null => false
 
       t.timestamps
     end

@@ -11,99 +11,6 @@ class WorkoutsController < ApplicationController
   end
 
   def create
-
-    puts "the params are "
-    puts params[:workout]
-
-    #only executes when workout is successfully created
-    def workout_Fields_Satisfy(backup_orig_params)
-
-
-
-      #the first actually references the newest created workout
-      @workout = current_user.workouts.first
-
-      #puts "the workout is"
-      #puts @workout
-
-      #create the workout_entry
-
-      #backup is formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
-      #but only needs workout_entry, so delete the others
-      backup_orig_params.delete("unit")
-      backup_orig_params.delete("name")
-
-
-      #puts backup_orig_params
-
-
-
-=begin
-
-=end
-      backup_orig_params[:workout_entry].each do |workout_number, param|
-        workout_number[:workout_id] = @workout[:id]
-      end
-
-      puts "pass deleting from backup"
-      #puts  backup_orig_params
-
-
-      backup_orig_params[:workout_entry].each do |value|
-        workout_entry_with_entry_details = value.dup
-
-
-        value.delete("entry_detail")
-
-
-        @workout.workout_entries.create(value)
-        @workout_entry = @workout.workout_entries.first
-
-
-
-        workout_entry_with_entry_details[:entry_detail].each do |workout_detail_number|
-          puts "workout detail number is"
-          puts workout_detail_number
-          @workout_entry.entry_details.create(:set_number => workout_detail_number[:set_number], :weight => workout_detail_number[:weight], :reps => workout_detail_number[:reps])
-
-
-        end
-
-      end
-
-=begin
-      #create the each workout_entry
-      backup_orig_params[:workout_entry].each_value do |value|
-        #puts "almost create"
-
-        entry_details = value.dup
-        value.delete("entry_detail")
-
-        @workout.workout_entries.create(value)
-        @workout_entry = @workout.workout_entries.first
-
-
-        entry_details.each do |workout_detail_number, param|
-          if param.kind_of?(Hash)
-            param.each_value do |value|
-              @workout_entry.entry_details.create(value)
-            end
-          end
-        end
-
-      end
-=end
-
-
-
-
-
-
-
-      return
-
-    end
-
     #params is the original params
     #formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
 
@@ -115,8 +22,6 @@ class WorkoutsController < ApplicationController
 
     #the callback will create the workout_entry for the given workout
     respond_with(current_user.workouts.create(params[:workout]), :callback => workout_Fields_Satisfy(backup_orig_params))
-
-
   end
 
   def update
@@ -131,4 +36,45 @@ class WorkoutsController < ApplicationController
   def destroy
     respond_with(current_user.workouts.destroy(params[:id]))
   end
+
+  private
+
+#only executes when workout is successfully created
+  def workout_Fields_Satisfy(backup_orig_params)
+
+    #the first actually references the newest created workout
+    @workout = current_user.workouts.first
+
+    #backup is formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
+    #but only needs workout_entry, so delete the others
+    backup_orig_params.delete("unit")
+    backup_orig_params.delete("name")
+
+    backup_orig_params[:workout_entry].each do |workout_number|
+
+      workout_number[:workout_id] = @workout[:id]
+
+      puts workout_number
+    end
+
+    backup_orig_params[:workout_entry].each do |value|
+      workout_entry_with_entry_details = value.dup
+
+      value.delete("entry_detail")
+
+      @workout.workout_entries.create(value)
+      @workout_entry = @workout.workout_entries.first
+
+      workout_entry_with_entry_details[:entry_detail].each do |workout_detail_number|
+        #puts "workout detail number is"
+        #puts workout_detail_number
+        @workout_entry.entry_details.create(:set_number => workout_detail_number[:set_number], :weight => workout_detail_number[:weight], :reps => workout_detail_number[:reps])
+      end
+    end
+
+    return
+
+  end
 end
+
+
