@@ -108,10 +108,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
-    console.log "clicking save"
+    console.log "clicking"
+
+    console.log properlyFormattedJson
 
 
-    ###
     $.ajax
       type: "POST"
       url: "/api/workouts"
@@ -126,6 +127,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           "The following error occurred: " +
           textStatus + errorThrown
         )
-    ###
+
 
 

@@ -48,19 +48,18 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
             #for clearing out unwanted errors
             errors = @errors = {}
 
-        else if changedAttribute == "rep"
-          console.log "rep validator"
+        else if changedAttribute == "reps"
           #check for the presence of an weight
           if (!toValidateAttribute)
             errors[changedAttribute] = 'A rep is required.'
+          else if(isNaN(toValidateAttribute * 1))
+            errors[changedAttribute] = 'Rep can only have digits.'
           else if(scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1))
             errors[changedAttribute] = "Rep can't be in scientific notation."
           else if(!isNaN(toValidateAttribute * 1) and _.indexOf(toValidateAttribute, ".") == (toValidateAttribute.length - 1))
             errors[changedAttribute] = "Weight can't end with a period."
           else if(parts.length == 2)
             errors[changedAttribute] = 'Rep can not be a decimal.'
-          else if(isNaN(toValidateAttribute * 1))
-            errors[changedAttribute] = 'Rep can only have digits.'
           else if(_.indexOf(toValidateAttribute, ".") == -1 and (toValidateAttribute.replace(/^0+/, '').length != toValidateAttribute.length))
             errors[changedAttribute] = "Rep can't have leading zeros."
           else if(toValidateAttribute == "-0")

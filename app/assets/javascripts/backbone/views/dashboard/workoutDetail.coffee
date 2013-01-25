@@ -28,7 +28,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
                 .set("detailViews", detailViews)
 
     #creating detailsAssociation model for this view
-    @detailsAssociation = new Weightyplates.Models.AssociationDetail({set_number: detailViewsCount, weight: null, reps: null})
+    @detailsAssociation = new Weightyplates.Models.AssociationDetail({set_number: detailViewsCount + "", weight: null, reps: null})
 
     #to signal to parent view, exercise, what child has been added
     @model.set("recentlyAddedDetailsAssociatedModel", @detailsAssociation)
@@ -109,14 +109,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #cache elements
     $parentElement = @$el
     $controlGroup = $parentElement.find('.weight-control')
-    #$weightLabelArea = $parentElement.find('.add-workout-exercise-entry-label').parent()
 
     $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
 
-    console.log $weightAndRepArea
-
-
-    #console.log $weightLabelArea
     $weightInputSelector = "input.#{eventTarget.className}"
     $weightInput = $controlGroup.find($weightInputSelector)
 
@@ -141,7 +136,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $weightAndRepArea.find('.weight-list-error-msg').remove()
       @privateDetails.set("weightInputError", false)
 
-      @detailsAssociation.set("weight", weightInputValue)
+      @detailsAssociation.set("weight", weightInputValue + "")
 
   validateRepChange: (event)->
     #console.log "atttempt validate rep"
@@ -151,7 +146,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     repInputValue = eventTarget.value
 
     #attempt to set the attribute
-    attributeToChange = "rep"
+    attributeToChange = "reps"
     @detailsAssociation.set(attributeToChange, repInputValue, {validateAll: true, changedAttribute: attributeToChange})
 
     $parentElement = @$el
@@ -160,15 +155,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
 
     #get errors if they exist
-    @detailsAssociation.errors["rep"] || ''
+    @detailsAssociation.errors["reps"] || ''
 
     #generate the error or remove if validated
-    if _.has(@detailsAssociation.errors, "rep") == true
+    if _.has(@detailsAssociation.errors, "reps") == true
       $controlGroup.addClass('error')
 
       #append to the error msg box if there is not one yet
       if @privateDetails.get("repInputError") == false
-        $weightAndRepArea.append("<div class='alert alert-error rep-list-error-msg list-error-msg'>#{@detailsAssociation.errors["rep"]}</div>")
+        $weightAndRepArea.append("<div class='alert alert-error rep-list-error-msg list-error-msg'>#{@detailsAssociation.errors["reps"]}</div>")
         @privateDetails.set("repInputError", true)
       else
         #console.log "adding error"
@@ -180,7 +175,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $weightAndRepArea.find('.rep-list-error-msg').remove()
       @privateDetails.set("repInputError", false)
 
-      @detailsAssociation.set("rep", repInputValue)
+      @detailsAssociation.set("reps", repInputValue + "")
 
 
 

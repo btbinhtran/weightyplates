@@ -23,6 +23,9 @@ class WorkoutsController < ApplicationController
       #the first actually references the newest created workout
       @workout = current_user.workouts.first
 
+      #puts "the workout is"
+      #puts @workout
+
       #create the workout_entry
 
       #backup is formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
@@ -30,15 +33,48 @@ class WorkoutsController < ApplicationController
       backup_orig_params.delete("unit")
       backup_orig_params.delete("name")
 
-      #assign the workout id to each of the workout_entry
+
+      #puts backup_orig_params
+
+
+
+=begin
+
+=end
       backup_orig_params[:workout_entry].each do |workout_number, param|
-        param[:workout_id] = @workout[:id]
+        workout_number[:workout_id] = @workout[:id]
       end
 
+      puts "pass deleting from backup"
+      #puts  backup_orig_params
 
+
+      backup_orig_params[:workout_entry].each do |value|
+        workout_entry_with_entry_details = value.dup
+
+
+        value.delete("entry_detail")
+
+
+        @workout.workout_entries.create(value)
+        @workout_entry = @workout.workout_entries.first
+
+
+
+        workout_entry_with_entry_details[:entry_detail].each do |workout_detail_number|
+          puts "workout detail number is"
+          puts workout_detail_number
+          @workout_entry.entry_details.create(:set_number => workout_detail_number[:set_number], :weight => workout_detail_number[:weight], :reps => workout_detail_number[:reps])
+
+
+        end
+
+      end
+
+=begin
       #create the each workout_entry
       backup_orig_params[:workout_entry].each_value do |value|
-        puts "almost create"
+        #puts "almost create"
 
         entry_details = value.dup
         value.delete("entry_detail")
@@ -56,6 +92,7 @@ class WorkoutsController < ApplicationController
         end
 
       end
+=end
 
 
 
