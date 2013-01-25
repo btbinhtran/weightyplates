@@ -51,10 +51,7 @@ class WorkoutsController < ApplicationController
     backup_orig_params.delete("name")
 
     backup_orig_params[:workout_entry].each do |workout_number|
-
       workout_number[:workout_id] = @workout[:id]
-
-      puts workout_number
     end
 
     backup_orig_params[:workout_entry].each do |value|
@@ -63,12 +60,33 @@ class WorkoutsController < ApplicationController
       value.delete("entry_detail")
 
       @workout.workout_entries.create(value)
+      #puts @workout.workout_entries
+
+=begin
+      @workout.workout_entries.each do |k, v|
+        if v.nil?
+          @workout.destroy
+        end
+      end
+=end
+
       @workout_entry = @workout.workout_entries.first
 
       workout_entry_with_entry_details[:entry_detail].each do |workout_detail_number|
-        #puts "workout detail number is"
-        #puts workout_detail_number
-        @workout_entry.entry_details.create(:set_number => workout_detail_number[:set_number], :weight => workout_detail_number[:weight], :reps => workout_detail_number[:reps])
+
+        #create the entry details, assuming all fields are valid; loop below removes if invalid
+       @workout_entry.entry_details.create(:set_number => workout_detail_number[:set_number], :weight => workout_detail_number[:weight], :reps => workout_detail_number[:reps])
+
+       #delete the workout and entry for missing details
+        workout_detail_number.each do |key, value|
+          if value.nil?
+            @workout.destroy
+          end
+        end
+
+
+
+
       end
     end
 
