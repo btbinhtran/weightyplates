@@ -50,49 +50,55 @@ class WorkoutsController < ApplicationController
     backup_orig_params.delete("unit")
     backup_orig_params.delete("name")
 
+    #puts backup_orig_params[:workout_entry]
+
+    @create_details = true
     backup_orig_params[:workout_entry].each do |workout_number|
+      #puts "evaluating workout entry"
+      #puts workout_number
       workout_number[:workout_id] = @workout[:id]
+      if workout_number[:workout_entry_number].nil? || workout_number[:exercise_id].nil?
+        @workout.destroy
+        @create_details = false
+      end
+
     end
 
-    backup_orig_params[:workout_entry].each do |value|
-      workout_entry_with_entry_details = value.dup
+    if @create_details == true
 
-      value.delete("entry_detail")
+      backup_orig_params[:workout_entry].each do |value|
+        workout_entry_with_entry_details = value.dup
 
-      @workout.workout_entries.create(value)
-      #puts @workout.workout_entries
+        value.delete("entry_detail")
 
-=begin
-      @workout.workout_entries.each do |k, v|
-        if v.nil?
-          @workout.destroy
-        end
-      end
-=end
 
-      @workout_entry = @workout.workout_entries.first
+        @workout.workout_entries.create(value)
+        #puts @workout.workout_entries
 
-      workout_entry_with_entry_details[:entry_detail].each do |workout_detail_number|
+        @workout_entry = @workout.workout_entries.first
 
-        #create the entry details, assuming all fields are valid; loop below removes if invalid
-       @workout_entry.entry_details.create(:set_number => workout_detail_number[:set_number], :weight => workout_detail_number[:weight], :reps => workout_detail_number[:reps])
+        workout_entry_with_entry_details[:entry_detail].each do |workout_detail_number|
 
-       #delete the workout and entry for missing details
-        workout_detail_number.each do |key, value|
-          if value.nil?
-            @workout.destroy
+          #create the entry details, assuming all fields are valid; loop below removes if invalid
+          @workout_entry.entry_details.create(:set_number => workout_detail_number[:set_number], :weight => workout_detail_number[:weight], :reps => workout_detail_number[:reps])
+
+          #delete the workout and entry for missing details
+          workout_detail_number.each do |key, value|
+            if value.nil?
+              @workout.destroy
+            end
           end
+
+
         end
-
-
-
-
       end
+
     end
 
     return
-
   end
+
+
 end
 
 
