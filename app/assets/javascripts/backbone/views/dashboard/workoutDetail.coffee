@@ -131,6 +131,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         errorMsg = @detailsAssociation.errors["weight"]
         #console.log $weightLabelArea
         $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
+      @detailsAssociation.set("weight", null)
     else
       $controlGroup.removeClass('error')
       $weightAndRepArea.find('.weight-list-error-msg').remove()

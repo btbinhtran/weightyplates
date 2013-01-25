@@ -42,6 +42,9 @@ class WorkoutsController < ApplicationController
 #only executes when workout is successfully created
   def workout_Fields_Satisfy(backup_orig_params)
 
+    #render json: @workout.errors, status: :unprocessable_entity
+
+    @workout_created = true
     #the first actually references the newest created workout
     @workout = current_user.workouts.first
 
@@ -60,6 +63,7 @@ class WorkoutsController < ApplicationController
       if workout_number[:workout_entry_number].nil? || workout_number[:exercise_id].nil?
         @workout.destroy
         @create_details = false
+        @workout_created = false
       end
 
     end
@@ -86,6 +90,8 @@ class WorkoutsController < ApplicationController
           workout_detail_number.each do |key, value|
             if value.nil?
               @workout.destroy
+              @workout_created = false
+
             end
           end
 
@@ -95,7 +101,11 @@ class WorkoutsController < ApplicationController
 
     end
 
-    return
+    #return if @workout_created == true
+
+
+
+
   end
 
 

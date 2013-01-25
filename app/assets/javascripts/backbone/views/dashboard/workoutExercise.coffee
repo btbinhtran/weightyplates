@@ -224,5 +224,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       $controlGroup.addClass('error')
       $dropDownList.after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
       @exerciseAndDetails.set("dropDownListError", true)
+      @exerciseAssociation.set("exercise_id", null)
+
 
 

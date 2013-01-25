@@ -112,7 +112,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log properlyFormattedJson
 
-
+    ###
     $.ajax
       type: "POST"
       url: "/api/workouts"
@@ -127,6 +127,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           "The following error occurred: " +
           textStatus + errorThrown
         )
+    ###
 
 
 
