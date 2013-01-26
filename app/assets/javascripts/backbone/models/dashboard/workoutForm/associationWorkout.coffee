@@ -13,3 +13,4 @@ class Weightyplates.Models.AssociationWorkout extends Backbone.AssociatedModel
   defaults:
     unit: "kg"
     name: new Date()
+    note: null

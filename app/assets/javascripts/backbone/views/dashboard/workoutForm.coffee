@@ -99,6 +99,30 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   saveWorkout: ->
 
+    #console.log
+
+
+
+    associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
+    workoutEntryLength = associatedModels.length
+
+    #console.log "attribu"
+    #console.log associatedModels.at(0).attributes
+
+    i=0
+    missingFieldCount = 0
+    while i <= (workoutEntryLength - 1)
+      #if associatedModels.at(i).get("exercise_id") == null
+      #if ("exercise_id" in (associatedModels.at(i).attributes))
+      evaluateifNull = associatedModels.at(i).get("exercise_id")
+      if _.isNull(evaluateifNull) and !_.isUndefined(evaluateifNull)
+        missingFieldCount++
+      i++
+    #console.log "missing field"
+    if missingFieldCount > 0
+      console.log "Can not be save because of missing fields."
+
+
     jsonData = JSON.stringify(@associatedModelUser)
 
     #formatting the jsonData by removing the first '[' and last ']'
@@ -108,7 +132,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
-    console.log "clicking"
+
+
+    #console.log "clicking"
 
     console.log properlyFormattedJson
 
