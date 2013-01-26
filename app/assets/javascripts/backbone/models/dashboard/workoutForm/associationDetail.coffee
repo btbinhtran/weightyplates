@@ -15,28 +15,35 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
     noNegZero:(attr) ->
       #console.log "in no neg zero"
       if(attr.validateAttribute == "-0")
-        #console.log "noNeg"
         "Weight can't be negative zero."
 
-    ###
-    largerThanZero:(attr,errors) ->
+    largerThanZero:(attr) ->
       validateAttr = attr.validateAttribute
       if((validateAttr * 1) <= 0 and validateAttr != "" )
-        errors[attr.checkAttribute] = 'Weight must be greater than 0.'
+        'Weight must be greater than 0.'
 
-    noPeriodEnd:(attr, errors) ->
+    noPeriodEnd:(attr) ->
       validateAttr = attr.validateAttribute
       if(!isNaN(validateAttr * 1) and _.indexOf(validateAttr, ".") == (validateAttr.length - 1) and validateAttr != "")
-        console.log "end with period"
-        errors[attr.checkAttribute] = "Weight can't end with a period."
+        "Weight can't end with a period."
 
     noLeadingZeroDeci:(attr) ->
+      validateAttr = attr.validateAttribute
+      parts = validateAttr.split('.')
+      if(parts[0].length > 1 and parts[0]*1 == 0)
+        "Weight has too many leading zeros in decimal."
 
     noLeadingInt:(attr) ->
+      validateAttr = attr.validateAttribute
+      if(_.indexOf(validateAttr, ".") == -1 and (validateAttr.replace(/^0+/, '').length != validateAttr.length))
+        "Weight whole number can't have leading zeros."
 
     noSciNot:(attr) ->
+      validateAttr = attr.validateAttribute
+      scientificParts = validateAttr.split('e')
+      if(scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1))
+        "Weight can't be in scientific notation."
 
-    ###
 
     withRules: (options) =>
       #to store all the errors
@@ -50,17 +57,10 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       i = 0
       while i < itemsToValidateLength
 
-        #console.log "test undefined"
-
-        #someUndefinedVar = undefine
-
-
-
-
         console.log "------------------moment you been waiting for"
         if !_.isUndefined(@::validator[validateOptions[i]](options))
           #console.log "breaking out on " + i
-          console.log @::validator[validateOptions[i]](options)
+          #console.log @::validator[validateOptions[i]](options)
 
           console.log "error is now"
           errors[options.checkAttribute] = @::validator[validateOptions[i]](options)
@@ -71,16 +71,6 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
         #errors[options.checkAttribute] =
 
-
-        ###
-        console.log "error then is"
-        console.log errors
-        #break out of the loop because one error message is enough
-        if !_.isEmpty(errors)
-          console.log _.isEmpty(errors)
-          console.log "breaking out"
-          i = itemsToValidateLength
-        ###
 
         console.log "it ends"
         i++
