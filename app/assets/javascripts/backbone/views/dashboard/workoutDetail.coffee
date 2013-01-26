@@ -118,6 +118,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #get errors if they exist
     @detailsAssociation.errors["weight"] || ''
 
+    console.log "the errors are"
+    console.log  @detailsAssociation
+
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "weight") == true
       $controlGroup.addClass('error')
