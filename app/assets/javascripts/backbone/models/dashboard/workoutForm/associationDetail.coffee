@@ -7,16 +7,18 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
   validator:
     onlyDigits:(attr) ->
-      errors = {}
+      #console.log "in only digits"
       if isNaN(attr.validateAttribute * 1)
-        console.log "not a number"
-        errors[attr.checkAttribute] = 'Weight can only have digits.'
+        #console.log "not a number"
+        'Weight can only have digits.'
 
-    noNegZero:(attr, errors) ->
+    noNegZero:(attr) ->
+      #console.log "in no neg zero"
       if(attr.validateAttribute == "-0")
-        console.log "noNeg"
-        errors[attr.checkAttribute] = "Weight can't be negative zero."
+        #console.log "noNeg"
+        "Weight can't be negative zero."
 
+    ###
     largerThanZero:(attr,errors) ->
       validateAttr = attr.validateAttribute
       if((validateAttr * 1) <= 0 and validateAttr != "" )
@@ -34,6 +36,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
     noSciNot:(attr) ->
 
+    ###
 
     withRules: (options) =>
       #to store all the errors
@@ -47,13 +50,39 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       i = 0
       while i < itemsToValidateLength
 
+        #console.log "test undefined"
 
-        errors = @::validator[validateOptions[i]](options)
+        #someUndefinedVar = undefine
 
-        #break out of the loop because one error message is enough
-        if !_.isEmpty(errors)
+
+
+
+        console.log "------------------moment you been waiting for"
+        if !_.isUndefined(@::validator[validateOptions[i]](options))
+          #console.log "breaking out on " + i
+          console.log @::validator[validateOptions[i]](options)
+
+          console.log "error is now"
+          errors[options.checkAttribute] = @::validator[validateOptions[i]](options)
+
+          console.log errors
+
           i = itemsToValidateLength
 
+        #errors[options.checkAttribute] =
+
+
+        ###
+        console.log "error then is"
+        console.log errors
+        #break out of the loop because one error message is enough
+        if !_.isEmpty(errors)
+          console.log _.isEmpty(errors)
+          console.log "breaking out"
+          i = itemsToValidateLength
+        ###
+
+        console.log "it ends"
         i++
 
       #@::validator.onlyDigits()
