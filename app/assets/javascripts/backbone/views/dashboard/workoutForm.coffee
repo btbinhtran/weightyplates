@@ -5,7 +5,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   el: '#workout-form-container'
 
   events:
-    'click #last-row-save-button': 'saveWorkout'
+    'click #last-row-save-button': 'validateBeforeSave'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     #'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
@@ -97,30 +97,66 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   addNote: ->
     console.log JSON.stringify(@associatedModelUser)
 
+  validateBeforeSave: ->
+    associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
+    workoutEntryLength = associatedModels.length
+
+    i = 0
+    j = 0
+    missingExerciseFieldCount = 0
+    missingDetailFieldCount = 0
+    while i < workoutEntryLength
+      evalifNull = associatedModels.at(i).get("exercise_id")
+      if _.isNull(evalifNull) and !_.isUndefined(evalifNull)
+        missingExerciseFieldCount++
+
+        #console.log "entry details length is"
+        #console.log associatedModels.at(i).get("entry_detail")
+        entryDetailLength = associatedModels.at(i).get("entry_detail").length
+
+        #console.log "j is"
+        entryDetailModel = associatedModels.at(i).get("entry_detail")
+        somethingCool = 89
+        while j <= entryDetailLength - 1
+          #console.log entryDetailModel.at(j).attributes
+          evalWeightNull = entryDetailModel.at(j).get("weight")
+          evalRepNull = entryDetailModel.at(j).get("reps")
+          if _.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull)
+            missingDetailFieldCount++
+          if _.isNull(evalRepNull) and !_.isUndefined(evalRepNull)
+            missingDetailFieldCount++
+
+          console.log "details intermediate"
+          console.log missingDetailFieldCount
+
+          j++
+
+      i++
+    #console.log "missing field"
+
+    console.log "missing detail count is "
+    console.log missingDetailFieldCount
+
+    console.log "exercise error count is"
+    console.log missingExerciseFieldCount
+
+    totalFieldErrors = missingDetailFieldCount + missingExerciseFieldCount
+
+    if totalFieldErrors > 0
+      console.log "Can not be save because of missing fields."
+      console.log totalFieldErrors
+      console.log "-------------------------------------"
+    else
+      @saveWorkout()
+
+
   saveWorkout: ->
 
     #console.log
 
 
 
-    associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
-    workoutEntryLength = associatedModels.length
 
-    #console.log "attribu"
-    #console.log associatedModels.at(0).attributes
-
-    i=0
-    missingFieldCount = 0
-    while i <= (workoutEntryLength - 1)
-      #if associatedModels.at(i).get("exercise_id") == null
-      #if ("exercise_id" in (associatedModels.at(i).attributes))
-      evaluateifNull = associatedModels.at(i).get("exercise_id")
-      if _.isNull(evaluateifNull) and !_.isUndefined(evaluateifNull)
-        missingFieldCount++
-      i++
-    #console.log "missing field"
-    if missingFieldCount > 0
-      console.log "Can not be save because of missing fields."
 
 
     jsonData = JSON.stringify(@associatedModelUser)
