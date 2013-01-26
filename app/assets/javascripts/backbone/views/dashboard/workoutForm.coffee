@@ -102,13 +102,15 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     workoutEntryLength = associatedModels.length
 
     i = 0
-    j = 0
+
     missingExerciseFieldCount = 0
     missingDetailFieldCount = 0
-    while i < workoutEntryLength
+    while i <= workoutEntryLength - 1
       evalifNull = associatedModels.at(i).get("exercise_id")
       if _.isNull(evalifNull) and !_.isUndefined(evalifNull)
         missingExerciseFieldCount++
+
+        #console.log 'gone to one exercise'
 
         #console.log "entry details length is"
         #console.log associatedModels.at(i).get("entry_detail")
@@ -116,9 +118,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
         #console.log "j is"
         entryDetailModel = associatedModels.at(i).get("entry_detail")
-        somethingCool = 89
+
+        j = 0
         while j <= entryDetailLength - 1
-          #console.log entryDetailModel.at(j).attributes
           evalWeightNull = entryDetailModel.at(j).get("weight")
           evalRepNull = entryDetailModel.at(j).get("reps")
           if _.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull)
@@ -126,8 +128,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           if _.isNull(evalRepNull) and !_.isUndefined(evalRepNull)
             missingDetailFieldCount++
 
-          console.log "details intermediate"
-          console.log missingDetailFieldCount
 
           j++
 
