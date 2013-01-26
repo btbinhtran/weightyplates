@@ -134,18 +134,18 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       i++
     #console.log "missing field"
 
-    console.log "missing detail count is "
-    console.log missingDetailFieldCount
+    #console.log "missing detail count is "
+    #console.log missingDetailFieldCount
 
-    console.log "exercise error count is"
-    console.log missingExerciseFieldCount
+    #console.log "exercise error count is"
+    #console.log missingExerciseFieldCount
 
     totalFieldErrors = missingDetailFieldCount + missingExerciseFieldCount
 
     if totalFieldErrors > 0
       console.log "Can not be save because of missing fields."
       console.log totalFieldErrors
-      console.log "-------------------------------------"
+      #console.log "-------------------------------------"
     else
       @saveWorkout()
 

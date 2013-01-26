@@ -31,12 +31,14 @@ class Weightyplates.Models.AssociationExercise extends Backbone.AssociatedModel
       changedAttribute = options.changedAttribute
       toValidateAttribute = attrs[changedAttribute]
 
+      ###
       #make sure the attribute exist before checking
       if(toValidateAttribute != null)
 
         #check for the presence of an exercise id
-        if (!toValidateAttribute)
-          errors[changedAttribute] = 'An exercise is required.'
+        #if (!toValidateAttribute)
+        #  errors[changedAttribute] = 'An exercise is required.'
+      ###
 
       #return the errors on the attribute if present
       errors if !_.isEmpty(errors)
