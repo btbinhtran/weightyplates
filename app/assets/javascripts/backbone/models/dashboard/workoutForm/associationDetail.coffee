@@ -5,6 +5,62 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
     reps: null
     set_number: null
 
+  validator:
+    onlyDigits:(attr) ->
+      errors = {}
+      if isNaN(attr.validateAttribute * 1)
+        console.log "not a number"
+        errors[attr.checkAttribute] = 'Weight can only have digits.'
+
+    noNegZero:(attr, errors) ->
+      if(attr.validateAttribute == "-0")
+        console.log "noNeg"
+        errors[attr.checkAttribute] = "Weight can't be negative zero."
+
+    largerThanZero:(attr,errors) ->
+      validateAttr = attr.validateAttribute
+      if((validateAttr * 1) <= 0 and validateAttr != "" )
+        errors[attr.checkAttribute] = 'Weight must be greater than 0.'
+
+    noPeriodEnd:(attr, errors) ->
+      validateAttr = attr.validateAttribute
+      if(!isNaN(validateAttr * 1) and _.indexOf(validateAttr, ".") == (validateAttr.length - 1) and validateAttr != "")
+        console.log "end with period"
+        errors[attr.checkAttribute] = "Weight can't end with a period."
+
+    noLeadingZeroDeci:(attr) ->
+
+    noLeadingInt:(attr) ->
+
+    noSciNot:(attr) ->
+
+
+    withRules: (options) =>
+      #to store all the errors
+      errors = {}
+
+      validateOptions = options.ensureTrue
+      #validateItemName = options.checkAttribute
+      #validateAttributeValue = options.validateAttribute
+      itemsToValidateLength = validateOptions.length
+
+      i = 0
+      while i < itemsToValidateLength
+
+
+        errors = @::validator[validateOptions[i]](options)
+
+        #break out of the loop because one error message is enough
+        if !_.isEmpty(errors)
+          i = itemsToValidateLength
+
+        i++
+
+      #@::validator.onlyDigits()
+
+
+
+
   validate: (attrs, options) ->
     #maker sure the validateAll option is pass before validating
     if !_.isEmpty(options)
@@ -27,6 +83,23 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
         #checking weight attribute
         if changedAttribute == "weight"
+
+          @validator.withRules(
+            checkAttribute: "weight"
+            ensureTrue: [
+              "onlyDigits"
+              "noNegZero"
+              "largerThanZero"
+              "noPeriodEnd"
+              "noLeadingZeroDeci"
+              "noLeadingInt"
+              "noSciNot"
+            ]
+            validateAttribute: toValidateAttribute
+          )
+
+          ###
+
           #check for the presence of an weight
           if(isNaN(toValidateAttribute * 1))
             errors[changedAttribute] = 'Weight can only have digits.'
@@ -45,6 +118,8 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           else
             #for clearing out unwanted errors
             errors = @errors = {}
+
+          ###
 
         else if changedAttribute == "reps"
           #check for the presence of an weight
