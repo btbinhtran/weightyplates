@@ -118,12 +118,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #get errors if they exist
     @detailsAssociation.errors["Weight"] || ''
 
-    #console.log "weight errors are"
-    #console.log  @detailsAssociation
+    console.log "weight errors are"
+    console.log  @detailsAssociation
     #console.log _.has(@detailsAssociation.errors, "Weight")
 
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "Weight") == true
+
+      console.log "adding weight errors"
+
       $controlGroup.addClass('error')
 
       #append to the error msg box if there is not one yet
@@ -168,7 +171,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "Reps") == true
+      console.log "adding errors"
+
       $controlGroup.addClass('error')
+
+      console.log "repintput error"
+      console.log @privateDetails.get("repInputError")
 
       #append to the error msg box if there is not one yet
       if @privateDetails.get("repInputError") == false
@@ -177,8 +185,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         $weightAndRepArea.append("<div class='alert alert-error rep-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Reps"]}</div>")
         @privateDetails.set("repInputError", true)
       else
-        #console.log "adding error"
-        errorMsg = @detailsAssociation.errors["Rep"]
+        console.log "still adding error"
+        errorMsg = @detailsAssociation.errors["Reps"]
         #console.log $weightLabelArea
         $weightAndRepArea.find('.rep-list-error-msg').html(errorMsg)
     else

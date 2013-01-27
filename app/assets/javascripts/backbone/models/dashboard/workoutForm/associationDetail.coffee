@@ -63,8 +63,8 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           #storing the error if there is one
           errors[options.checkAttribute] = @::validator.patterns[validateOptions[i]](options)
 
-          console.log "error in middle"
-          console.log errors
+          #console.log "error in middle"
+          #console.log errors
 
           #break out of the loop
           i = itemsToValidateLength
@@ -118,13 +118,13 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
     #maker sure the validateAll option is pass before validating
     if !_.isEmpty(options)
 
-      errors = {}
+      @errors = {}
 
       console.log "attr value is "
       console.log attrs[options.changedAttribute]
 
       #errors
-      errors = @validator.withAttribute(options.changedAttribute, attrs[options.changedAttribute])
+      @errors = @validator.withAttribute(options.changedAttribute, attrs[options.changedAttribute])
 
       ###
       errors = @validator.withRules(
@@ -187,6 +187,11 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       ###
 
       console.log "errors before"
-      console.log errors
+      console.log @errors
+      console.log _.isEmpty(@errors)
 
-      @errors = errors if !_.isEmpty(errors)
+      if !_.isEmpty(@errors)
+        @errors
+      else
+        @errors = {}
+
