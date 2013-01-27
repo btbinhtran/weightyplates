@@ -118,14 +118,14 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #get errors if they exist
     @detailsAssociation.errors["Weight"] || ''
 
-    console.log "weight errors are"
-    console.log  @detailsAssociation
+    #console.log "weight errors are"
+    #console.log  @detailsAssociation
     #console.log _.has(@detailsAssociation.errors, "Weight")
 
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "Weight") == true
 
-      console.log "adding weight errors"
+      #console.log "adding weight errors"
 
       $controlGroup.addClass('error')
 
@@ -140,7 +140,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
       @detailsAssociation.set("weight", null)
     else
-      console.log "weight removing error"
+      #console.log "weight removing error"
       $controlGroup.removeClass('error')
       $weightAndRepArea.find('.weight-list-error-msg').remove()
       @privateDetails.set("weightInputError", false)
@@ -166,31 +166,31 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #get errors if they exist
     @detailsAssociation.errors["Reps"] || ''
 
-    console.log "reps errors are"
-    console.log  @detailsAssociation
+    #console.log "reps errors are"
+    #console.log  @detailsAssociation
 
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "Reps") == true
-      console.log "adding errors"
+      #console.log "adding errors"
 
       $controlGroup.addClass('error')
 
-      console.log "repintput error"
-      console.log @privateDetails.get("repInputError")
+      #console.log "repintput error"
+      #console.log @privateDetails.get("repInputError")
 
       #append to the error msg box if there is not one yet
       if @privateDetails.get("repInputError") == false
 
-        console.log "in the reps error adding"
+        #console.log "in the reps error adding"
         $weightAndRepArea.append("<div class='alert alert-error rep-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Reps"]}</div>")
         @privateDetails.set("repInputError", true)
       else
-        console.log "still adding error"
+        #console.log "still adding error"
         errorMsg = @detailsAssociation.errors["Reps"]
         #console.log $weightLabelArea
         $weightAndRepArea.find('.rep-list-error-msg').html(errorMsg)
     else
-      console.log "reps removing error"
+      #console.log "reps removing error"
       $controlGroup.removeClass('error')
       $weightAndRepArea.find('.rep-list-error-msg').remove()
       @privateDetails.set("repInputError", false)
