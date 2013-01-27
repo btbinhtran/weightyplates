@@ -6,9 +6,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
     set_number: null
 
   validator:
-
     patterns:
-
       onlyDigits:(attr) ->
         #console.log "in only digits"
         if isNaN(attr.validateAttribute * 1)
@@ -65,20 +63,70 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           #storing the error if there is one
           errors[options.checkAttribute] = @::validator.patterns[validateOptions[i]](options)
 
+          console.log "error in middle"
+          console.log errors
+
           #break out of the loop
           i = itemsToValidateLength
         i++
 
+      #console.log "errors returned are"
+      #console.log errors
       #return the errors
+      #@errors = errors
       errors
+
+    withAttribute: (attr, attrVal) ->
+      console.log "withattr"
+      #console.log attr
+      #console.log attrVal
+      @validateAttributes[attr].validateAttribute = attrVal
+      console.log @validateAttributes[attr]
+      #@::validator.validateAttributes
+      @withRules(@validateAttributes[attr])
+
+    validateAttributes:
+      weight:
+        checkAttribute: "Weight"
+        ensureTrue: [
+          "onlyDigits"
+          "noNegZero"
+          "largerThanZero"
+          "noPeriodEnd"
+          "noLeadingZeroDeci"
+          "noLeadingInt"
+          "noSciNot"
+        ]
+
+      reps:
+        checkAttribute: "Reps"
+        ensureTrue: [
+          "onlyDigits"
+          "noSciNot"
+          "noPeriodEnd"
+          "noLeadingZeroDeci"
+          "noNegZero"
+          "largerThanZero"
+          "noLeadingInt"
+
+        ]
+
+
+
 
   validate: (attrs, options) ->
     #maker sure the validateAll option is pass before validating
     if !_.isEmpty(options)
 
-      #define error object for errors
-      errors = @errors = {}
+      errors = {}
 
+      console.log "attr value is "
+      console.log attrs[options.changedAttribute]
+
+      #errors
+      errors = @validator.withAttribute(options.changedAttribute, attrs[options.changedAttribute])
+
+      ###
       errors = @validator.withRules(
         checkAttribute: "Weight"
         ensureTrue: [
@@ -108,7 +156,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
         ]
         validateAttribute: attrs[options.changedAttribute]
       )
-
+      ###
 
 
 
@@ -137,5 +185,8 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
             errors = @errors = {}
 
       ###
+
+      console.log "errors before"
+      console.log errors
 
       @errors = errors if !_.isEmpty(errors)

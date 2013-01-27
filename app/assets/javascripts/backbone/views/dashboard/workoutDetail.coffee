@@ -116,11 +116,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     $weightInput = $controlGroup.find($weightInputSelector)
 
     #get errors if they exist
-    @detailsAssociation.errors["weight"] || ''
+    @detailsAssociation.errors["Weight"] || ''
 
-    console.log "weight errors are"
-    console.log  @detailsAssociation
-    console.log _.has(@detailsAssociation.errors, "Weight")
+    #console.log "weight errors are"
+    #console.log  @detailsAssociation
+    #console.log _.has(@detailsAssociation.errors, "Weight")
 
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "Weight") == true
@@ -137,6 +137,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
       @detailsAssociation.set("weight", null)
     else
+      console.log "weight removing error"
       $controlGroup.removeClass('error')
       $weightAndRepArea.find('.weight-list-error-msg').remove()
       @privateDetails.set("weightInputError", false)
@@ -160,7 +161,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
 
     #get errors if they exist
-    @detailsAssociation.errors["reps"] || ''
+    @detailsAssociation.errors["Reps"] || ''
 
     console.log "reps errors are"
     console.log  @detailsAssociation
@@ -181,6 +182,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #console.log $weightLabelArea
         $weightAndRepArea.find('.rep-list-error-msg').html(errorMsg)
     else
+      console.log "reps removing error"
       $controlGroup.removeClass('error')
       $weightAndRepArea.find('.rep-list-error-msg').remove()
       @privateDetails.set("repInputError", false)
