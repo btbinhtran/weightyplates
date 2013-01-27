@@ -13,48 +13,48 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
         #console.log "in only digits"
         if isNaN(attr.validateAttribute * 1)
           #console.log "not a number"
-          'Weight can only have digits.'
+          "#{attr.checkAttribute} can only have digits."
 
       noNegZero:(attr) ->
         #console.log "in no neg zero"
         if(attr.validateAttribute == "-0")
-          "Weight can't be negative zero."
+          "#{attr.checkAttribute} can't be negative zero."
 
       largerThanZero:(attr) ->
         validateAttr = attr.validateAttribute
         if((validateAttr * 1) <= 0 and validateAttr != "" )
-          'Weight must be greater than 0.'
+          "#{attr.checkAttribute} must be greater than 0."
 
       noPeriodEnd:(attr) ->
         validateAttr = attr.validateAttribute
         if(!isNaN(validateAttr * 1) and _.indexOf(validateAttr, ".") == (validateAttr.length - 1) and validateAttr != "")
-          "Weight can't end with a period."
+          "#{attr.checkAttribute} can't end with a period."
 
       noLeadingZeroDeci:(attr) ->
         validateAttr = attr.validateAttribute
         parts = validateAttr.split('.')
         if(parts[0].length > 1 and parts[0]*1 == 0)
-          "Weight has too many leading zeros in decimal."
+          "#{attr.checkAttribute} has too many leading zeros in decimal."
 
       noLeadingInt:(attr) ->
         validateAttr = attr.validateAttribute
         if(_.indexOf(validateAttr, ".") == -1 and (validateAttr.replace(/^0+/, '').length != validateAttr.length))
-          "Weight whole number can't have leading zeros."
+          "#{attr.checkAttribute} whole number can't have leading zeros."
 
       noSciNot:(attr) ->
         validateAttr = attr.validateAttribute
         scientificParts = validateAttr.split('e')
         if(scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1))
-          "Weight can't be in scientific notation."
-
+          "#{attr.checkAttribute} can't be in scientific notation."
 
     withRules: (options) =>
       #to store all the errors
       errors = {}
 
+      #get all the validation options
       validateOptions = options.ensureTrue
-      #validateItemName = options.checkAttribute
-      #validateAttributeValue = options.validateAttribute
+
+      #get the validation count
       itemsToValidateLength = validateOptions.length
 
       i = 0
@@ -67,9 +67,9 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
           #break out of the loop
           i = itemsToValidateLength
-
         i++
 
+      #return the errors
       errors
 
   validate: (attrs, options) ->
@@ -79,20 +79,8 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       #define error object for errors
       errors = @errors = {}
 
-      console.log "this is "
-      console.log @
-
-      console.log "this top errors in validate"
-      console.log @errors
-      console.log errors
-
-
-      #references to what was attribute was changed
-      changedAttribute = options.changedAttribute
-      toValidateAttribute = attrs[changedAttribute]
-
       errors = @validator.withRules(
-        checkAttribute: "weight"
+        checkAttribute: "Weight"
         ensureTrue: [
           "onlyDigits"
           "noNegZero"
@@ -102,8 +90,25 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           "noLeadingInt"
           "noSciNot"
         ]
-        validateAttribute: toValidateAttribute
+        validateAttribute: attrs[options.changedAttribute]
       )
+
+
+      errors = @validator.withRules(
+        checkAttribute: "Reps"
+        ensureTrue: [
+          "onlyDigits"
+          "noSciNot"
+          "noPeriodEnd"
+          "noLeadingZeroDeci"
+          "noNegZero"
+          "largerThanZero"
+          "noLeadingInt"
+
+        ]
+        validateAttribute: attrs[options.changedAttribute]
+      )
+
 
 
 
@@ -133,12 +138,4 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       ###
 
-      #return the errors on the attribute if present
-      console.log "errors"
-      console.log errors
-      console.log !_.isEmpty(errors)
-
-      console.log "this bottom errors in validate"
-      console.log @errors
-      console.log errors
       @errors = errors if !_.isEmpty(errors)
