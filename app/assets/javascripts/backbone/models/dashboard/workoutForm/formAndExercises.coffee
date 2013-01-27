@@ -6,7 +6,7 @@ class Weightyplates.Models.FormAndExercises extends Backbone.Model
     theExerciseModelLength = theExerciseModel.length
     entry = 0
     optionsList = []
-    optionsList.push("<option></option>")
+    optionsList.push("<option data-id='0'></option>")
     while entry < theExerciseModelLength
       theEntry = theExerciseModel[entry]
       dataIdAttribute = "data-id='#{(theEntry.id)}'"
@@ -39,6 +39,7 @@ class Weightyplates.Models.FormAndExercises extends Backbone.Model
     recentlyRemovedExerciseAssociatedModel: null
     signalParentForm: -1
     exerciseAssociatedModels: []
+    atLeastOneFieldFilled: false
 
 
 

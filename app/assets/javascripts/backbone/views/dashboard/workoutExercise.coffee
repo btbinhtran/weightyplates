@@ -32,6 +32,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #creating exerciseAssociation model for this view
     @exerciseAssociation = new Weightyplates.Models.AssociationExercise({workout_entry_number: exerciseViewsCount + "", exercise_id: null})
 
+    #console.log "exercise association "
+    #console.log @exerciseAssociation
+
     #console.log "exercise set id to null"
 
     #model shared between the form and the exercise
@@ -203,6 +206,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     selectedOption = $parentElement.find("select.#{event.target.className} option:selected")
     selectedId = selectedOption.data("id")
 
+    console.log "option selected"
+    console.log selectedOption
+
     #attempt to set the attribute
     attributeToChange = "exercise_id"
     @exerciseAssociation.set(attributeToChange, selectedId, {validateAll: true, changedAttribute: attributeToChange})
@@ -217,10 +223,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #adding and removal of validation error messages
     #first blick if for removing and second block is for adding
     if _.has(@exerciseAssociation.errors, "exercise_id") == false and @exerciseAndDetails.get("dropDownListError") == true
+
+      console.log "removing errors exercise"
+
       $controlGroup.removeClass('error')
       $dropDownList.siblings().remove()
       @exerciseAndDetails.set("dropDownListError", false)
     else if _.has(@exerciseAssociation.errors, "exercise_id") == true and @exerciseAndDetails.get("dropDownListError") == false
+
+      console.log "adding exercise errors"
+
       $controlGroup.addClass('error')
       $dropDownList.after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
       @exerciseAndDetails.set("dropDownListError", true)
