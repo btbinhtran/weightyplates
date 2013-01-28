@@ -229,6 +229,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       $controlGroup.removeClass('error')
       $dropDownList.siblings().remove()
       @exerciseAndDetails.set("dropDownListError", false)
+      #@exerciseAssociation.unset("invalidExercise", {silent: true})
     else if _.has(@exerciseAssociation.errors, "exercise_id") == true and @exerciseAndDetails.get("dropDownListError") == false
 
       console.log "adding exercise errors"
@@ -237,6 +238,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       $dropDownList.after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
       @exerciseAndDetails.set("dropDownListError", true)
       @exerciseAssociation.set("exercise_id", null)
+      #@exerciseAssociation.set("invalidExercise", true)
 
 
 

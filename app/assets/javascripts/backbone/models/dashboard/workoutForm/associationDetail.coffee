@@ -80,15 +80,15 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 
       #set key for attr val
-      @validateAttrVals[attr].validateAttrVal = attrVal
+      @attrValidations[attr].validateAttrVal = attrVal
 
       #set key for attr name
-      @validateAttrVals[attr].checkAttribute = toTitleCase(attr)
+      @attrValidations[attr].checkAttribute = toTitleCase(attr)
 
       #get the rules defined for the attr
-      @validateWith(@validateAttrVals[attr])
+      @validateWith(@attrValidations[attr])
 
-    validateAttrVals:
+    attrValidations:
       weight:
         ensureTrue: [
           "onlyDigits"

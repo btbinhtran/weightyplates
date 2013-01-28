@@ -6,6 +6,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   events:
     'click #last-row-save-button': 'validateBeforeSave'
+    'mouseover #last-row-save-button': 'hoverSaveButton'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
@@ -31,6 +32,21 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log @associatedModelUser
 
     @modelFormAndExercises.on("change:signalParentForm", @updateAssociatedModel)
+
+    #private form model to listen to events from child views
+    @privateFormModel = new Weightyplates.Models.PrivateForm()
+
+    #use backbone as a global event bus
+    Backbone.on("SomeViewRendered", () ->
+
+      console.log "backbone event trigger"
+      if @privateFormModel.get("detailsInputBlur") == false
+        @privateFormModel.set("detailsInputBlur", true)
+      else
+        console.log "blur on input and now clicking save"
+
+      #stuff
+    , @)
 
     #call render
     @render()
@@ -63,6 +79,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
 
     #console.log JSON.stringify(@associatedModelUser)
+
+  hoverSaveButton: ->
+    console.log "hovering over save button"
 
   getEventTarget: (event)->
     $(event.target)
@@ -112,16 +131,22 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   addNote: ->
     console.log JSON.stringify(@associatedModelUser)
 
-  validateBeforeSave: (theCaller)->
+  validateBeforeSave: (theCaller, event)->
+
+    console.log "validating before save"
+
+    Backbone.trigger "SomeViewRendered", "in save now"
+
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
 
     i = 0
-
     missingExerciseFieldCount = 0
     missingDetailFieldCount = 0
     dateInExerciseFieldCount = 0
     dateInDetailFieldCount = 0
+    invalidWeightCount = 0
+    invalidrepCount = 0
 
     while i <= workoutEntryLength - 1
       evalifNull = associatedModels.at(i).get("exercise_id")
@@ -158,24 +183,27 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         evalWeightNull = entryDetailModel.at(j).get("weight")
         evalRepNull = entryDetailModel.at(j).get("reps")
 
+        console.log "invalid weight check"
+        console.log entryDetailModel.at(j).get("invalidWeight")
+
+        if entryDetailModel.at(j).get("invalidWeight")
+          console.log "invalid weight present"
+          ++invalidWeightCount
+
         #checking for presence of null, meaning not input
         if _.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull)
           missingDetailFieldCount++
         if _.isNull(evalRepNull) and !_.isUndefined(evalRepNull)
           missingDetailFieldCount++
 
-
-
+        #checking for filled detail input
         if !_.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull) and evalWeightNull != ""
           ++dateInDetailFieldCount
-
         if !_.isNull(evalRepNull) and !_.isUndefined(evalRepNull) and evalRepNull != ""
           ++dateInDetailFieldCount
 
         #console.log "details input count is "
         #console.log dateInDetailFieldCount
-
-
 
         j++
 
@@ -206,23 +234,20 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     if theCaller == "closeAddWorkoutDialog"
       totalFilledFields
     else
-      @saveWorkout(totalFieldErrors)
+      @saveWorkout(totalFieldErrors, invalidWeightCount)
 
 
-  saveWorkout: (totalFieldErrors)->
+  saveWorkout: (totalFieldErrors, invalidWeightCount)->
 
-    #console.log
+    console.log "clicking save"
 
-    if totalFieldErrors > 0
+    if invalidWeightCount > 0
+      alert "Incorrect inputs on field(s)."
+    else if totalFieldErrors > 0
       #console.log "Can not be save because of missing fields."
       #console.log totalFieldErrors
-      alert "Please fill missing fields before submitting."
+      console.log "Please fill missing fields before submitting."
     #console.log "-------------------------------------"
-
-
-
-
-
 
     jsonData = JSON.stringify(@associatedModelUser)
 
@@ -232,8 +257,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + jsonData.substring(jsonDataLastRightBracketIndex + 1)
 
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
-
-
 
     #console.log "clicking"
 

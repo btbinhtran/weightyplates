@@ -98,6 +98,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           .set("signalExerciseForm", signalExerciseForm * -1)
 
   validateWeightChange: (event)->
+    Backbone.trigger "SomeViewRendered", event
+
+
+
+    console.log "validate weight change"
+
     #get the element and its value
     eventTarget = event.target
     weightInputValue = eventTarget.value
@@ -125,7 +131,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "Weight") == true
 
-      #console.log "adding weight errors"
+      console.log "adding weight errors"
+
+      #signal to exercise parent for validation error count
+      #@privateDetails.get("invalidWeight")
+
 
       $controlGroup.addClass('error')
 
@@ -139,6 +149,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #console.log $weightLabelArea
         $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
       @detailsAssociation.set("weight", null)
+      @detailsAssociation.set("invalidWeight", true)
+
     else
       #console.log "weight removing error"
       $controlGroup.removeClass('error')
@@ -146,6 +158,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @privateDetails.set("weightInputError", false)
 
       @detailsAssociation.set("weight", weightInputValue + "")
+      #silent prevents model change event
+      @detailsAssociation.unset("invalidWeight", {silent: true})
 
   validateRepChange: (event)->
     #console.log "atttempt validate rep"
@@ -184,6 +198,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #console.log "in the reps error adding"
         $weightAndRepArea.append("<div class='alert alert-error rep-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Reps"]}</div>")
         @privateDetails.set("repInputError", true)
+        @detailsAssociation.set("invalidRep", true)
       else
         #console.log "still adding error"
         errorMsg = @detailsAssociation.errors["Reps"]
@@ -196,6 +211,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @privateDetails.set("repInputError", false)
 
       @detailsAssociation.set("reps", repInputValue + "")
+      @detailsAssociation.unset("invalidRep", {silent: true})
 
 
 
