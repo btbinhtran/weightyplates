@@ -16,6 +16,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
+    Backbone.on("SomeViewRendered3", (element, val) ->
+      console.log element
+      @validateWeightChange(element, val)
+    , @)
+
     #get the exerciseAndDetails model from options
     @exerciseAndDetails = options.exerciseAndDetails
 
@@ -109,14 +114,29 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     Backbone.trigger "SomeViewRendered", event.target
 
 
-  validateWeightChange: (event)->
+  validateWeightChange: (event, value)->
 
     #get the element and its value
-    eventTarget = event.target
-    weightInputValue = eventTarget.value
+    console.log "value is present, pass in by the save button"
+    console.log event
+
+    if event.target
+      eventTarget = event.target
+    else
+      eventTarget = event
+
+    if value
+
+      weightInputValue = value
+    else
+      weightInputValue = eventTarget.value
+
+
+
     classNameTarget = eventTarget.className
 
     console.log "evaluating space in the class name"
+
     console.log _.indexOf(classNameTarget, " ")
 
     #only has one class right now because there is no space
@@ -175,6 +195,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         @detailsAssociation.set("weight", null)
         @detailsAssociation.set("invalidWeight", true)
 
+        console.log "value is "
+        console.log value
+        if value
+          console.log "alert the save process again"
+          Backbone.trigger "SomeViewRendered4", ""
       else
         #console.log "weight removing error"
         $controlGroup.removeClass('error')
@@ -185,8 +210,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #silent prevents model change event
         @detailsAssociation.unset("invalidWeight", {silent: true})
 
+
+
     else
-      console.log "acknowledge that blur should be disabled"
+      #console.log "acknowledge that blur should be disabled"
+      #indicate to save button click that it should validate the last focused weight input
+      #adding an addition class on the weight input to let the save button
+      #know that validation is needed
+      $(eventTarget).addClass("validate-weight-input")
+      Backbone.trigger "SomeViewRendered2", event.target
+
+
 
   validateRepChange: (event)->
     #console.log "atttempt validate rep"

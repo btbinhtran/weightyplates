@@ -52,6 +52,16 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       #stuff
     , @)
 
+    Backbone.on("SomeViewRendered2", (childTarget) ->
+      console.log "acknowledge save button to validate"
+    , @)
+
+    Backbone.on("SomeViewRendered4", (nothing) ->
+      console.log "already validated"
+      @validateBeforeSave()
+    , @)
+
+
     #call render
     @render()
 
@@ -85,7 +95,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log JSON.stringify(@associatedModelUser)
 
   mouseOverSaveButton: ->
-    if !_.isNull(@privateFormModel.get("lastWeightInput"))
+
+
+    if !_.isNull(@privateFormModel.get("lastWeightInput")) and !_.isUndefined(@privateFormModel.get("lastWeightInput"))
       console.log "hovering over save button"
       $lastFocusedWeightInput = @privateFormModel.get("lastWeightInput")
       #indicate to the weight input that the blur event should be disabled
@@ -143,7 +155,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log "validating before save"
 
-    Backbone.trigger "SomeViewRendered", "in save now"
+    console.log "the Caller is "
+    console.log theCaller
+
+    console.log "the event is "
+    console.log event
 
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
@@ -239,53 +255,82 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     totalFilledFields
 
+
+
+    #if _.isUndefined(theCaller)
+      #@saveWorkout(totalFieldErrors, invalidWeightCount)
     if theCaller == "closeAddWorkoutDialog"
       totalFilledFields
     else
       @saveWorkout(totalFieldErrors, invalidWeightCount)
+      @privateFormModel.set("accessSavedWorkout", @privateFormModel.get("accessSavedWorkout") + 1 )
 
 
   saveWorkout: (totalFieldErrors, invalidWeightCount)->
 
-    console.log "clicking save"
+    #console.log "clicking save"
 
-    if invalidWeightCount > 0
-      alert "Incorrect inputs on field(s)."
-    else if totalFieldErrors > 0
-      #console.log "Can not be save because of missing fields."
-      #console.log totalFieldErrors
-      console.log "Please fill missing fields before submitting."
-    #console.log "-------------------------------------"
 
-    jsonData = JSON.stringify(@associatedModelUser)
+    $lastWeightInput = @privateFormModel.get("lastWeightInput")
 
-    #formatting the jsonData by removing the first '[' and last ']'
-    jsonDataLastRightBracketIndex = jsonData.lastIndexOf(']')
+    classStr = $lastWeightInput.attr('class')
+    if (classStr.lastIndexOf(' ') != classStr.indexOf(' '))
+      console.log "third class present, must validate"
+      originalClass = classStr.substring(0, classStr.indexOf(' '))
+      $lastWeightInput.attr('class', originalClass)
+      #console.log $lastWeightInput.val()
+      Backbone.trigger "SomeViewRendered3", $lastWeightInput[0], $lastWeightInput.val()
 
-    rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + jsonData.substring(jsonDataLastRightBracketIndex + 1)
 
-    properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
+    console.log "continuation click save"
 
-    #console.log "clicking"
+    console.log "invalidweight count"
 
-    console.log properlyFormattedJson
+    if @privateFormModel.get("accessSavedWorkout") == 1
 
-    ###
-    $.ajax
-      type: "POST"
-      url: "/api/workouts"
-      dataType: "JSON"
-      contentType: 'application/json',
-      data: properlyFormattedJson
-      success: () ->
+      if invalidWeightCount > 0
+        console.log "Fix errors on field(s) before submitting."
+      else if totalFieldErrors > 0
+        #console.log "Can not be save because of missing fields."
+        #console.log totalFieldErrors
+        console.log "Please fill missing fields before submitting."
+      #console.log "-------------------------------------"
 
-        #console.log @
-      error: (jqXHR, textStatus, errorThrown) ->
-        console.log(
-          "The following error occurred: " +
-          textStatus + errorThrown
-        )
-    ###
+      jsonData = JSON.stringify(@associatedModelUser)
+
+      #formatting the jsonData by removing the first '[' and last ']'
+      jsonDataLastRightBracketIndex = jsonData.lastIndexOf(']')
+
+      rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + jsonData.substring(jsonDataLastRightBracketIndex + 1)
+
+      properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
+
+      #console.log "clicking"
+
+      console.log properlyFormattedJson
+
+    if @privateFormModel.get("accessSavedWorkout") > 1
+      @privateFormModel.set("accessSavedWorkout", 0)
+
+
+      #@privateFormModel.set("accessSavedWorkout", 0)
+
+      ###
+      $.ajax
+        type: "POST"
+        url: "/api/workouts"
+        dataType: "JSON"
+        contentType: 'application/json',
+        data: properlyFormattedJson
+        success: () ->
+
+          #console.log @
+        error: (jqXHR, textStatus, errorThrown) ->
+          console.log(
+            "The following error occurred: " +
+            textStatus + errorThrown
+          )
+      ###
 
 
 
