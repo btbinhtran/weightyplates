@@ -7,20 +7,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   events:
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
-    #'blur .add-workout-exercise-entry-input': 'validateWeightChange'
-    'blur .add-workout-exercise-entry-input': 'evaluateCallerOnValidate'
+    'blur .add-workout-exercise-entry-input': 'validateWeightChange'
+    'focus .add-workout-exercise-entry-input': 'lastWeightInputFocused'
     'blur .add-workout-reps-input': 'validateRepChange'
-    'focus .add-workout-exercise-entry-input': 'focusWeightInput'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
     _.bindAll(@)
-
-    Backbone.on("SomeViewRendered3", (element, val) ->
-      #console.log element
-      console.log "response to form trigger"
-      @evaluateCallerOnValidate(element, val)
-    , @)
 
     #get the exerciseAndDetails model from options
     @exerciseAndDetails = options.exerciseAndDetails
@@ -57,6 +50,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     if @exerciseAndDetails.get("detailViews").length == 1
       $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button').addClass('hide-add-workout-reps-remove-button')
       @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
+      #console.log @model.get "hiddenExerciseRemoveButton"
     else
       $hiddenDetailRemove = @exerciseAndDetails.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
@@ -102,114 +96,59 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
           .set("signalExerciseForm", signalExerciseForm * -1)
 
-  focusWeightInput: (event)->
-    #signal to the parent form for the focused weight input
-    Backbone.trigger "trackFocusedWieghtInput", event.target
+  lastWeightInputFocused: (event)->
+    Backbone.trigger "lastWeightInputFocused", event
 
-  evaluateCallerOnValidate: (arg1, arg2)->
-    #console.log "eval caller validate"
-    #console.log arg1
-    #console.log arg2
+  validateWeightChange: (event)->
 
-    console.log "amount of arguments are"
-    console.log arguments
+    console.log "validate weight change"
 
-    if arguments.length == 1
-      console.log "from click handler"
-      #@validateWeightChange(arg1)
-      eventTarget = arg1.target
-      weightInputValue = eventTarget.value
-      classNameTarget = eventTarget.className
-      @validateWeightChange(eventTarget, weightInputValue, classNameTarget)
+    #get the element and its value
+    eventTarget = event.target
+    weightInputValue = eventTarget.value
 
-    else
-      console.log "from backbone trigger"
-      #@validateWeightChange(arg1, arg2)
-      eventTarget = arg1
-      weightInputValue = arg2
-      classNameTarget = eventTarget.className
-      @validateWeightChange(eventTarget, weightInputValue, classNameTarget)
+    #attempt to set the attribute
+    attributeToChange = "weight"
+    @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
 
+    #cache elements
+    $parentElement = @$el
+    $controlGroup = $parentElement.find('.weight-control')
 
-  validateWeightChange: (eventTarget, weightInputValue, classNameTarget)->
+    $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
 
+    $weightInputSelector = "input.#{eventTarget.className}"
+    $weightInput = $controlGroup.find($weightInputSelector)
 
-    #console.log "evaluating space in the class name"
+    #get errors if they exist
+    @detailsAssociation.errors["Weight"] || ''
 
-    #console.log _.indexOf(classNameTarget, " ")
+    #generate the error or remove if validated
+    if _.has(@detailsAssociation.errors, "Weight") == true
 
-    #only has one class right now because there is no space
-    if _.indexOf(classNameTarget, " ") == -1
+      $controlGroup.addClass('error')
 
-      console.log "validate weight change"
-
-      #console.log("class name of weight target is " + classNameTarget)
-      #attempt to set the attribute
-      attributeToChange = "weight"
-      @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
-
-      #cache elements
-      $parentElement = @$el
-      $controlGroup = $parentElement.find('.weight-control')
-
-      $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
-
-      $weightInputSelector = "input.#{eventTarget.className}"
-      $weightInput = $controlGroup.find($weightInputSelector)
-
-      #get errors if they exist
-      @detailsAssociation.errors["Weight"] || ''
-
-      #console.log "weight errors are"
-      #console.log  @detailsAssociation
-      #console.log _.has(@detailsAssociation.errors, "Weight")
-
-      #generate the error or remove if validated
-      if _.has(@detailsAssociation.errors, "Weight") == true
-
-        #console.log "adding weight errors"
-
-        #signal to exercise parent for validation error count
-        #@privateDetails.get("invalidWeight")
-
-
-        $controlGroup.addClass('error')
-
-        #append to the error msg box if there is not one yet
-        if @privateDetails.get("weightInputError") == false
-          $weightAndRepArea.append("<div class='alert alert-error weight-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Weight"]}</div>")
-          @privateDetails.set("weightInputError", true)
-        else
-          #console.log "adding error"
-          errorMsg = @detailsAssociation.errors["Weight"]
-          #console.log $weightLabelArea
-          $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
-        @detailsAssociation.set("weight", null)
-        @detailsAssociation.set("invalidWeight", true)
-
-
+      #append to the error msg box if there is not one yet
+      if @privateDetails.get("weightInputError") == false
+        $weightAndRepArea.append("<div class='alert alert-error weight-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Weight"]}</div>")
+        @privateDetails.set("weightInputError", true)
       else
-        #console.log "weight removing error"
-        $controlGroup.removeClass('error')
-        $weightAndRepArea.find('.weight-list-error-msg').remove()
-        @privateDetails.set("weightInputError", false)
-
-        @detailsAssociation.set("weight", weightInputValue + "")
-        #silent prevents model change event
-        @detailsAssociation.unset("invalidWeight", {silent: true})
-
-
+        #console.log "adding error"
+        errorMsg = @detailsAssociation.errors["Weight"]
+        $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
+      @detailsAssociation.set("weight", null)
+      @detailsAssociation.set("invalidWeight", true)
 
     else
-      #console.log "acknowledge that blur should be disabled"
-      #indicate to save button click that it should validate the last focused weight input
-      #adding an addition class on the weight input to let the save button
-      #know that validation is needed
-      $(eventTarget).addClass("validate-weight-input")
-      Backbone.trigger "SomeViewRendered2", eventTarget
+      $controlGroup.removeClass('error')
+      $weightAndRepArea.find('.weight-list-error-msg').remove()
+      @privateDetails.set("weightInputError", false)
+
+      @detailsAssociation.set("weight", weightInputValue + "")
+      #silent prevents model change event
+      @detailsAssociation.unset("invalidWeight", {silent: true})
 
   validateRepChange: (event)->
-    #console.log "atttempt validate rep"
 
     #get the element and its value
     eventTarget = event.target

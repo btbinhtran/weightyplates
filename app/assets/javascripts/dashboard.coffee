@@ -2,7 +2,6 @@
 ##= require jquery_ujs
 
 ##= require jquery.hoverIntent
-
 ##= require hamlcoffee
 ##= require parser
 
@@ -34,7 +33,6 @@ window.Weightyplates =
 
 $(document).ready ->
   Weightyplates.init()
-
 
 
 

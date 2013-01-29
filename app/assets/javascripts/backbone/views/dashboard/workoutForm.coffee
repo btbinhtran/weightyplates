@@ -27,27 +27,15 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @associatedWorkout = new Weightyplates.Models.AssociationWorkout()
     @associatedModelUser.set({workout: [@associatedWorkout]})
 
-    #for signaling the parent view
     @modelFormAndExercises.on("change:signalParentForm", @updateAssociatedModel)
 
     #private form model to listen to events from child views
     @privateFormModel = new Weightyplates.Models.PrivateForm()
 
     #use backbone as a global event bus
-    Backbone.on("trackFocusedWieghtInput", (childTarget) ->
-      #keep track of what weight input was last focused
-      @privateFormModel.set("lastWeightInput", $(childTarget))
+    Backbone.on("lastWeightInputFocused", (event) ->
+      @privateFormModel.set("lastFocusedWeightInputEvent", event)
     , @)
-
-    Backbone.on("SomeViewRendered2", (childTarget) ->
-      console.log "acknowledge save button to validate"
-    , @)
-
-    Backbone.on("SomeViewRendered4", (nothing) ->
-      console.log "already validated"
-      @validateBeforeSave()
-    , @)
-
 
     #call render
     @render()
@@ -59,13 +47,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #form view gets the FormAndExercises model
     exerciseView = new Weightyplates.Views.WorkoutExercise(model: @modelFormAndExercises)
 
-    #$(document).on('keypress', @closeAddWorkoutDialog)
     @hintInWorkoutName()
     this
 
   updateAssociatedModel: ->
-    console.log "updating associated models"
-
     #add and removal check for entries
     if @associatedWorkout.get("workout_entry")
       #remove if there is already and entry
@@ -78,14 +63,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     else
       @associatedWorkout.set({workout_entry: [@modelFormAndExercises.get "recentlyAddedExerciseAssociatedModel"]})
 
-
-    #console.log JSON.stringify(@associatedModelUser)
-
   mouseOverSaveButton: ->
-    if !_.isNull(@privateFormModel.get("lastWeightInput")) and !_.isUndefined(@privateFormModel.get("lastWeightInput"))
-      $lastFocusedWeightInput = @privateFormModel.get("lastWeightInput")
-      #indicate to the weight input that the blur event should be disabled
-      $lastFocusedWeightInput.addClass("disable-blur")
+    #console.log "hovering over save button"
 
   getEventTarget: (event)->
     $(event.target)
@@ -104,8 +83,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   closeAddWorkoutDialog: (event) ->
 
-    #console.log @modelFormAndExercises.get("atLeastOneFieldFilled")
-
     theCaller = "closeAddWorkoutDialog"
 
     @validateBeforeSave(theCaller)
@@ -116,23 +93,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         console.log "click ok"
       else
         console.log "not ok"
-    else
-      console.log "no fields are filled"
-
-    #console.log $('.add-workout-reps-input')
-
-    #@modelFormAndExercises.set("age", $('.add-workout-reps-input').val())
-    #console.log @modelFormAndExercises.get "age"
-    #console.log  _.size(@modelFormAndExercises.get("exerciseViews"))
-
-    ###
-    if event.keyCode == 27 || event.type == "click"
-      @model.set("showingWorkoutForm", false)
-      @model.set("hidingWorkoutForm", true)
-      $('.dashboard-add-workout-modal-row-show')
-        .addClass("dashboard-add-workout-modal-row")
-        .removeClass("dashboard-add-workout-modal-row-show")
-    ###
 
   addNote: ->
     console.log JSON.stringify(@associatedModelUser)
@@ -141,11 +101,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log "validating before save"
 
-    #console.log "the Caller is "
-    #console.log theCaller
-
-    #console.log "the event is "
-    #console.log event
+    Backbone.trigger "SomeViewRendered", "in save now"
 
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
@@ -212,19 +168,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         if !_.isNull(evalRepNull) and !_.isUndefined(evalRepNull) and evalRepNull != ""
           ++dateInDetailFieldCount
 
-        console.log "details input count is "
-        console.log dateInDetailFieldCount
+        #console.log "details input count is "
+        #console.log dateInDetailFieldCount
 
         j++
 
       i++
     #console.log "missing field"
 
-    console.log "filled fields are "
-
+    #console.log "filled fields are "
     totalFilledFields = dateInDetailFieldCount + dateInExerciseFieldCount
 
-    console.log totalFilledFields
 
     if(dateInDetailFieldCount + dateInExerciseFieldCount) > 0
       @modelFormAndExercises.set("atLeastOneFieldFilled", true)
@@ -241,93 +195,55 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     totalFieldErrors = missingDetailFieldCount + missingExerciseFieldCount
 
-    #totalFilledFields
+    totalFilledFields
 
-    console.log "going into the validation check"
-
-    #if _.isUndefined(theCaller)
-      #@saveWorkout(totalFieldErrors, invalidWeightCount)
     if theCaller == "closeAddWorkoutDialog"
-      console.log "for the close dialog"
       totalFilledFields
     else
-      console.log "for save workout validation"
       @saveWorkout(totalFieldErrors, invalidWeightCount)
-      @privateFormModel.set("accessSavedWorkout", @privateFormModel.get("accessSavedWorkout") + 1 )
-      console.log "after save workout validation"
 
 
   saveWorkout: (totalFieldErrors, invalidWeightCount)->
 
-    console.log "total field errors"
-    console.log totalFieldErrors
-    console.log invalidWeightCount
+    console.log "clicking save"
 
+    if invalidWeightCount > 0
+      alert "Incorrect inputs on field(s)."
+    else if totalFieldErrors > 0
+      #console.log "Can not be save because of missing fields."
+      #console.log totalFieldErrors
+      console.log "Please fill missing fields before submitting."
+    #console.log "-------------------------------------"
 
+    jsonData = JSON.stringify(@associatedModelUser)
 
+    #formatting the jsonData by removing the first '[' and last ']'
+    jsonDataLastRightBracketIndex = jsonData.lastIndexOf(']')
 
-    if !_.isNull(@privateFormModel.get("lastWeightInput"))
-      console.log "pass first layer"
+    rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + jsonData.substring(jsonDataLastRightBracketIndex + 1)
 
-      $lastWeightInput = @privateFormModel.get("lastWeightInput")
+    properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
-      classStr = $lastWeightInput.attr('class')
-      if (classStr.lastIndexOf(' ') != classStr.indexOf(' '))
-        console.log "third class present, must validate"
-        originalClass = classStr.substring(0, classStr.indexOf(' '))
-        $lastWeightInput.attr('class', originalClass)
-        Backbone.trigger "SomeViewRendered3", $lastWeightInput[0], $lastWeightInput.val()
+    #console.log "clicking"
 
-    console.log @
-    console.log "continuation click save"
+    console.log properlyFormattedJson
 
+    ###
+    $.ajax
+      type: "POST"
+      url: "/api/workouts"
+      dataType: "JSON"
+      contentType: 'application/json',
+      data: properlyFormattedJson
+      success: () ->
 
-    if @privateFormModel.get("accessSavedWorkout") == 1
-      console.log "in accesssavedworkout"
-
-      if invalidWeightCount > 0
-        console.log "Fix errors on field(s) before submitting."
-      else if totalFieldErrors > 0
-        #console.log "Can not be save because of missing fields."
-        #console.log totalFieldErrors
-        console.log "Please fill missing fields before submitting."
-      #console.log "-------------------------------------"
-
-      jsonData = JSON.stringify(@associatedModelUser)
-
-      #formatting the jsonData by removing the first '[' and last ']'
-      jsonDataLastRightBracketIndex = jsonData.lastIndexOf(']')
-
-      rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + jsonData.substring(jsonDataLastRightBracketIndex + 1)
-
-      properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
-
-      #console.log "clicking"
-
-      console.log properlyFormattedJson
-
-    if @privateFormModel.get("accessSavedWorkout") > 1
-      @privateFormModel.set("accessSavedWorkout", 0)
-
-
-      #@privateFormModel.set("accessSavedWorkout", 0)
-
-      ###
-      $.ajax
-        type: "POST"
-        url: "/api/workouts"
-        dataType: "JSON"
-        contentType: 'application/json',
-        data: properlyFormattedJson
-        success: () ->
-
-          #console.log @
-        error: (jqXHR, textStatus, errorThrown) ->
-          console.log(
-            "The following error occurred: " +
-            textStatus + errorThrown
-          )
-      ###
+        #console.log @
+      error: (jqXHR, textStatus, errorThrown) ->
+        console.log(
+          "The following error occurred: " +
+          textStatus + errorThrown
+        )
+    ###
 
 
 
