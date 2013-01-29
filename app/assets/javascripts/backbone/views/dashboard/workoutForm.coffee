@@ -6,7 +6,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   events:
     'click #last-row-save-button': 'validateBeforeSave'
-    'mouseover #last-row-save-button': 'hoverSaveButton'
+    'mouseover #last-row-save-button': 'mouseOverSaveButton'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
@@ -37,13 +37,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @privateFormModel = new Weightyplates.Models.PrivateForm()
 
     #use backbone as a global event bus
-    Backbone.on("SomeViewRendered", () ->
+    Backbone.on("SomeViewRendered", (childTarget) ->
 
-      console.log "backbone event trigger"
-      if @privateFormModel.get("detailsInputBlur") == false
-        @privateFormModel.set("detailsInputBlur", true)
-      else
-        console.log "blur on input and now clicking save"
+      #$(childView.el).off('blur', '.add-workout-exercise-entry-input')
+      #delete childView.events["blur .add-workout-exercise-entry-input"]
+
+      #childView.$el.offtmp('blur')
+      #@privateFormModel.set("lastWeightInput",$(childView.el))
+      #console.log @privateFormModel.get("lastWeightInput")
+
+      #console.log $(childTarget).addClass("another-class")
+      @privateFormModel.set("lastWeightInput", $(childTarget))
 
       #stuff
     , @)
@@ -80,8 +84,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #console.log JSON.stringify(@associatedModelUser)
 
-  hoverSaveButton: ->
-    console.log "hovering over save button"
+  mouseOverSaveButton: ->
+    if !_.isNull(@privateFormModel.get("lastWeightInput"))
+      console.log "hovering over save button"
+      $lastFocusedWeightInput = @privateFormModel.get("lastWeightInput")
+      #indicate to the weight input that the blur event should be disabled
+      $lastFocusedWeightInput.addClass("disable-blur")
 
   getEventTarget: (event)->
     $(event.target)

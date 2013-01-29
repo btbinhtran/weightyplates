@@ -9,6 +9,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-exercise-entry-input': 'validateWeightChange'
     'blur .add-workout-reps-input': 'validateRepChange'
+    'focus .add-workout-exercise-entry-input': 'focusWeightInput'
+    'blur .some-class': 'testCase'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
@@ -58,6 +60,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     this
 
+  testCase: (event)->
+    event.preventDefault()
+    console.log $(event.target)
+    console.log "testing"
+
   addDetails: ->
     #prepare a new div to insert another details view
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
@@ -97,69 +104,89 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
           .set("signalExerciseForm", signalExerciseForm * -1)
 
+  focusWeightInput: (event)->
+    console.log "focus in the weight input"
+    Backbone.trigger "SomeViewRendered", event.target
+
+
   validateWeightChange: (event)->
-    Backbone.trigger "SomeViewRendered", event
-
-
-
-    console.log "validate weight change"
 
     #get the element and its value
     eventTarget = event.target
     weightInputValue = eventTarget.value
+    classNameTarget = eventTarget.className
 
-    #attempt to set the attribute
-    attributeToChange = "weight"
-    @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
+    console.log "evaluating space in the class name"
+    console.log _.indexOf(classNameTarget, " ")
 
-    #cache elements
-    $parentElement = @$el
-    $controlGroup = $parentElement.find('.weight-control')
+    #only has one class right now because there is no space
+    if _.indexOf(classNameTarget, " ") == -1
 
-    $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
-
-    $weightInputSelector = "input.#{eventTarget.className}"
-    $weightInput = $controlGroup.find($weightInputSelector)
-
-    #get errors if they exist
-    @detailsAssociation.errors["Weight"] || ''
-
-    #console.log "weight errors are"
-    #console.log  @detailsAssociation
-    #console.log _.has(@detailsAssociation.errors, "Weight")
-
-    #generate the error or remove if validated
-    if _.has(@detailsAssociation.errors, "Weight") == true
-
-      console.log "adding weight errors"
-
-      #signal to exercise parent for validation error count
-      #@privateDetails.get("invalidWeight")
+      console.log "validate weight change"
 
 
-      $controlGroup.addClass('error')
 
-      #append to the error msg box if there is not one yet
-      if @privateDetails.get("weightInputError") == false
-        $weightAndRepArea.append("<div class='alert alert-error weight-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Weight"]}</div>")
-        @privateDetails.set("weightInputError", true)
+      #console.log("class name of weight target is " + classNameTarget)
+
+
+
+
+
+      #attempt to set the attribute
+      attributeToChange = "weight"
+      @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
+
+      #cache elements
+      $parentElement = @$el
+      $controlGroup = $parentElement.find('.weight-control')
+
+      $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
+
+      $weightInputSelector = "input.#{eventTarget.className}"
+      $weightInput = $controlGroup.find($weightInputSelector)
+
+      #get errors if they exist
+      @detailsAssociation.errors["Weight"] || ''
+
+      #console.log "weight errors are"
+      #console.log  @detailsAssociation
+      #console.log _.has(@detailsAssociation.errors, "Weight")
+
+      #generate the error or remove if validated
+      if _.has(@detailsAssociation.errors, "Weight") == true
+
+        #console.log "adding weight errors"
+
+        #signal to exercise parent for validation error count
+        #@privateDetails.get("invalidWeight")
+
+
+        $controlGroup.addClass('error')
+
+        #append to the error msg box if there is not one yet
+        if @privateDetails.get("weightInputError") == false
+          $weightAndRepArea.append("<div class='alert alert-error weight-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Weight"]}</div>")
+          @privateDetails.set("weightInputError", true)
+        else
+          #console.log "adding error"
+          errorMsg = @detailsAssociation.errors["Weight"]
+          #console.log $weightLabelArea
+          $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
+        @detailsAssociation.set("weight", null)
+        @detailsAssociation.set("invalidWeight", true)
+
       else
-        #console.log "adding error"
-        errorMsg = @detailsAssociation.errors["Weight"]
-        #console.log $weightLabelArea
-        $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
-      @detailsAssociation.set("weight", null)
-      @detailsAssociation.set("invalidWeight", true)
+        #console.log "weight removing error"
+        $controlGroup.removeClass('error')
+        $weightAndRepArea.find('.weight-list-error-msg').remove()
+        @privateDetails.set("weightInputError", false)
+
+        @detailsAssociation.set("weight", weightInputValue + "")
+        #silent prevents model change event
+        @detailsAssociation.unset("invalidWeight", {silent: true})
 
     else
-      #console.log "weight removing error"
-      $controlGroup.removeClass('error')
-      $weightAndRepArea.find('.weight-list-error-msg').remove()
-      @privateDetails.set("weightInputError", false)
-
-      @detailsAssociation.set("weight", weightInputValue + "")
-      #silent prevents model change event
-      @detailsAssociation.unset("invalidWeight", {silent: true})
+      console.log "acknowledge that blur should be disabled"
 
   validateRepChange: (event)->
     #console.log "atttempt validate rep"
