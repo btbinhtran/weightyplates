@@ -132,6 +132,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         console.log "click ok"
       else
         console.log "not ok"
+    else
+      console.log "no fields are filled"
 
     #console.log $('.add-workout-reps-input')
 
@@ -226,17 +228,19 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         if !_.isNull(evalRepNull) and !_.isUndefined(evalRepNull) and evalRepNull != ""
           ++dateInDetailFieldCount
 
-        #console.log "details input count is "
-        #console.log dateInDetailFieldCount
+        console.log "details input count is "
+        console.log dateInDetailFieldCount
 
         j++
 
       i++
     #console.log "missing field"
 
-    #console.log "filled fields are "
+    console.log "filled fields are "
+
     totalFilledFields = dateInDetailFieldCount + dateInExerciseFieldCount
 
+    console.log totalFilledFields
 
     if(dateInDetailFieldCount + dateInExerciseFieldCount) > 0
       @modelFormAndExercises.set("atLeastOneFieldFilled", true)
@@ -253,7 +257,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     totalFieldErrors = missingDetailFieldCount + missingExerciseFieldCount
 
-    totalFilledFields
+    #totalFilledFields
 
 
 
@@ -271,15 +275,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log "clicking save"
 
 
-    $lastWeightInput = @privateFormModel.get("lastWeightInput")
+    if !_.isNull(@privateFormModel.get("lastWeightInput"))
 
-    classStr = $lastWeightInput.attr('class')
-    if (classStr.lastIndexOf(' ') != classStr.indexOf(' '))
-      console.log "third class present, must validate"
-      originalClass = classStr.substring(0, classStr.indexOf(' '))
-      $lastWeightInput.attr('class', originalClass)
-      #console.log $lastWeightInput.val()
-      Backbone.trigger "SomeViewRendered3", $lastWeightInput[0], $lastWeightInput.val()
+      $lastWeightInput = @privateFormModel.get("lastWeightInput")
+
+      classStr = $lastWeightInput.attr('class')
+      if (classStr.lastIndexOf(' ') != classStr.indexOf(' '))
+        console.log "third class present, must validate"
+        originalClass = classStr.substring(0, classStr.indexOf(' '))
+        $lastWeightInput.attr('class', originalClass)
+        #console.log $lastWeightInput.val()
+        Backbone.trigger "SomeViewRendered3", $lastWeightInput[0], $lastWeightInput.val()
 
 
     console.log "continuation click save"
