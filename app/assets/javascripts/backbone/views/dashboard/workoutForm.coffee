@@ -56,7 +56,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @$el.html(@template())
 
     #form view gets the FormAndExercises model
-    new Weightyplates.Views.WorkoutExercise(model: @modelFormAndExercises)
+    exerciseView = new Weightyplates.Views.WorkoutExercise(model: @modelFormAndExercises)
 
     #$(document).on('keypress', @closeAddWorkoutDialog)
     @hintInWorkoutName()
