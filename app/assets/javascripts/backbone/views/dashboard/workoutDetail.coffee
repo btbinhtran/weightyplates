@@ -7,10 +7,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   events:
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
-    'blur .add-workout-exercise-entry-input': 'validateWeightChange'
+    #'blur .add-workout-exercise-entry-input': 'validateWeightChange'
+    'blur .add-workout-exercise-entry-input': 'evaluateCallerOnValidate'
     'blur .add-workout-reps-input': 'validateRepChange'
     'focus .add-workout-exercise-entry-input': 'focusWeightInput'
-    'blur .some-class': 'testCase'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
@@ -19,7 +19,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     Backbone.on("SomeViewRendered3", (element, val) ->
       #console.log element
       console.log "response to form trigger"
-      @validateWeightChange(element, val)
+      @evaluateCallerOnValidate(element, val)
     , @)
 
     #get the exerciseAndDetails model from options
@@ -44,8 +44,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @render(detailViewsCount)
 
   render: (detailViewsCount) ->
-    #console.log "start details render"
-
     #insert template into element
     @$el.append(@template())
 
@@ -59,17 +57,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     if @exerciseAndDetails.get("detailViews").length == 1
       $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button').addClass('hide-add-workout-reps-remove-button')
       @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
-      #console.log @model.get "hiddenExerciseRemoveButton"
     else
       $hiddenDetailRemove = @exerciseAndDetails.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
 
     this
-
-  testCase: (event)->
-    event.preventDefault()
-    console.log $(event.target)
-    console.log "testing"
 
   addDetails: ->
     #prepare a new div to insert another details view
@@ -111,45 +103,47 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           .set("signalExerciseForm", signalExerciseForm * -1)
 
   focusWeightInput: (event)->
-    console.log "focus in the weight input"
-    Backbone.trigger "SomeViewRendered", event.target
+    #signal to the parent form for the focused weight input
+    Backbone.trigger "trackFocusedWieghtInput", event.target
 
+  evaluateCallerOnValidate: (arg1, arg2)->
+    #console.log "eval caller validate"
+    #console.log arg1
+    #console.log arg2
 
-  validateWeightChange: (event, value)->
+    console.log "amount of arguments are"
+    console.log arguments
 
-    #get the element and its value
-    console.log "value is present, pass in by the save button"
-    console.log event
-
-
-    if value
-      eventTarget = event
-      weightInputValue = value
-    else
-      eventTarget = event.target
+    if arguments.length == 1
+      console.log "from click handler"
+      #@validateWeightChange(arg1)
+      eventTarget = arg1.target
       weightInputValue = eventTarget.value
+      classNameTarget = eventTarget.className
+      @validateWeightChange(eventTarget, weightInputValue, classNameTarget)
+
+    else
+      console.log "from backbone trigger"
+      #@validateWeightChange(arg1, arg2)
+      eventTarget = arg1
+      weightInputValue = arg2
+      classNameTarget = eventTarget.className
+      @validateWeightChange(eventTarget, weightInputValue, classNameTarget)
 
 
+  validateWeightChange: (eventTarget, weightInputValue, classNameTarget)->
 
-    classNameTarget = eventTarget.className
 
-    console.log "evaluating space in the class name"
+    #console.log "evaluating space in the class name"
 
-    console.log _.indexOf(classNameTarget, " ")
+    #console.log _.indexOf(classNameTarget, " ")
 
     #only has one class right now because there is no space
     if _.indexOf(classNameTarget, " ") == -1
 
       console.log "validate weight change"
 
-
-
       #console.log("class name of weight target is " + classNameTarget)
-
-
-
-
-
       #attempt to set the attribute
       attributeToChange = "weight"
       @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
@@ -193,11 +187,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         @detailsAssociation.set("weight", null)
         @detailsAssociation.set("invalidWeight", true)
 
-        console.log "value is "
-        console.log value
-        if value
-          console.log "alert the save process again"
-          Backbone.trigger "SomeViewRendered4", ""
+
       else
         #console.log "weight removing error"
         $controlGroup.removeClass('error')
@@ -216,7 +206,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #adding an addition class on the weight input to let the save button
       #know that validation is needed
       $(eventTarget).addClass("validate-weight-input")
-      Backbone.trigger "SomeViewRendered2", event.target
+      Backbone.trigger "SomeViewRendered2", eventTarget
 
   validateRepChange: (event)->
     #console.log "atttempt validate rep"
@@ -236,9 +226,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #get errors if they exist
     @detailsAssociation.errors["Reps"] || ''
-
-    #console.log "reps errors are"
-    #console.log  @detailsAssociation
 
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "Reps") == true

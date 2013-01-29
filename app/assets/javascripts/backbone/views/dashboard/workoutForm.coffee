@@ -27,29 +27,16 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @associatedWorkout = new Weightyplates.Models.AssociationWorkout()
     @associatedModelUser.set({workout: [@associatedWorkout]})
 
-
-    #console.log "user session"
-    #console.log @associatedModelUser
-
+    #for signaling the parent view
     @modelFormAndExercises.on("change:signalParentForm", @updateAssociatedModel)
 
     #private form model to listen to events from child views
     @privateFormModel = new Weightyplates.Models.PrivateForm()
 
     #use backbone as a global event bus
-    Backbone.on("SomeViewRendered", (childTarget) ->
-
-      #$(childView.el).off('blur', '.add-workout-exercise-entry-input')
-      #delete childView.events["blur .add-workout-exercise-entry-input"]
-
-      #childView.$el.offtmp('blur')
-      #@privateFormModel.set("lastWeightInput",$(childView.el))
-      #console.log @privateFormModel.get("lastWeightInput")
-
-      #console.log $(childTarget).addClass("another-class")
+    Backbone.on("trackFocusedWieghtInput", (childTarget) ->
+      #keep track of what weight input was last focused
       @privateFormModel.set("lastWeightInput", $(childTarget))
-
-      #stuff
     , @)
 
     Backbone.on("SomeViewRendered2", (childTarget) ->
@@ -95,10 +82,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log JSON.stringify(@associatedModelUser)
 
   mouseOverSaveButton: ->
-
-
     if !_.isNull(@privateFormModel.get("lastWeightInput")) and !_.isUndefined(@privateFormModel.get("lastWeightInput"))
-      console.log "hovering over save button"
       $lastFocusedWeightInput = @privateFormModel.get("lastWeightInput")
       #indicate to the weight input that the blur event should be disabled
       $lastFocusedWeightInput.addClass("disable-blur")
@@ -157,11 +141,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log "validating before save"
 
-    console.log "the Caller is "
-    console.log theCaller
+    #console.log "the Caller is "
+    #console.log theCaller
 
-    console.log "the event is "
-    console.log event
+    #console.log "the event is "
+    #console.log event
 
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
@@ -292,7 +276,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         console.log "third class present, must validate"
         originalClass = classStr.substring(0, classStr.indexOf(' '))
         $lastWeightInput.attr('class', originalClass)
-        #console.log $lastWeightInput.val()
         Backbone.trigger "SomeViewRendered3", $lastWeightInput[0], $lastWeightInput.val()
 
     console.log @
