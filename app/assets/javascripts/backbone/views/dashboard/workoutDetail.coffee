@@ -17,7 +17,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     _.bindAll(@)
 
     Backbone.on("SomeViewRendered3", (element, val) ->
-      console.log element
+      #console.log element
+      console.log "response to form trigger"
       @validateWeightChange(element, val)
     , @)
 
@@ -120,15 +121,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     console.log "value is present, pass in by the save button"
     console.log event
 
-    if event.target
-      eventTarget = event.target
-    else
-      eventTarget = event
 
     if value
-
+      eventTarget = event
       weightInputValue = value
     else
+      eventTarget = event.target
       weightInputValue = eventTarget.value
 
 
@@ -219,8 +217,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #know that validation is needed
       $(eventTarget).addClass("validate-weight-input")
       Backbone.trigger "SomeViewRendered2", event.target
-
-
 
   validateRepChange: (event)->
     #console.log "atttempt validate rep"

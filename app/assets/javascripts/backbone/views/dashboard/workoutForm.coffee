@@ -259,23 +259,31 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #totalFilledFields
 
-
+    console.log "going into the validation check"
 
     #if _.isUndefined(theCaller)
       #@saveWorkout(totalFieldErrors, invalidWeightCount)
     if theCaller == "closeAddWorkoutDialog"
+      console.log "for the close dialog"
       totalFilledFields
     else
+      console.log "for save workout validation"
       @saveWorkout(totalFieldErrors, invalidWeightCount)
       @privateFormModel.set("accessSavedWorkout", @privateFormModel.get("accessSavedWorkout") + 1 )
+      console.log "after save workout validation"
 
 
   saveWorkout: (totalFieldErrors, invalidWeightCount)->
 
-    #console.log "clicking save"
+    console.log "total field errors"
+    console.log totalFieldErrors
+    console.log invalidWeightCount
+
+
 
 
     if !_.isNull(@privateFormModel.get("lastWeightInput"))
+      console.log "pass first layer"
 
       $lastWeightInput = @privateFormModel.get("lastWeightInput")
 
@@ -287,12 +295,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         #console.log $lastWeightInput.val()
         Backbone.trigger "SomeViewRendered3", $lastWeightInput[0], $lastWeightInput.val()
 
-
+    console.log @
     console.log "continuation click save"
 
-    console.log "invalidweight count"
 
     if @privateFormModel.get("accessSavedWorkout") == 1
+      console.log "in accesssavedworkout"
 
       if invalidWeightCount > 0
         console.log "Fix errors on field(s) before submitting."
