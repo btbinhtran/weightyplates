@@ -99,7 +99,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     $workoutNameInput.val(@modelFormAndExercises.get "workoutNameHint").addClass('hint')
 
   closeAddWorkoutDialog: (event) ->
-
     #need to assign this because of sharing of function
     theCaller = "closeAddWorkoutDialog"
 
@@ -202,22 +201,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
       i++
 
-      #console.log "errors present"
-      #console.log(invalidWeightCount + invalidrepCount )
-
       totalFieldErrors = invalidWeightCount + invalidrepCount
-
       totalFields = exerciseCount + detailCount
-
-
-      #console.log("missing fields")
-      #console.log(missingExerciseFieldCount + missingDetailFieldCount)
-
       totalUnFilledFields = missingExerciseFieldCount + missingDetailFieldCount
-
-      #console.log JSON.stringify(@associatedModelUser)
-
-
 
     #if the close button trigger this action
     if theCaller == "closeAddWorkoutDialog"
@@ -245,8 +231,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         else if totalUnFilledFields > 0
           #console.log "Can not be save because of missing fields."
           #console.log totalFieldErrors
-          alert "Please fill missing fields before submitting."
-      #console.log "-------------------------------------"
+          if totalUnFilledFields == 1
+            alert "Please fill in missing field before submitting."
+          else
+            alert "Please fill in missing fields before submitting."
 
 
     jsonData = JSON.stringify(@associatedModelUser)
@@ -258,11 +246,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
-    #console.log "clicking"
 
     console.log properlyFormattedJson
 
-    ###
+
     $.ajax
       type: "POST"
       url: "/api/workouts"
@@ -277,7 +264,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           "The following error occurred: " +
           textStatus + errorThrown
         )
-    ###
+
 
 
 

@@ -101,7 +101,7 @@ class WorkoutsController < ApplicationController
 
     end
 
-    #return if @workout_created == true
+    return
 
 
 
