@@ -139,6 +139,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @detailsAssociation.set("weight", null)
       @detailsAssociation.set("invalidWeight", true)
 
+      console.log "errors set"
+
       #if there is a new class on the weight input, trigger a save button click
       if $(eventTarget).hasClass("acknowledge-save-button")
         Backbone.trigger "triggerSaveButtonClick"
@@ -151,8 +153,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @detailsAssociation.set("weight", weightInputValue + "")
       #silent prevents model change event
       @detailsAssociation.unset("invalidWeight", {silent: true})
-      if $(eventTarget).hasClass("acknowledge-save-button")
-        Backbone.trigger "triggerSaveButtonClick"
+
 
   validateRepChange: (event)->
 
