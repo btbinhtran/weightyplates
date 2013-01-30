@@ -204,9 +204,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       $controlGroup.addClass('error')
 
-      #console.log "repintput error"
-      #console.log @privateDetails.get("repInputError")
-
       #append to the error msg box if there is not one yet
       if @privateDetails.get("repInputError") == false
 

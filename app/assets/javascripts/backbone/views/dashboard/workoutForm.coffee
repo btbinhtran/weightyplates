@@ -12,6 +12,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
     'click #last-row-note-button': 'addNote'
+    'blur .dashboard-workout-name-input': 'getWorkoutName'
 
   initialize: ->
     #make all references of 'this' to reference the main object
@@ -52,6 +53,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #form view gets the FormAndExercises model
     exerciseView = new Weightyplates.Views.WorkoutExercise(model: @modelFormAndExercises)
 
+    #add hint in workout name
     @hintInWorkoutName()
     this
 
@@ -94,29 +96,37 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     $workoutNameInput.val(@modelFormAndExercises.get "workoutNameHint").addClass('hint')
 
   closeAddWorkoutDialog: (event) ->
-
+    #need to assign this because of sharing of function
     theCaller = "closeAddWorkoutDialog"
 
-    @validateBeforeSave(theCaller)
+    #retrieve the fields information
+    fieldResults = @validateBeforeSave(theCaller)
 
+    #nicknames for fields
+    unfilledFields = fieldResults.unfilledFields
+    totalFields = fieldResults.totalFields
+    errorFields = fieldResults.errorFields
 
-    if @modelFormAndExercises.get("atLeastOneFieldFilled") == true
-      if (confirm "Changes have been made to the form, do you want to close now?")
-        console.log "click ok"
+    #alert messages if there are changes made to the input fields
+    if unfilledFields < totalFields
+      if((totalFields - unfilledFields) == 1 and errorFields == 0) || errorFields == 1
+        alert "A change has been made, exit right not without saving?"
       else
-        console.log "not ok"
+        alert "Changes have been made, exit right now without saving?"
+
 
   addNote: ->
     console.log JSON.stringify(@associatedModelUser)
 
   fromSaveButtonTrigger: ->
-    console.log "from save button trigger"
+    #need to specify the caller because of sharing of function with close button
     theCaller = "triggerSaveButton"
     @validateBeforeSave(theCaller)
 
-  validateBeforeSave: (theCaller)->
+  getWorkoutName: ->
+    console.log "workout name blur"
 
-    console.log "validating before save"
+  validateBeforeSave: (theCaller)->
 
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
@@ -128,6 +138,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     dateInDetailFieldCount = 0
     invalidWeightCount = 0
     invalidrepCount = 0
+    exerciseCount = 0
+    detailCount = 0
 
     while i <= workoutEntryLength - 1
       exerciseVal = associatedModels.at(i).get("exercise_id")
@@ -137,6 +149,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       if !_.isNull(exerciseVal) and !_.isUndefined(exerciseVal) and exerciseVal == 0
         missingExerciseFieldCount++
 
+        #exercise counter
+        ++exerciseCount
+
       entryDetailLength = associatedModels.at(i).get("entry_detail").length
       entryDetailModel = associatedModels.at(i).get("entry_detail")
 
@@ -145,6 +160,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         #get the weight and rep values
         weightVal = entryDetailModel.at(j).get("weight")
         repVal = entryDetailModel.at(j).get("reps")
+
+        #details counter
+        detailCount += 2
 
         #check for field errors
         if entryDetailModel.at(j).get("invalidWeight")
@@ -169,6 +187,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
       totalFieldErrors = invalidWeightCount + invalidrepCount
 
+      totalFields = exerciseCount + detailCount
+
 
       #console.log("missing fields")
       #console.log(missingExerciseFieldCount + missingDetailFieldCount)
@@ -179,9 +199,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
 
 
-
+    #if the close button trigger this action
     if theCaller == "closeAddWorkoutDialog"
-      totalFilledFields
+      #return information of fields to the close dialog action
+      {totalFields: totalFields, unfilledFields: totalUnFilledFields, errorFields: totalFieldErrors}
     else
       @saveWorkout(totalFieldErrors, totalUnFilledFields)
 
@@ -197,7 +218,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         alert "Errors and unfilled fields prevented submitting."
       else
         if totalFieldErrors > 0
-          alert "Incorrect inputs on field(s)."
+          if totalFieldErrors == 1
+            alert "There is an error on a field."
+          else
+            alert "There are many fields with errors."
         else if totalUnFilledFields > 0
           #console.log "Can not be save because of missing fields."
           #console.log totalFieldErrors

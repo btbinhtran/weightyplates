@@ -39,8 +39,7 @@ class Weightyplates.Models.FormAndExercises extends Backbone.Model
     recentlyRemovedExerciseAssociatedModel: null
     signalParentForm: -1
     exerciseAssociatedModels: []
-    atLeastOneFieldFilled: false
-    validationErrorCount: 0
+
 
 
 
