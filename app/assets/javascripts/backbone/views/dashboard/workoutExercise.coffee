@@ -30,7 +30,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exercisePhrase = "Exercise #{exerciseViewsCount}"
 
     #creating exerciseAssociation model for this view
-    @exerciseAssociation = new Weightyplates.Models.AssociationExercise({workout_entry_number: exerciseViewsCount + "", exercise_id: null})
+    @exerciseAssociation = new Weightyplates.Models.AssociationExercise({workout_entry_number: exerciseViewsCount + "", exercise_id: 0})
 
     #console.log "exercise association "
     #console.log @exerciseAssociation

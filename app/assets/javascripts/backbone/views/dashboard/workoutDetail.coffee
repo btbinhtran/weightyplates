@@ -150,7 +150,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $weightAndRepArea.find('.weight-list-error-msg').remove()
       @privateDetails.set("weightInputError", false)
 
-      @detailsAssociation.set("weight", weightInputValue + "")
+      #should only set the weight if there is a valid, non-empty data value
+      if weightInputValue != ""
+        @detailsAssociation.set("weight", weightInputValue + "")
+      else
+        @detailsAssociation.set("weight", null)
       #silent prevents model change event
       @detailsAssociation.unset("invalidWeight", {silent: true})
 
@@ -201,6 +205,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @privateDetails.set("repInputError", false)
 
       @detailsAssociation.set("reps", repInputValue + "")
+
+      #should only set the rep if there is a valid, non-empty data value
+      if repInputValue != ""
+        @detailsAssociation.set("reps", weightInputValue + "")
+      else
+        @detailsAssociation.set("reps", null)
       @detailsAssociation.unset("invalidRep", {silent: true})
 
 

@@ -78,14 +78,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   mouseOutSaveButton: ->
     #remove the added class for the weight input
-    console.log 'mousing out'
     if !_.isNull(@privateFormModel.get("lastFocusedWeightInputEvent"))
       weightInputEvent = @privateFormModel.get("lastFocusedWeightInputEvent")
       weightInputTarget = weightInputEvent.target
       classNameParts = weightInputTarget.className.split(' ')
       newClassName = classNameParts[0]
       $(weightInputTarget).attr("class", newClassName)
-
 
   getEventTarget: (event)->
     $(event.target)
@@ -127,8 +125,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log "validating before save"
 
-
-
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
 
@@ -141,58 +137,62 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     invalidrepCount = 0
 
     while i <= workoutEntryLength - 1
-      evalifNull = associatedModels.at(i).get("exercise_id")
+      exerciseVal = associatedModels.at(i).get("exercise_id")
 
-      #check for presence of inputs
-      if !_.isNull(evalifNull) and !_.isUndefined(evalifNull)
-        ++dateInExerciseFieldCount
+      console.log "exercise value is "
+      console.log exerciseVal
 
-      #checking for presence of null, which means there was no input
-      if _.isNull(evalifNull) and !_.isUndefined(evalifNull)
+      #no errors are possible for exercise because valid options are chosen from the list
+      #checking for 0, which corresponds with no input for exercise
+      if !_.isNull(exerciseVal) and !_.isUndefined(exerciseVal) and exerciseVal == 0
         missingExerciseFieldCount++
 
       entryDetailLength = associatedModels.at(i).get("entry_detail").length
-
       entryDetailModel = associatedModels.at(i).get("entry_detail")
 
       j = 0
-
       while j <= entryDetailLength - 1
 
         evalWeightNull = entryDetailModel.at(j).get("weight")
         evalRepNull = entryDetailModel.at(j).get("reps")
 
-        console.log "invalid weight check"
-        console.log entryDetailModel.at(j).get("invalidWeight")
+        #console.log "invalid weight check"
+        #console.log entryDetailModel.at(j).get("invalidWeight")
 
+        #check for field errors
         if entryDetailModel.at(j).get("invalidWeight")
           ++invalidWeightCount
 
         if entryDetailModel.at(j).get("invalidRep")
           ++invalidrepCount
 
-        #checking for presence of null, meaning not input
-        if _.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull)
+        #check for missing inputs
+        if _.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull) and !entryDetailModel.at(j).get("invalidWeight")
           missingDetailFieldCount++
-        if _.isNull(evalRepNull) and !_.isUndefined(evalRepNull)
+        if _.isNull(evalRepNull) and !_.isUndefined(evalRepNull) and !entryDetailModel.at(j).get("invalidRep")
           missingDetailFieldCount++
 
-        #checking for filled detail input
-        if !_.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull) and evalWeightNull != ""
-          ++dateInDetailFieldCount
-        if !_.isNull(evalRepNull) and !_.isUndefined(evalRepNull) and evalRepNull != ""
-          ++dateInDetailFieldCount
 
 
         j++
 
       i++
+
+      console.log "errors present"
+      console.log(invalidWeightCount + invalidrepCount )
+
+
+      console.log("missing fields")
+      console.log(missingExerciseFieldCount + missingDetailFieldCount)
+
+      console.log JSON.stringify(@associatedModelUser)
+
     #console.log "missing field"
 
     #console.log "filled fields are "
-    totalUnFilledFields = dateInDetailFieldCount + dateInExerciseFieldCount
+    #totalUnFilledFields = dateInDetailFieldCount + missingExerciseFieldCount
 
-
+    ###
     if(totalUnFilledFields) > 0
       @modelFormAndExercises.set("atLeastOneFieldFilled", true)
     else
@@ -215,10 +215,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log("missing field count is " + totalUnFilledFields)
 
+
     if theCaller == "closeAddWorkoutDialog"
       totalFilledFields
     else
       @saveWorkout(totalFieldErrors, totalUnFilledFields)
+    ###
 
 
   saveWorkout: (totalFieldErrors, totalUnFilledFields)->
