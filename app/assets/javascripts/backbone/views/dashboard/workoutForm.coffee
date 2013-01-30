@@ -7,6 +7,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   events:
     'click #last-row-save-button': 'validateBeforeSave'
     'mouseover #last-row-save-button': 'mouseOverSaveButton'
+    'mouseout #last-row-save-button': 'mouseOutSaveButton'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
@@ -72,8 +73,19 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     if !_.isNull(@privateFormModel.get("lastFocusedWeightInputEvent"))
       weightInputEvent = @privateFormModel.get("lastFocusedWeightInputEvent")
       weightInputTarget = weightInputEvent.target
-      newClassname = "#{weightInputTarget.className} + acknowledge-save-button"
-      $(weightInputTarget).attr("class", newClassname)
+      newClassName = "#{weightInputTarget.className} + acknowledge-save-button"
+      $(weightInputTarget).attr("class", newClassName)
+
+  mouseOutSaveButton: ->
+    #remove the added class for the weight input
+    console.log 'mousing out'
+    if !_.isNull(@privateFormModel.get("lastFocusedWeightInputEvent"))
+      weightInputEvent = @privateFormModel.get("lastFocusedWeightInputEvent")
+      weightInputTarget = weightInputEvent.target
+      classNameParts = weightInputTarget.className.split(' ')
+      newClassName = classNameParts[0]
+      $(weightInputTarget).attr("class", newClassName)
+
 
   getEventTarget: (event)->
     $(event.target)
@@ -135,30 +147,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       if !_.isNull(evalifNull) and !_.isUndefined(evalifNull)
         ++dateInExerciseFieldCount
 
-      #console.log "exercise input count is "
-      #console.log dateInExerciseFieldCount
-
       #checking for presence of null, which means there was no input
       if _.isNull(evalifNull) and !_.isUndefined(evalifNull)
         missingExerciseFieldCount++
 
-        #console.log 'gone to one exercise'
-
-      #console.log "entry details is"
-      #console.log associatedModels.at(i).get("entry_detail")
       entryDetailLength = associatedModels.at(i).get("entry_detail").length
 
-      #console.log "j is"
       entryDetailModel = associatedModels.at(i).get("entry_detail")
 
       j = 0
 
-      #console.log 'j is' + j
-      #console.log "entrydetail length is " + entryDetailLength
-
       while j <= entryDetailLength - 1
-
-       # console.log "detailing------------------------------------------"
 
         evalWeightNull = entryDetailModel.at(j).get("weight")
         evalRepNull = entryDetailModel.at(j).get("reps")
@@ -167,8 +166,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         console.log entryDetailModel.at(j).get("invalidWeight")
 
         if entryDetailModel.at(j).get("invalidWeight")
-          console.log "invalid weight present"
           ++invalidWeightCount
+
+        if entryDetailModel.at(j).get("invalidRep")
+          ++invalidrepCount
 
         #checking for presence of null, meaning not input
         if _.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull)
@@ -182,8 +183,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         if !_.isNull(evalRepNull) and !_.isUndefined(evalRepNull) and evalRepNull != ""
           ++dateInDetailFieldCount
 
-        #console.log "details input count is "
-        #console.log dateInDetailFieldCount
 
         j++
 
@@ -191,43 +190,51 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log "missing field"
 
     #console.log "filled fields are "
-    totalFilledFields = dateInDetailFieldCount + dateInExerciseFieldCount
+    totalUnFilledFields = dateInDetailFieldCount + dateInExerciseFieldCount
 
 
-    if(dateInDetailFieldCount + dateInExerciseFieldCount) > 0
+    if(totalUnFilledFields) > 0
       @modelFormAndExercises.set("atLeastOneFieldFilled", true)
     else
       @modelFormAndExercises.set("atLeastOneFieldFilled", false)
 
     #console.log @modelFormAndExercises.get("atLeastOneFieldFilled")
 
-    #console.log "missing detail count is "
-    #console.log missingDetailFieldCount
+    console.log "missing detail count is "
+    console.log missingDetailFieldCount
 
-    #console.log "exercise error count is"
-    #console.log missingExerciseFieldCount
+    console.log "exercise error count is"
+    console.log missingExerciseFieldCount
 
     totalFieldErrors = missingDetailFieldCount + missingExerciseFieldCount
 
-    totalFilledFields
+    console.log "total field errors"
+    console.log totalFieldErrors
+
+    #totalFilledFields
+
+    console.log("missing field count is " + totalUnFilledFields)
 
     if theCaller == "closeAddWorkoutDialog"
       totalFilledFields
     else
-      @saveWorkout(totalFieldErrors, invalidWeightCount)
+      @saveWorkout(totalFieldErrors, totalUnFilledFields)
 
 
-  saveWorkout: (totalFieldErrors, invalidWeightCount)->
+  saveWorkout: (totalFieldErrors, totalUnFilledFields)->
 
     console.log "clicking save"
 
-    if invalidWeightCount > 0
-      alert "Incorrect inputs on field(s)."
-    else if totalFieldErrors > 0
-      #console.log "Can not be save because of missing fields."
-      #console.log totalFieldErrors
-      console.log "Please fill missing fields before submitting."
-    #console.log "-------------------------------------"
+    if totalFieldErrors > 0 and totalUnFilledFields > 0
+      alert "Errors and unfilled fields prevented submitting."
+    else
+      if totalFieldErrors > 0
+        alert "Incorrect inputs on field(s)."
+      else if totalUnFilledFields > 0
+        #console.log "Can not be save because of missing fields."
+        #console.log totalFieldErrors
+        alert "Please fill missing fields before submitting."
+      #console.log "-------------------------------------"
 
     jsonData = JSON.stringify(@associatedModelUser)
 
