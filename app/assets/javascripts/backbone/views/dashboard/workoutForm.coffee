@@ -37,6 +37,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @privateFormModel.set("lastFocusedWeightInputEvent", event)
     , @)
 
+    Backbone.on("triggerSaveButtonClick", (event) ->
+      @fromSaveButtonTrigger()
+    , @)
+
     #call render
     @render()
 
@@ -64,14 +68,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @associatedWorkout.set({workout_entry: [@modelFormAndExercises.get "recentlyAddedExerciseAssociatedModel"]})
 
   mouseOverSaveButton: ->
-    #console.log "hovering over save button"
     #adding a class to the weight input
     if !_.isNull(@privateFormModel.get("lastFocusedWeightInputEvent"))
       weightInputEvent = @privateFormModel.get("lastFocusedWeightInputEvent")
       weightInputTarget = weightInputEvent.target
       newClassname = "#{weightInputTarget.className} + acknowledge-save-button"
       $(weightInputTarget).attr("class", newClassname)
-
 
   getEventTarget: (event)->
     $(event.target)
@@ -104,11 +106,16 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   addNote: ->
     console.log JSON.stringify(@associatedModelUser)
 
-  validateBeforeSave: (theCaller, event)->
+  fromSaveButtonTrigger: ->
+    console.log "from save button trigger"
+    theCaller = "triggerSaveButton"
+    @validateBeforeSave(theCaller)
+
+  validateBeforeSave: (theCaller)->
 
     console.log "validating before save"
 
-    Backbone.trigger "SomeViewRendered", "in save now"
+
 
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
