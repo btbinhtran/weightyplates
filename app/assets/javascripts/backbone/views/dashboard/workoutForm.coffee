@@ -112,8 +112,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   closeAddWorkoutDialog: (event) ->
     #confirmation messages
-    changesMsg = @privateFormModel.get("closeButtonConfirmationMsg")["changes"]
-    changeMsg = @privateFormModel.get("closeButtonConfirmationMsg")["change"]
+    closeButonConfirmationMsg = @privateFormModel.get("closeButtonConfirmationMsg")
+    changesMsg = closeButonConfirmationMsg["changes"]
+    changeMsg = closeButonConfirmationMsg["change"]
 
     #need to assign this because of sharing of function
     theCaller = "closeAddWorkoutDialog"
@@ -229,29 +230,31 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     else
       @saveWorkout(totalFieldErrors, totalUnFilledFields)
 
-
-
   saveWorkout: (totalFieldErrors, totalUnFilledFields)->
+    saveWorkoutMsg = @privateFormModel.get("saveWorkoutMsg")
 
     #console.log "clicking save"
     if(totalFieldErrors + totalUnFilledFields) == 0
-      alert "Good to go, no errors or missing fields."
+      alert saveWorkoutMsg["ok"]
     else
       if totalFieldErrors > 0 and totalUnFilledFields > 0
-        alert "Errors and unfilled fields prevented submitting."
+        if totalFieldErrors > 1 and totalUnFilledFields > 1
+          alert saveWorkoutMsg["errorsAndUnfills"]
+        else if totalFieldErrors == 1 and totalUnFilledFields > 1
+          alert saveWorkoutMsg["errorAndUnfills"]
+        else if totalFieldErrors > 1 and totalUnFilledFields == 1
+          alert saveWorkoutMsg["errorsAndUnfill"]
       else
         if totalFieldErrors > 0
           if totalFieldErrors == 1
-            alert "There is an error on a field."
+            alert saveWorkoutMsg["oneError"]
           else
-            alert "There are many fields with errors."
+            alert saveWorkoutMsg["manyErrors"]
         else if totalUnFilledFields > 0
-          #console.log "Can not be save because of missing fields."
-          #console.log totalFieldErrors
           if totalUnFilledFields == 1
-            alert "Please fill in missing field before submitting."
+            alert saveWorkoutMsg["missingField"]
           else
-            alert "Please fill in missing fields before submitting."
+            alert saveWorkoutMsg["missingFields"]
 
 
     jsonData = JSON.stringify(@associatedModelUser)
