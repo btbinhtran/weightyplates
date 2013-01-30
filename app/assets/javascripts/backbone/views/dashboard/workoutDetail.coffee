@@ -234,7 +234,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #should only set the rep if there is a valid, non-empty data value
       if repInputValue != ""
-        @detailsAssociation.set("reps", weightInputValue + "")
+        @detailsAssociation.set("reps", repInputValue + "")
       else
         @detailsAssociation.set("reps", null)
       @detailsAssociation.unset("invalidRep", {silent: true})
