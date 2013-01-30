@@ -34,8 +34,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @privateFormModel = new Weightyplates.Models.PrivateForm()
 
     #use backbone as a global event bus
-    Backbone.on("lastWeightInputFocused", (event) ->
-      @privateFormModel.set("lastFocusedWeightInputEvent", event)
+    Backbone.on("lastInputFocused", (event) ->
+      @privateFormModel.set("lastFocusedInputEvent", event)
     , @)
 
     Backbone.on("triggerSaveButtonClick", (event) ->
@@ -70,16 +70,16 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   mouseOverSaveButton: ->
     #adding a class to the weight input
-    if !_.isNull(@privateFormModel.get("lastFocusedWeightInputEvent"))
-      weightInputEvent = @privateFormModel.get("lastFocusedWeightInputEvent")
+    if !_.isNull(@privateFormModel.get("lastFocusedInputEvent"))
+      weightInputEvent = @privateFormModel.get("lastFocusedInputEvent")
       weightInputTarget = weightInputEvent.target
       newClassName = "#{weightInputTarget.className} + acknowledge-save-button"
       $(weightInputTarget).attr("class", newClassName)
 
   mouseOutSaveButton: ->
     #remove the added class for the weight input
-    if !_.isNull(@privateFormModel.get("lastFocusedWeightInputEvent"))
-      weightInputEvent = @privateFormModel.get("lastFocusedWeightInputEvent")
+    if !_.isNull(@privateFormModel.get("lastFocusedInputEvent"))
+      weightInputEvent = @privateFormModel.get("lastFocusedInputEvent")
       weightInputTarget = weightInputEvent.target
       classNameParts = weightInputTarget.className.split(' ')
       newClassName = classNameParts[0]
@@ -139,9 +139,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     while i <= workoutEntryLength - 1
       exerciseVal = associatedModels.at(i).get("exercise_id")
 
-      console.log "exercise value is "
-      console.log exerciseVal
-
       #no errors are possible for exercise because valid options are chosen from the list
       #checking for 0, which corresponds with no input for exercise
       if !_.isNull(exerciseVal) and !_.isUndefined(exerciseVal) and exerciseVal == 0
@@ -152,12 +149,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
       j = 0
       while j <= entryDetailLength - 1
-
-        evalWeightNull = entryDetailModel.at(j).get("weight")
-        evalRepNull = entryDetailModel.at(j).get("reps")
-
-        #console.log "invalid weight check"
-        #console.log entryDetailModel.at(j).get("invalidWeight")
+        #get the weight and rep values
+        weightVal = entryDetailModel.at(j).get("weight")
+        repVal = entryDetailModel.at(j).get("reps")
 
         #check for field errors
         if entryDetailModel.at(j).get("invalidWeight")
@@ -167,12 +161,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           ++invalidrepCount
 
         #check for missing inputs
-        if _.isNull(evalWeightNull) and !_.isUndefined(evalWeightNull) and !entryDetailModel.at(j).get("invalidWeight")
-          missingDetailFieldCount++
-        if _.isNull(evalRepNull) and !_.isUndefined(evalRepNull) and !entryDetailModel.at(j).get("invalidRep")
+        if _.isNull(weightVal) and !_.isUndefined(weightVal) and !entryDetailModel.at(j).get("invalidWeight")
           missingDetailFieldCount++
 
-
+        if _.isNull(repVal) and !_.isUndefined(repVal) and !entryDetailModel.at(j).get("invalidRep")
+          missingDetailFieldCount++
 
         j++
 
@@ -187,35 +180,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
       console.log JSON.stringify(@associatedModelUser)
 
-    #console.log "missing field"
 
-    #console.log "filled fields are "
-    #totalUnFilledFields = dateInDetailFieldCount + missingExerciseFieldCount
 
     ###
-    if(totalUnFilledFields) > 0
-      @modelFormAndExercises.set("atLeastOneFieldFilled", true)
-    else
-      @modelFormAndExercises.set("atLeastOneFieldFilled", false)
-
-    #console.log @modelFormAndExercises.get("atLeastOneFieldFilled")
-
-    console.log "missing detail count is "
-    console.log missingDetailFieldCount
-
-    console.log "exercise error count is"
-    console.log missingExerciseFieldCount
-
-    totalFieldErrors = missingDetailFieldCount + missingExerciseFieldCount
-
-    console.log "total field errors"
-    console.log totalFieldErrors
-
-    #totalFilledFields
-
-    console.log("missing field count is " + totalUnFilledFields)
-
-
     if theCaller == "closeAddWorkoutDialog"
       totalFilledFields
     else

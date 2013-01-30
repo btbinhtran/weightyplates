@@ -9,6 +9,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-exercise-entry-input': 'validateWeightChange'
     'focus .add-workout-exercise-entry-input': 'lastWeightInputFocused'
+    'focus .add-workout-reps-input': 'lastWeightInputFocused'
     'blur .add-workout-reps-input': 'validateRepChange'
 
   initialize: (options) ->
@@ -97,7 +98,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           .set("signalExerciseForm", signalExerciseForm * -1)
 
   lastWeightInputFocused: (event)->
-    Backbone.trigger "lastWeightInputFocused", event
+    Backbone.trigger "lastInputFocused", event
 
   validateWeightChange: (event)->
 
@@ -198,6 +199,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         errorMsg = @detailsAssociation.errors["Reps"]
         #console.log $weightLabelArea
         $weightAndRepArea.find('.rep-list-error-msg').html(errorMsg)
+
+      #if there is a new class on the weight input, trigger a save button click
+      if $(eventTarget).hasClass("acknowledge-save-button")
+        Backbone.trigger "triggerSaveButtonClick"
     else
       #console.log "reps removing error"
       $controlGroup.removeClass('error')
