@@ -16,6 +16,14 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
+
+    Backbone.on("detailValidate", (info) ->
+      if info != ""
+        @privateDetails.set("saveButtonInfo", info)
+      else
+        @privateDetails.set("saveButtonInfo", null)
+    , @)
+
     #get the exerciseAndDetails model from options
     @exerciseAndDetails = options.exerciseAndDetails
 
@@ -104,6 +112,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     console.log "validate weight change"
 
+
+
     #get the element and its value
     eventTarget = event.target
     weightInputValue = eventTarget.value
@@ -137,13 +147,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #console.log "adding error"
         errorMsg = @detailsAssociation.errors["Weight"]
         $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
+
       @detailsAssociation.set("weight", null)
       @detailsAssociation.set("invalidWeight", true)
 
       console.log "errors set"
 
-      #if there is a new class on the weight input, trigger a save button click
-      if $(eventTarget).hasClass("acknowledge-save-button")
+      #if there is a new info on the weight input, trigger a save button click
+      if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
+      #if $(eventTarget).hasClass("acknowledge-save-button")
         Backbone.trigger "triggerSaveButtonClick"
 
     else
@@ -156,8 +168,16 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         @detailsAssociation.set("weight", weightInputValue + "")
       else
         @detailsAssociation.set("weight", null)
+
       #silent prevents model change event
       @detailsAssociation.unset("invalidWeight", {silent: true})
+
+      if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
+        #if $(eventTarget).hasClass("acknowledge-save-button")
+        Backbone.trigger "triggerSaveButtonClick"
+
+      #reset to break save button click intention
+      @privateDetails.set("saveButtonInfo", null)
 
 
   validateRepChange: (event)->
@@ -200,8 +220,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #console.log $weightLabelArea
         $weightAndRepArea.find('.rep-list-error-msg').html(errorMsg)
 
-      #if there is a new class on the weight input, trigger a save button click
-      if $(eventTarget).hasClass("acknowledge-save-button")
+      #if there is a new info on the weight input, trigger a save button click
+      #if $(eventTarget).hasClass("acknowledge-save-button")
+      if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
         Backbone.trigger "triggerSaveButtonClick"
     else
       #console.log "reps removing error"
@@ -217,6 +238,14 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       else
         @detailsAssociation.set("reps", null)
       @detailsAssociation.unset("invalidRep", {silent: true})
+
+
+      if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
+        #if $(eventTarget).hasClass("acknowledge-save-button")
+        Backbone.trigger "triggerSaveButtonClick"
+
+      #reset to break save button click intention
+      @privateDetails.set("saveButtonInfo", null)
 
 
 

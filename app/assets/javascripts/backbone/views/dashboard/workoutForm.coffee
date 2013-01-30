@@ -71,19 +71,29 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   mouseOverSaveButton: ->
     #adding a class to the weight input
     if !_.isNull(@privateFormModel.get("lastFocusedInputEvent"))
+
+      console.log "mouse in"
+      Backbone.trigger "detailValidate", "acknowledge-save-button"
+      ###
       weightInputEvent = @privateFormModel.get("lastFocusedInputEvent")
       weightInputTarget = weightInputEvent.target
       newClassName = "#{weightInputTarget.className} + acknowledge-save-button"
       $(weightInputTarget).attr("class", newClassName)
+      ###
 
   mouseOutSaveButton: ->
     #remove the added class for the weight input
     if !_.isNull(@privateFormModel.get("lastFocusedInputEvent"))
+
+      console.log "mouse out"
+      Backbone.trigger "detailValidate", ""
+      ###
       weightInputEvent = @privateFormModel.get("lastFocusedInputEvent")
       weightInputTarget = weightInputEvent.target
       classNameParts = weightInputTarget.className.split(' ')
       newClassName = classNameParts[0]
       $(weightInputTarget).attr("class", newClassName)
+      ###
 
   getEventTarget: (event)->
     $(event.target)
