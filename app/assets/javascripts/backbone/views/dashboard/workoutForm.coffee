@@ -29,6 +29,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @associatedWorkout = new Weightyplates.Models.AssociationWorkout()
     @associatedModelUser.set({workout: [@associatedWorkout]})
 
+    #set the workout name date into form and exercises
+    @modelFormAndExercises.set("workoutNameDefault", @associatedModelUser.get("workout").at(0).get("name"))
+
     @modelFormAndExercises.on("change:signalParentForm", @updateAssociatedModel)
 
     #private form model to listen to events from child views
@@ -96,6 +99,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     $workoutNameInput.val(@modelFormAndExercises.get "workoutNameHint").addClass('hint')
 
   closeAddWorkoutDialog: (event) ->
+
     #need to assign this because of sharing of function
     theCaller = "closeAddWorkoutDialog"
 
@@ -107,9 +111,22 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     totalFields = fieldResults.totalFields
     errorFields = fieldResults.errorFields
 
-    #alert messages if there are changes made to the input fields
-    if unfilledFields < totalFields
-      if((totalFields - unfilledFields) == 1 and errorFields == 0) || errorFields == 1
+    #cache the condition of the workout name
+    workoutName = @modelFormAndExercises.get("workoutName")
+    workouNameCond = !_.isNull(workoutName) and !_.isUndefined(workoutName)
+
+    changesCond = (unfilledFields < totalFields) || errorFields > 0
+
+    #for the workout name
+    if workouNameCond
+      if changesCond
+        alert "Changes have been made, exit right now without saving?"
+      else
+        alert "A change has been made, exit right not without saving?"
+
+    #for when there is no workout name
+    else if changesCond
+      if((totalFields - unfilledFields) == 1 and errorFields == 0) || errorFields == 1 and unfilledFields < 1
         alert "A change has been made, exit right not without saving?"
       else
         alert "Changes have been made, exit right now without saving?"
@@ -123,8 +140,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     theCaller = "triggerSaveButton"
     @validateBeforeSave(theCaller)
 
-  getWorkoutName: ->
-    console.log "workout name blur"
+  getWorkoutName: (event)->
+    if event.target.className.split(' ').length < 2
+      @modelFormAndExercises.set("workoutName", event.target.value)
+    else
+      @modelFormAndExercises.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
 

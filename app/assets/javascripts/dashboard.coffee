@@ -4,6 +4,7 @@
 ##= require jquery.hoverIntent
 ##= require hamlcoffee
 ##= require parser
+##= require date.format
 
 ##= require underscore
 ##= require backbone
