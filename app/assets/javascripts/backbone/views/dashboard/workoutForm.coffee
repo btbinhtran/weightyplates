@@ -64,11 +64,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #add and removal check for entries
     if @associatedWorkout.get("workout_entry")
       #remove if there is already and entry
-      if @associatedWorkout.get("workout_entry").get(@modelFormAndExercises.get("recentlyRemovedExerciseAssociatedModel"))
-        @associatedWorkout.get("workout_entry").remove(@modelFormAndExercises.get("recentlyRemovedExerciseAssociatedModel"))
+      if @associatedWorkout.get("workout_entry")
+          .get(@modelFormAndExercises
+          .get("recentlyRemovedExerciseAssociatedModel"))
+        @associatedWorkout.get("workout_entry")
+          .remove(@modelFormAndExercises
+          .get("recentlyRemovedExerciseAssociatedModel"))
        else
         #add instead of overwriting if there already a workout entry
-        @associatedWorkout.get("workout_entry").add(@modelFormAndExercises.get("recentlyAddedExerciseAssociatedModel"))
+        @associatedWorkout.get("workout_entry")
+          .add(@modelFormAndExercises
+          .get("recentlyAddedExerciseAssociatedModel"))
 
     else
       @associatedWorkout.set({workout_entry: [@modelFormAndExercises.get "recentlyAddedExerciseAssociatedModel"]})
@@ -98,7 +104,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     $workoutNameInput = $('input.dashboard-workout-name-input')
     $workoutNameInput.val(@modelFormAndExercises.get "workoutNameHint").addClass('hint')
 
+  closeButtonConfirmationHandler: (msg, okRes, notOkRes)->
+    if (confirm(msg))
+      console.log okRes
+    else
+      console.log notOkRes
+
   closeAddWorkoutDialog: (event) ->
+    #confirmation messages
+    changesMsg = @privateFormModel.get("closeButtonConfirmationMsg")["changes"]
+    changeMsg = @privateFormModel.get("closeButtonConfirmationMsg")["change"]
+
     #need to assign this because of sharing of function
     theCaller = "closeAddWorkoutDialog"
 
@@ -119,17 +135,18 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #for the workout name
     if workouNameCond
       if changesCond
-        alert "Changes have been made, exit right now without saving?"
+        @closeButtonConfirmationHandler(changesMsg, "Yes to delete.", "No to delete.")
       else
-        alert "A change has been made, exit right not without saving?"
+        @closeButtonConfirmationHandler(changeMsg, "Yes to delete.", "No to delete.")
 
     #for when there is no workout name
     else if changesCond
       if((totalFields - unfilledFields) == 1 and errorFields == 0) || errorFields == 1 and unfilledFields < 1
-        alert "A change has been made, exit right not without saving?"
+        @closeButtonConfirmationHandler(changeMsg, "Yes to delete.", "No to delete.")
       else
-        alert "Changes have been made, exit right now without saving?"
-
+        @closeButtonConfirmationHandler(changesMsg, "Yes to delete.", "No to delete.")
+    else
+      console.log "close out the form"
 
   addNote: ->
     console.log JSON.stringify(@associatedModelUser)
@@ -249,7 +266,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log properlyFormattedJson
 
-
+    ###
     $.ajax
       type: "POST"
       url: "/api/workouts"
@@ -264,6 +281,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           "The following error occurred: " +
           textStatus + errorThrown
         )
+    ###
 
 
 
