@@ -151,7 +151,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @detailsAssociation.set("weight", null)
       @detailsAssociation.set("invalidWeight", true)
 
-      console.log "errors set"
+      #console.log "errors set"
 
       #if there is a new info on the weight input, trigger a save button click
       if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
@@ -171,10 +171,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #silent prevents model change event
       @detailsAssociation.unset("invalidWeight", {silent: true})
-
-      if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
-        #if $(eventTarget).hasClass("acknowledge-save-button")
-        Backbone.trigger "triggerSaveButtonClick"
 
       #reset to break save button click intention
       @privateDetails.set("saveButtonInfo", null)
@@ -235,11 +231,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       else
         @detailsAssociation.set("reps", null)
       @detailsAssociation.unset("invalidRep", {silent: true})
-
-
-      if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
-        #if $(eventTarget).hasClass("acknowledge-save-button")
-        Backbone.trigger "triggerSaveButtonClick"
 
       #reset to break save button click intention
       @privateDetails.set("saveButtonInfo", null)

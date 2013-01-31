@@ -120,21 +120,22 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     theCaller = "closeAddWorkoutDialog"
 
     #retrieve the fields information
-    fieldResults = @validateBeforeSave(theCaller)
+    fieldResults = @validateBeforeSave(theCaller)[0]
 
     #nicknames for fields
-    unfilledFields = fieldResults.unfilledFields
+    unfilledFields = fieldResults.totalUnFilledFields
     totalFields = fieldResults.totalFields
-    errorFields = fieldResults.errorFields
+    errorFields = fieldResults.totalFieldErrors
+    filledFields = totalFields - unfilledFields - errorFields
 
     #cache the condition of the workout name
     workoutName = @modelFormAndExercises.get("workoutName")
-    workouNameCond = !_.isNull(workoutName) and !_.isUndefined(workoutName)
+    workoutNameCond = !_.isNull(workoutName) and !_.isUndefined(workoutName)
 
-    changesCond = (unfilledFields < totalFields) || errorFields > 0
+    changesCond = (unfilledFields < totalFields) or errorFields > 0
 
     #for the workout name
-    if workouNameCond
+    if workoutNameCond
       if changesCond
         @closeButtonConfirmationHandler(changesMsg, "Yes to delete.", "No to delete.")
       else
@@ -142,9 +143,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #for when there is no workout name
     else if changesCond
-      if((totalFields - unfilledFields) == 1 and errorFields == 0) || errorFields == 1 and unfilledFields < 1
+      if(filledFields + errorFields == 1)
         @closeButtonConfirmationHandler(changeMsg, "Yes to delete.", "No to delete.")
-      else
+      else if(filledFields > 1 or errorFields > 1 or filledFields + errorFields > 1)
         @closeButtonConfirmationHandler(changesMsg, "Yes to delete.", "No to delete.")
     else
       console.log "close out the form"
@@ -164,78 +165,30 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @modelFormAndExercises.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
-
+    #get data from associated model to evaluate validness
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
 
-    i = 0
-    missingExerciseFieldCount = 0
-    missingDetailFieldCount = 0
-    dateInExerciseFieldCount = 0
-    dateInDetailFieldCount = 0
-    invalidWeightCount = 0
-    invalidrepCount = 0
-    exerciseCount = 0
-    detailCount = 0
-
-    while i <= workoutEntryLength - 1
-      exerciseVal = associatedModels.at(i).get("exercise_id")
-
-      #no errors are possible for exercise because valid options are chosen from the list
-      #checking for 0, which corresponds with no input for exercise
-      if !_.isNull(exerciseVal) and !_.isUndefined(exerciseVal) and exerciseVal == 0
-        missingExerciseFieldCount++
-
-        #exercise counter
-        ++exerciseCount
-
-      entryDetailLength = associatedModels.at(i).get("entry_detail").length
-      entryDetailModel = associatedModels.at(i).get("entry_detail")
-
-      j = 0
-      while j <= entryDetailLength - 1
-        #get the weight and rep values
-        weightVal = entryDetailModel.at(j).get("weight")
-        repVal = entryDetailModel.at(j).get("reps")
-
-        #details counter
-        detailCount += 2
-
-        #check for field errors
-        if entryDetailModel.at(j).get("invalidWeight")
-          ++invalidWeightCount
-
-        if entryDetailModel.at(j).get("invalidRep")
-          ++invalidrepCount
-
-        #check for missing inputs
-        if _.isNull(weightVal) and !_.isUndefined(weightVal) and !entryDetailModel.at(j).get("invalidWeight")
-          missingDetailFieldCount++
-
-        if _.isNull(repVal) and !_.isUndefined(repVal) and !entryDetailModel.at(j).get("invalidRep")
-          missingDetailFieldCount++
-
-        j++
-
-      i++
-
-      totalFieldErrors = invalidWeightCount + invalidrepCount
-      totalFields = exerciseCount + detailCount
-      totalUnFilledFields = missingExerciseFieldCount + missingDetailFieldCount
+    #process the data in the private model
+    results = @privateFormModel.checkErrorsAndUnfilled(associatedModels, workoutEntryLength)
 
     #if the close button trigger this action
     if theCaller == "closeAddWorkoutDialog"
       #return information of fields to the close dialog action
-      {totalFields: totalFields, unfilledFields: totalUnFilledFields, errorFields: totalFieldErrors}
+      results
     else
-      @saveWorkout(totalFieldErrors, totalUnFilledFields)
+      @saveWorkoutMsgHandler(results[0].totalFieldErrors, results[0].totalUnFilledFields)
 
-  saveWorkout: (totalFieldErrors, totalUnFilledFields)->
+  saveWorkoutMsgHandler: (totalFieldErrors, totalUnFilledFields)->
+    console.log "save handler"
+
+
     saveWorkoutMsg = @privateFormModel.get("saveWorkoutMsg")
 
-    #console.log "clicking save"
+    #display appropriate alert message when error or missing fields are encountered
     if(totalFieldErrors + totalUnFilledFields) == 0
-      alert saveWorkoutMsg["ok"]
+      console.log 'init save workout'
+      @saveWorkout()
     else
       if totalFieldErrors > 0 and totalUnFilledFields > 0
         if totalFieldErrors > 1 and totalUnFilledFields > 1
@@ -256,7 +209,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           else
             alert saveWorkoutMsg["missingFields"]
 
-
+  saveWorkout: ->
+    console.log "saving process"
     jsonData = JSON.stringify(@associatedModelUser)
 
     #formatting the jsonData by removing the first '[' and last ']'
