@@ -35,10 +35,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     detailViewsCount = @exerciseAndDetails.get("detailViewsCount") + 1
     detailViews.push({view:@, viewId: @cid, viewSetNumber: detailViewsCount})
     @exerciseAndDetails.set("detailViewsCount", detailViewsCount)
-                .set("detailViews", detailViews)
+                      .set("detailViews", detailViews)
 
     #creating detailsAssociation model for this view
-    @detailsAssociation = new Weightyplates.Models.AssociationDetail({set_number: detailViewsCount + "", weight: null, reps: null})
+    associationDetailParams = {set_number: detailViewsCount + "", weight: null, reps: null}
+    @detailsAssociation = new Weightyplates.Models.AssociationDetail(associationDetailParams)
 
     #to signal to parent view, exercise, what child has been added
     @model.set("recentlyAddedDetailsAssociatedModel", @detailsAssociation)
@@ -57,9 +58,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #remove the remove button in the beginning when there is only one detail
     if @exerciseAndDetails.get("detailViews").length == 1
-      $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button').addClass('hide-add-workout-reps-remove-button')
+      $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button')
+                              .addClass('hide-add-workout-reps-remove-button')
       @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
-      #console.log @model.get "hiddenExerciseRemoveButton"
     else
       $hiddenDetailRemove = @exerciseAndDetails.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
@@ -115,7 +116,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #attempt to set the attribute
     attributeToChange = "weight"
-    @detailsAssociation.set(attributeToChange, weightInputValue, {validateAll: true, changedAttribute: attributeToChange})
+    validateAllParam = {validateAll: true, changedAttribute: attributeToChange}
+    @detailsAssociation.set(attributeToChange, weightInputValue, validateAllParam)
 
     #cache elements
     $parentElement = @$el
@@ -136,7 +138,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #append to the error msg box if there is not one yet
       if @privateDetails.get("weightInputError") == false
-        $weightAndRepArea.append("<div class='alert alert-error weight-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Weight"]}</div>")
+        errors = @detailsAssociation.errors["Weight"]
+
+        alertMsg = "<div class='alert alert-error weight-list-error-msg list-error-msg'><p>#{errors}</p></div>"
+
+        $weightAndRepArea.append(alertMsg.replace(/,/g, '</br>'))
         @privateDetails.set("weightInputError", true)
       else
         #console.log "adding error"

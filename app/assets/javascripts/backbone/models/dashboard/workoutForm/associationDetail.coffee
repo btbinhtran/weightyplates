@@ -42,7 +42,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       noLeadingInt:(attr) ->
         validateAttr = attr.validateAttrVal
         if(_.indexOf(validateAttr, ".") == -1 and (validateAttr.replace(/^0+/, '').length != validateAttr.length))
-          "#{attr.checkAttribute} whole number can't have leading zeros."
+          "#{attr.checkAttribute} number can't have leading zeros."
 
       noSciNot:(attr) ->
         validateAttr = attr.validateAttrVal
@@ -61,14 +61,18 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       itemsToValidateLength = validateOptions.length
 
       i = 0
+      errorsArray = []
       while i < itemsToValidateLength
 
         if !_.isUndefined(@::validator.patterns[validateOptions[i]](options))
+          #for storing multiple errors
+          errorsArray.push(@::validator.patterns[validateOptions[i]](options))
+
           #storing the error if there is one
-          errors[options.checkAttribute] = @::validator.patterns[validateOptions[i]](options)
+          errors[options.checkAttribute] = errorsArray
 
           #break out of the loop
-          i = itemsToValidateLength
+          #i = itemsToValidateLength
         i++
 
       #return errors

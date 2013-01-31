@@ -219,7 +219,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       $dropDownList.after(alertMsg)
       @exerciseAndDetails.set("dropDownListError", true)
       @exerciseAssociation.set("exercise_id", null)
-      #@exerciseAssociation.set("invalidExercise", true)
+
 
 
 

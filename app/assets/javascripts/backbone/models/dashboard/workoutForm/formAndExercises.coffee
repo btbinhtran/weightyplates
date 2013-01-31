@@ -1,5 +1,22 @@
 class Weightyplates.Models.FormAndExercises extends Backbone.Model
 
+  defaults:
+    workoutNameHint: "Optional (defaults to timestamp)"
+    exerciseCount: 0
+    isFirstExerciseRow: false
+    optionListEntries: null
+    exerciseViews: []
+    exerciseViewsCount: null
+    firstExercise: null
+    lastExercise: null
+    hiddenExerciseRemoveButton: null
+    recentlyAddedExerciseAssociatedModel: null
+    recentlyRemovedExerciseAssociatedModel: null
+    signalParentForm: -1
+    exerciseAssociatedModels: []
+    workoutNameDefault: null
+    workoutName: null
+
   prepareEntries: ->
     @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)
     theExerciseModel = @modelOfExercises.attributes.model
@@ -25,22 +42,7 @@ class Weightyplates.Models.FormAndExercises extends Backbone.Model
       entry++
     optionListEntries = optionsList
 
-  defaults:
-    workoutNameHint: "Optional (defaults to timestamp)"
-    exerciseCount: 0
-    isFirstExerciseRow: false
-    optionListEntries: null
-    exerciseViews: []
-    exerciseViewsCount: null
-    firstExercise: null
-    lastExercise: null
-    hiddenExerciseRemoveButton: null
-    recentlyAddedExerciseAssociatedModel: null
-    recentlyRemovedExerciseAssociatedModel: null
-    signalParentForm: -1
-    exerciseAssociatedModels: []
-    workoutNameDefault: null
-    workoutName: null
+
 
 
 

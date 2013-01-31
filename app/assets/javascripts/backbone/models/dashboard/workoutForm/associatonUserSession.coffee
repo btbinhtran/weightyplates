@@ -1,6 +1,5 @@
 class Weightyplates.Models.AssociationUserSession extends Backbone.AssociatedModel
 
-
   constructor: () ->
     @relations = [
       {

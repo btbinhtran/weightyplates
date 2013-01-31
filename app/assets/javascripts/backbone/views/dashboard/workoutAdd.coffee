@@ -18,7 +18,7 @@ class Weightyplates.Views.WorkoutEntryButton extends Backbone.View
     event.target.blur()
     if @collection.models[0].get("showingWorkoutForm") == true
       event.preventDefault()
-    else if @collection.models[0].get("showingWorkoutForm") == false && @collection.models[0].get("hidingWorkoutForm") == false
+    else if @collection.models[0].get("showingWorkoutForm") == false and @collection.models[0].get("hidingWorkoutForm") == false
       @loadWorkoutForm()
       @collection.models[0].set("showingWorkoutForm", true)
     else if @collection.models[0].get("hidingWorkoutForm") == true
