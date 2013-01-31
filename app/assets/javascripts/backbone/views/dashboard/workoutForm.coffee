@@ -32,12 +32,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #set the workout name date into form and exercises
     @modelFormAndExercises.set("workoutNameDefault", @associatedModelUser.get("workout").at(0).get("name"))
 
+    #allows child view to notify this view of a requested change
     @modelFormAndExercises.on("change:signalParentForm", @updateAssociatedModel)
 
     #private form model to listen to events from child views
     @privateFormModel = new Weightyplates.Models.PrivateForm()
 
-    #use backbone as a global event bus
+    #use backbone as a global event bus for validating on blur with incorrect values
     Backbone.on("lastInputFocused", (event) ->
       @privateFormModel.set("lastFocusedInputEvent", event)
     , @)
@@ -94,7 +95,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   focusInWorkoutName: (event) ->
     $this = @getEventTarget(event)
-    $this.val("").removeClass("hint") if $this.attr('class') == "dashboard-workout-name-input hint"
+    if $this.attr('class') == "dashboard-workout-name-input hint"
+      $this.val("").removeClass("hint")
 
   blurInWorkoutName: (event) ->
     $this = @getEventTarget(event)
@@ -180,14 +182,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @saveWorkoutMsgHandler(results[0].totalFieldErrors, results[0].totalUnFilledFields)
 
   saveWorkoutMsgHandler: (totalFieldErrors, totalUnFilledFields)->
-    console.log "save handler"
-
-
+    #get alert messages from model
     saveWorkoutMsg = @privateFormModel.get("saveWorkoutMsg")
 
     #display appropriate alert message when error or missing fields are encountered
     if(totalFieldErrors + totalUnFilledFields) == 0
-      console.log 'init save workout'
       @saveWorkout()
     else
       if totalFieldErrors > 0 and totalUnFilledFields > 0
@@ -210,13 +209,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
             alert saveWorkoutMsg["missingFields"]
 
   saveWorkout: ->
-    console.log "saving process"
+    #prepare the json for sending
     jsonData = JSON.stringify(@associatedModelUser)
 
     #formatting the jsonData by removing the first '[' and last ']'
     jsonDataLastRightBracketIndex = jsonData.lastIndexOf(']')
 
-    rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + jsonData.substring(jsonDataLastRightBracketIndex + 1)
+    intermediateString = jsonData.substring(jsonDataLastRightBracketIndex + 1)
+    rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + intermediateString
 
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 

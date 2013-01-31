@@ -13,9 +13,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   #==============================================Initialize
   initialize: ()->
-
-    #console.log "exercises"
-
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
@@ -30,12 +27,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exercisePhrase = "Exercise #{exerciseViewsCount}"
 
     #creating exerciseAssociation model for this view
-    @exerciseAssociation = new Weightyplates.Models.AssociationExercise({workout_entry_number: exerciseViewsCount + "", exercise_id: 0})
-
-    #console.log "exercise association "
-    #console.log @exerciseAssociation
-
-    #console.log "exercise set id to null"
+    associationExerciseParams = {workout_entry_number: exerciseViewsCount + "", exercise_id: 0}
+    @exerciseAssociation = new Weightyplates.Models.AssociationExercise(associationExerciseParams)
 
     #model shared between the form and the exercise
     exerciseAssociatedModels = @model.get("exerciseAssociatedModels")
@@ -50,16 +43,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #model between exercises and details
     @exerciseAndDetails = new Weightyplates.Models.ExerciseAndDetails()
 
-    #console.log "before exer on change"
-
     #allows child view to request a change in associated model for the parent
     @exerciseAndDetails.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
-    #console.log "After exercise on change"
-
+    #allows parent view to know of this view's requests
     @exerciseAndDetails.on("change:signalExerciseForm", @updateAssociatedModelRemove, @)
-
-    #console.log "another after exerc"
 
     #render the template
     @render(exercisePhrase, @model.get("optionListEntries"), exerciseViewsCount)
@@ -81,10 +69,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #remove the remove button in the beginning when there is only one exercise
     if @model.get("exerciseViews").length == 1
-      #console.log "only one exercise present"
       $hiddenExerciseRemove = @$el.find('.add-workout-exercise-remove-button').addClass('hide-add-workout-button')
       @model.set("hiddenExerciseRemoveButton",$hiddenExerciseRemove)
-      #console.log @model.get "hiddenExerciseRemoveButton"
     else
       $hiddenExerciseRemove = @model.get "hiddenExerciseRemoveButton"
       $hiddenExerciseRemove.removeClass('hide-add-workout-button')
@@ -95,11 +81,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #preparing an additional container for the set and weight rows
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
-    #console.log "exer private model"
-
     #the workout details row has a private model between the exercises and its details
     #have to initialize private model to default values because it can take on old values from other exercise sets
-    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetails, exerciseAndDetails: new Weightyplates.Models.ExerciseAndDetails(detailViews: [], detailViewsCount: null))
+    exercisesAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails(detailViews: [], detailViewsCount: null)
+    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetails, exerciseAndDetails: exercisesAndDetailsModel)
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
@@ -126,28 +111,23 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   updateAssociatedModelAdd: ->
-    #console.log "exercise needs updating"
-
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
     if @exerciseAssociation.get("entry_detail")
-      #console.log "in the get and update exer"
-      #console.log @exerciseAssociation.get("entry_detail").length
-      @exerciseAssociation.get("entry_detail").add(@exerciseAndDetails.get("recentlyAddedDetailsAssociatedModel"))
+      @exerciseAssociation.get("entry_detail")
+        .add(@exerciseAndDetails
+        .get("recentlyAddedDetailsAssociatedModel"))
     else
-      #console.log "in the set exer"
       @exerciseAssociation.set({entry_detail: [@exerciseAndDetails.get("recentlyAddedDetailsAssociatedModel")]})
-
-    #console.log "after the setting and getting"
 
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
-    #console.log "yet another after set and get"
-
   updateAssociatedModelRemove: ->
     #a detail entry will be removed
-    @exerciseAssociation.get("entry_detail").remove(@exerciseAndDetails.get("recentlyRemovedDetailsAssociatedModel"))
+    @exerciseAssociation.get("entry_detail")
+      .remove(@exerciseAndDetails
+      .get("recentlyRemovedDetailsAssociatedModel"))
 
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
@@ -206,9 +186,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     selectedOption = $parentElement.find("select.#{event.target.className} option:selected")
     selectedId = selectedOption.data("id")
 
-    console.log "option selected"
-    console.log selectedOption
-
     #attempt to set the attribute
     attributeToChange = "exercise_id"
     @exerciseAssociation.set(attributeToChange, selectedId, {validateAll: true, changedAttribute: attributeToChange})
@@ -222,7 +199,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #adding and removal of validation error messages
     #first blick if for removing and second block is for adding
-    if _.has(@exerciseAssociation.errors, "exercise_id") == false and @exerciseAndDetails.get("dropDownListError") == true
+    hasErrors = _.has(@exerciseAssociation.errors, "exercise_id")
+    if hasErrors == false and @exerciseAndDetails.get("dropDownListError") == true
 
       console.log "removing errors exercise"
 
@@ -230,12 +208,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       $dropDownList.siblings().remove()
       @exerciseAndDetails.set("dropDownListError", false)
       #@exerciseAssociation.unset("invalidExercise", {silent: true})
-    else if _.has(@exerciseAssociation.errors, "exercise_id") == true and @exerciseAndDetails.get("dropDownListError") == false
+    else if hasErrors == true and @exerciseAndDetails.get("dropDownListError") == false
 
       console.log "adding exercise errors"
 
       $controlGroup.addClass('error')
-      $dropDownList.after("<div class='alert alert-error select-list-error-msg'>#{@exerciseAssociation.errors["exercise_id"]}</div>")
+
+      errors = @exerciseAssociation.errors["exercise_id"]
+      alertMsg = "<div class='alert alert-error select-list-error-msg'>#{errors}</div>"
+      $dropDownList.after(alertMsg)
       @exerciseAndDetails.set("dropDownListError", true)
       @exerciseAssociation.set("exercise_id", null)
       #@exerciseAssociation.set("invalidExercise", true)

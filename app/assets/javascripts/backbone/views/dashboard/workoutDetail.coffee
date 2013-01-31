@@ -109,11 +109,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     Backbone.trigger "lastInputFocused", event
 
   validateWeightChange: (event)->
-
-    console.log "validate weight change"
-
-
-
     #get the element and its value
     eventTarget = event.target
     weightInputValue = eventTarget.value
