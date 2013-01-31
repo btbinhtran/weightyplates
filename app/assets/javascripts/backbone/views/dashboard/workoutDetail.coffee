@@ -7,10 +7,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   events:
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
-    'blur .add-workout-weight-input': 'validateWeightChange'
+    'blur .add-workout-weight-input': 'validateChange'
     'focus .add-workout-weight-input': 'lastWeightInputFocused'
     'focus .add-workout-reps-input': 'lastWeightInputFocused'
-    'blur .add-workout-reps-input': 'validateRepChange'
+    'blur .add-workout-reps-input': 'validateChange'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
@@ -109,7 +109,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   lastWeightInputFocused: (event)->
     Backbone.trigger "lastInputFocused", event
 
-  validateWeightChange: (event)->
+  toTitleCase: (str) ->
+    str.replace /\w\S*/g, (txt) ->
+      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+
+  validateChange: (event)->
     #get the element and its value
     eventTarget = event.target
     eventTargetClassName = eventTarget.className
@@ -122,7 +126,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       attributeToChange = "reps"
 
     #attempt to set the attribute
-
     validateAllParam = {validateAll: true, changedAttribute: attributeToChange}
     @detailsAssociation.set(attributeToChange, inputValue, validateAllParam)
 
@@ -130,38 +133,38 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     $parentElement = @$el
     typeOfControl = ".#{attributeToChange}-control"
     $controlGroup = $parentElement.find(typeOfControl)
-
     $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
 
-    $weightInputSelector = "input.#{eventTarget.eventTargetClassName}"
-    $weightInput = $controlGroup.find($weightInputSelector)
+    #set the classes and keys based on input type
+    inputType = @toTitleCase(attributeToChange)
+    invalidAttribute = "invalid#{inputType}"
+    errorClass = "#{attributeToChange}-list-error-msg"
+    errorKey = "#{attributeToChange}InputError"
 
     #get errors if they exist
-    @detailsAssociation.errors["Weight"] || ''
+    @detailsAssociation.errors[inputType] || ''
 
     #generate the error or remove if validated
-    if _.has(@detailsAssociation.errors, "Weight") == true
+    if _.has(@detailsAssociation.errors, inputType) == true
 
       $controlGroup.addClass('error')
 
       #append to the error msg box if there is not one yet
-      if @privateDetails.get("weightInputError") == false
-        errors = @detailsAssociation.errors["Weight"]
+      if @privateDetails.get(errorKey) == false
+        errors = @detailsAssociation.errors[inputType]
 
         #makes sure if there are multiple error messages they are started on new line
-        alertMsg = "<div class='alert alert-error weight-list-error-msg list-error-msg'><p>#{errors.join('</br>')}</p></div>"
+        alertMsg = "<div class='alert alert-error #{errorClass} list-error-msg'><p>#{errors.join('</br>')}</p></div>"
 
         $weightAndRepArea.append(alertMsg)
-        @privateDetails.set("weightInputError", true)
+        @privateDetails.set(errorKey, true)
       else
         #break the array of errors on the comma with br for new line
-        errorMsg = @detailsAssociation.errors["Weight"]
-        $weightAndRepArea.find('.weight-list-error-msg').html("<p>#{errorMsg.join('</br>')}</p>")
+        errorMsg = @detailsAssociation.errors[inputType]
+        $weightAndRepArea.find(".#{errorClass}").html("<p>#{errorMsg.join('</br>')}</p>")
 
-      @detailsAssociation.set("weight", null)
-      @detailsAssociation.set("invalidWeight", true)
-
-      #console.log "errors set"
+      @detailsAssociation.set(attributeToChange, null)
+      @detailsAssociation.set(invalidAttribute, true)
 
       #if there is a new info on the weight input, trigger a save button click
       if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
@@ -170,17 +173,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     else
       $controlGroup.removeClass('error')
-      $weightAndRepArea.find('.weight-list-error-msg').remove()
-      @privateDetails.set("weightInputError", false)
+      $weightAndRepArea.find(".#{errorClass}").remove()
+      @privateDetails.set(errorKey, false)
 
       #should only set the weight if there is a valid, non-empty data value
       if inputValue != ""
-        @detailsAssociation.set("weight", inputValue + "")
+        @detailsAssociation.set(attributeToChange, inputValue + "")
       else
-        @detailsAssociation.set("weight", null)
+        @detailsAssociation.set(attributeToChange, null)
 
       #silent prevents model change event
-      @detailsAssociation.unset("invalidWeight", {silent: true})
+      @detailsAssociation.unset(invalidAttribute, {silent: true})
 
       #reset to break save button click intention
       @privateDetails.set("saveButtonInfo", null)
