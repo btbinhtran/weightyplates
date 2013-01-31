@@ -8,15 +8,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-weight-input': 'validateChange'
-    'focus .add-workout-weight-input': 'lastWeightInputFocused'
-    'focus .add-workout-reps-input': 'lastWeightInputFocused'
     'blur .add-workout-reps-input': 'validateChange'
+    'focus .add-workout-weight-input': 'lastInputFocused'
+    'focus .add-workout-reps-input': 'lastInputFocused'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-
+    #backbone event from form
     Backbone.on("detailValidate", (info) ->
       if info != ""
         @privateDetails.set("saveButtonInfo", info)
@@ -106,7 +106,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
           .set("signalExerciseForm", signalExerciseForm * -1)
 
-  lastWeightInputFocused: (event)->
+  lastInputFocused: (event)->
     Backbone.trigger "lastInputFocused", event
 
   toTitleCase: (str) ->
@@ -122,12 +122,14 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #determine if input was from weight or reps
     if eventTargetClassName.indexOf("weight") != -1
       attributeToChange = "weight"
+      addCharS = ""
     else
-      attributeToChange = "reps"
+      attributeToChange = "rep"
+      addCharS = 's'
 
     #attempt to set the attribute
-    validateAllParam = {validateAll: true, changedAttribute: attributeToChange}
-    @detailsAssociation.set(attributeToChange, inputValue, validateAllParam)
+    validateAllParam = {validateAll: true, changedAttribute: "#{attributeToChange + addCharS}"}
+    @detailsAssociation.set("#{attributeToChange + addCharS}", inputValue, validateAllParam)
 
     #cache elements
     $parentElement = @$el
@@ -142,16 +144,16 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     errorKey = "#{attributeToChange}InputError"
 
     #get errors if they exist
-    @detailsAssociation.errors[inputType] || ''
+    @detailsAssociation.errors["#{inputType + addCharS}"] || ''
 
     #generate the error or remove if validated
-    if _.has(@detailsAssociation.errors, inputType) == true
+    if _.has(@detailsAssociation.errors, "#{inputType + addCharS}") == true
 
       $controlGroup.addClass('error')
 
       #append to the error msg box if there is not one yet
       if @privateDetails.get(errorKey) == false
-        errors = @detailsAssociation.errors[inputType]
+        errors = @detailsAssociation.errors["#{inputType + addCharS}"]
 
         #makes sure if there are multiple error messages they are started on new line
         alertMsg = "<div class='alert alert-error #{errorClass} list-error-msg'><p>#{errors.join('</br>')}</p></div>"
@@ -160,7 +162,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         @privateDetails.set(errorKey, true)
       else
         #break the array of errors on the comma with br for new line
-        errorMsg = @detailsAssociation.errors[inputType]
+        errorMsg = @detailsAssociation.errors["#{inputType + addCharS}"]
         $weightAndRepArea.find(".#{errorClass}").html("<p>#{errorMsg.join('</br>')}</p>")
 
       @detailsAssociation.set(attributeToChange, null)
@@ -178,80 +180,21 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #should only set the weight if there is a valid, non-empty data value
       if inputValue != ""
-        @detailsAssociation.set(attributeToChange, inputValue + "")
+        @detailsAssociation.set("#{attributeToChange + addCharS}", inputValue + "")
       else
-        @detailsAssociation.set(attributeToChange, null)
+        @detailsAssociation.set("#{attributeToChange + addCharS}", null)
 
       #silent prevents model change event
       @detailsAssociation.unset(invalidAttribute, {silent: true})
 
-      #reset to break save button click intention
-      @privateDetails.set("saveButtonInfo", null)
-
-
-  validateRepChange: (event)->
-
-    #get the element and its value
-    eventTarget = event.target
-    repInputValue = eventTarget.value
-
-    #attempt to set the attribute
-    attributeToChange = "reps"
-    @detailsAssociation.set(attributeToChange, repInputValue, {validateAll: true, changedAttribute: attributeToChange})
-
-    $parentElement = @$el
-    $controlGroup = $parentElement.find('.rep-control')
-
-    $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
-
-    #get errors if they exist
-    @detailsAssociation.errors["Reps"] || ''
-
-    #generate the error or remove if validated
-    if _.has(@detailsAssociation.errors, "Reps") == true
-      #console.log "adding errors"
-
-      $controlGroup.addClass('error')
-
-      #append to the error msg box if there is not one yet
-      if @privateDetails.get("repInputError") == false
-
-        #console.log "in the reps error adding"
-        $weightAndRepArea.append("<div class='alert alert-error rep-list-error-msg list-error-msg'>#{@detailsAssociation.errors["Reps"]}</div>")
-        @privateDetails.set("repInputError", true)
-        @detailsAssociation.set("invalidRep", true)
-      else
-        #console.log "still adding error"
-        errorMsg = @detailsAssociation.errors["Reps"]
-        #console.log $weightLabelArea
-        $weightAndRepArea.find('.rep-list-error-msg').html(errorMsg)
-
-      #if there is a new info on the weight input, trigger a save button click
-      #if $(eventTarget).hasClass("acknowledge-save-button")
+      #console.log @privateDetails.get("saveButtonInfo")
       if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
+        #if $(eventTarget).hasClass("acknowledge-save-button")
         Backbone.trigger "triggerSaveButtonClick"
-    else
-      #console.log "reps removing error"
-      $controlGroup.removeClass('error')
-      $weightAndRepArea.find('.rep-list-error-msg').remove()
-      @privateDetails.set("repInputError", false)
-
-      @detailsAssociation.set("reps", repInputValue + "")
-
-      #should only set the rep if there is a valid, non-empty data value
-      if repInputValue != ""
-        @detailsAssociation.set("reps", repInputValue + "")
-      else
-        @detailsAssociation.set("reps", null)
-      @detailsAssociation.unset("invalidRep", {silent: true})
+        Backbone.trigger "successfullyTriggerByDetails"
 
       #reset to break save button click intention
       @privateDetails.set("saveButtonInfo", null)
-
-
-
-
-
 
 
 

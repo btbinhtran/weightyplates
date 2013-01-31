@@ -47,6 +47,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @fromSaveButtonTrigger()
     , @)
 
+    Backbone.on("successfullyTriggerByDetails", (event) ->
+      @privateFormModel.set("successfullyTriggerByDetails", true)
+    , @)
+
     #call render
     @render()
 
@@ -187,7 +191,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #display appropriate alert message when error or missing fields are encountered
     if(totalFieldErrors + totalUnFilledFields) == 0
-      @saveWorkout()
+      if @privateFormModel.get("successfullyTriggerByDetails") == true
+        @privateFormModel.set("successfullyTriggerByDetails", null)
+      else
+        @saveWorkout()
     else
       if totalFieldErrors > 0 and totalUnFilledFields > 0
         if totalFieldErrors > 1 and totalUnFilledFields > 1
@@ -209,6 +216,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
             alert saveWorkoutMsg["missingFields"]
 
   saveWorkout: ->
+
     #prepare the json for sending
     jsonData = JSON.stringify(@associatedModelUser)
 
