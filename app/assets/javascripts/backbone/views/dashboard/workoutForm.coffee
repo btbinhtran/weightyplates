@@ -13,6 +13,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
     'click #last-row-note-button': 'addNote'
     'blur .dashboard-workout-name-input': 'getWorkoutName'
+    'click #last-row-cancel-button': 'cancelForm'
+    'mouseover #last-row-cancel-button': 'mouseOverCancelButton'
+    'mouseout #last-row-cancel-button': 'mouseOutCancelButton'
 
   initialize: ->
     #make all references of 'this' to reference the main object
@@ -47,6 +50,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @fromSaveButtonTrigger()
     , @)
 
+    Backbone.on("triggerCancelButtonClick", (event) ->
+      @fromCancelButtonTrigger()
+    , @)
+
     Backbone.on("successfullyTriggerByDetails", (event) ->
       @privateFormModel.set("successfullyTriggerByDetails", true)
     , @)
@@ -70,16 +77,16 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     if @associatedWorkout.get("workout_entry")
       #remove if there is already and entry
       if @associatedWorkout.get("workout_entry")
-          .get(@modelFormAndExercises
+        .get(@modelFormAndExercises
           .get("recentlyRemovedExerciseAssociatedModel"))
         @associatedWorkout.get("workout_entry")
           .remove(@modelFormAndExercises
-          .get("recentlyRemovedExerciseAssociatedModel"))
-       else
+            .get("recentlyRemovedExerciseAssociatedModel"))
+      else
         #add instead of overwriting if there already a workout entry
         @associatedWorkout.get("workout_entry")
           .add(@modelFormAndExercises
-          .get("recentlyAddedExerciseAssociatedModel"))
+            .get("recentlyAddedExerciseAssociatedModel"))
 
     else
       @associatedWorkout.set({workout_entry: [@modelFormAndExercises.get "recentlyAddedExerciseAssociatedModel"]})
@@ -147,7 +154,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       else
         @closeButtonConfirmationHandler(changeMsg, "Yes to delete.", "No to delete.")
 
-    #for when there is no workout name
+      #for when there is no workout name
     else if changesCond
       if(filledFields + errorFields == 1)
         @closeButtonConfirmationHandler(changeMsg, "Yes to delete.", "No to delete.")
@@ -164,6 +171,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     theCaller = "triggerSaveButton"
     @validateBeforeSave(theCaller)
 
+  fromCancelButtonTrigger: ->
+    #need to specify the caller because of sharing of function with close button
+    #console.log 'simulate close add work dialog'
+    theCaller = "cancelButtonClick"
+    @validateBeforeSave(theCaller)
+
   getWorkoutName: (event)->
     if event.target.className.split(' ').length < 2
       @modelFormAndExercises.set("workoutName", event.target.value)
@@ -171,6 +184,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @modelFormAndExercises.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
+
     #get data from associated model to evaluate validness
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
@@ -178,8 +192,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #process the data in the private model
     results = @privateFormModel.checkErrorsAndUnfilled(associatedModels, workoutEntryLength)
 
+    if theCaller == "cancelButtonClick"
+      console.log "cancelbuttonclick"
+      $('#workout-form-main-close-button').trigger('click')
+
     #if the close button trigger this action
-    if theCaller == "closeAddWorkoutDialog"
+    else if theCaller == "closeAddWorkoutDialog"
       #return information of fields to the close dialog action
       results
     else
@@ -247,6 +265,19 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           textStatus + errorThrown
         )
     ###
+
+  cancelForm: ->
+    #console.log
+    #alert "the form is now canceling"
+    $('#workout-form-main-close-button').trigger('click')
+
+  mouseOverCancelButton: ->
+    console.log "mouse over cancel"
+    if !_.isNull(@privateFormModel.get("lastFocusedInputEvent"))
+      Backbone.trigger "detailValidate", "acknowledge-cancel-button"
+
+  mouseOutCancelButton: ->
+    console.log "out cancel"
 
 
 

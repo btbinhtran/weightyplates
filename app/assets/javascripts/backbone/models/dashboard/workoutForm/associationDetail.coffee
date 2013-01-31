@@ -27,6 +27,16 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
         if(!isNaN(validateAttr * 1) and periodAtEnd and validateAttr != "")
           "#{attr.checkAttribute} can't end with a period."
 
+      noSpaces:(attr) ->
+        validateAttr = attr.validateAttrVal
+        originalLength = validateAttr.length
+        trimmedLength = $.trim(validateAttr).length
+        if originalLength != trimmedLength
+          if (originalLength - trimmedLength) > 1
+            "#{attr.checkAttribute} can't have spaces."
+          else
+            "#{attr.checkAttribute} can't have a space."
+
       noDeci: (attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
@@ -77,8 +87,6 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           #storing the error if there is one
           errors[options.checkAttribute] = errorsArray
 
-          #break out of the loop
-          #i = itemsToValidateLength
         i++
 
       #return errors
@@ -107,6 +115,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           "noNegZero"
           "largerThanZero"
           "noPeriodEnd"
+          "noSpaces"
           "noLeadingZeroDeci"
           "noLeadingZeroPartDeci"
           "noLeadingInt"
@@ -118,6 +127,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           "onlyDigits"
           "noSciNot"
           "noPeriodEnd"
+          "noSpaces"
           "noDeci"
           "noNegZero"
           "largerThanZero"

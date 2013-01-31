@@ -18,10 +18,19 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #backbone event from form
     Backbone.on("detailValidate", (info) ->
+
+      if info.indexOf("save") != -1
+        buttonInfo =  "saveButtonInfo"
+      else if info.indexOf("cancel") != -1
+        buttonInfo =  "cancelButtonInfo"
+
       if info != ""
-        @privateDetails.set("saveButtonInfo", info)
+        if info == "acknowledge-save-button"
+          @privateDetails.set("saveButtonInfo", info)
+        else if info == "acknowledge-cancel-button"
+          @privateDetails.set("cancelButtonInfo", info)
       else
-        @privateDetails.set("saveButtonInfo", null)
+        @privateDetails.set(buttonInfo, null)
     , @)
 
     #get the exerciseAndDetails model from options
@@ -172,6 +181,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
       #if $(eventTarget).hasClass("acknowledge-save-button")
         Backbone.trigger "triggerSaveButtonClick"
+      else if !_.isNull(@privateDetails.get("cancelButtonInfo")) and !_.isUndefined(@privateDetails.get("cancelButtonInfo"))
+        Backbone.trigger "triggerCancelButtonClick"
 
     else
       $controlGroup.removeClass('error')
@@ -192,6 +203,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #if $(eventTarget).hasClass("acknowledge-save-button")
         Backbone.trigger "triggerSaveButtonClick"
         Backbone.trigger "successfullyTriggerByDetails"
+      else if !_.isNull(@privateDetails.get("cancelButtonInfo")) and !_.isUndefined(@privateDetails.get("cancelButtonInfo"))
+        Backbone.trigger "triggerCancelButtonClick"
 
       #reset to break save button click intention
       @privateDetails.set("saveButtonInfo", null)
