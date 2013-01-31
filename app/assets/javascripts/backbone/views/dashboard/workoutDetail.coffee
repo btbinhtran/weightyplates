@@ -18,19 +18,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #backbone event from form
     Backbone.on("detailValidate", (info) ->
-
-      if info.indexOf("save") != -1
-        buttonInfo =  "saveButtonInfo"
-      else if info.indexOf("cancel") != -1
-        buttonInfo =  "cancelButtonInfo"
-
       if info != ""
-        if info == "acknowledge-save-button"
-          @privateDetails.set("saveButtonInfo", info)
-        else if info == "acknowledge-cancel-button"
-          @privateDetails.set("cancelButtonInfo", info)
+        @privateDetails.set("saveButtonInfo", info)
       else
-        @privateDetails.set(buttonInfo, null)
+        @privateDetails.set("saveButtonInfo", null)
     , @)
 
     #get the exerciseAndDetails model from options
@@ -177,14 +168,16 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @detailsAssociation.set(attributeToChange, null)
       @detailsAssociation.set(invalidAttribute, true)
 
+      console.log "error in the validation"
+
       #if there is a new info on the weight input, trigger a save button click
       if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
       #if $(eventTarget).hasClass("acknowledge-save-button")
         Backbone.trigger "triggerSaveButtonClick"
-      else if !_.isNull(@privateDetails.get("cancelButtonInfo")) and !_.isUndefined(@privateDetails.get("cancelButtonInfo"))
-        Backbone.trigger "triggerCancelButtonClick"
 
     else
+      console.log "removing error"
+
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()
       @privateDetails.set(errorKey, false)
@@ -203,8 +196,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #if $(eventTarget).hasClass("acknowledge-save-button")
         Backbone.trigger "triggerSaveButtonClick"
         Backbone.trigger "successfullyTriggerByDetails"
-      else if !_.isNull(@privateDetails.get("cancelButtonInfo")) and !_.isUndefined(@privateDetails.get("cancelButtonInfo"))
-        Backbone.trigger "triggerCancelButtonClick"
 
       #reset to break save button click intention
       @privateDetails.set("saveButtonInfo", null)
