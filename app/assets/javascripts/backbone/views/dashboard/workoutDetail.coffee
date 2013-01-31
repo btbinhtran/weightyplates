@@ -7,8 +7,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   events:
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
-    'blur .add-workout-exercise-entry-input': 'validateWeightChange'
-    'focus .add-workout-exercise-entry-input': 'lastWeightInputFocused'
+    'blur .add-workout-weight-input': 'validateWeightChange'
+    'focus .add-workout-weight-input': 'lastWeightInputFocused'
     'focus .add-workout-reps-input': 'lastWeightInputFocused'
     'blur .add-workout-reps-input': 'validateRepChange'
 
@@ -112,20 +112,28 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   validateWeightChange: (event)->
     #get the element and its value
     eventTarget = event.target
-    weightInputValue = eventTarget.value
+    eventTargetClassName = eventTarget.className
+    inputValue = eventTarget.value
+
+    #determine if input was from weight or reps
+    if eventTargetClassName.indexOf("weight") != -1
+      attributeToChange = "weight"
+    else
+      attributeToChange = "reps"
 
     #attempt to set the attribute
-    attributeToChange = "weight"
+
     validateAllParam = {validateAll: true, changedAttribute: attributeToChange}
-    @detailsAssociation.set(attributeToChange, weightInputValue, validateAllParam)
+    @detailsAssociation.set(attributeToChange, inputValue, validateAllParam)
 
     #cache elements
     $parentElement = @$el
-    $controlGroup = $parentElement.find('.weight-control')
+    typeOfControl = ".#{attributeToChange}-control"
+    $controlGroup = $parentElement.find(typeOfControl)
 
     $weightAndRepArea = $parentElement.find('.weight-and-rep-inputs')
 
-    $weightInputSelector = "input.#{eventTarget.className}"
+    $weightInputSelector = "input.#{eventTarget.eventTargetClassName}"
     $weightInput = $controlGroup.find($weightInputSelector)
 
     #get errors if they exist
@@ -166,8 +174,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @privateDetails.set("weightInputError", false)
 
       #should only set the weight if there is a valid, non-empty data value
-      if weightInputValue != ""
-        @detailsAssociation.set("weight", weightInputValue + "")
+      if inputValue != ""
+        @detailsAssociation.set("weight", inputValue + "")
       else
         @detailsAssociation.set("weight", null)
 

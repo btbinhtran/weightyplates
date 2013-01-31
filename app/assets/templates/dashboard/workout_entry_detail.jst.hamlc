@@ -10,7 +10,7 @@
           .span4
             %label.add-workout-exercise-entry-label Weight
           .span6.weight-control.control-group
-            %input{type: "text", class: "add-workout-exercise-entry-input"}
+            %input{type: "text", class: "add-workout-weight-input"}
           .span2
             %p.add-workout-units lb
     .span5
