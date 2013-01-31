@@ -23,7 +23,8 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       noPeriodEnd:(attr) ->
         validateAttr = attr.validateAttrVal
-        if(!isNaN(validateAttr * 1) and _.indexOf(validateAttr, ".") == (validateAttr.length - 1) and validateAttr != "")
+        periodAtEnd = _.indexOf(validateAttr, ".") == (validateAttr.length - 1)
+        if(!isNaN(validateAttr * 1) and periodAtEnd and validateAttr != "")
           "#{attr.checkAttribute} can't end with a period."
 
       noDeci: (attr) ->
@@ -73,17 +74,18 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       #return errors
       errors
 
-    withAttribute: (attr, attrVal) ->
+    utilities:
       #capitalize first letter of word function
-      toTitleCase = (str) ->
+      toTitleCase: (str) ->
         str.replace /\w\S*/g, (txt) ->
           txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 
+    withAttribute: (attr, attrVal) ->
       #set key for attr val
       @attrValidations[attr].validateAttrVal = attrVal
 
       #set key for attr name
-      @attrValidations[attr].checkAttribute = toTitleCase(attr)
+      @attrValidations[attr].checkAttribute = @utilities["toTitleCase"](attr)
 
       #get the rules defined for the attr
       @validateWith(@attrValidations[attr])
