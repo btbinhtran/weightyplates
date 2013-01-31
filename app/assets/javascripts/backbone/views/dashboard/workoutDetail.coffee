@@ -140,14 +140,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       if @privateDetails.get("weightInputError") == false
         errors = @detailsAssociation.errors["Weight"]
 
-        alertMsg = "<div class='alert alert-error weight-list-error-msg list-error-msg'><p>#{errors}</p></div>"
+        #makes sure if there are multiple error messages they are started on new line
+        alertMsg = "<div class='alert alert-error weight-list-error-msg list-error-msg'><p>#{errors.join('</br>')}</p></div>"
 
-        $weightAndRepArea.append(alertMsg.replace(/,/g, '</br>'))
+        $weightAndRepArea.append(alertMsg)
         @privateDetails.set("weightInputError", true)
       else
-        #console.log "adding error"
+        #break the array of errors on the comma with br for new line
         errorMsg = @detailsAssociation.errors["Weight"]
-        $weightAndRepArea.find('.weight-list-error-msg').html(errorMsg)
+        $weightAndRepArea.find('.weight-list-error-msg').html("<p>#{errorMsg.join('</br>')}</p>")
 
       @detailsAssociation.set("weight", null)
       @detailsAssociation.set("invalidWeight", true)

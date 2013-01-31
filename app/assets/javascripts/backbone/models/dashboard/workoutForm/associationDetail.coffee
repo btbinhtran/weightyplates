@@ -30,14 +30,20 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       noDeci: (attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
-        if(parts.length == 2)
+        if(parts.length == 2 and parts[0].length >= 1 and parts[1].length >= 1)
           "#{attr.checkAttribute} can not be a decimal."
 
       noLeadingZeroDeci:(attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
-        if(parts[0].length > 1 and parts[0]*1 == 0)
+        if((_.indexOf(parts[0], "0") != _.lastIndexOf(parts[0], "0")) and parts.length == 2)
           "#{attr.checkAttribute} has too many leading zeros in decimal."
+
+      noLeadingZeroPartDeci:(attr) ->
+        validateAttr = attr.validateAttrVal
+        parts = validateAttr.split('.')
+        if((_.indexOf(parts[0], "0") == _.lastIndexOf(parts[0], "0")) and parts[0].length ==2 and parts.length == 2)
+          "#{attr.checkAttribute} has unneeded zero if decimal."
 
       noLeadingInt:(attr) ->
         validateAttr = attr.validateAttrVal
@@ -102,6 +108,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           "largerThanZero"
           "noPeriodEnd"
           "noLeadingZeroDeci"
+          "noLeadingZeroPartDeci"
           "noLeadingInt"
           "noSciNot"
         ]
@@ -112,7 +119,6 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           "noSciNot"
           "noPeriodEnd"
           "noDeci"
-          "noLeadingZeroDeci"
           "noNegZero"
           "largerThanZero"
           "noLeadingInt"
