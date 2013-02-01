@@ -13,7 +13,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
     'click #last-row-note-button': 'addNote'
     'blur .dashboard-workout-name-input': 'getWorkoutName'
-    'mousedown #last-row-cancel-button': 'clickCancel'
+    'mousedown #last-row-cancel-button': 'clickCancelHandler'
 
   initialize: ->
 
@@ -51,6 +51,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     Backbone.on("successfullyTriggerByDetails", (event) ->
       @privateFormModel.set("successfullyTriggerByDetails", true)
+    , @)
+
+    Backbone.on("hasError", (status) ->
+      @privateFormModel.set("hasError", status)
+      @clickCancel()
     , @)
 
     #call render
@@ -250,8 +255,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         )
     ###
 
+  clickCancelHandler: ->
+    Backbone.trigger "notifyFromButton": "cancel"
+
   clickCancel: ->
-    console.log "click cancel"
+    #cancel performs the same function as the close button
     $('#workout-form-main-close-button').trigger('click')
 
 

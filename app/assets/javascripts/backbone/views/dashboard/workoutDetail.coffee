@@ -16,6 +16,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
+
+    Backbone.on("notifyFromButton", (button) ->
+      @privateDetails.set("notifyFromButton", button)
+    , @)
+
     #backbone event from form
     Backbone.on("detailValidate", (info) ->
       if info != ""
@@ -175,6 +180,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #if $(eventTarget).hasClass("acknowledge-save-button")
         Backbone.trigger "triggerSaveButtonClick"
 
+
+
+      if !_.isNull(@privateDetails.get("notifyFromButton"))
+        @privateDetails.set("notifyFromButton", null)
+        #indicate that an error has occur
+        Backbone.trigger "hasError", true
+
     else
       console.log "removing error"
 
@@ -197,8 +209,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         Backbone.trigger "triggerSaveButtonClick"
         Backbone.trigger "successfullyTriggerByDetails"
 
+      #click cancel button situation
+      if !_.isNull(@privateDetails.get("notifyFromButton"))
+        @privateDetails.set("notifyFromButton", null)
+        Backbone.trigger "hasError", false
+
       #reset to break save button click intention
       @privateDetails.set("saveButtonInfo", null)
+
+
 
 
 
