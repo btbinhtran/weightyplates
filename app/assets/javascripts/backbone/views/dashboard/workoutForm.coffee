@@ -6,14 +6,16 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   events:
     'click #last-row-save-button': 'validateBeforeSave'
-    'mouseover #last-row-save-button': 'mouseOverSaveButton'
-    'mouseout #last-row-save-button': 'mouseOutSaveButton'
+    #'mouseover #last-row-save-button': 'mouseOverSaveButton'
+    #'mouseout #last-row-save-button': 'mouseOutSaveButton'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
     'click #last-row-note-button': 'addNote'
     'blur .dashboard-workout-name-input': 'getWorkoutName'
-    'mousedown #last-row-cancel-button': 'clickCancelHandler'
+    'mousedown #last-row-cancel-button': 'clickCancelMouseDown'
+    'mousedown #last-row-cancel-button': 'clickCancelMouseUp'
+
 
   initialize: ->
 
@@ -41,6 +43,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @privateFormModel = new Weightyplates.Models.PrivateForm()
 
     #use backbone as a global event bus for validating on blur with incorrect values
+    ###
     Backbone.on("lastInputFocused", (event) ->
       @privateFormModel.set("lastFocusedInputEvent", event)
     , @)
@@ -57,6 +60,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @privateFormModel.set("hasError", status)
       @clickCancel()
     , @)
+    ###
 
     #call render
     @render()
@@ -198,10 +202,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #display appropriate alert message when error or missing fields are encountered
     if(totalFieldErrors + totalUnFilledFields) == 0
-      if @privateFormModel.get("successfullyTriggerByDetails") == true
-        @privateFormModel.set("successfullyTriggerByDetails", null)
-      else
-        @saveWorkout()
+      #if @privateFormModel.get("successfullyTriggerByDetails") == true
+      #  @privateFormModel.set("successfullyTriggerByDetails", null)
+      #else
+      @saveWorkout()
     else
       if totalFieldErrors > 0 and totalUnFilledFields > 0
         if totalFieldErrors > 1 and totalUnFilledFields > 1
@@ -255,12 +259,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         )
     ###
 
-  clickCancelHandler: ->
-    Backbone.trigger "notifyFromButton": "cancel"
+  clickCancelMouseDown: ->
+    console.log "mouse down"
+    #Backbone.trigger "notifyFromButton": "cancel"
+
+  clickCancelMouseUp: ->
+    console.log "mouse up"
+  #Backbone.trigger "notifyFromButton": "cancel"
 
   clickCancel: ->
     #cancel performs the same function as the close button
-    $('#workout-form-main-close-button').trigger('click')
+    #$('#workout-form-main-close-button').trigger('click')
 
 
 

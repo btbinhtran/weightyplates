@@ -16,7 +16,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-
+    ###
     Backbone.on("notifyFromButton", (button) ->
       @privateDetails.set("notifyFromButton", button)
     , @)
@@ -28,6 +28,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       else
         @privateDetails.set("saveButtonInfo", null)
     , @)
+    ###
 
     #get the exerciseAndDetails model from options
     @exerciseAndDetails = options.exerciseAndDetails
@@ -174,7 +175,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @detailsAssociation.set(invalidAttribute, true)
 
       console.log "error in the validation"
-
+      ###
       #if there is a new info on the weight input, trigger a save button click
       if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
       #if $(eventTarget).hasClass("acknowledge-save-button")
@@ -186,6 +187,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         @privateDetails.set("notifyFromButton", null)
         #indicate that an error has occur
         Backbone.trigger "hasError", true
+      ###
 
     else
       console.log "removing error"
@@ -203,6 +205,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #silent prevents model change event
       @detailsAssociation.unset(invalidAttribute, {silent: true})
 
+      ###
       #console.log @privateDetails.get("saveButtonInfo")
       if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
         #if $(eventTarget).hasClass("acknowledge-save-button")
@@ -217,6 +220,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #reset to break save button click intention
       @privateDetails.set("saveButtonInfo", null)
 
+       ###
 
 
 
