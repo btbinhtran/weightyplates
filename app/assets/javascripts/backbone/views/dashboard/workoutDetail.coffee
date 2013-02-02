@@ -9,8 +9,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-weight-input': 'validateChange'
     'blur .add-workout-reps-input': 'validateChange'
-    'focus .add-workout-weight-input': 'lastInputFocused'
-    'focus .add-workout-reps-input': 'lastInputFocused'
+    #'focus .add-workout-weight-input': 'lastInputFocused'
+    #'focus .add-workout-reps-input': 'lastInputFocused'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
@@ -112,8 +112,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
           .set("signalExerciseForm", signalExerciseForm * -1)
 
-  lastInputFocused: (event)->
-    Backbone.trigger "lastInputFocused", event
+  #lastInputFocused: (event)->
+  #  Backbone.trigger "lastInputFocused", event
 
   toTitleCase: (str) ->
     str.replace /\w\S*/g, (txt) ->

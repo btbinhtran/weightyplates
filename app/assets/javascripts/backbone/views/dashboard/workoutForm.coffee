@@ -14,7 +14,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #last-row-note-button': 'addNote'
     'blur .dashboard-workout-name-input': 'getWorkoutName'
     'mousedown #last-row-cancel-button': 'clickCancelMouseDown'
-    'mousedown #last-row-cancel-button': 'clickCancelMouseUp'
+    'mouseup #last-row-cancel-button': 'clickCancelMouseUp'
 
 
   initialize: ->
