@@ -5,7 +5,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   el: '#workout-form-container'
 
   events:
-    'click #last-row-save-button': 'validateBeforeSave'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
@@ -13,6 +12,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #last-row-container': 'divider'
     'blur .dashboard-workout-name-input': 'getWorkoutName'
     'mousedown #last-row-save-button': 'clickSaveMouseDown'
+    'mouseup #last-row-save-button': 'clickSaveMouseUp'
     'mousedown #last-row-cancel-button': 'clickCancelMouseDown'
     'mouseup #last-row-cancel-button': 'clickCancelMouseUp'
 
@@ -43,7 +43,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #use backbone as a global event bus for validating when clicking form buttons
     #for the cancel and save button
-
     Backbone.on("triggerButton", (button) ->
       #@privateFormModel.set("successfullyTriggerByDetails", true)
       if button == "cancel"
@@ -175,6 +174,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @modelFormAndExercises.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
+    console.log "validating before saving"
+
     #get data from associated model to evaluate validness
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
@@ -188,16 +189,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       results
     else
       @saveWorkoutMsgHandler(results[0].totalFieldErrors, results[0].totalUnFilledFields)
+      console.log "save handler"
 
   saveWorkoutMsgHandler: (totalFieldErrors, totalUnFilledFields)->
     #get alert messages from model
     saveWorkoutMsg = @privateFormModel.get("saveWorkoutMsg")
 
-    #display appropriate alert message when error or missing fields are encountered
+    #display appropriate alert message when error or missing fields are encountered or not
     if(totalFieldErrors + totalUnFilledFields) == 0
-      #if @privateFormModel.get("successfullyTriggerByDetails") == true
-      #  @privateFormModel.set("successfullyTriggerByDetails", null)
-      #else
       @saveWorkout()
     else
       if totalFieldErrors > 0 and totalUnFilledFields > 0
@@ -207,6 +206,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           alert saveWorkoutMsg["errorAndUnfills"]
         else if totalFieldErrors > 1 and totalUnFilledFields == 1
           alert saveWorkoutMsg["errorsAndUnfill"]
+        else if totalFieldErrors == 1 and totalUnFilledFields == 1
+          alert saveWorkoutMsg["errorAndUnfill"]
       else
         if totalFieldErrors > 0
           if totalFieldErrors == 1
@@ -220,7 +221,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
             alert saveWorkoutMsg["missingFields"]
 
   saveWorkout: ->
-
     #prepare the json for sending
     jsonData = JSON.stringify(@associatedModelUser)
 
@@ -231,7 +231,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     rightBracketRemovedJson = jsonData.substring(0, jsonDataLastRightBracketIndex) + intermediateString
 
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
-
 
     console.log properlyFormattedJson
 
@@ -252,21 +251,20 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         )
     ###
 
-  clickSaveMouseDown: ->
-    #notify the validation to notify the form to alert the message for save
-    Backbone.trigger "notifyFromButton": "save"
+  clickSaveMouseDown: (event)->
+    event.preventDefault()
 
-  clickCancelMouseDown: ->
-    #notify the validation to notify the form to alert the message for cancel
-    Backbone.trigger "notifyFromButton": "cancel"
+  clickSaveMouseUp: (event)->
+    event.preventDefault()
+    $(':focus').trigger('blur')
+    @validateBeforeSave()
 
-  clickCancelMouseUp: ->
-    #the mouse up indicates the action was always intended
-    #redirect to actual click event
-    @clickCancel()
+  clickCancelMouseDown: (event)->
+    event.preventDefault()
 
-  clickCancel: ->
-    #cancel button performs the same function as the close button
+  clickCancelMouseUp: (event)->
+    event.preventDefault()
+    $(':focus').trigger('blur')
     $('#workout-form-main-close-button').trigger('click')
 
 

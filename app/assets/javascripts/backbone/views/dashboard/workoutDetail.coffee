@@ -9,18 +9,18 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-weight-input': 'validateChange'
     'blur .add-workout-reps-input': 'validateChange'
-    #'focus .add-workout-weight-input': 'lastInputFocused'
-    #'focus .add-workout-reps-input': 'lastInputFocused'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
+    ###
     #backbone global event for cancel and save button
     #used with the validations of inputs on weight and reps
     Backbone.on("notifyFromButton", (button) ->
       @privateDetails.set("notifyFromButton", button)
     , @)
+    ###
 
     #get the exerciseAndDetails model from options
     @exerciseAndDetails = options.exerciseAndDetails
@@ -154,7 +154,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     if _.has(@detailsAssociation.errors, "#{inputType + addCharS}") == true
 
       #for the backbone event
-      @validnessStateKeepingForInputs(inputType, false)
+      #@validnessStateKeepingForInputs(inputType, false)
 
       console.log @privateDetails
 
@@ -183,7 +183,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       console.log "removing error"
 
       #for the backbone event
-      @validnessStateKeepingForInputs(inputType, true)
+      #@validnessStateKeepingForInputs(inputType, true)
 
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()
@@ -207,11 +207,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #console.log @privateDetails.get("lastIsValidState#{inputType}")
     #console.log !_.isNull(@privateDetails.get("notifyFromButton"))
 
+    ###
     if @privateDetails.get("currentIsValidState#{inputType}") != @privateDetails.get("lastIsValidState#{inputType}") and !_.isNull(@privateDetails.get("notifyFromButton"))
-      console.log "notify now"
+      #console.log "notify now"
       theButton = @privateDetails.get("notifyFromButton")
       @privateDetails.set("notifyFromButton", null)
       Backbone.trigger "triggerButton", theButton
+    ###
 
 
 
