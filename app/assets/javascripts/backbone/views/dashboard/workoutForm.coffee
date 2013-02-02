@@ -16,7 +16,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'mousedown #last-row-cancel-button': 'clickCancelMouseDown'
     'mouseup #last-row-cancel-button': 'clickCancelMouseUp'
 
-
   initialize: ->
 
     #make all references of 'this' to reference the main object
@@ -42,25 +41,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #private form model to listen to events from child views
     @privateFormModel = new Weightyplates.Models.PrivateForm()
 
-    #use backbone as a global event bus for validating on blur with incorrect values
-    ###
-    Backbone.on("lastInputFocused", (event) ->
-      @privateFormModel.set("lastFocusedInputEvent", event)
-    , @)
-
-    Backbone.on("triggerSaveButtonClick", (event) ->
-      @fromSaveButtonTrigger()
-    , @)
-
-    Backbone.on("successfullyTriggerByDetails", (event) ->
-      @privateFormModel.set("successfullyTriggerByDetails", true)
-    , @)
-
-    Backbone.on("hasError", (status) ->
-      @privateFormModel.set("hasError", status)
-      @clickCancel()
-    , @)
-    ###
+    #use backbone as a global event bus for validating when clicking form buttons
+    #for the cancel and save button
 
     Backbone.on("triggerButton", (button) ->
       #@privateFormModel.set("successfullyTriggerByDetails", true)
@@ -68,8 +50,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         @clickCancelMouseUp()
       else if button == "save"
         @validateBeforeSave()
-
-
     , @)
 
     #call render
@@ -273,20 +253,20 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     ###
 
   clickSaveMouseDown: ->
-    console.log "mouse down"
+    #notify the validation to notify the form to alert the message for save
     Backbone.trigger "notifyFromButton": "save"
 
   clickCancelMouseDown: ->
-    console.log "mouse down"
+    #notify the validation to notify the form to alert the message for cancel
     Backbone.trigger "notifyFromButton": "cancel"
 
   clickCancelMouseUp: ->
-    console.log "mouse up"
-  #Backbone.trigger "notifyFromButton": "cancel"
+    #the mouse up indicates the action was always intended
+    #redirect to actual click event
     @clickCancel()
 
   clickCancel: ->
-    #cancel performs the same function as the close button
+    #cancel button performs the same function as the close button
     $('#workout-form-main-close-button').trigger('click')
 
 

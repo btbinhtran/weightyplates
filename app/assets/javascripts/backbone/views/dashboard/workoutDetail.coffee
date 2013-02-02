@@ -16,19 +16,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-
+    #backbone global event for cancel and save button
+    #used with the validations of inputs on weight and reps
     Backbone.on("notifyFromButton", (button) ->
       @privateDetails.set("notifyFromButton", button)
     , @)
-    ###
-    #backbone event from form
-    Backbone.on("detailValidate", (info) ->
-      if info != ""
-        @privateDetails.set("saveButtonInfo", info)
-      else
-        @privateDetails.set("saveButtonInfo", null)
-    , @)
-    ###
 
     #get the exerciseAndDetails model from options
     @exerciseAndDetails = options.exerciseAndDetails
@@ -112,12 +104,18 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
           .set("signalExerciseForm", signalExerciseForm * -1)
 
-  #lastInputFocused: (event)->
-  #  Backbone.trigger "lastInputFocused", event
-
   toTitleCase: (str) ->
+    #utility function for title casing the key
     str.replace /\w\S*/g, (txt) ->
       txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+
+  validnessStateKeepingForInputs: (inputType, validness)->
+    #prevState is used as a temporary variable to save the actual last state
+    #lastState = prevState
+    #prevState = currentState
+    @privateDetails.set("lastIsValidState#{inputType}", @privateDetails.get("prevIsValidState#{inputType}"))
+    @privateDetails.set("prevIsValidState#{inputType}", validness)
+    @privateDetails.set("currentIsValidState#{inputType}", validness)
 
   validateChange: (event)->
     #get the element and its value
@@ -156,9 +154,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     if _.has(@detailsAssociation.errors, "#{inputType + addCharS}") == true
 
       #for the backbone event
-      @privateDetails.set("lastIsValidState#{inputType}", @privateDetails.get("prevIsValidState#{inputType}"))
-      @privateDetails.set("prevIsValidState#{inputType}", false)
-      @privateDetails.set("currentIsValidState#{inputType}", false)
+      @validnessStateKeepingForInputs(inputType, false)
 
       console.log @privateDetails
 
@@ -182,28 +178,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @detailsAssociation.set(invalidAttribute, true)
 
       console.log "error in the validation"
-      ###
-      #if there is a new info on the weight input, trigger a save button click
-      if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
-      #if $(eventTarget).hasClass("acknowledge-save-button")
-        Backbone.trigger "triggerSaveButtonClick"
-
-
-
-      if !_.isNull(@privateDetails.get("notifyFromButton"))
-        @privateDetails.set("notifyFromButton", null)
-        #indicate that an error has occur
-        Backbone.trigger "hasError", true
-      ###
 
     else
       console.log "removing error"
 
-      @privateDetails.set("lastIsValidState#{inputType}", @privateDetails.get("prevIsValidState#{inputType}"))
-      @privateDetails.set("prevIsValidState#{inputType}", true)
-      @privateDetails.set("currentIsValidState#{inputType}", true)
-
-      #console.log @privateDetails
+      #for the backbone event
+      @validnessStateKeepingForInputs(inputType, true)
 
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()
@@ -218,22 +198,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #silent prevents model change event
       @detailsAssociation.unset(invalidAttribute, {silent: true})
 
-      #console.log "from which button"
-      #console.log @privateDetails.get("notifyFromButton")
-      #console.log "evaluate if trigger"
-    #console.log "current state"
-    #console.log @privateDetails.get("currentIsValidStateRep")
-    #console.log "last state"
-    #console.log @privateDetails.get("lastIsValidStateRep")
+    #to see if a Backbone event is needed to be triggered.
+    #need triggering if the validation changes from valid to invalid or vice versa
+    #downside to doing this is that the click of the mouse button and dragging away from element behavior
+    #is overridden such that the action is alway performed.
 
-    console.log "validness"
-    console.log @privateDetails.get("currentIsValidState#{inputType}")
-    console.log @privateDetails.get("lastIsValidState#{inputType}")
-    console.log !_.isNull(@privateDetails.get("notifyFromButton"))
-
+    #console.log @privateDetails.get("currentIsValidState#{inputType}")
+    #console.log @privateDetails.get("lastIsValidState#{inputType}")
+    #console.log !_.isNull(@privateDetails.get("notifyFromButton"))
 
     if @privateDetails.get("currentIsValidState#{inputType}") != @privateDetails.get("lastIsValidState#{inputType}") and !_.isNull(@privateDetails.get("notifyFromButton"))
-      console.log "notify the button to trigger its event"
+      console.log "notify now"
       theButton = @privateDetails.get("notifyFromButton")
       @privateDetails.set("notifyFromButton", null)
       Backbone.trigger "triggerButton", theButton
