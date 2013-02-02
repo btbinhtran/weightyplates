@@ -261,7 +261,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   clickCancelMouseDown: ->
     console.log "mouse down"
-    #Backbone.trigger "notifyFromButton": "cancel"
+    Backbone.trigger "notifyFromButton": "cancel"
 
   clickCancelMouseUp: ->
     console.log "mouse up"

@@ -16,11 +16,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-    ###
+
     Backbone.on("notifyFromButton", (button) ->
       @privateDetails.set("notifyFromButton", button)
     , @)
-
+    ###
     #backbone event from form
     Backbone.on("detailValidate", (info) ->
       if info != ""
@@ -155,6 +155,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "#{inputType + addCharS}") == true
 
+      #for the backbone event
+      @privateDetails.set("lastIsValidStateRep", @privateDetails.get("prevIsValidStateRep"))
+      @privateDetails.set("prevIsValidStateRep", false)
+      @privateDetails.set("currentIsValidStateRep", false)
+
+      console.log @privateDetails
+
       $controlGroup.addClass('error')
 
       #append to the error msg box if there is not one yet
@@ -192,6 +199,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     else
       console.log "removing error"
 
+      @privateDetails.set("lastIsValidStateRep", @privateDetails.get("prevIsValidStateRep"))
+      @privateDetails.set("prevIsValidStateRep", true)
+      @privateDetails.set("currentIsValidStateRep", true)
+
+      console.log @privateDetails
+
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()
       @privateDetails.set(errorKey, false)
@@ -222,6 +235,16 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
        ###
 
+      #console.log "from which button"
+      #console.log @privateDetails.get("notifyFromButton")
+      #console.log "evaluate if trigger"
+    #console.log "current state"
+    #console.log @privateDetails.get("currentIsValidStateRep")
+    #console.log "last state"
+    #console.log @privateDetails.get("lastIsValidStateRep")
+
+    if @privateDetails.get("currentIsValidStateRep") != @privateDetails.get("lastIsValidStateRep")
+      console.log "notify the button to trigger its event"
 
 
 
