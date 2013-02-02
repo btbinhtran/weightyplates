@@ -6,13 +6,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   events:
     'click #last-row-save-button': 'validateBeforeSave'
-    #'mouseover #last-row-save-button': 'mouseOverSaveButton'
-    #'mouseout #last-row-save-button': 'mouseOutSaveButton'
     'focus input.dashboard-workout-name-input': 'focusInWorkoutName'
     'blur input.dashboard-workout-name-input': 'blurInWorkoutName'
     'click #workout-form-main-close-button': 'closeAddWorkoutDialog'
     'click #last-row-note-button': 'addNote'
+    'click #last-row-container': 'divider'
     'blur .dashboard-workout-name-input': 'getWorkoutName'
+    'mousedown #last-row-save-button': 'clickSaveMouseDown'
     'mousedown #last-row-cancel-button': 'clickCancelMouseDown'
     'mouseup #last-row-cancel-button': 'clickCancelMouseUp'
 
@@ -66,6 +66,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       #@privateFormModel.set("successfullyTriggerByDetails", true)
       if button == "cancel"
         @clickCancelMouseUp()
+      else if button == "save"
+        @validateBeforeSave()
+
 
     , @)
 
@@ -177,6 +180,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   addNote: ->
     console.log JSON.stringify(@associatedModelUser)
 
+  divider: ->
+    console.log JSON.stringify(@associatedModelUser)
+
   fromSaveButtonTrigger: ->
     #need to specify the caller because of sharing of function with close button
     theCaller = "triggerSaveButton"
@@ -265,6 +271,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           textStatus + errorThrown
         )
     ###
+
+  clickSaveMouseDown: ->
+    console.log "mouse down"
+    Backbone.trigger "notifyFromButton": "save"
 
   clickCancelMouseDown: ->
     console.log "mouse down"

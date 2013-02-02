@@ -203,7 +203,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @privateDetails.set("prevIsValidState#{inputType}", true)
       @privateDetails.set("currentIsValidState#{inputType}", true)
 
-      console.log @privateDetails
+      #console.log @privateDetails
 
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()
@@ -218,23 +218,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #silent prevents model change event
       @detailsAssociation.unset(invalidAttribute, {silent: true})
 
-      ###
-      #console.log @privateDetails.get("saveButtonInfo")
-      if !_.isNull(@privateDetails.get("saveButtonInfo")) and !_.isUndefined(@privateDetails.get("saveButtonInfo"))
-        #if $(eventTarget).hasClass("acknowledge-save-button")
-        Backbone.trigger "triggerSaveButtonClick"
-        Backbone.trigger "successfullyTriggerByDetails"
-
-      #click cancel button situation
-      if !_.isNull(@privateDetails.get("notifyFromButton"))
-        @privateDetails.set("notifyFromButton", null)
-        Backbone.trigger "hasError", false
-
-      #reset to break save button click intention
-      @privateDetails.set("saveButtonInfo", null)
-
-       ###
-
       #console.log "from which button"
       #console.log @privateDetails.get("notifyFromButton")
       #console.log "evaluate if trigger"
@@ -242,6 +225,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #console.log @privateDetails.get("currentIsValidStateRep")
     #console.log "last state"
     #console.log @privateDetails.get("lastIsValidStateRep")
+
+    console.log "validness"
+    console.log @privateDetails.get("currentIsValidState#{inputType}")
+    console.log @privateDetails.get("lastIsValidState#{inputType}")
+    console.log !_.isNull(@privateDetails.get("notifyFromButton"))
+
 
     if @privateDetails.get("currentIsValidState#{inputType}") != @privateDetails.get("lastIsValidState#{inputType}") and !_.isNull(@privateDetails.get("notifyFromButton"))
       console.log "notify the button to trigger its event"
