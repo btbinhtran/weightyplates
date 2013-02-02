@@ -62,6 +62,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     , @)
     ###
 
+    Backbone.on("triggerButton", (button) ->
+      #@privateFormModel.set("successfullyTriggerByDetails", true)
+      if button == "cancel"
+        @clickCancelMouseUp()
+
+    , @)
+
     #call render
     @render()
 
@@ -266,10 +273,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   clickCancelMouseUp: ->
     console.log "mouse up"
   #Backbone.trigger "notifyFromButton": "cancel"
+    @clickCancel()
 
   clickCancel: ->
     #cancel performs the same function as the close button
-    #$('#workout-form-main-close-button').trigger('click')
+    $('#workout-form-main-close-button').trigger('click')
 
 
 

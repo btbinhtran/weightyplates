@@ -156,9 +156,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     if _.has(@detailsAssociation.errors, "#{inputType + addCharS}") == true
 
       #for the backbone event
-      @privateDetails.set("lastIsValidStateRep", @privateDetails.get("prevIsValidStateRep"))
-      @privateDetails.set("prevIsValidStateRep", false)
-      @privateDetails.set("currentIsValidStateRep", false)
+      @privateDetails.set("lastIsValidState#{inputType}", @privateDetails.get("prevIsValidState#{inputType}"))
+      @privateDetails.set("prevIsValidState#{inputType}", false)
+      @privateDetails.set("currentIsValidState#{inputType}", false)
 
       console.log @privateDetails
 
@@ -199,9 +199,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     else
       console.log "removing error"
 
-      @privateDetails.set("lastIsValidStateRep", @privateDetails.get("prevIsValidStateRep"))
-      @privateDetails.set("prevIsValidStateRep", true)
-      @privateDetails.set("currentIsValidStateRep", true)
+      @privateDetails.set("lastIsValidState#{inputType}", @privateDetails.get("prevIsValidState#{inputType}"))
+      @privateDetails.set("prevIsValidState#{inputType}", true)
+      @privateDetails.set("currentIsValidState#{inputType}", true)
 
       console.log @privateDetails
 
@@ -243,8 +243,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #console.log "last state"
     #console.log @privateDetails.get("lastIsValidStateRep")
 
-    if @privateDetails.get("currentIsValidStateRep") != @privateDetails.get("lastIsValidStateRep")
+    if @privateDetails.get("currentIsValidState#{inputType}") != @privateDetails.get("lastIsValidState#{inputType}") and !_.isNull(@privateDetails.get("notifyFromButton"))
       console.log "notify the button to trigger its event"
+      theButton = @privateDetails.get("notifyFromButton")
+      @privateDetails.set("notifyFromButton", null)
+      Backbone.trigger "triggerButton", theButton
 
 
 
