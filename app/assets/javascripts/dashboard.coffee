@@ -1,15 +1,15 @@
 ##= require jquery
 ##= require jquery_ujs
-##= require_tree ../../../vendor/assets/javascripts/jqueryExtras
+##= require jqueryPluginsManifest
 
 ##= require hamlcoffee
 
-##= require_tree ../../../vendor/assets/javascripts/misc
+##= require miscPluginsManifest
 
 ##= require underscore
 ##= require backbone
 
-##= require_tree ../../../vendor/assets/javascripts/BackBoneExtras
+##= require backBonePluginsManifest
 
 ##= require_self
 
@@ -20,7 +20,7 @@
 ##= require_tree ./backbone/views/dashboard
 ##= require_tree ./backbone/routers/dashboard
 
-##= require application
+##= require common
 
 window.Weightyplates =
   Models: {}
