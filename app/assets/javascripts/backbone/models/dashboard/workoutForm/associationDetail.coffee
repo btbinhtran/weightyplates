@@ -42,7 +42,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       noLeadingZeroPartDeci:(attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
-        if((_.indexOf(parts[0], "0") == _.lastIndexOf(parts[0], "0")) and parts[0].length ==2 and parts.length == 2)
+        if((_.indexOf(parts[0], "0") == _.lastIndexOf(parts[0], "0")) and parts[0].length ==2 and parts.length == 2 and _.indexOf(parts[0], "0") != -1)
           "#{attr.checkAttribute} has unneeded zero if decimal."
 
       noLeadingInt:(attr) ->

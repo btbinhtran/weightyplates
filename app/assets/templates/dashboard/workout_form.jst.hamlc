@@ -13,7 +13,7 @@
             .span3
               %label#add-workout-name-label Workout Name
             .span9
-              %input.dashboard-workout-name-input
+              %input{class: "dashboard-workout-name-input", type: "text"}
         .workout-entry-exercise-and-sets-row
           .exercise-grouping.row-fluid#exercise-grouping
         .row-fluid#last-row-container
