@@ -111,14 +111,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #make the details sortable
     detailsView = $(@.el).find('.dashboard-exercise-set').sortable
                     opacity: 0.9
+                    containment: 'parent'
 
-    ###
-    detailsView.droppable
-      drop: (event) ->
-        #update the json after the specific details set is moved
-        #console.log "drop event"
-        console.log event
-    ###
 
     #return this
     this

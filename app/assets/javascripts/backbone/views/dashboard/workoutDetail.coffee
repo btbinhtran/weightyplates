@@ -59,7 +59,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el.droppable
       drop: (event) ->
         #update the json after the specific details set is moved
-        $(event.target).closest('.details-set-weight')
+        detailsDropped = $(event.target).closest('.details-set-weight')
+
 
 
 
