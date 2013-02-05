@@ -101,9 +101,11 @@ label{
   background-image: linear-gradient(to bottom, #5d5253, #4f4647);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5d5253', endColorstr='#ff4f4647', GradientType=0);
-  border-color: #545353;
+  border-color: #fafafa;
+  border-bottom-style: 2px;
 }
 .navbar-inner{
+
   a{
     text-decoration: none;
     color: #EFEFEF;

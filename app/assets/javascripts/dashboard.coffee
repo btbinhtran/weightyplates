@@ -1,16 +1,15 @@
 ##= require jquery
 ##= require jquery_ujs
+##= require_tree ../../../vendor/assets/javascripts/jqueryExtras
 
-##= require jquery.hoverIntent
 ##= require hamlcoffee
-##= require parser
-##= require date.format
+
+##= require_tree ../../../vendor/assets/javascripts/misc
 
 ##= require underscore
 ##= require backbone
 
-##= require Backbone.validateAll
-##= require backbone-associations
+##= require_tree ../../../vendor/assets/javascripts/BackBoneExtras
 
 ##= require_self
 
