@@ -14,14 +14,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-    ###
-    #backbone global event for cancel and save button
-    #used with the validations of inputs on weight and reps
-    Backbone.on("notifyFromButton", (button) ->
-      @privateDetails.set("notifyFromButton", button)
-    , @)
-    ###
-
     #get the exerciseAndDetails model from options
     @exerciseAndDetails = options.exerciseAndDetails
 
@@ -153,11 +145,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #generate the error or remove if validated
     if _.has(@detailsAssociation.errors, "#{inputType + addCharS}") == true
 
-      #for the backbone event
-      #@validnessStateKeepingForInputs(inputType, false)
-
-      console.log @privateDetails
-
       $controlGroup.addClass('error')
 
       #append to the error msg box if there is not one yet
@@ -182,9 +169,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     else
       console.log "removing error"
 
-      #for the backbone event
-      #@validnessStateKeepingForInputs(inputType, true)
-
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()
       @privateDetails.set(errorKey, false)
@@ -197,23 +181,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #silent prevents model change event
       @detailsAssociation.unset(invalidAttribute, {silent: true})
-
-    #to see if a Backbone event is needed to be triggered.
-    #need triggering if the validation changes from valid to invalid or vice versa
-    #downside to doing this is that the click of the mouse button and dragging away from element behavior
-    #is overridden such that the action is alway performed.
-
-    #console.log @privateDetails.get("currentIsValidState#{inputType}")
-    #console.log @privateDetails.get("lastIsValidState#{inputType}")
-    #console.log !_.isNull(@privateDetails.get("notifyFromButton"))
-
-    ###
-    if @privateDetails.get("currentIsValidState#{inputType}") != @privateDetails.get("lastIsValidState#{inputType}") and !_.isNull(@privateDetails.get("notifyFromButton"))
-      #console.log "notify now"
-      theButton = @privateDetails.get("notifyFromButton")
-      @privateDetails.set("notifyFromButton", null)
-      Backbone.trigger "triggerButton", theButton
-    ###
 
 
 

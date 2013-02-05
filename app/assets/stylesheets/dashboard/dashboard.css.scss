@@ -130,6 +130,10 @@
 .dashboard-add-workout-header-area{
   margin-bottom: 6%;
   /*background-color: #ff7f50;*/
+  /*background: linear-gradient(to bottom, #464646 0%, #343434 100%) repeat scroll 0 0 transparent;*/
+  background-image: -webkit-linear-gradient(top, #464646, #343434);
+  background-image: -moz-linear-gradient(top, #464646, #343434);
+  background-image: -o-linear-gradient(top, #464646, #343434);
   background: linear-gradient(to bottom, #464646 0%, #343434 100%) repeat scroll 0 0 transparent;
 }
 .dashboard-add-workout-header{

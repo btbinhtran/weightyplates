@@ -61,7 +61,7 @@ label{
   padding: 10px 10px 0px 20px;
 }
 #close-button {
-  background-image: url(image_path('KnobRemove.png'));
+  background-image: url(image_path('messages/KnobRemove.png'));
   height: 32px;
   width: 32px;
   right: 0.7em;
@@ -115,7 +115,7 @@ label{
 }
 /*escaping the period of successfully*/
 .Signed.out.successfully\.{
-  background-image: url(image_path('KnobValidGreen.png'));
+  background-image: url(image_path('messages/KnobValidGreen.png'));
   background-repeat:no-repeat;
   margin-left: 10px;
   margin-top: 5px;
