@@ -189,14 +189,24 @@
   /*background-color: #d3d3d3;*/
   .details-set-weight{
     padding-bottom: 0.5em;
+    .add-remove-buttons{
+      margin-top: -2px;
+    }
+    .indent-set-spacer{
+      margin-left: 0%;
+    }
   }
   .details-set-weight:hover{
     cursor: pointer;
   }
   .ui-sortable-helper{
-    border: 1px solid gray;
+    border: 1px solid #c0c0c0;
     background-color: #fafafa;
+    padding-right: 15px;
     cursor: move;
+    .top-details-spacer{
+      height: 10px;
+    }
   }
 }
 .add-workout-set-label{

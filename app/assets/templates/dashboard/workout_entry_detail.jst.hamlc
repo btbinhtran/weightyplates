@@ -1,4 +1,4 @@
-
+.top-details-spacer
 .span2.indent-set-spacer
 .span1.group-set-number
   %label.add-workout-set-label S
@@ -18,7 +18,7 @@
         %label.add-workout-reps-label Reps
       .span6.rep-control.control-group
         %input{type: "text", class: "add-workout-reps-input"}
-.span3.group-weights-and-reps-items
+.span3.group-weights-and-reps-items.add-remove-buttons
   .span4.offset4
     %button.btn.add-workout-reps-add-button +
   .span4
