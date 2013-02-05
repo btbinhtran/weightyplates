@@ -190,6 +190,14 @@
   .details-set-weight{
     padding-bottom: 0.5em;
   }
+  .details-set-weight:hover{
+    cursor: pointer;
+  }
+  .ui-sortable-helper{
+    border: 1px solid gray;
+    background-color: #fafafa;
+    cursor: move;
+  }
 }
 .add-workout-set-label{
   text-align: right;

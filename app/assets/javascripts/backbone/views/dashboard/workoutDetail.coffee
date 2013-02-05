@@ -55,6 +55,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $hiddenDetailRemove = @exerciseAndDetails.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
 
+    #make the details sortable
+    $('.dashboard-exercise-set').sortable
+      opacity: 0.9
+    $('.dashboard-exercise-set').disableSelection()
+
+    $('.dashboard-exercise-set').droppable
+      drop: (event) ->
+        console.log "drop event"
+
+
+
     this
 
   addDetails: ->
