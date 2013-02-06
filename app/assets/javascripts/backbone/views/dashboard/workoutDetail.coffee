@@ -66,21 +66,31 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #update the json after the specific details set is moved
         detailsDropped = $(event.target).closest('.details-set-weight')
 
-    privateDetailsModel = @privateDetails
+    exerciseAndDetails = @model
     detailsEl = @$el
+    detailsId = @cid
 
-    console.log @
-    console.log @cid
+    #console.log @
+    #console.log @cid
 
     #click event on the container element
     @$el.click ->
       $this = $(this)
-      if !_.isNull(privateDetailsModel.get("lastClickDetails")) and detailsEl != privateDetailsModel.get("lastClickDetails")
-        prevHighlighted = privateDetailsModel.get("lastClickDetails")
-        console.log prevHighlighted
+      #if check for presence of clicked details view
+      #if already occupied that means overwrite it
+      if !_.isNull(exerciseAndDetails.get("lastClickDetails")) and detailsId != exerciseAndDetails.get("lastClickDetailsCid")
+        prevHighlighted = exerciseAndDetails.get("lastClickDetails")
+        prevHighlighted.removeClass('high-light-details')
 
+      #add class for any click details
       $this.addClass('high-light-details')
-      privateDetailsModel.set("lastClickDetails", $this)
+      exerciseAndDetails.set("lastClickDetails", $this)
+      exerciseAndDetails.set("lastClickDetailsCid", detailsId)
+
+
+
+
+
 
 
     this
