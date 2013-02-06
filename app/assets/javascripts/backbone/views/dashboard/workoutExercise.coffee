@@ -83,8 +83,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #the workout details row has a private model between the exercises and its details
     #have to initialize private model to default values because it can take on old values from other exercise sets
-    exercisesAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails(detailViews: [], detailViewsCount: null)
-    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetails, exerciseAndDetails: exercisesAndDetailsModel)
+    @exercisesAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails(detailViews: [], detailViewsCount: null)
+    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetails, exerciseAndDetails: @exercisesAndDetailsModel)
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     $('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
@@ -109,13 +109,19 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     $detailsSet = $(@.el).find('.dashboard-exercise-set')
 
+    #exercise and details model
+    exerciseAndDetailsModel = @exercisesAndDetailsModel
+
+
     #make the details sortable
     $detailsSet.sortable
       opacity: 0.9
       containment: 'parent'
       placeholder: 'place-holder'
-      activate: ->
-        console.log "sorting"
+      deactivate: (event, ui)->
+        console.log "sorting done"
+        console.log ui.item
+        exerciseAndDetailsModel.set("signalViewHighlight", exerciseAndDetailsModel.get("signalViewHighlight")*-1)
 
 
 

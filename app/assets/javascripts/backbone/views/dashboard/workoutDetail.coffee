@@ -23,7 +23,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @privateDetails = new Weightyplates.Models.PrivateDetails()
 
     #click on details view highlight change detection
-    #@privateDetails.on("change:lastClickDetails", @updateViewHighlight, @)
+    @exerciseAndDetails.on("change:signalViewHighlight", @signalViewHighlight, @)
 
     #keep track of the view exercises being added and count them
     detailViews = @exerciseAndDetails.get("detailViews")
@@ -60,18 +60,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $hiddenDetailRemove = @exerciseAndDetails.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
 
-    #get the drop event of the element
-    @$el.droppable
-      drop: (event) ->
-        #update the json after the specific details set is moved
-        detailsDropped = $(event.target).closest('.details-set-weight')
-
     #cache element info
     exerciseAndDetails = @model
     detailsEl = @$el
     detailsId = @cid
 
-    #click event on the container element
+    #click event on the container element for highlighting of details view
     @$el.click ->
       $this = $(this)
 
@@ -87,11 +81,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       exerciseAndDetails.set("lastClickDetails", $this)
       exerciseAndDetails.set("lastClickDetailsCid", detailsId)
 
+
+    #console.log $(event.target).closest('.details-set-weight')
+
     this
 
-  updateViewHighlight: ->
-    if !_.isNull(@privateDetails.get("lastClickDetails"))
-      console.log "not null"
+  signalViewHighlight: ->
+    console.log 'save highlight'
+    #if !_.isNull(@privateDetails.get("lastClickDetails"))
+    #  console.log "not null"
 
   addDetails: ->
     #prepare a new div to insert another details view

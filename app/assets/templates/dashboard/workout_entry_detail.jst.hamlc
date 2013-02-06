@@ -1,4 +1,4 @@
-.top-details-spacer
+
 .span2.indent-set-spacer
 .span1.group-set-number
   %label.add-workout-set-label S
