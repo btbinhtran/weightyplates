@@ -107,12 +107,21 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #attaching event listener here because it's not a backbone event
     $optionLists.hoverIntent settings
 
+    $detailsSet = $(@.el).find('.dashboard-exercise-set')
 
     #make the details sortable
-    $(@.el).find('.dashboard-exercise-set').sortable
+    $detailsSet.sortable
       opacity: 0.9
       containment: 'parent'
       placeholder: 'place-holder'
+      activate: ->
+        console.log "sorting"
+
+
+
+
+
+
 
 
     #return this

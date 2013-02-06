@@ -8,7 +8,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-weight-input': 'validateChange'
-    'blur .add-workout-reps-input': 'focusHighlight'
+    'blur .add-workout-reps-input': 'validateChange'
     'focus .add-workout-weight-input': 'focusHighlight'
     #'click .group-set-number': 'clickOnView'
 
@@ -66,32 +66,26 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #update the json after the specific details set is moved
         detailsDropped = $(event.target).closest('.details-set-weight')
 
+    #cache element info
     exerciseAndDetails = @model
     detailsEl = @$el
     detailsId = @cid
 
-    #console.log @
-    #console.log @cid
-
     #click event on the container element
     @$el.click ->
       $this = $(this)
+
       #if check for presence of clicked details view
       #if already occupied that means overwrite it
       if !_.isNull(exerciseAndDetails.get("lastClickDetails")) and detailsId != exerciseAndDetails.get("lastClickDetailsCid")
         prevHighlighted = exerciseAndDetails.get("lastClickDetails")
         prevHighlighted.removeClass('high-light-details')
+        prevHighlighted.find(':focus').blur()
 
       #add class for any click details
       $this.addClass('high-light-details')
       exerciseAndDetails.set("lastClickDetails", $this)
       exerciseAndDetails.set("lastClickDetailsCid", detailsId)
-
-
-
-
-
-
 
     this
 
