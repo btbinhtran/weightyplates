@@ -49,6 +49,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #allows parent view to know of this view's requests
     @exerciseAndDetails.on("change:signalExerciseForm", @updateAssociatedModelRemove, @)
 
+    #private model for exercise
+    @privateExerciseModel = new Weightyplates.Models.PrivateExercise()
+
+    #get the child detail view
+    Backbone.on("detailsAndExercise:newDetailsAdded", (view, id) ->
+      prevNewlyAddedDetails = @privateExerciseModel.get("newlyAddedDetails")
+      prevNewlyAddedDetails.push({id:id, view: view})
+      @privateExerciseModel.set("newlyAddedDetails", prevNewlyAddedDetails)
+    , @)
+
     #render the template
     @render(exercisePhrase, @model.get("optionListEntries"), exerciseViewsCount)
 
@@ -81,8 +91,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #preparing an additional container for the set and weight rows
     $detailsContainer.append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
-    #the workout details row has a private model between the exercises and its details
-    #have to initialize private model to default values because it can take on old values from other exercise sets
+    #the workout details row has a model between the exercises and its details
+    #have to initialize model to default values because it can take on old values from other exercise sets
     @exercisesAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails(detailViews: [], detailViewsCount: null)
     new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetails, exerciseAndDetails: @exercisesAndDetailsModel)
 
@@ -121,10 +131,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       deactivate: (event, ui)->
         console.log "sorting done"
         console.log ui.item
-        exerciseAndDetailsModel.set("signalViewHighlight", exerciseAndDetailsModel.get("signalViewHighlight")*-1)
-
-
-
+        #exerciseAndDetailsModel.set("signalViewHighlight", exerciseAndDetailsModel.get("signalViewHighlight")*-1)
 
 
 
@@ -134,6 +141,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   updateAssociatedModelAdd: ->
+
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
     if @exerciseAssociation.get("entry_detail")

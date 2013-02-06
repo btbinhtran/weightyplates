@@ -12,3 +12,4 @@ class Weightyplates.Models.ExerciseAndDetails extends Backbone.Model
     lastClickDetails: null
     lastClickDetailsCid: null
     signalViewHighlight: -1
+

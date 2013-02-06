@@ -84,6 +84,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #console.log $(event.target).closest('.details-set-weight')
 
+    Backbone.trigger "detailsAndExercise:newDetailsAdded", @, @cid
+
     this
 
   signalViewHighlight: ->
