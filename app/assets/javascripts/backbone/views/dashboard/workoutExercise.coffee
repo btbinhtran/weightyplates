@@ -109,9 +109,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
 
     #make the details sortable
-    detailsView = $(@.el).find('.dashboard-exercise-set').sortable
-                    opacity: 0.9
-                    containment: 'parent'
+    $(@.el).find('.dashboard-exercise-set').sortable
+      opacity: 0.9
+      containment: 'parent'
+      placeholder: 'place-holder'
 
 
     #return this

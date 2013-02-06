@@ -8,7 +8,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-weight-input': 'validateChange'
-    'blur .add-workout-reps-input': 'validateChange'
+    'blur .add-workout-reps-input': 'focusHighlight'
+    'focus .add-workout-weight-input': 'focusHighlight'
+    #'click .group-set-number': 'clickOnView'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
@@ -19,6 +21,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #private model for details
     @privateDetails = new Weightyplates.Models.PrivateDetails()
+
+    #click on details view highlight change detection
+    #@privateDetails.on("change:lastClickDetails", @updateViewHighlight, @)
 
     #keep track of the view exercises being added and count them
     detailViews = @exerciseAndDetails.get("detailViews")
@@ -61,10 +66,28 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #update the json after the specific details set is moved
         detailsDropped = $(event.target).closest('.details-set-weight')
 
+    privateDetailsModel = @privateDetails
+    detailsEl = @$el
 
+    console.log @
+    console.log @cid
+
+    #click event on the container element
+    @$el.click ->
+      $this = $(this)
+      if !_.isNull(privateDetailsModel.get("lastClickDetails")) and detailsEl != privateDetailsModel.get("lastClickDetails")
+        prevHighlighted = privateDetailsModel.get("lastClickDetails")
+        console.log prevHighlighted
+
+      $this.addClass('high-light-details')
+      privateDetailsModel.set("lastClickDetails", $this)
 
 
     this
+
+  updateViewHighlight: ->
+    if !_.isNull(@privateDetails.get("lastClickDetails"))
+      console.log "not null"
 
   addDetails: ->
     #prepare a new div to insert another details view
@@ -191,6 +214,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #silent prevents model change event
       @detailsAssociation.unset(invalidAttribute, {silent: true})
 
+  focusHighlight: (event) ->
+    #$(event.target).closest('.details-set-weight').addClass()
+    #console.log @
+    #console.log @$el
 
-
-
+  clickOnView: (event)->
+    $(event.target).closest('.details-set-weight').addClass('high-light-details')

@@ -3,8 +3,6 @@ class Weightyplates.Models.PrivateDetails extends Backbone.Model
   defaults:
     weightInputError: false
     repInputError: false
-    #saveButtonInfo: null
-    #hasError: null
     notifyFromButton: null
     lastIsValidStateWeight: null
     prevIsValidStateWeight: true
@@ -12,3 +10,4 @@ class Weightyplates.Models.PrivateDetails extends Backbone.Model
     lastIsValidStateRep: null
     prevIsValidStateRep: true
     currentIsValidStateRep: null
+    lastClickDetails: null

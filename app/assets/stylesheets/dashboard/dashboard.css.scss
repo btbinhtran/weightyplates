@@ -190,8 +190,14 @@
 }
 .dashboard-exercise-set{
   /*background-color: #d3d3d3;*/
+  .high-light-details{
+    /*border-left: 3px solid gray;*/
+    background-color: #f0f0f0;
+  }
   .details-set-weight{
-    padding-bottom: 0.5em;
+    margin-bottom: 10px;
+    padding-right: 20px;
+    padding-top: 10px;
     .add-remove-buttons{
       margin-top: -2px;
     }
@@ -210,6 +216,12 @@
     .top-details-spacer{
       height: 10px;
     }
+  }
+  .place-holder{
+    height: 10px;
+    background-color: #ED4A5A;
+    border-color: #ff4500;
+    margin-bottom: 10px;;
   }
 }
 .add-workout-set-label{
