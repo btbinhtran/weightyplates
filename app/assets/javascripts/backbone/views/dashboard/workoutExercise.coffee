@@ -57,6 +57,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       prevNewlyAddedDetails = @privateExerciseModel.get("newlyAddedDetails")
       prevNewlyAddedDetails.push({id:id, view: view})
       @privateExerciseModel.set("newlyAddedDetails", prevNewlyAddedDetails)
+
+      view.privateDetails.set("triggerFromExercise", "fromExercise")
+      #console.log view.privateDetails
     , @)
 
     #render the template
@@ -130,9 +133,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       placeholder: 'place-holder'
       deactivate: (event, ui)->
         console.log "sorting done"
-        console.log ui.item
-        #exerciseAndDetailsModel.set("signalViewHighlight", exerciseAndDetailsModel.get("signalViewHighlight")*-1)
+        #if the prev is blank than it is first
+        $prevItem = $(ui.item).prev('.details-set-weight')
+        if $prevItem.length == 1
+          console.log "there is something before it"
+          console.log $prevItem
+        else
+          console.log "nothing before it now"
+          console.log $(ui.item).next('.details-set-weight')
 
+        #@exerciseAssociation.get("entry_detail")
 
 
 
