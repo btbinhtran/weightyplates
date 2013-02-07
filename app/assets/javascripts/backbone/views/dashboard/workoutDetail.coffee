@@ -66,7 +66,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     detailsId = @cid
 
     #click event on the container element for highlighting of details view
-    @$el.click ->
+    @$el.mousedown (event)->
       $this = $(this)
 
       #if check for presence of clicked details view
@@ -76,14 +76,19 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         prevHighlighted.removeClass('high-light-details')
         prevHighlighted.find(':focus').blur()
 
-      #add class for any click details
-      $this.addClass('high-light-details')
-      exerciseAndDetails.set("lastClickDetails", $this)
-      exerciseAndDetails.set("lastClickDetailsCid", detailsId)
+      #add class for any click inside details if there was no class
+      if $this.hasClass('high-light-details') == false
+        $this.addClass('high-light-details')
+        exerciseAndDetails.set("lastClickDetails", $this)
+        exerciseAndDetails.set("lastClickDetailsCid", detailsId)
 
+      #blur if the click is not into the input field
+      if event.target.tagName != "INPUT"
+        $(this).find(':focus').blur()
 
     #console.log $(event.target).closest('.details-set-weight')
 
+    #trigger event for newly created details set
     Backbone.trigger "detailsAndExercise:newDetailsAdded", @, @cid
 
     this
