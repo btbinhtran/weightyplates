@@ -91,6 +91,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #trigger event for newly created details set
     Backbone.trigger "detailsAndExercise:newDetailsAdded", @, @cid
 
+    #add the view id as an actual id on element
+    #allows for easier referencing when sorting details
+    detailsEl.attr("id", detailsId)
+
     this
 
   signalViewHighlight: ->

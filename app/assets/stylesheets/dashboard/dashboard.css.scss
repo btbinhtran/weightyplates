@@ -193,11 +193,14 @@
   .high-light-details{
     /*border-left: 3px solid gray;*/
     background-color: #f0f0f0;
+    border: 1px solid #e1e1e1 !important;
+    border-radius: 4px 4px 4px 4px;
   }
   .details-set-weight{
     margin-bottom: 10px;
     padding-right: 20px;
     padding-top: 10px;
+    border: 1px solid transparent;
     .add-remove-buttons{
       margin-top: -2px;
     }

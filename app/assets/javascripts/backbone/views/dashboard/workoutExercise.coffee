@@ -125,6 +125,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #exercise and details model
     exerciseAndDetailsModel = @exercisesAndDetailsModel
 
+    #exercise association model
+    exerciseAssociationModel = @exerciseAssociation
 
     #make the details sortable
     $detailsSet.sortable
@@ -137,12 +139,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         $prevItem = $(ui.item).prev('.details-set-weight')
         if $prevItem.length == 1
           console.log "there is something before it"
+          #get the item before the dragged item and move dragged item after that item
           console.log $prevItem
         else
           console.log "nothing before it now"
+          #the next item after last dropped
           console.log $(ui.item).next('.details-set-weight')
-
-        #@exerciseAssociation.get("entry_detail")
+          #get the item after dragged item and move dragged item before that item
+        #update the exercise association model appropriately
+        #console.log exerciseAssociationModel.get("entry_detail")
 
 
 
