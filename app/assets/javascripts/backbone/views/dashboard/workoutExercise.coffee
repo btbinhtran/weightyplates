@@ -128,12 +128,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #exercise association model
     exerciseAssociationModel = @exerciseAssociation
 
+    #$('.dashboard-exercise-set')
+
     #make the details sortable
     $detailsSet.sortable
       axis: 'y'
       opacity: 0.9
       containment: 'parent'
       placeholder: 'place-holder'
+      forcePlaceHolderSize: true
+      revert: 50
       deactivate: (event, ui)->
         console.log "sorting done"
         #if the prev is blank than it is first
