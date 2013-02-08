@@ -41,16 +41,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #private form model to listen to events from child views
     @privateFormModel = new Weightyplates.Models.PrivateForm()
 
-    #use backbone as a global event bus for validating when clicking form buttons
-    #for the cancel and save button
-    Backbone.on("triggerButton", (button) ->
-      #@privateFormModel.set("successfullyTriggerByDetails", true)
-      if button == "cancel"
-        @clickCancelMouseUp()
-      else if button == "save"
-        @validateBeforeSave()
-    , @)
-
     #call render
     @render()
 
@@ -178,6 +168,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #get data from associated model to evaluate validness
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
+
     workoutEntryLength = associatedModels.length
 
     #process the data in the private model
@@ -188,7 +179,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       #return information of fields to the close dialog action
       results
     else
-      @saveWorkoutMsgHandler(results[0].totalFieldErrors, results[0].totalUnFilledFields)
+      @saveWorkoutMsgHandler(results.totalFieldErrors, results.totalUnFilledFields)
       console.log "save handler"
 
   saveWorkoutMsgHandler: (totalFieldErrors, totalUnFilledFields)->
@@ -203,6 +194,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         if totalFieldErrors > 1 and totalUnFilledFields > 1
           alert saveWorkoutMsg["errorsAndUnfills"]
         else if totalFieldErrors == 1 and totalUnFilledFields > 1
+          console.log "on error and unfilled fields"
           alert saveWorkoutMsg["errorAndUnfills"]
         else if totalFieldErrors > 1 and totalUnFilledFields == 1
           alert saveWorkoutMsg["errorsAndUnfill"]

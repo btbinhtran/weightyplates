@@ -73,7 +73,7 @@ class Weightyplates.Models.PrivateForm extends Backbone.Model
       totalFields = exerciseCount + detailCount
       totalUnFilledFields = missingExerciseFieldCount + missingDetailFieldCount
 
-      {totalFieldErrors: totalFieldErrors, totalFields: totalFields, totalUnFilledFields: totalUnFilledFields}
+    {totalFieldErrors: totalFieldErrors, totalFields: totalFields, totalUnFilledFields: totalUnFilledFields}
 
 
 
