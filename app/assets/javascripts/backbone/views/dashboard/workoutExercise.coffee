@@ -130,6 +130,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #make the details sortable
     $detailsSet.sortable
+      axis: 'y'
       opacity: 0.9
       containment: 'parent'
       placeholder: 'place-holder'
