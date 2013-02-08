@@ -137,6 +137,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       containment: 'parent'
       placeholder: 'place-holder'
       forcePlaceHolderSize: true
+      delay: 100
       revert: 50
       deactivate: (event, ui)->
         console.log "sorting done"

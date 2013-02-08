@@ -21,7 +21,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       onlyDigits:(attr) ->
         attrVal = attr.validateAttrVal
-        if isNaN(attrVal * 1)
+        if isNaN(attrVal * 1) and attrVal.replace(/\s*/g, '').length > attrVal.replace(/\D/g, '').length
           #console.log "not a number"
           "#{attr.checkAttribute} can only have digits."
 
