@@ -7,8 +7,21 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
   validator:
     patterns:
+      noOnlySpaces:(attr) ->
+        if $.trim(attr.validateAttrVal).length == 0
+          "#{attr.checkAttribute} can not be spaces."
+
+      noSpaces: (attr) ->
+        attrVal = attr.validateAttrVal
+        if attrVal.replace(" ", '').length < attrVal.length
+          if attrVal.length - attrVal.replace(/\s*/g, '').length > 1
+            "#{attr.checkAttribute} can not have spaces."
+          else
+            "#{attr.checkAttribute} can not have a space."
+
       onlyDigits:(attr) ->
-        if isNaN(attr.validateAttrVal * 1)
+        attrVal = attr.validateAttrVal
+        if isNaN(attrVal * 1)
           #console.log "not a number"
           "#{attr.checkAttribute} can only have digits."
 
@@ -18,7 +31,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       largerThanZero:(attr) ->
         validateAttr = attr.validateAttrVal
-        if((validateAttr * 1) <= 0 and validateAttr != "" )
+        if((validateAttr * 1) <= 0 and validateAttr != "" and $.trim(attr.validateAttrVal).length != 0)
           "#{attr.checkAttribute} must be greater than 0."
 
       noPeriodEnd:(attr) ->
@@ -103,6 +116,8 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
     attrValidations:
       weight:
         ensureTrue: [
+          "noSpaces"
+          "noOnlySpaces"
           "onlyDigits"
           "noNegZero"
           "largerThanZero"
@@ -115,6 +130,8 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       reps:
         ensureTrue: [
+          "noSpaces"
+          "noOnlySpaces"
           "onlyDigits"
           "noSciNot"
           "noPeriodEnd"
