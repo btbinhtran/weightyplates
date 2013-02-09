@@ -13,9 +13,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #last-row-container': 'divider'
     'blur .dashboard-workout-name-input': 'getWorkoutName'
     'mousedown #last-row-save-button': 'clickSaveMouseDown'
-    'mouseup #last-row-save-button': 'clickSaveMouseUp'
+    'click #last-row-save-button': 'clickSave'
     'mousedown #last-row-cancel-button': 'clickCancelMouseDown'
-    'mouseup #last-row-cancel-button': 'clickCancelMouseUp'
+    'click #last-row-cancel-button': 'clickCancel'
 
   initialize: ->
 
@@ -197,7 +197,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         if totalFieldErrors > 1 and totalUnFilledFields > 1
           alert saveWorkoutMsg["errorsAndUnfills"]
         else if totalFieldErrors == 1 and totalUnFilledFields > 1
-          console.log "on error and unfilled fields"
           alert saveWorkoutMsg["errorAndUnfills"]
         else if totalFieldErrors > 1 and totalUnFilledFields == 1
           alert saveWorkoutMsg["errorsAndUnfill"]
@@ -249,7 +248,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   clickSaveMouseDown: (event)->
     event.preventDefault()
 
-  clickSaveMouseUp: (event)->
+  clickSave: (event)->
     event.preventDefault()
     $(':focus').trigger('blur')
     @validateBeforeSave()
@@ -257,7 +256,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   clickCancelMouseDown: (event)->
     event.preventDefault()
 
-  clickCancelMouseUp: (event)->
+  clickCancel: (event)->
     event.preventDefault()
     $(':focus').trigger('blur')
     $('#workout-form-main-close-button').trigger('click')
