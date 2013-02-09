@@ -25,6 +25,11 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           #console.log "not a number"
           "#{attr.checkAttribute} can only have digits."
 
+      decimalIntent:(attr) ->
+        attrVal = attr.validateAttrVal
+        if attrVal.search(/[0-9][.]/) >=0
+          "#{attr.checkAttribute} has improper decimal form if intended."
+
       noNegZero:(attr) ->
         if(attr.validateAttrVal == "-0")
           "#{attr.checkAttribute} can't be negative zero."
@@ -43,7 +48,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       noDeci: (attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
-        if(parts.length == 2 and parts[0].length >= 1 and parts[1].length >= 1)
+        if(parts.length == 2 and parts[0].length >= 0 and parts[1].length >= 1)
           "#{attr.checkAttribute} can not be a decimal."
 
       noLeadingZeroDeci:(attr) ->
@@ -118,6 +123,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
         ensureTrue: [
           "noSpaces"
           "noOnlySpaces"
+          "decimalIntent"
           "onlyDigits"
           "noNegZero"
           "largerThanZero"
