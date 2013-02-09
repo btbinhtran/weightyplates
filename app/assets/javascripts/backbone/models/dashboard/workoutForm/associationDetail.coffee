@@ -6,14 +6,15 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
     set_number: null
 
   validator:
-    patterns:
+    rules:
       noOnlySpaces:(attr) ->
-        if $.trim(attr.validateAttrVal).length == 0
+        attrVal = attr.validateAttrVal
+        if $.trim(attrVal).length == 0  and attrVal.length > 0
           "#{attr.checkAttribute} can not be spaces."
 
       noSpaces: (attr) ->
         attrVal = attr.validateAttrVal
-        if attrVal.replace(" ", '').length < attrVal.length
+        if (attrVal.replace(" ", '').length < attrVal.length)
           if attrVal.length - attrVal.replace(/\s*/g, '').length > 1
             "#{attr.checkAttribute} can not have spaces."
           else
@@ -27,10 +28,10 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       decimalIntent:(attr) ->
         attrVal = attr.validateAttrVal
-        if attrVal.search(/[0-9][.]/) >=0
+        if attrVal.search(/[0-9][.]/) >=0 and attrVal.search(/[.][0-9]/) < 0
           "#{attr.checkAttribute} has improper decimal form if intended."
 
-      noNegZero:(attr) ->
+      noNegativeZero:(attr) ->
         if(attr.validateAttrVal == "-0")
           "#{attr.checkAttribute} can't be negative zero."
 
@@ -45,30 +46,30 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
         if(!isNaN(validateAttr * 1) and periodAtEnd and validateAttr != "")
           "#{attr.checkAttribute} can't end with a period."
 
-      noDeci: (attr) ->
+      noDecimal: (attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
         if(parts.length == 2 and parts[0].length >= 0 and parts[1].length >= 1)
           "#{attr.checkAttribute} can not be a decimal."
 
-      noLeadingZeroDeci:(attr) ->
+      noLeadingZeroDecimal:(attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
         if((_.indexOf(parts[0], "0") != _.lastIndexOf(parts[0], "0")) and parts.length == 2)
           "#{attr.checkAttribute} has too many leading zeros in decimal."
 
-      noLeadingZeroPartDeci:(attr) ->
+      noLeadingZeroPartDecimal:(attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
         if((_.indexOf(parts[0], "0") == _.lastIndexOf(parts[0], "0")) and parts[0].length ==2 and parts.length == 2 and _.indexOf(parts[0], "0") != -1)
           "#{attr.checkAttribute} has unneeded zero if decimal."
 
-      noLeadingInt:(attr) ->
+      noLeadingInteger:(attr) ->
         validateAttr = attr.validateAttrVal
         if(_.indexOf(validateAttr, ".") == -1 and (validateAttr.replace(/^0+/, '').length != validateAttr.length))
           "#{attr.checkAttribute} number can't have leading zeros."
 
-      noSciNot:(attr) ->
+      noScientificNotation:(attr) ->
         validateAttr = attr.validateAttrVal
         scientificParts = validateAttr.split('e')
         if(scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1))
@@ -88,15 +89,13 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       errorsArray = []
       while i < itemsToValidateLength
 
-        if !_.isUndefined(@::validator.patterns[validateOptions[i]](options))
+        if !_.isUndefined(@::validator.rules[validateOptions[i]](options))
           #for storing multiple errors
-          errorsArray.push(@::validator.patterns[validateOptions[i]](options))
+          errorsArray.push(@::validator.rules[validateOptions[i]](options))
 
           #storing the error if there is one
           errors[options.checkAttribute] = errorsArray
 
-          #break out of the loop
-          #i = itemsToValidateLength
         i++
 
       #return errors
@@ -125,13 +124,13 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           "noOnlySpaces"
           "decimalIntent"
           "onlyDigits"
-          "noNegZero"
+          "noNegativeZero"
           "largerThanZero"
           "noPeriodEnd"
-          "noLeadingZeroDeci"
-          "noLeadingZeroPartDeci"
-          "noLeadingInt"
-          "noSciNot"
+          "noLeadingZeroDecimal"
+          "noLeadingZeroPartDecimal"
+          "noLeadingInteger"
+          "noScientificNotation"
         ]
 
       reps:
@@ -139,12 +138,12 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
           "noSpaces"
           "noOnlySpaces"
           "onlyDigits"
-          "noSciNot"
+          "noScientificNotation"
           "noPeriodEnd"
-          "noDeci"
-          "noNegZero"
+          "noDecimal"
+          "noNegativeZero"
           "largerThanZero"
-          "noLeadingInt"
+          "noLeadingInteger"
         ]
 
   validate: (attrs, options) ->

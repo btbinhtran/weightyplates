@@ -99,8 +99,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
   signalViewHighlight: ->
     console.log 'save highlight'
-    #if !_.isNull(@privateDetails.get("lastClickDetails"))
-    #  console.log "not null"
 
   addDetails: ->
     #prepare a new div to insert another details view
