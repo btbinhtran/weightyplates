@@ -9,15 +9,16 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
     rules:
       noOnlySpaces:(attr) ->
         attrVal = attr.validateAttrVal
-        if $.trim(attrVal).length == 0  and attrVal.length > 0
+        if $.trim(attrVal).length == 0  and attrVal.length > 1
           "#{attr.checkAttribute} can not be spaces."
 
       noSpaces: (attr) ->
         attrVal = attr.validateAttrVal
+        diffLengthCond = (attrVal.length - attrVal.replace(/\s*/g, '').length)
         if (attrVal.replace(" ", '').length < attrVal.length)
-          if attrVal.length - attrVal.replace(/\s*/g, '').length > 1
+          if diffLengthCond > 1 and $.trim(attrVal).length > 0
             "#{attr.checkAttribute} can not have spaces."
-          else
+          else if diffLengthCond == 1
             "#{attr.checkAttribute} can not have a space."
 
       onlyDigits:(attr) ->

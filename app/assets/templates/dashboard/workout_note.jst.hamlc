@@ -1,0 +1,3 @@
+.text-area-row.row-fluid
+  %label{id: 'workout-form-text-area-label', class: 'span1 offset2'}Note
+  %textarea{id: 'workout-form-text-area', class: 'span7'}

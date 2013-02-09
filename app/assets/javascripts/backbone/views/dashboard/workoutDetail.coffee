@@ -204,7 +204,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         errorMsg = @detailsAssociation.errors["#{inputType + addCharS}"]
         $weightAndRepArea.find(".#{errorClass}").html("<p>#{errorMsg.join('</br>')}</p>")
 
-      @detailsAssociation.set(attributeToChange, null)
+      @detailsAssociation.set("#{attributeToChange + addCharS}", null)
       @detailsAssociation.set(invalidAttribute, true)
 
       console.log "error in the validation"

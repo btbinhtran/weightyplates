@@ -1,6 +1,7 @@
 class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   template: JST['dashboard/workout_form']
+  templateNote: JST['dashboard/workout_note']
 
   el: '#workout-form-container'
 
@@ -116,7 +117,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     theCaller = "closeAddWorkoutDialog"
 
     #retrieve the fields information
-    fieldResults = @validateBeforeSave(theCaller)[0]
+    fieldResults = @validateBeforeSave(theCaller)
 
     #nicknames for fields
     unfilledFields = fieldResults.totalUnFilledFields
@@ -147,7 +148,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       console.log "close out the form"
 
   addNote: ->
-    console.log JSON.stringify(@associatedModelUser)
+    #console.log JSON.stringify(@associatedModelUser)
+    if $('.text-area-row').length < 1
+      $('.workout-entry-exercise-and-sets-row').after(@templateNote())
 
   divider: ->
     console.log JSON.stringify(@associatedModelUser)
