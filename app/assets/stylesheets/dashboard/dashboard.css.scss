@@ -20,6 +20,13 @@
     a:hover {
       color: #A2A3A3;
     }
+    @media (max-width: 62em){
+      font-size: 0.9em;
+    }
+    @media (max-width: 55.125em){
+      font-size: 0.75em;
+    }
+
   }
   .dashboard-image-area{
     background-repeat: no-repeat;
@@ -27,6 +34,14 @@
     height: 50px;
     margin: auto;
     margin-bottom: 2.3em;
+    @media (max-width: 48em){
+      display: none;
+    }
+  }
+  #dashboard-manage{
+    @media (max-width: 48em){
+      margin-top: 25px;
+    }
   }
 }
 .dashboard-manage-subcategory-row{
@@ -64,6 +79,11 @@
   .dashboard-inactive-subcategory{
     background-color: #CC2538;
   }
+  .dashboard-subcategory{
+    @media (max-width: 48em){
+      float: left;
+    }
+  }
 }
 .dashboard-upcoming-workouts-row{
   font-size: 120%;
@@ -95,9 +115,10 @@
   display: none;
 }
 .dashboard-add-workout-modal-row-show{
-  @media (max-width: 1000px) {
+  @media (max-width: 62.5em) {
     width: 100%;
     margin: 0%;
+    border: none;
   }
   width: 80%;
   margin: 4.5% 10%;
@@ -223,6 +244,20 @@
     .indent-set-spacer{
       margin-left: 0%;
     }
+    label, p{
+      @media (max-width: 68.2em) {
+        font-size: 85%;
+      }
+      @media (max-width: 62.5em) {
+        font-size: 75%;
+      }
+    }
+    .add-workout-units {
+      @media (max-width: 68.2em) {
+        margin-left: 12px;
+        margin-top: -2px;
+      }
+    }
   }
   .details-set-weight:hover{
     cursor: pointer;
@@ -248,12 +283,6 @@
 .add-workout-exercise-entry-label{
   text-align: right;
   margin-top: 0.2em;
-  @media (max-width: 68.2em) {
-    font-size: 85%;
-  }
-  @media (max-width: 62.5em) {
-    font-size: 70%;
-  }
 }
 .add-workout-weight-input{
   width: 100%;
@@ -303,6 +332,13 @@
   background-color: #fafafa;
   border: 1px solid #858585;
   border-top: none;
+  p{
+    @media (max-width: 48em){
+      font-size: 80%;
+      margin-left: 25px;
+    }
+
+  }
 }
 
 
