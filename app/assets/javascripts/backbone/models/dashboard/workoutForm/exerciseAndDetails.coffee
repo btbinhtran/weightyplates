@@ -7,13 +7,9 @@ class Weightyplates.Models.ExerciseAndDetails extends Backbone.Model
     weightInputError: false
     recentlyAddedDetailsAssociatedModel: []
     recentlyRemovedDetailsAssociatedModel: null
-    recentlyRemovedDetailsViewId: null
-    recentlyRemovedDetailsJson: null
-    lastDetails: null
     signalExerciseForm: -1
     dropDownListError: false
     lastClickDetails: null
     lastClickDetailsCid: null
     signalViewHighlight: -1
-
 

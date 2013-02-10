@@ -156,8 +156,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #highlight the first details upon exercise creation
     $(@.el).find('.details-set-weight').trigger("mousedown")
 
-    #$(@.el).find('.exercise-drop-down-area').mousedown ->
-    #  console.log "exercise click"
+    $(@.el).find('.exercise-drop-down-area').mousedown ->
+      console.log "exercise click"
 
 
 
@@ -174,28 +174,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     else
       @exerciseAssociation.set({entry_detail: [@exerciseAndDetails.get("recentlyAddedDetailsAssociatedModel")]})
 
-    #record of details
-    @exerciseAssociation.set("lastDetails", JSON.stringify(@exerciseAssociation.get("entry_detail")))
-
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
   updateAssociatedModelRemove: ->
-    #console.log @exerciseAndDetails.get("recentlyRemovedDetailsViewId")
-    #console.log @exerciseAssociation.get("entry_detail")
-    lastDetailsJson = @exerciseAndDetails.get("recentlyRemovedDetailsJson")
-    currentEntryDetails = @exerciseAssociation.get("lastDetails")
-
-    console.log @exerciseAssociation.attributes.lastDetails
-
-    ###
-    lastItem = _(currentEntryDetails).contains((el) ->
-      el["set_number"] is lastDetailsJson
-    )
-
-    console.log lastItem
-    ###
-
     #a detail entry will be removed
     @exerciseAssociation.get("entry_detail")
       .remove(@exerciseAndDetails

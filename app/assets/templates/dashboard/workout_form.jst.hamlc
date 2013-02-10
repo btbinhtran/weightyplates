@@ -18,7 +18,7 @@
           .exercise-grouping.row-fluid#exercise-grouping
         .row-fluid#last-row-container
           %hr#last-row-rule
-        .row-fluid#last-row-buttons
+        .row-fluid
           #last-row-add-note-button.span9.offset1.last-row-buttons-row.min-row-height
             .row-fluid
               .span6.offset3
