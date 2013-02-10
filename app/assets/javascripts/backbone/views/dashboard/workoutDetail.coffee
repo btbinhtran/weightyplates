@@ -7,8 +7,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   events:
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
-    'mouseup .add-workout-reps-remove-button': 'upForRemove'
-    'mousedown .add-workout-reps-remove-button': 'downForRemove'
     'blur .add-workout-weight-input': 'validateChange'
     'blur .add-workout-reps-input': 'validateChange'
     'focus .add-workout-weight-input': 'focusHighlight'
@@ -108,12 +106,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #create the new details view
     new Weightyplates.Views.WorkoutDetail(model: @model, exerciseAndDetails: @exerciseAndDetails)
-
-  upForRemove: () ->
-    console.log "remove up"
-
-  downForRemove: () ->
-    console.log "remove down"
 
   removeDetails: ()->
     console.log "clicking"
@@ -216,10 +208,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @detailsAssociation.set("#{attributeToChange + addCharS}", null)
       @detailsAssociation.set(invalidAttribute, true)
 
-      console.log "error in the validation"
+      #console.log "error in the validation"
 
     else
-      console.log "removing error"
+      #console.log "removing error"
 
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()

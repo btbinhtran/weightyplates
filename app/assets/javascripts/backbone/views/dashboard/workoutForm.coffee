@@ -150,7 +150,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   addNote: ->
     #console.log JSON.stringify(@associatedModelUser)
     if $('.text-area-row').length < 1
-      $('.workout-entry-exercise-and-sets-row').after(@templateNote())
+      templateNote = @templateNote()
+      $('.workout-entry-exercise-and-sets-row').after(templateNote)
 
   divider: ->
     console.log JSON.stringify(@associatedModelUser)
@@ -167,7 +168,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @modelFormAndExercises.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
-    console.log "validating before saving"
+    #console.log "validating before saving"
 
     #get data from associated model to evaluate validness
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
@@ -183,7 +184,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       results
     else
       @saveWorkoutMsgHandler(results.totalFieldErrors, results.totalUnFilledFields)
-      console.log "save handler"
+      #console.log "save handler"
 
   saveWorkoutMsgHandler: (totalFieldErrors, totalUnFilledFields)->
     #get alert messages from model

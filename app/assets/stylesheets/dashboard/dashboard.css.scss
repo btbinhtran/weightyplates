@@ -95,6 +95,10 @@
   display: none;
 }
 .dashboard-add-workout-modal-row-show{
+  @media (max-width: 1000px) {
+    width: 100%;
+    margin: 0%;
+  }
   width: 80%;
   margin: 4.5% 10%;
   float: left;
@@ -110,6 +114,9 @@
     }
   }
   .workout-entry-exercise-and-sets-row{
+    .exercise-grouping{
+      float: left;
+    }
     .hide-add-workout-button{
       visibility: hidden;
     }
@@ -121,7 +128,6 @@
         float: left;
         font-size: 0.85em;
         margin-bottom: 0.8em;
-        margin-top: 0.8em;
         width: 100%;
         p{
           margin-bottom: 0px;
@@ -163,6 +169,13 @@
 }
 .dashboard-add-workout-exercise{
   /*background-color: #adff2f;*/
+  .exercise-drop-down-area{
+    background-color: #494848;
+    padding-right: 20px;
+    padding-top: 9px;
+    border: 1px solid #e1e1e1 !important;
+    border-radius: 4px 4px 4px 4px;
+  }
   .control-group{
     margin-bottom: 0%;
   }
@@ -177,6 +190,7 @@
 .add-workout-exercise-label{
   margin-top: 2%;
   text-align: right;
+  color: white;
 }
 .add-workout-exercise-drop-downlist{
   margin-top: 0.5%;
@@ -192,12 +206,14 @@
   /*background-color: #d3d3d3;*/
   .high-light-details{
     /*border-left: 3px solid gray;*/
-    background-color: #f0f0f0;
-    border: 1px solid #e1e1e1 !important;
+    background-color: #f3f3f3;
+    border: 1px solid #cd8991 !important;
     border-radius: 4px 4px 4px 4px;
+    label, p {
+      color: #c3515e;
+    }
   }
   .details-set-weight{
-    margin-bottom: 10px;
     padding-right: 20px;
     padding-top: 10px;
     border: 1px solid transparent;
@@ -289,9 +305,7 @@
   border-top: none;
 }
 
-#workout-name-container{
-  margin-bottom: 2.5%;
-}
+
 #last-row-container{
   margin-left: 8%;
   width: 80%;

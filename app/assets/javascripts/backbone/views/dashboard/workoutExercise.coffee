@@ -128,8 +128,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #exercise association model
     exerciseAssociationModel = @exerciseAssociation
 
-    #$('.dashboard-exercise-set')
-
     #make the details sortable
     $detailsSet.sortable
       axis: 'y'
@@ -140,29 +138,29 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       delay: 100
       revert: 50
       deactivate: (event, ui)->
-        console.log "sorting done"
+        #console.log "sorting done"
         #if the prev is blank than it is first
         $prevItem = $(ui.item).prev('.details-set-weight')
         if $prevItem.length == 1
-          console.log "there is something before it"
+          #console.log "there is something before it"
           #get the item before the dragged item and move dragged item after that item
-          console.log $prevItem
+          #console.log $prevItem
         else
-          console.log "nothing before it now"
+          #console.log "nothing before it now"
           #the next item after last dropped
-          console.log $(ui.item).next('.details-set-weight')
+          #console.log $(ui.item).next('.details-set-weight')
           #get the item after dragged item and move dragged item before that item
         #update the exercise association model appropriately
         #console.log exerciseAssociationModel.get("entry_detail")
 
-
+    #highlight the first details upon exercise creation
+    $(@.el).find('.details-set-weight').trigger("mousedown")
 
 
     #return this
     this
 
   updateAssociatedModelAdd: ->
-
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
     if @exerciseAssociation.get("entry_detail")
@@ -254,7 +252,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     hasErrors = _.has(@exerciseAssociation.errors, "exercise_id")
     if hasErrors == false and @exerciseAndDetails.get("dropDownListError") == true
 
-      console.log "removing errors exercise"
+      #console.log "removing errors exercise"
 
       $controlGroup.removeClass('error')
       $dropDownList.siblings().remove()
@@ -262,7 +260,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       #@exerciseAssociation.unset("invalidExercise", {silent: true})
     else if hasErrors == true and @exerciseAndDetails.get("dropDownListError") == false
 
-      console.log "adding exercise errors"
+      #console.log "adding exercise errors"
 
       $controlGroup.addClass('error')
 
