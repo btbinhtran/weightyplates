@@ -133,10 +133,7 @@
     }
   }
   .workout-entry-exercise-and-sets-row{
-    @media (max-width: 47.9375em){
-      float: left;
-      width: 97.5%;
-    }
+
     .exercise-grouping{
       float: left;
     }
@@ -212,6 +209,9 @@
 }
 .dashboard-workout-name-input{
   width: 99%;
+  @media (max-width: 47.9375em){
+    width: 97%;
+  }
 }
 .dashboard-workout-name-input.hint{
   color: #A9A9A9;
@@ -224,6 +224,15 @@
     padding-top: 9px;
     border: 1px solid #e1e1e1 !important;
     border-radius: 4px 4px 4px 4px;
+    @media (max-width: 47.9375em){
+      padding-right: 0px;
+    }
+    .exercise-wrapper{
+      @media (max-width: 47.9375em){
+        width: 90%;
+        margin: auto;
+      }
+    }
   }
   .control-group{
     margin-bottom: 0%;
@@ -271,6 +280,9 @@
     }
     .indent-set-spacer{
       margin-left: 0%;
+      @media (max-width: 47.9375em){
+        display: none;
+      }
     }
     label, p{
       @media (max-width: 68.2em) {
@@ -284,6 +296,44 @@
       @media (max-width: 68.2em) {
         margin-left: 12px;
         margin-top: -2px;
+      }
+    }
+    @media (max-width: 47.9375em){
+      padding-right: 0px;
+    }
+    .detail-wrapper{
+      @media (max-width: 47.9375em){
+        width: 90%;
+        margin: auto;
+      }
+      .add-workout-set-label{
+        text-align: right;
+        margin-top: 0.2em;
+      }
+      .add-workout-exercise-entry-label{
+        text-align: right;
+        margin-top: 0.2em;
+      }
+      .add-workout-weight-input{
+        width: 100%;
+      }
+      .add-workout-units{
+        text-align: center;
+        margin-bottom: 0;
+        margin-top: 0.1em;
+        margin-left: 0.7em;
+      }
+      .add-workout-reps-input{
+        width: 94%;
+      }
+      .add-workout-reps-label{
+        text-align: right;
+        margin-bottom: 0;
+        margin-top: 0.2em;
+      }
+      .add-workout-reps-add-button,
+      .add-workout-reps-remove-button{
+        width: 100%;
       }
     }
   }
@@ -304,35 +354,7 @@
     margin-bottom: 10px;;
   }
 }
-.add-workout-set-label{
-  text-align: right;
-  margin-top: 0.2em;
-}
-.add-workout-exercise-entry-label{
-  text-align: right;
-  margin-top: 0.2em;
-}
-.add-workout-weight-input{
-  width: 100%;
-}
-.add-workout-units{
-  text-align: center;
-  margin-bottom: 0;
-  margin-top: 0.1em;
-  margin-left: 0.7em;
-}
-.add-workout-reps-input{
-  width: 94%;
-}
-.add-workout-reps-label{
-  text-align: right;
-  margin-bottom: 0;
-  margin-top: 0.2em;
-}
-.add-workout-reps-add-button,
-.add-workout-reps-remove-button{
-  width: 100%;
-}
+
 .color-weights-and-reps-items{
   /*background-color: #778899;*/
 }

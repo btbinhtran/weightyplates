@@ -1,25 +1,25 @@
-
-.span2.indent-set-spacer
-.span1.group-set-number
-  %label.add-workout-set-label S
-.span6.group-weights-and-reps-items
-  .row-fluid.weight-and-rep-inputs
-    .span7
-      .row-fluid
-        .span12
-          .span4
-            %label.add-workout-exercise-entry-label Weight
-          .span6.weight-control.control-group
-            %input{type: "text", class: "add-workout-weight-input"}
-          .span2
-            %p.add-workout-units lb
-    .span5
+.detail-wrapper
+  .span2.indent-set-spacer
+  .span1.group-set-number
+    %label.add-workout-set-label S
+  .span6.group-weights-and-reps-items
+    .row-fluid.weight-and-rep-inputs
+      .span7
+        .row-fluid
+          .span12
+            .span4.weight-input-wrapper
+              %label.add-workout-exercise-entry-label Weight
+            .span6.weight-control.control-group
+              %input{type: "text", class: "add-workout-weight-input"}
+            .span2
+              %p.add-workout-units lb
       .span5
-        %label.add-workout-reps-label Reps
-      .span6.rep-control.control-group
-        %input{type: "text", class: "add-workout-reps-input"}
-.span3.group-weights-and-reps-items.add-remove-buttons
-  .span4.offset4
-    %button.btn.add-workout-reps-add-button +
-  .span4
-    %button.btn.add-workout-reps-remove-button -
+        .span5
+          %label.add-workout-reps-label Reps
+        .span6.rep-control.control-group
+          %input{type: "text", class: "add-workout-reps-input"}
+  .span3.group-weights-and-reps-items.add-remove-buttons
+    .span4.offset4
+      %button.btn.add-workout-reps-add-button +
+    .span4
+      %button.btn.add-workout-reps-remove-button -
