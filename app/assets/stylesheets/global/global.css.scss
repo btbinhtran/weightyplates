@@ -131,6 +131,9 @@ label{
   background-color:transparent;
   margin-bottom: 0em;
   padding: 60px 60px 0px;
+  @media (max-width: 47.9375em){
+    padding: 60px 30px;
+  }
 }
 
 .brand{
@@ -157,6 +160,9 @@ label{
   @media (min-width: 80em){
     width: 80em !important;
     margin: auto !important;
+  }
+  @media (max-width: 47.9375em){
+    width: 100%;
   }
 }
 /*Common End*/

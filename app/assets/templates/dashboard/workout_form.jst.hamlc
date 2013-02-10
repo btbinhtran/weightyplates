@@ -2,9 +2,9 @@
   .row-fluid
     .span12.dashboard-add-workout-header-area
       .row-fluid
-        .span7
+        .span7.dashboard-add-workout-header-wrapper
           %h2.dashboard-add-workout-header New Workout Entry
-        .span1.offset4
+        .span1.offset4.btn-close-area
           %button#workout-form-main-close-button.btn.btn-custom X
     .span12.workout-form-contents
       .row-fluid.workout-form-second-wrapper
