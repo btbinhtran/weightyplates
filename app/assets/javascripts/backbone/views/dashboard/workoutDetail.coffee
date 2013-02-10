@@ -108,12 +108,16 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     new Weightyplates.Views.WorkoutDetail(model: @model, exerciseAndDetails: @exerciseAndDetails)
 
   removeDetails: ()->
-    console.log "clicking"
     #list of views
     detailViews = @exerciseAndDetails.get("detailViews")
 
     #the current view id
     currentCiewId = @cid
+
+    #keep track of the view and json of detail that is to be remove
+    @model.set("recentlyRemovedDetailsViewId", currentCiewId)
+
+    @model.set("recentlyRemovedDetailsJson", JSON.stringify(@detailsAssociation))
 
     #remove detailViews reference when deleting this view
     detailViewsFiltered = _(detailViews).reject((el) ->
