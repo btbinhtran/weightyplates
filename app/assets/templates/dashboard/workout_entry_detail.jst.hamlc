@@ -4,7 +4,7 @@
     %label.add-workout-set-label S
   .span6.group-weights-and-reps-items
     .row-fluid.weight-and-rep-inputs
-      .span7
+      .span7.weight-input-area
         .row-fluid
           .span12
             .span4.weight-input-wrapper
@@ -13,7 +13,7 @@
               %input{type: "text", class: "add-workout-weight-input"}
             .span2
               %p.add-workout-units lb
-      .span5
+      .span5.rep-input-area
         .span5.add-workout-reps-label-area
           %label.add-workout-reps-label Reps
         .span6.rep-control.control-group

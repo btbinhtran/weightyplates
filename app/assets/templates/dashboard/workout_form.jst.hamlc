@@ -18,16 +18,16 @@
           .exercise-grouping.row-fluid#exercise-grouping
         .row-fluid#last-row-container
           %hr#last-row-rule
-        .row-fluid
+        .row-fluid.last-row-button-container
           #last-row-buttons.span9.offset1.last-row-buttons-row.min-row-height
             .row-fluid
-              .span6.offset3.last-row-button-area
-                .row-fluid
-                  .span6
+              .span6.offset3.last-row-add-and-cancel-button-area
+                .row-fluid.last-row-button-area-wrapper
+                  .span6.last-row-button-individual-wrapper
                     %button#last-row-note-button.last-row-buttons.btn Add Note
-                  .span6
+                  .span6.last-row-button-individual-wrapper
                     %button#last-row-cancel-button.last-row-buttons.btn Cancel
-              .span3.last-row-button-area
+              .span3.last-row-save-button-area
                 .row-fluid
                   .span12
                     %button#last-row-save-button.last-row-buttons.btn Save
