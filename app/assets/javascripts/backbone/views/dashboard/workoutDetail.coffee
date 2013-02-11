@@ -129,10 +129,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #update the exerciseAndDetails after removal
     @exerciseAndDetails.set("detailViews", detailViewsFiltered)
 
-    #delete all events before removing view
-    @stopListening()
-    @undelegateEvents()
-    @remove()
+    thisView = @
+
+    #details removal fadeout animation
+    @$el.fadeOut(200, ->
+      #remove view and event listeners attached to it; event handlers first
+      thisView.stopListening()
+      thisView.undelegateEvents()
+      thisView.remove()
+    )
 
     #remove the exercise remove button, if only one exercise left is left as a result
     if detailViewsFiltered.length == 1
