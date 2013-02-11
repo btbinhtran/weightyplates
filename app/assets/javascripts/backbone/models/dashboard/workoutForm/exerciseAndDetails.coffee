@@ -3,6 +3,7 @@ class Weightyplates.Models.ExerciseAndDetails extends Backbone.Model
   defaults:
     detailViews: []
     detailViewsCount: null
+    actualDetailViewsCount: 0
     hiddenDetailRemoveButton: null
     weightInputError: false
     recentlyAddedDetailsAssociatedModel: []

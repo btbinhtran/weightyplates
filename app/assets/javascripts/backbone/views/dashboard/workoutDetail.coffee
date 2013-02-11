@@ -39,6 +39,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #to signal to parent view, exercise, what child has been added
     @model.set("recentlyAddedDetailsAssociatedModel", @detailsAssociation)
 
+    #actual details view count
+    @exerciseAndDetails.set("actualDetailViewsCount", @exerciseAndDetails.get("actualDetailViewsCount") + 1)
+
     @render(detailViewsCount)
 
   render: (detailViewsCount) ->
@@ -55,6 +58,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     if @exerciseAndDetails.get("detailViews").length == 1
       $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button')
                               .addClass('hide-add-workout-reps-remove-button')
+      @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
       @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
     else
       $hiddenDetailRemove = @exerciseAndDetails.get "hiddenDetailRemoveButton"
@@ -108,7 +112,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     new Weightyplates.Views.WorkoutDetail(model: @model, exerciseAndDetails: @exerciseAndDetails)
 
   removeDetails: ()->
-    console.log "clicking"
+    #setting actual details view count
+    @exerciseAndDetails.set("actualDetailViewsCount", @exerciseAndDetails.get("actualDetailViewsCount") - 1)
+
     #list of views
     detailViews = @exerciseAndDetails.get("detailViews")
 

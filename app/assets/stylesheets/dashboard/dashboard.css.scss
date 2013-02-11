@@ -257,6 +257,9 @@
 }
 .dashboard-exercise-set{
   /*background-color: #d3d3d3;*/
+  label:hover {
+    cursor: move;
+  }
   .high-light-details{
     /*border-left: 3px solid gray;*/
     background-color: #fafafa;
@@ -419,7 +422,7 @@
     }
   }
   .details-set-weight:hover{
-    cursor: pointer;
+    cursor: move;
   }
   .ui-sortable-helper{
     border: 1px solid #c0c0c0;
@@ -520,6 +523,12 @@
   border-top: none;
   width: 99.8%;
   background-color: #f5f5f5;
+  #workout-form-container{
+    float:left;
+    @media (max-width: 47.9375em){
+      width: 100%;
+    }
+  }
 }
 #last-row-rule{
   margin-top: 2%;

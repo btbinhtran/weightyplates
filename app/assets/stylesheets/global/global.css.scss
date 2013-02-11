@@ -21,7 +21,9 @@
   padding: 0;
   font-family: 'MolengoRegular';
 }
-
+label{
+  cursor: default;
+}
 
 body{
   color: #5d5253;
@@ -43,9 +45,6 @@ label, input, button, select, textarea{
 }
 .control-group {
   margin-bottom: 0em;
-}
-label{
-  cursor: text !important;
 }
 #flash_notice{
   background-color: #DFF2BF;

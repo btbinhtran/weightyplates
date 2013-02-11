@@ -52,6 +52,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #form view gets the FormAndExercises model
     exerciseView = new Weightyplates.Views.WorkoutExercise(model: @modelFormAndExercises)
 
+    ###
+    $exerciseGrouping = @$el.find('.exercise-grouping')
+    $exerciseGrouping.sortable
+      axis: 'y'
+    ###
+
+
     #add hint in workout name
     @hintInWorkoutName()
     this

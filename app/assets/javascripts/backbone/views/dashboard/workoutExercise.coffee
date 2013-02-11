@@ -156,11 +156,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #highlight the first details upon exercise creation
     $(@.el).find('.details-set-weight').trigger("mousedown")
 
-    $(@.el).find('.exercise-drop-down-area').mousedown ->
-      console.log "exercise click"
-
-
-
     #return this
     this
 
