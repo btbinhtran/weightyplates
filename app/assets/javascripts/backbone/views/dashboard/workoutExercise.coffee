@@ -154,7 +154,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         #console.log exerciseAssociationModel.get("entry_detail")
 
     #highlight the first details upon exercise creation
-    $(@.el).find('.details-set-weight').trigger("mousedown")
+    $(@.el).find('.details-set-weight').trigger("click")
 
     #return this
     this

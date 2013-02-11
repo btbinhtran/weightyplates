@@ -70,8 +70,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     detailsId = @cid
 
     #click event on the container element for highlighting of details view
-    @$el.mousedown (event)->
+    @$el.click (event)->
       $this = $(this)
+      #console.log $this
+      console.log "clicked details"
 
       #if check for presence of clicked details view
       #if already occupied that means overwrite it
@@ -82,9 +84,25 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #add class for any click inside details if there was no class
       if $this.hasClass('high-light-details') == false
-        $this.addClass('high-light-details')
-        exerciseAndDetails.set("lastClickDetails", $this)
-        exerciseAndDetails.set("lastClickDetailsCid", detailsId)
+        if $(event.target).hasClass('add-workout-reps-remove-button') == false
+          console.log "didn't click on remove button"
+          $this.addClass('high-light-details')
+          exerciseAndDetails.set("lastClickDetails", $this)
+          exerciseAndDetails.set("lastClickDetailsCid", detailsId)
+        else
+          lastViewFocused = exerciseAndDetails.get("lastClickDetails")
+          console.log "last focused"
+          console.log  lastViewFocused
+          console.log "this clicked"
+          console.log exerciseAndDetails.get("lastClickDetails")
+          lastViewFocused.trigger("click")
+
+      if $(event.target).hasClass('add-workout-reps-remove-button') == true
+        if  $('.add-workout-reps-remove-button :visible')
+          #console.log "clicked before and now on the delete key"
+          console.log exerciseAndDetails.get("lastClickDetails").attr("id")
+          console.log $this.attr("id")
+
 
       #blur if the click is not into the input field
       if event.target.tagName != "INPUT"
@@ -112,6 +130,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     new Weightyplates.Views.WorkoutDetail(model: @model, exerciseAndDetails: @exerciseAndDetails)
 
   removeDetails: ()->
+
+    console.log "removing details"
+
     #setting actual details view count
     @exerciseAndDetails.set("actualDetailViewsCount", @exerciseAndDetails.get("actualDetailViewsCount") - 1)
 
@@ -132,7 +153,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     thisView = @
 
     #details removal fadeout animation
-    @$el.fadeOut(200, ->
+    @$el.fadeOut(300, ->
       #remove view and event listeners attached to it; event handlers first
       thisView.stopListening()
       thisView.undelegateEvents()
