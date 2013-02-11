@@ -107,6 +107,7 @@
 
     .exercise-grouping{
       float: left;
+      margin-top: 20px;
     }
     .hide-add-workout-button{
       visibility: hidden;
@@ -122,6 +123,11 @@
         width: 100%;
         p{
           margin-bottom: 0px;
+        }
+        @media (max-width: 47.9375em){
+          width: 95%;
+          padding-right: 0px;
+          margin-bottom: 1.5em;
         }
       }
     }
@@ -183,10 +189,12 @@
     border-radius: 4px 4px 4px 4px;
     @media (max-width: 47.9375em){
       padding-right: 0px;
+      margin-top: 20px;
+      margin-bottom: 15px;
     }
     .exercise-wrapper{
       @media (max-width: 47.9375em){
-        width: 90%;
+        width: 80%;
         margin: auto;
         padding-bottom: 25px;
       }
@@ -307,7 +315,7 @@
     }
     .detail-wrapper{
       @media (max-width: 47.9375em){
-        width: 90%;
+        width: 80%;
         margin: auto;
       }
       .group-weights-and-reps-items{
@@ -377,7 +385,7 @@
           }
         }
         .add-workout-reps-input{
-          width: 94%;
+          width: 93%;
         }
         .add-workout-reps-label-area{
           @media (max-width: 47.9375em){
@@ -395,7 +403,7 @@
           @media (max-width: 47.9375em){
             float: left;
             padding-left: 13px;
-            width: 71%;
+            width: 70%;
           }
 
         }

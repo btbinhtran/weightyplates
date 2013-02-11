@@ -3,9 +3,7 @@
     .container-fluid.exclaim-signup
       .row-fluid
         %h1 Welcome to Weighty Plates
-
       .row-fluid.tagline-phrase-area
-
         .workout-dumbbell-image-area
           %img{alt: "workout-dumbbell-img", src: "/assets/icons/home/1359028030_physical_education.png"}
         %h2{id: "better-features-tag"} Better features makes for a better tracker.
@@ -15,7 +13,7 @@
         %button{type: "submit", class: "btn mainpage-signup-btn btn-custom"} Sign me up already!
   .span5.loginarea-span
     .mainpage-box.row-fluid
-      %h2 Login for returning users
+      %h2 Login for Returning Users
       = form_for(resource, :as => resource_name, :html => {:class => ''}, :url => session_path(resource_name)) do |f|
         .row-fluid.mainpage-inputrow
           = f.label :email
