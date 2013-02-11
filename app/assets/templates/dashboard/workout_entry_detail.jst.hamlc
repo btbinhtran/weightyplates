@@ -14,12 +14,12 @@
             .span2
               %p.add-workout-units lb
       .span5
-        .span5
+        .span5.add-workout-reps-label-area
           %label.add-workout-reps-label Reps
         .span6.rep-control.control-group
           %input{type: "text", class: "add-workout-reps-input"}
   .span3.group-weights-and-reps-items.add-remove-buttons
-    .span4.offset4
+    .span4.offset4.add-workout-button.details-add-button-area
       %button.btn.add-workout-reps-add-button +
-    .span4
+    .span4.add-workout-button.details-remove-button-area
       %button.btn.add-workout-reps-remove-button -

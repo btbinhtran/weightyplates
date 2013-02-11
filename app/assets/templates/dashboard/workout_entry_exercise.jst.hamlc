@@ -8,11 +8,9 @@
         .span6.control-group.dropdown-control
           %select.add-workout-exercise-drop-downlist
         .span3
-          .span4
-            %button.btn.add-workout-exercise-filter F
-          .span4
+          .span4.offset4.add-workout-exercise-button-area
             %button.btn.add-workout-exercise-add-button +
-          .span4
+          .span4.add-workout-exercise-button-area
             %button.btn.add-workout-exercise-remove-button -
 .row-fluid
   .span9.offset1.dashboard-exercise-set.min-row-height.an-entry-detail

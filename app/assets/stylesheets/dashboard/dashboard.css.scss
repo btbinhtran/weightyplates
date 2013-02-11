@@ -188,7 +188,27 @@
       @media (max-width: 47.9375em){
         width: 90%;
         margin: auto;
+        padding-bottom: 25px;
       }
+    .add-workout-exercise-button-area{
+      @media (max-width: 47.9375em){
+        float: left;
+        width: 43%;
+        margin-left: 6%;
+      }
+      .add-workout-exercise-remove-button,
+      .add-workout-exercise-add-button{
+        @media (max-width: 47.9375em){
+          height: 35px;
+        }
+      }
+      .add-workout-exercise-remove-button{
+        @media (max-width: 47.9375em){
+          margin-left: -10%;
+        }
+      }
+    }
+
     }
   }
   .control-group{
@@ -212,7 +232,6 @@
   width: 100%;
   font-size: 0.8em;
 }
-.add-workout-exercise-filter,
 .add-workout-exercise-add-button,
 .add-workout-exercise-remove-button{
   width: 100%;
@@ -229,13 +248,40 @@
     }
   }
   .details-set-weight{
+    @media (max-width: 47.9375em){
+      padding-bottom: 25px;
+      border: 1px solid gray;
+      border-radius: 4px 4px 4px 4px;
+      margin-bottom: 10px;
+      width: 90%;
+      margin-left: 10%;
+    }
     padding-right: 20px;
     padding-top: 10px;
     border: 1px solid transparent;
     .add-remove-buttons{
       margin-top: -2px;
+      .add-workout-button{
+        @media (max-width: 47.9375em){
+          width: 43%;
+          float: left;
+        }
+      }
+      .details-add-button-area{
+        @media (max-width: 47.9375em){
+          margin-left: 7%;
+        }
+      }
+      .details-remove-button-area{
+        @media (max-width: 47.9375em){
+          margin-left: 2%;
+        }
+      }
       .add-workout-reps-add-button, .add-workout-reps-remove-button {
         width: 100%;
+        @media (max-width: 47.9375em){
+          height: 35px;
+        }
       }
     }
     .indent-set-spacer{
@@ -256,22 +302,43 @@
       .group-weights-and-reps-items{
 
       }
-      .weight-and-rep-inputs{
+      .group-set-number{
         .add-workout-set-label{
           text-align: right;
           margin-top: 0.2em;
         }
-        .add-workout-exercise-entry-label{
-          text-align: right;
-          margin-top: 0.2em;
-          @media (min-width: 57.1875em){
-            margin-top: 0.1em;
+        @media (max-width: 47.9375em){
+          margin-top: 10px;
+        }
+      }
+
+      .weight-and-rep-inputs{
+        .weight-input-wrapper{
+          @media (max-width: 47.9375em){
+            width: 20%;
+            float: left;
+          }
+          .add-workout-exercise-entry-label{
+            text-align: right;
+            margin-top: 0.2em;
+            @media (min-width: 57.1875em){
+              margin-top: 0.1em;
+            }
           }
         }
+
         .weight-control{
           padding: 0px 7px;
           .add-workout-weight-input{
             width: 90%;
+            @media (max-width: 47.9375em){
+              width: 100%;
+            }
+          }
+          @media (max-width: 47.9375em){
+            width: 70%;
+            float: left;
+            padding: 0px 13px;
           }
         }
         .add-workout-units{
@@ -289,14 +356,25 @@
         .add-workout-reps-input{
           width: 94%;
         }
-        .add-workout-reps-label{
-          text-align: right;
-          margin-bottom: 0;
-          margin-top: 0.2em;
+        .add-workout-reps-label-area{
+          @media (max-width: 47.9375em){
+            width: 20%;
+            float: left;
+          }
+          .add-workout-reps-label{
+            text-align: right;
+            margin-bottom: 0;
+            margin-top: 0.2em;
+          }
         }
-
         .rep-control{
           padding-left: 7px;
+          @media (max-width: 47.9375em){
+            float: left;
+            padding-left: 13px;
+            width: 71%;
+          }
+
         }
       }
       label, p {
@@ -334,16 +412,27 @@
   /*background-color: #db7093;*/
 }
 .last-row-buttons{
-  width: 100%;
-  height: 35px;
+
 }
-#last-row-add-note-button{
-  margin-bottom: 6%;
-  margin-top: 1%;
+#last-row-buttons{
+
+  .last-row-button-area{
+    @media (max-width: 47.9375em){
+      margin-bottom: 20px;
+
+      float: left;
+    }
+
+  }
+
 }
 #last-row-cancel-button{
   width: 94%;
   margin-left: 6%;
+  @media (max-width: 47.9375em){
+    margin-left: 0%;
+    width: 100%;
+  }
 }
 .min-row-height{
   min-height: 40px !important;

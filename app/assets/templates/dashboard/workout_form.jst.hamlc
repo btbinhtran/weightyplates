@@ -19,15 +19,15 @@
         .row-fluid#last-row-container
           %hr#last-row-rule
         .row-fluid
-          #last-row-add-note-button.span9.offset1.last-row-buttons-row.min-row-height
+          #last-row-buttons.span9.offset1.last-row-buttons-row.min-row-height
             .row-fluid
-              .span6.offset3
+              .span6.offset3.last-row-button-area
                 .row-fluid
                   .span6
                     %button#last-row-note-button.last-row-buttons.btn Add Note
                   .span6
                     %button#last-row-cancel-button.last-row-buttons.btn Cancel
-              .span3
+              .span3.last-row-button-area
                 .row-fluid
                   .span12
                     %button#last-row-save-button.last-row-buttons.btn Save
