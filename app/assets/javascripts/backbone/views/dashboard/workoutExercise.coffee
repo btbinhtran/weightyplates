@@ -40,17 +40,38 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #indicate which exercise associated model was recently added
     @model.set("recentlyAddedExerciseAssociatedModel", @exerciseAssociation)
 
+
+    console.log "exercise before"
+    console.log @exerciseAndDetails
+
+
+
     #model between exercises and details
     @exerciseAndDetails = new Weightyplates.Models.ExerciseAndDetails()
 
+    console.log "exercise after"
+    console.log @exerciseAndDetails
+
+    #manual reset of details index views
+    #not clearing properly for newly created exercises
+    @exerciseAndDetails.set("detailsViewIndex", [])
+
+    #console.log mostRecentDetailView
+    #console.log _.last(mostRecentDetailView)
+
+    #console.log "new exercise created and the exerciseanddetails model"
+    #console.log @exerciseAndDetails
+
     #allows child view to request a change in associated model for the parent
     @exerciseAndDetails.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
+
+    #console.log "this exercise detail"
 
     #console.log "model now is"
     #console.log @exerciseAndDetails
 
     #allows parent view to know of this view's requests
-    @exerciseAndDetails.on("change:signalExerciseForm", @updateAssociatedModelHandler, @)
+    @exerciseAndDetails.on("change:signalExerciseForm", @updateDetailsHandler, @)
 
     #private model for exercise
     @privateExerciseModel = new Weightyplates.Models.PrivateExercise()
@@ -174,6 +195,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     this
 
   updateAssociatedModelAdd: ->
+    console.log "adding a detail view for exercise---------------------------_"
+    console.log @
+
+    console.log @exerciseAndDetails
+    console.log @exerciseAndDetails.attributes
+
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
     if @exerciseAssociation.get("entry_detail")
@@ -183,34 +210,73 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     else
       @exerciseAssociation.set({entry_detail: [@exerciseAndDetails.get("recentlyAddedDetailsAssociatedModel")]})
 
-    #log the detail views that were added
-
-    console.log "recently added"
-    console.log @exerciseAndDetails.attributes
-    exerciseDetails = @exerciseAndDetails.attributes
-    _(exerciseDetails).each (el) ->
-      console.log el
-
+    #keep track of the added details
     viewId = @exerciseAndDetails.get("recentlyAddedDetailsViewId")
     associationId = @exerciseAndDetails.get("recentlyAddedDetailsAssociatedModelId")
-    console.log 'view id'
-    console.log viewId
     detailsViewInfo = {id: viewId, aId: associationId}
-    console.log detailsViewInfo
+    detailsIndex = @exerciseAndDetails.get("detailsViewIndex")
 
 
-    #signal to parent that a update is needed
+
+    detailsIndex.push(detailsViewInfo)
+
+    console.log "details index is "
+    console.log detailsIndex
+
+    @exerciseAndDetails.set("detailsViewIndex", detailsIndex)
+
+    #signal to parent view that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
-  updateAssociatedModelHandler: ->
-    if @exerciseAndDetails.get("recentDetailsViewAction") == "removing"
+  updateDetailsHandler: ->
+    console.log "responding to a request"
+
+    request = @exerciseAndDetails.get("recentDetailsViewAction")
+    if request == "removing"
       @updateAssociatedModelRemove()
+    else if request == "highlighting"
+      @highLightDetails()
+
+  highLightDetails: ->
+    detailForHighlighting = @exerciseAndDetails.get("toBeHighlightedDetail")
+    console.log @$el.find('#' + detailForHighlighting).trigger('click')
+
 
   updateAssociatedModelRemove: ()->
     #console.log "begin update associated model remove"
-    console.log "in the exercise"
-    console.log @exerciseAndDetails.get("detailsViews")
+
+    console.log "in the exercise removal"
+
+    recentlyRemovedAssociatedModelId = @exerciseAndDetails.get("recentlyRemovedDetailsAssociatedModel").cid
+
+    #console.log recentlyRemovedAssociatedModelId
+
+    detailsInfo = @exerciseAndDetails.get("detailsViewIndex")
     #console.log @exerciseAndDetails
+
+    console.log detailsInfo
+
+
+    indexOfDeleted = null
+    itemTracked = null
+    toHighLightDetailView = null
+
+    _(detailsInfo).each (el) ->
+      if(el.aId == recentlyRemovedAssociatedModelId)
+
+        indexOfDeleted = _.indexOf(detailsInfo, el)
+        if(indexOfDeleted == detailsInfo.length - 1)
+          console.log("get the previous one")
+          toHighLightDetailView = detailsInfo[indexOfDeleted - 1]
+        else
+          console.log('one after')
+          toHighLightDetailView = detailsInfo[indexOfDeleted + 1]
+        itemTracked = detailsInfo[indexOfDeleted]
+
+    @exerciseAndDetails.set("toBeHighlightedDetail", toHighLightDetailView.id)
+
+    #update the private model details views for removing a detail
+    @exerciseAndDetails.set("detailsViewIndex", _.difference(detailsInfo, itemTracked))
 
     ###
     console.log "recently removed-------"
@@ -275,6 +341,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   addExercise: (event)->
     #create a new grouping container for the new exercise
     @$el.parent().append("<div class='exercise-grouping row-fluid' id='exercise-grouping'></div>")
+
+    console.log "the model before adding new exercise is "
+    console.log @model
 
     #generate a new exercise entry
     new Weightyplates.Views.WorkoutExercise(model: @model)

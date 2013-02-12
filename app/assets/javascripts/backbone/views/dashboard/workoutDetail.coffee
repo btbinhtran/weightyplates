@@ -98,7 +98,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           #console.log exerciseAndDetails.get("lastClickDetails")
           lastViewFocused.trigger("click")
 
-      ###
+
       if $(event.target).hasClass('add-workout-reps-remove-button') == true
         if  $('.add-workout-reps-remove-button :visible')
           #console.log "clicked before and now on the delete key"
@@ -107,11 +107,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           if $this.hasClass('high-light-details') == true
             console.log "deleting current highlighted"
             #viewId = exerciseAndDetails.get("toBeHighlightedDetail")
-            Backbone.trigger "detailsAndExercise:requestHighlighting"
-
+            #Backbone.trigger "detailsAndExercise:requestHighlighting"
+            exerciseAndDetails.set("recentDetailsViewAction", "highlighting")
             #if viewId == $this.attr("id")
             #  console.log "highlight"
-      ###
+            signalExerciseForm = exerciseAndDetails.get "signalExerciseForm"
+            exerciseAndDetails.set("signalExerciseForm", signalExerciseForm * -1)
+
 
 
       #blur if the click is not into the input field
@@ -128,8 +130,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           .set("recentlyAddedDetailsViewId", @cid)
           .set("recentlyAddedDetailsAssociatedModelId", @detailsAssociation.cid)
 
-    console.log "added a detail"
-    console.log @model.attributes
+    #console.log "added a detail"
+    #console.log @model.attributes
 
     #add the view id as an actual id on element
     #allows for easier referencing when sorting details
@@ -205,11 +207,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           .set("recentDetailsViewAction", "removing")
           .set("recentlyRemovedDetailsViewId", @cid)
           .set("recentlyRemovedDetailsAssociatedModelId", @detailsAssociation.cid)
-
-    @model.set("signalExerciseForm", signalExerciseForm * -1)
-
-    console.log "removing details association after signal"
-    console.log @model
+          .set("signalExerciseForm", signalExerciseForm * -1)
 
   toTitleCase: (str) ->
     #utility function for title casing the key
