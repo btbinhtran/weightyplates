@@ -53,13 +53,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @privateExerciseModel = new Weightyplates.Models.PrivateExercise()
 
     #get the child detail view
-    Backbone.on("detailsAndExercise:newDetailsAdded", (view, id) ->
+    Backbone.on("detailsAndExercise:newDetailsAdded", (view, id, aId) ->
+      console.log "the details association id is"
+      console.log aId
       prevNewlyAddedDetails = @privateExerciseModel.get("newlyAddedDetails")
-      prevNewlyAddedDetails.push({id:id, view: view})
+      prevNewlyAddedDetails.push({id:id, aId: aId, index: prevNewlyAddedDetails.length})
       @privateExerciseModel.set("newlyAddedDetails", prevNewlyAddedDetails)
+
 
       view.privateDetails.set("triggerFromExercise", "fromExercise")
       #console.log view.privateDetails
+
     , @)
 
     #render the template
@@ -173,6 +177,44 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
   updateAssociatedModelRemove: ->
+
+    console.log "recently removed-------"
+    recentlyRemovedAssociatedModelId = @exerciseAndDetails.get("recentlyRemovedDetailsAssociatedModel").cid
+
+    detailsInfo = @privateExerciseModel.get("newlyAddedDetails")
+    #console.log JSON.stringify(detailsInfo)
+    #console.log  @exerciseAndDetails.get("recentlyRemovedDetailsAssociatedModel")
+
+    console.log recentlyRemovedAssociatedModelId
+    console.log detailsInfo
+
+    indexOfDeleted = null
+
+
+
+    _(detailsInfo).each (el) ->
+      if(el.aId == recentlyRemovedAssociatedModelId)
+
+        indexOfDeleted = _.indexOf(detailsInfo, el)
+        if(indexOfDeleted == detailsInfo.length - 1)
+          console.log("get the previous one")
+          console.log(detailsInfo[indexOfDeleted - 1])
+        else
+          console.log('one after')
+          console.log(detailsInfo[indexOfDeleted + 1])
+
+
+
+
+
+
+
+
+    #console.log _.indexOf(@exerciseAssociation.get("entry_detail"), @exerciseAssociation.get("entry_detail").models[1])
+
+
+    #console.log(_.pluck(detailsInfo, {aId: recentlyRemovedAssociatedModelId}))
+
     #a detail entry will be removed
     @exerciseAssociation.get("entry_detail")
       .remove(@exerciseAndDetails

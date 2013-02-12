@@ -111,7 +111,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #console.log $(event.target).closest('.details-set-weight')
 
     #trigger event for newly created details set
-    Backbone.trigger "detailsAndExercise:newDetailsAdded", @, @cid
+    Backbone.trigger "detailsAndExercise:newDetailsAdded", @, @cid, @detailsAssociation.cid
 
     #add the view id as an actual id on element
     #allows for easier referencing when sorting details
@@ -151,6 +151,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @exerciseAndDetails.set("detailViews", detailViewsFiltered)
 
     thisView = @
+
+    console.log "attempt to get sibling"
+    console.log @$el.siblings()
 
     #details removal fadeout animation
     @$el.fadeOut(300, ->
