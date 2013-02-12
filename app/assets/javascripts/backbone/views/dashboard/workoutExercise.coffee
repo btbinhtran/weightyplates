@@ -60,11 +60,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       prevNewlyAddedDetails.push({id:id, aId: aId, index: prevNewlyAddedDetails.length})
       @privateExerciseModel.set("newlyAddedDetails", prevNewlyAddedDetails)
 
-
       view.privateDetails.set("triggerFromExercise", "fromExercise")
-      #console.log view.privateDetails
-
     , @)
+
+    Backbone.on("detailsAndExercise:requestHighlighting", ->
+      console.log "highlighting is requested"
+      detailForHighlighting = @exerciseAndDetails.get("toBeHighlightedDetail")
+      console.log @$el.find('#' + detailForHighlighting).trigger('click')
+    , @)
+
+
 
     #render the template
     @render(exercisePhrase, @model.get("optionListEntries"), exerciseViewsCount)
@@ -189,31 +194,32 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     console.log detailsInfo
 
     indexOfDeleted = null
+    itemTracked = null
+    toHighLightDetailView = null
 
-
-
+    #process the detail views to be highlighted when deleting a detail view that was last highlighted
     _(detailsInfo).each (el) ->
       if(el.aId == recentlyRemovedAssociatedModelId)
 
         indexOfDeleted = _.indexOf(detailsInfo, el)
         if(indexOfDeleted == detailsInfo.length - 1)
           console.log("get the previous one")
-          console.log(detailsInfo[indexOfDeleted - 1])
+          toHighLightDetailView = detailsInfo[indexOfDeleted - 1]
         else
           console.log('one after')
-          console.log(detailsInfo[indexOfDeleted + 1])
+          toHighLightDetailView = detailsInfo[indexOfDeleted + 1]
+        itemTracked = detailsInfo[indexOfDeleted]
 
+    #console.log "to highlight is "
+    #console.log toHighLightDetailView.id
 
+    #to indicate which detail will need to be highlighted
+    @exerciseAndDetails.set("toBeHighlightedDetail", toHighLightDetailView.id)
 
+    #$(@.el).find('#' + toHighLightDetailView.id).trigger("click")
 
-
-
-
-
-    #console.log _.indexOf(@exerciseAssociation.get("entry_detail"), @exerciseAssociation.get("entry_detail").models[1])
-
-
-    #console.log(_.pluck(detailsInfo, {aId: recentlyRemovedAssociatedModelId}))
+    #update the private model details views for removing a detail
+    @privateExerciseModel.set("newlyAddedDetails", _.difference(detailsInfo, itemTracked))
 
     #a detail entry will be removed
     @exerciseAssociation.get("entry_detail")

@@ -90,6 +90,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           exerciseAndDetails.set("lastClickDetails", $this)
           exerciseAndDetails.set("lastClickDetailsCid", detailsId)
         else
+          #for clicking remove on non-highlighted details
+          #need this because a click on a non-highlighted details registered a last click details for the model
           lastViewFocused = exerciseAndDetails.get("lastClickDetails")
           console.log "last focused"
           console.log  lastViewFocused
@@ -100,8 +102,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       if $(event.target).hasClass('add-workout-reps-remove-button') == true
         if  $('.add-workout-reps-remove-button :visible')
           #console.log "clicked before and now on the delete key"
-          console.log exerciseAndDetails.get("lastClickDetails").attr("id")
-          console.log $this.attr("id")
+          #console.log exerciseAndDetails.get("lastClickDetails").attr("id")
+          #console.log $this.attr("id")
+          if $this.hasClass('high-light-details') == true
+            console.log "deleting current highlighted"
+            #viewId = exerciseAndDetails.get("toBeHighlightedDetail")
+            Backbone.trigger "detailsAndExercise:requestHighlighting"
+
+            #if viewId == $this.attr("id")
+            #  console.log "highlight"
 
 
       #blur if the click is not into the input field
@@ -131,7 +140,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
   removeDetails: ()->
 
-    console.log "removing details"
+    console.log "removing details^^^^^^^^^^^^^^^^^^^^^^^^^^^^6"
+
+    console.log @exerciseAndDetails.get("lastClickDetails")
 
     #setting actual details view count
     @exerciseAndDetails.set("actualDetailViewsCount", @exerciseAndDetails.get("actualDetailViewsCount") - 1)
