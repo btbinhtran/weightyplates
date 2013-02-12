@@ -36,8 +36,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     associationDetailParams = {set_number: detailViewsCount + "", weight: null, reps: null}
     @detailsAssociation = new Weightyplates.Models.AssociationDetail(associationDetailParams)
 
-    #to signal to parent view, exercise, what child has been added
-    @model.set("recentlyAddedDetailsAssociatedModel", @detailsAssociation)
+
 
     #actual details view count
     @exerciseAndDetails.set("actualDetailViewsCount", @exerciseAndDetails.get("actualDetailViewsCount") + 1)
@@ -128,12 +127,16 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @model.set("recentDetailsViewAction", "adding")
           .set("recentlyAddedDetailsViewId", @cid)
           .set("recentlyAddedDetailsAssociatedModelId", @detailsAssociation.cid)
-          .set("signalExerciseForm", @model.get("signalExerciseForm") * -1)
 
+    console.log "added a detail"
+    console.log @model.attributes
 
     #add the view id as an actual id on element
     #allows for easier referencing when sorting details
     detailsEl.attr("id", detailsId)
+
+    #to signal to parent view, exercise, what child has been added
+    @model.set("recentlyAddedDetailsAssociatedModel", @detailsAssociation)
 
     this
 
@@ -149,15 +152,18 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
   removeDetails: ()->
 
-    console.log "removing details^^^^^^^^^^^^^^^^^^^^^^^^^^^^6"
+    #console.log "removing details^^^^^^^^^^^^^^^^^^^^^^^^^^^^6"
 
-    console.log @exerciseAndDetails.get("lastClickDetails")
+    #console.log @exerciseAndDetails.get("lastClickDetails")
 
     #setting actual details view count
     @exerciseAndDetails.set("actualDetailViewsCount", @exerciseAndDetails.get("actualDetailViewsCount") - 1)
 
     #list of views
     detailViews = @exerciseAndDetails.get("detailViews")
+
+    #console.log "detail view"
+    #console.log detailViews
 
     #the current view id
     currentCiewId = @cid
@@ -170,10 +176,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #update the exerciseAndDetails after removal
     @exerciseAndDetails.set("detailViews", detailViewsFiltered)
 
+    #console.log "filtered view"
+    #console.log @exerciseAndDetails.get("detailViews")
+
     thisView = @
 
-    console.log "attempt to get sibling"
-    console.log @$el.siblings()
+    #console.log "attempt to get sibling"
+    #console.log @$el.siblings()
 
     #details removal fadeout animation
     @$el.fadeOut(300, ->
@@ -190,10 +199,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         .addClass('hide-add-workout-reps-remove-button')
       @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
 
-    #send signal to exercise to remove the detail entry from json
+    #set info for view and send signal to exercise to remove the detail entry from json
     signalExerciseForm = @model.get "signalExerciseForm"
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
-          .set("signalExerciseForm", signalExerciseForm * -1)
+          .set("recentDetailsViewAction", "removing")
+          .set("recentlyRemovedDetailsViewId", @cid)
+          .set("recentlyRemovedDetailsAssociatedModelId", @detailsAssociation.cid)
+
+    @model.set("signalExerciseForm", signalExerciseForm * -1)
+
+    console.log "removing details association after signal"
+    console.log @model
 
   toTitleCase: (str) ->
     #utility function for title casing the key

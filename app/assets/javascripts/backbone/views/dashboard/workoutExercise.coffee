@@ -46,8 +46,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #allows child view to request a change in associated model for the parent
     @exerciseAndDetails.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
-    console.log "model now is"
-    console.log @exerciseAndDetails
+    #console.log "model now is"
+    #console.log @exerciseAndDetails
 
     #allows parent view to know of this view's requests
     @exerciseAndDetails.on("change:signalExerciseForm", @updateAssociatedModelHandler, @)
@@ -183,6 +183,22 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     else
       @exerciseAssociation.set({entry_detail: [@exerciseAndDetails.get("recentlyAddedDetailsAssociatedModel")]})
 
+    #log the detail views that were added
+
+    console.log "recently added"
+    console.log @exerciseAndDetails.attributes
+    exerciseDetails = @exerciseAndDetails.attributes
+    _(exerciseDetails).each (el) ->
+      console.log el
+
+    viewId = @exerciseAndDetails.get("recentlyAddedDetailsViewId")
+    associationId = @exerciseAndDetails.get("recentlyAddedDetailsAssociatedModelId")
+    console.log 'view id'
+    console.log viewId
+    detailsViewInfo = {id: viewId, aId: associationId}
+    console.log detailsViewInfo
+
+
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
@@ -190,10 +206,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     if @exerciseAndDetails.get("recentDetailsViewAction") == "removing"
       @updateAssociatedModelRemove()
 
-  updateAssociatedModelRemove: (op1, op2)->
-    console.log "begin update associated model remove"
-    console.log op1
-    console.log op2
+  updateAssociatedModelRemove: ()->
+    #console.log "begin update associated model remove"
+    console.log "in the exercise"
+    console.log @exerciseAndDetails.get("detailsViews")
+    #console.log @exerciseAndDetails
 
     ###
     console.log "recently removed-------"
