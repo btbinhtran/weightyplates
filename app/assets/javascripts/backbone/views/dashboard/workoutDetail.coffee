@@ -73,7 +73,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el.click (event)->
       $this = $(this)
       #console.log $this
-      console.log "clicked details"
+      #console.log "clicked details"
 
       #if check for presence of clicked details view
       #if already occupied that means overwrite it
@@ -85,7 +85,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #add class for any click inside details if there was no class
       if $this.hasClass('high-light-details') == false
         if $(event.target).hasClass('add-workout-reps-remove-button') == false
-          console.log "didn't click on remove button"
+          #console.log "didn't click on remove button"
           $this.addClass('high-light-details')
           exerciseAndDetails.set("lastClickDetails", $this)
           exerciseAndDetails.set("lastClickDetailsCid", detailsId)
@@ -93,12 +93,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           #for clicking remove on non-highlighted details
           #need this because a click on a non-highlighted details registered a last click details for the model
           lastViewFocused = exerciseAndDetails.get("lastClickDetails")
-          console.log "last focused"
-          console.log  lastViewFocused
-          console.log "this clicked"
-          console.log exerciseAndDetails.get("lastClickDetails")
+          #console.log "last focused"
+          #console.log  lastViewFocused
+          #console.log "this clicked"
+          #console.log exerciseAndDetails.get("lastClickDetails")
           lastViewFocused.trigger("click")
 
+      ###
       if $(event.target).hasClass('add-workout-reps-remove-button') == true
         if  $('.add-workout-reps-remove-button :visible')
           #console.log "clicked before and now on the delete key"
@@ -111,6 +112,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
             #if viewId == $this.attr("id")
             #  console.log "highlight"
+      ###
 
 
       #blur if the click is not into the input field
@@ -120,7 +122,14 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #console.log $(event.target).closest('.details-set-weight')
 
     #trigger event for newly created details set
-    Backbone.trigger "detailsAndExercise:newDetailsAdded", @, @cid, @detailsAssociation.cid
+    #Backbone.trigger "detailsAndExercise:newDetailsAdded", @, @cid, @detailsAssociation.cid
+
+    #log info for newly created details set and signal update to parent view
+    @model.set("recentDetailsViewAction", "adding")
+          .set("recentlyAddedDetailsViewId", @cid)
+          .set("recentlyAddedDetailsAssociatedModelId", @detailsAssociation.cid)
+          .set("signalExerciseForm", @model.get("signalExerciseForm") * -1)
+
 
     #add the view id as an actual id on element
     #allows for easier referencing when sorting details

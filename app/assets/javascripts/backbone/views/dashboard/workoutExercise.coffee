@@ -46,12 +46,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #allows child view to request a change in associated model for the parent
     @exerciseAndDetails.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
+    console.log "model now is"
+    console.log @exerciseAndDetails
+
     #allows parent view to know of this view's requests
-    @exerciseAndDetails.on("change:signalExerciseForm", @updateAssociatedModelRemove, @)
+    @exerciseAndDetails.on("change:signalExerciseForm", @updateAssociatedModelHandler, @)
 
     #private model for exercise
     @privateExerciseModel = new Weightyplates.Models.PrivateExercise()
 
+    ###
     #get the child detail view
     Backbone.on("detailsAndExercise:newDetailsAdded", (view, id, aId) ->
       console.log "the details association id is"
@@ -68,6 +72,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       detailForHighlighting = @exerciseAndDetails.get("toBeHighlightedDetail")
       console.log @$el.find('#' + detailForHighlighting).trigger('click')
     , @)
+    ###
 
 
 
@@ -181,8 +186,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
-  updateAssociatedModelRemove: ->
+  updateAssociatedModelHandler: ->
+    if @exerciseAndDetails.get("recentDetailsViewAction") == "removing"
+      @updateAssociatedModelRemove()
 
+  updateAssociatedModelRemove: (op1, op2)->
+    console.log "begin update associated model remove"
+    console.log op1
+    console.log op2
+
+    ###
     console.log "recently removed-------"
     recentlyRemovedAssociatedModelId = @exerciseAndDetails.get("recentlyRemovedDetailsAssociatedModel").cid
 
@@ -220,6 +233,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #update the private model details views for removing a detail
     @privateExerciseModel.set("newlyAddedDetails", _.difference(detailsInfo, itemTracked))
+
+    console.log "details views are now"
+    console.log @privateExerciseModel.get("newlyAddedDetails")
+    ###
 
     #a detail entry will be removed
     @exerciseAssociation.get("entry_detail")
