@@ -11,11 +11,19 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'blur .add-workout-reps-input': 'validateChange'
 
   initialize: (options) ->
+    console.log "details init"
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
+    console.log options
+
+    console.log @exerciseAndDetails
+
     #get the exerciseAndDetails model from options
     @exerciseAndDetails = options.exerciseAndDetails
+
+    console.log 'exerdetails for details init'
+    console.log  @exerciseAndDetails
 
     #private model for details
     @privateDetails = new Weightyplates.Models.PrivateDetails()
@@ -57,7 +65,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
 
     #cache element info
-    exerciseAndDetails = @model
+    exerciseAndDetails = @exerciseAndDetails
     detailsEl = @$el
     detailsId = @cid
 
@@ -101,7 +109,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         $(this).find(':focus').blur()
 
     #log info for newly created details set and signal update to parent view
-    @model.set("recentDetailsViewAction", "adding")
+    @exerciseAndDetails.set("recentDetailsViewAction", "adding")
       .set("recentlyAddedDetailsViewId", @cid)
       .set("recentlyAddedDetailsAssociatedModelId", @detailsAssociation.cid)
 
@@ -110,7 +118,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     detailsEl.attr("id", detailsId)
 
     #to signal to parent view, exercise, what child has been added
-    @model.set("recentlyAddedDetailsAssociatedModel", @detailsAssociation)
+    @exerciseAndDetails.set("recentlyAddedDetailsAssociatedModel", @detailsAssociation)
 
     this
 
@@ -119,7 +127,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #create the new details view
-    new Weightyplates.Views.WorkoutDetail(model: @model, exerciseAndDetails: @exerciseAndDetails)
+    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetails, exerciseAndDetails: @exerciseAndDetails)
 
   removeDetails: ()->
     #setting actual details view count
@@ -168,8 +176,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     console.log "end detail delete"
 
     #set info for view and send signal to exercise to remove the detail entry from json
-    signalExerciseForm = @model.get "signalExerciseForm"
-    @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
+    signalExerciseForm = @exerciseAndDetails.get "signalExerciseForm"
+    @exerciseAndDetails.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
       .set("recentDetailsViewAction", "removing")
       .set("recentlyRemovedDetailsViewId", @cid)
       .set("recentlyRemovedDetailsAssociatedModelId", @detailsAssociation.cid)
