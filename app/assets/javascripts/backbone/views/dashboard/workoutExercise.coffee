@@ -86,6 +86,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #remove the remove button in the beginning when there is only one exercise
     if @formAndExercisesModel.get("exerciseViews").length == 1
+
       $hiddenExerciseRemove = @$el.find('.add-workout-exercise-remove-button').addClass('hide-add-workout-button')
       @formAndExercisesModel.set("hiddenExerciseRemoveButton", $hiddenExerciseRemove)
     else
@@ -118,7 +119,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         $(@).off()
       out: ->
 
-        #insert entries into option list
+    #insert entries into option list
     $optionLists =  $workoutExeciseRow.find('.add-workout-exercise-drop-downlist')
 
     #attaching event listener here because it's not a backbone event
@@ -285,7 +286,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @$el.parent().append("<div class='exercise-grouping row-fluid' id='exercise-grouping'></div>")
 
     #generate a new exercise entry
-    new Weightyplates.Views.WorkoutExercise(model: @formAndExercisesModel)
+    new Weightyplates.Views.WorkoutExercise(formAndExercisesModel: @formAndExercisesModel)
 
   removeExercise: ()->
     #list of all the views
