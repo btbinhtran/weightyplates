@@ -23,21 +23,21 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     _.bindAll(@)
 
     #model for workout state
-    @modelFormAndExercises = new Weightyplates.Models.FormAndExercises()
+    @formAndExercisesModel = new Weightyplates.Models.FormAndExercises()
 
     #prepare the option entries
-    @modelFormAndExercises.set("optionListEntries", @modelFormAndExercises.prepareEntries())
+    @formAndExercisesModel.set("optionListEntries", @formAndExercisesModel.prepareEntries())
 
     #create an associated user model for workouts and further nesting of associated models
-    @associatedModelUser = new Weightyplates.Models.AssociationUserSession()
-    @associatedWorkout = new Weightyplates.Models.AssociationWorkout()
-    @associatedModelUser.set({workout: [@associatedWorkout]})
+    @associatedUserModel = new Weightyplates.Models.AssociationUserSession()
+    @associatedWorkoutModel = new Weightyplates.Models.AssociationWorkout()
+    @associatedUserModel.set({workout: [@associatedWorkoutModel]})
 
     #set the workout name date into form and exercises
-    @modelFormAndExercises.set("workoutNameDefault", @associatedModelUser.get("workout").at(0).get("name"))
+    @formAndExercisesModel.set("workoutNameDefault", @associatedUserModel.get("workout").at(0).get("name"))
 
     #allows child view to notify this view of a requested change
-    @modelFormAndExercises.on("change:signalParentForm", @updateAssociatedModel)
+    @formAndExercisesModel.on("change:signalParentForm", @updateAssociatedModel)
 
     #private form model to listen to events from child views
     @privateFormModel = new Weightyplates.Models.PrivateForm()
@@ -50,7 +50,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @$el.html(@template())
 
     #form view gets the FormAndExercises model
-    exerciseView = new Weightyplates.Views.WorkoutExercise(model: @modelFormAndExercises)
+    exerciseView = new Weightyplates.Views.WorkoutExercise(formAndExercisesModel: @formAndExercisesModel)
 
     #add hint in workout name
     @hintInWorkoutName()
@@ -58,22 +58,22 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   updateAssociatedModel: ->
     #add and removal check for entries
-    if @associatedWorkout.get("workout_entry")
+    if @associatedWorkoutModel.get("workout_entry")
       #remove if there is already and entry
-      if @associatedWorkout.get("workout_entry")
-          .get(@modelFormAndExercises
+      if @associatedWorkoutModel.get("workout_entry")
+          .get(@formAndExercisesModel
           .get("recentlyRemovedExerciseAssociatedModel"))
-        @associatedWorkout.get("workout_entry")
-          .remove(@modelFormAndExercises
+        @associatedWorkoutModel.get("workout_entry")
+          .remove(@formAndExercisesModel
           .get("recentlyRemovedExerciseAssociatedModel"))
        else
         #add instead of overwriting if there already a workout entry
-        @associatedWorkout.get("workout_entry")
-          .add(@modelFormAndExercises
+        @associatedWorkoutModel.get("workout_entry")
+          .add(@formAndExercisesModel
           .get("recentlyAddedExerciseAssociatedModel"))
 
     else
-      @associatedWorkout.set({workout_entry: [@modelFormAndExercises.get "recentlyAddedExerciseAssociatedModel"]})
+      @associatedWorkoutModel.set({workout_entry: [@formAndExercisesModel.get "recentlyAddedExerciseAssociatedModel"]})
 
   mouseOverSaveButton: ->
     #adding a class to the weight input
@@ -95,11 +95,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   blurInWorkoutName: (event) ->
     $this = @getEventTarget(event)
-    $this.val(@modelFormAndExercises.get "workoutNameHint").addClass "hint" if $this.val().length == 0
+    $this.val(@formAndExercisesModel.get "workoutNameHint").addClass "hint" if $this.val().length == 0
 
   hintInWorkoutName: ->
     $workoutNameInput = $('input.dashboard-workout-name-input')
-    $workoutNameInput.val(@modelFormAndExercises.get "workoutNameHint").addClass('hint')
+    $workoutNameInput.val(@formAndExercisesModel.get "workoutNameHint").addClass('hint')
 
   closeButtonConfirmationHandler: (msg, okRes, notOkRes)->
     if (confirm(msg))
@@ -126,7 +126,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     filledFields = totalFields - unfilledFields - errorFields
 
     #cache the condition of the workout name
-    workoutName = @modelFormAndExercises.get("workoutName")
+    workoutName = @formAndExercisesModel.get("workoutName")
     workoutNameCond = !_.isNull(workoutName) and !_.isUndefined(workoutName)
 
     changesCond = (unfilledFields < totalFields) or errorFields > 0
@@ -148,14 +148,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       console.log "close out the form"
 
   addNote: ->
-    #console.log JSON.stringify(@associatedModelUser)
+    #console.log JSON.stringify(@associatedUserModel)
     if $('.text-area-row').length < 1
       templateNote = @templateNote()
       $('.workout-entry-exercise-and-sets-row').after(templateNote)
 
   divider: ->
-    console.log JSON.stringify(@associatedModelUser)
-    console.log @associatedModelUser.toJSON()["workout"]
+    console.log JSON.stringify(@associatedUserModel)
+    console.log @associatedUserModel.toJSON()["workout"]
 
   fromSaveButtonTrigger: ->
     #need to specify the caller because of sharing of function with close button
@@ -164,13 +164,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   getWorkoutName: (event)->
     if event.target.className.split(' ').length < 2
-      @modelFormAndExercises.set("workoutName", event.target.value)
+      @formAndExercisesModel.set("workoutName", event.target.value)
     else
-      @modelFormAndExercises.set("workoutName", null)
+      @formAndExercisesModel.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
     #get data from associated model to evaluate validness
-    associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
+    associatedModels = @associatedUserModel.get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
 
     #process the data in the private model
@@ -215,7 +215,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   saveWorkout: ->
     #prepare the json for sending
-    jsonData = JSON.stringify(@associatedModelUser)
+    jsonData = JSON.stringify(@associatedUserModel)
 
 
     #formatting the jsonData by removing the first '[' and last ']'
