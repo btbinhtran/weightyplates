@@ -11,21 +11,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'blur .add-workout-reps-input': 'validateChange'
 
   initialize: (options) ->
-    console.log "details init"
+
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-    console.log options
-
-
-
     #get the exerciseAndDetails model from options
     @exerciseAndDetailsModel = options.exerciseAndDetails
-
-
-
-    console.log 'exerdetails for details init'
-    console.log  @exerciseAndDetailsModel
 
     #private model for details
     @privateDetailsModel = new Weightyplates.Models.PrivateDetails()
@@ -158,7 +149,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       @exerciseAndDetailsModel.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
 
     thisView = @
-    console.log "start detail delete"
+    #console.log "start detail delete"
     #details removal fadeout animation
 
     ###
@@ -174,8 +165,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     thisView.undelegateEvents()
     thisView.remove()
 
-
-    console.log "end detail delete"
+    #console.log "end detail delete"
 
     #set info for view and send signal to exercise to remove the detail entry from json
     signalExerciseForm = @exerciseAndDetailsModel.get "signalExerciseForm"

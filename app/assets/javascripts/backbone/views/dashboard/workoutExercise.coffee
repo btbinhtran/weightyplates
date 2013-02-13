@@ -30,17 +30,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #creating exerciseAssociation model for this view
     associationExerciseParams = {workout_entry_number: exerciseViewsCount + "", exercise_id: 0}
-    @exerciseAssociation = new Weightyplates.Models.AssociationExercise(associationExerciseParams)
+    @exerciseAssociationModel = new Weightyplates.Models.AssociationExercise(associationExerciseParams)
 
     #model shared between the form and the exercise
     exerciseAssociatedModels = @formAndExercisesModel.get("exerciseAssociatedModels")
 
     #add to the exercise association model array tracker
-    exerciseAssociatedModels.push(@exerciseAssociation)
+    exerciseAssociatedModels.push(@exerciseAssociationModel)
     @formAndExercisesModel.set("exerciseAssociatedModels", exerciseAssociatedModels)
 
     #indicate which exercise associated model was recently added
-    @formAndExercisesModel.set("recentlyAddedExerciseAssociatedModel", @exerciseAssociation)
+    @formAndExercisesModel.set("recentlyAddedExerciseAssociatedModel", @exerciseAssociationModel)
 
     #manual reset of details index views for not clearing properly
     #seem to affect arrays types on model even after new instantiation
@@ -59,8 +59,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #private model for exercise
     @privateExerciseModel = new Weightyplates.Models.PrivateExercise()
 
-    console.log "exer init"
-    console.log @exerciseAndDetailsModel
+    #console.log "exer init"
+    #console.log @exerciseAndDetailsModel
 
     #render the template
     @render(exercisePhrase, @formAndExercisesModel.get("optionListEntries"), exerciseViewsCount)
@@ -68,7 +68,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   #==============================================Render
   render: (exercisePhrase, optionsList, exerciseViewsCount)->
-    console.log "exer render"
+    #console.log "exer render"
     #console.log @exerciseAndDetailsModel
 
     viewElModel = @formAndExercisesModel
@@ -129,11 +129,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #exercise and details model
     exerciseAndDetailsModel = @exerciseAndDetailsModel
 
-    console.log "exercise and details begin exercise is "
-    console.log @exerciseAndDetailsModel
+    #console.log "exercise and details begin exercise is "
+    #console.log @exerciseAndDetailsModel
 
     #exercise association model
-    exerciseAssociationModel = @exerciseAssociation
+    exerciseAssociationModel = @exerciseAssociationModel
 
     exerciseViewEl = @$el
 
@@ -148,39 +148,32 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       revert: 50
 
       activate: (event, ui) ->
-
         #notify the dragged detail view for changes if necessary
-        detailId = $(ui.item).attr("id")
-        console.log "dragging"
-        console.log(exerciseAndDetailsModel)
-
-
-        ###
-        focusInput = exerciseViewEl.find("##{detailId} :focus")
+        $detailViewDragged = $(ui.item)
+        detailId = $detailViewDragged.attr("id")
+        focusInput = $("##{detailId} :focus")
         #there is actually a focused input before initiating the sort
         if focusInput.length > 0
           classNameFocused = focusInput[0].className
-          exerciseViewEl.find('#' + detailId + ' :input.' + classNameFocused).trigger('click')
+          $("##{detailId} :input.#{classNameFocused}").trigger('click')
           #for the dropped event to cause the blur event for validation to trigger
           exerciseAndDetailsModel.set("focusedInputWhenDragged", true)
           exerciseAndDetailsModel.set("classNameOfInputFocus", classNameFocused)
         else
           # no input focus; general click ok
-          exerciseViewEl.find('#' + detailId).trigger('click')
-        ###
+          $detailViewDragged.trigger('click')
 
       deactivate: (event, ui)->
-        ###
         #trigger a blur event to make up for the blur validation when sorting
         if exerciseAndDetailsModel.get("focusedInputWhenDragged")
           focusInput = exerciseAndDetailsModel.get("classNameOfInputFocus")
-          detailId = $(ui.item).attr("id")
-          exerciseViewEl.find("##{detailId} :input.#{focusInput}").trigger('blur')
+          detailId = $(ui.item)[0].id
+          $("##{detailId} :input.#{focusInput}").trigger('blur')
 
           #reset the model info
           exerciseAndDetailsModel.set("focusedInputWhenDragged", false)
           exerciseAndDetailsModel.set("classNameOfInputFocus", null)
-        ###
+
         #for updating the json
         $prevItem = $(ui.item).prev('.details-set-weight')
         if $prevItem.length == 1
@@ -204,16 +197,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   updateAssociatedModelAdd: ->
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
-    if @exerciseAssociation.get("entry_detail")
-      @exerciseAssociation.get("entry_detail")
+    if @exerciseAssociationModel.get("entry_detail")
+      @exerciseAssociationModel.get("entry_detail")
         .add(@exerciseAndDetailsModel
           .get("recentlyAddedDetailsAssociatedModel"))
     else
-      @exerciseAssociation.set({entry_detail: [@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]})
+      @exerciseAssociationModel.set({entry_detail: [@exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]})
 
-
-    console.log "exerciseanddetails in details add is "
-    console.log @exerciseAndDetailsModel
+    #console.log "exerciseanddetails in details add is "
+    #console.log @exerciseAndDetailsModel
 
     #keep track of the added details
     viewId = @exerciseAndDetailsModel.get("recentlyAddedDetailsViewId")
@@ -223,9 +215,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     detailsIndex.push(detailsViewInfo)
     @exerciseAndDetailsModel.set("detailsViewIndex", detailsIndex)
 
-    console.log "added to details to index"
-    console.log @exerciseAndDetailsModel
-    console.log '-----------------------------------------__'
+    #console.log "added to details to index"
+    #console.log @exerciseAndDetailsModel
+    #console.log '-----------------------------------------__'
 
     #signal to parent view that a update is needed
     @formAndExercisesModel.set("signalParentForm", @formAndExercisesModel.get("signalParentForm") * -1)
@@ -264,7 +256,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           toHighLightDetailView = detailsInfo[indexOfDeleted + 1]
         itemTracked = detailsInfo[indexOfDeleted]
 
-    console.log "start id tracking"
+    #console.log "start id tracking"
 
     @exerciseAndDetailsModel.set("toBeHighlightedDetail", toHighLightDetailView.id)
 
@@ -272,7 +264,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @exerciseAndDetailsModel.set("detailsViewIndex", _.difference(detailsInfo, itemTracked))
 
     #a detail entry will be removed
-    @exerciseAssociation.get("entry_detail")
+    @exerciseAssociationModel.get("entry_detail")
       .remove(@exerciseAndDetailsModel
       .get("recentlyRemovedDetailsAssociatedModel"))
 
@@ -319,7 +311,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #send signal to form to remove the exercise entry from json
     signalParentForm = @formAndExercisesModel.get "signalParentForm"
-    @formAndExercisesModel.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
+    @formAndExercisesModel.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociationModel)
     @formAndExercisesModel.set("signalParentForm", signalParentForm * -1)
 
     thisView = @
@@ -346,10 +338,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #attempt to set the attribute
     attributeToChange = "exercise_id"
-    @exerciseAssociation.set(attributeToChange, selectedId, {validateAll: true, changedAttribute: attributeToChange})
+    @exerciseAssociationModel.set(attributeToChange, selectedId, {validateAll: true, changedAttribute: attributeToChange})
 
     #get errors if they exist
-    @exerciseAssociation.errors["exercise_id"] || ''
+    @exerciseAssociationModel.errors["exercise_id"] || ''
 
     #cache elements
     $controlGroup = $parentElement.find('.dropdown-control')
@@ -357,18 +349,18 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #adding and removal of validation error messages
     #first blick if for removing and second block is for adding
-    hasErrors = _.has(@exerciseAssociation.errors, "exercise_id")
+    hasErrors = _.has(@exerciseAssociationModel.errors, "exercise_id")
     if hasErrors == false and @exerciseAndDetailsModel.get("dropDownListError") == true
       $controlGroup.removeClass('error')
       $dropDownList.siblings().remove()
       @exerciseAndDetailsModel.set("dropDownListError", false)
-      #@exerciseAssociation.unset("invalidExercise", {silent: true})
+      #@exerciseAssociationModel.unset("invalidExercise", {silent: true})
     else if hasErrors == true and @exerciseAndDetailsModel.get("dropDownListError") == false
 
       $controlGroup.addClass('error')
 
-      errors = @exerciseAssociation.errors["exercise_id"]
+      errors = @exerciseAssociationModel.errors["exercise_id"]
       alertMsg = "<div class='alert alert-error select-list-error-msg'>#{errors}</div>"
       $dropDownList.after(alertMsg)
       @exerciseAndDetailsModel.set("dropDownListError", true)
-      @exerciseAssociation.set("exercise_id", null)
+      @exerciseAssociationModel.set("exercise_id", null)
