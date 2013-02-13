@@ -22,9 +22,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #private model for details
     @privateDetails = new Weightyplates.Models.PrivateDetails()
 
-    #click on details view highlight change detection
-    @exerciseAndDetails.on("change:signalViewHighlight", @signalViewHighlight, @)
-
     #keep track of the view exercises being added and count them
     detailViews = @exerciseAndDetails.get("detailViews")
     detailViewsCount = @exerciseAndDetails.get("detailViewsCount") + 1
@@ -142,8 +139,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     this
 
-  signalViewHighlight: ->
-    console.log 'save highlight'
 
   addDetails: ->
     #prepare a new div to insert another details view

@@ -163,6 +163,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #exercise association model
     exerciseAssociationModel = @exerciseAssociation
 
+    exerciseViewEl = @$el
+
     #make the details sortable
     $detailsSet.sortable
       axis: 'y'
@@ -172,11 +174,16 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       forcePlaceHolderSize: true
       delay: 100
       revert: 50
+      activate: (event, ui) ->
+        #notify the dragged detail view for changes if necessary
+        exerciseViewEl.find('#' + $(ui.item).attr("id")).trigger('click')
       deactivate: (event, ui)->
         console.log "sorting done"
-        detailViews = exerciseAndDetailsModel.get("detailViews")
-        droppedItem = _.where(detailViews, {viewId: $(ui.item).attr("id")})
-        console.log droppedItem[0].view.privateDetails
+
+
+
+
+
         #if the prev is blank than it is first
         $prevItem = $(ui.item).prev('.details-set-weight')
         if $prevItem.length == 1

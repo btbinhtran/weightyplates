@@ -11,4 +11,6 @@ class Weightyplates.Models.PrivateDetails extends Backbone.Model
     prevIsValidStateRep: true
     currentIsValidStateRep: null
     triggerFromExercise: null
+    signalFromParent: -1
+    needingHighlighting: false
 
