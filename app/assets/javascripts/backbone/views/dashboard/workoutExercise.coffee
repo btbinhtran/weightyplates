@@ -176,7 +176,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         console.log "sorting done"
         detailViews = exerciseAndDetailsModel.get("detailViews")
         droppedItem = _.where(detailViews, {viewId: $(ui.item).attr("id")})
-        console.log droppedItem[0].view.privateDetails.get("repInputError")
+        console.log droppedItem[0].view.privateDetails
         #if the prev is blank than it is first
         $prevItem = $(ui.item).prev('.details-set-weight')
         if $prevItem.length == 1
