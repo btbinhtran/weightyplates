@@ -67,7 +67,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       noLeadingInteger:(attr) ->
         validateAttr = attr.validateAttrVal
-        if(_.indexOf(validateAttr, ".") == -1 and (validateAttr.replace(/^0+/, '').length != validateAttr.length))
+        if(_.indexOf(validateAttr, ".") == -1 and (validateAttr.replace(/^0+/, '').length != validateAttr.length) and validateAttr.length > 1)
           "#{attr.checkAttribute} number can't have leading zeros."
 
       noScientificNotation:(attr) ->
