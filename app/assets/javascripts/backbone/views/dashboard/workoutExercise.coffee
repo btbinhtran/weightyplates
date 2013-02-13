@@ -47,9 +47,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #model between exercises and details
     @exerciseAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails(detailViews: [], detailViewsCount: null, detailsViewIndex: [])
 
-
-    #@exerciseAndDetailsModel.set("detailsViewIndex", [])
-
     #allows child view to request a change in associated model for the parent
     @exerciseAndDetailsModel.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
@@ -62,6 +59,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #console.log "exer init"
     #console.log @exerciseAndDetailsModel
 
+    @collection = new Weightyplates.Collections.ExerciseCollection([@exerciseAssociationModel, @exerciseAndDetailsModel, @privateExerciseModel])
+
+
+    aModelConstructorName = @collection.at(0).constructor.name
+
+
+    #console.log @collection.models
+
     #render the template
     @render(exercisePhrase, @formAndExercisesModel.get("optionListEntries"), exerciseViewsCount)
 
@@ -72,6 +77,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #console.log @exerciseAndDetailsModel
 
     viewElModel = @formAndExercisesModel
+
+    console.log @collection
 
     #the main exercise row
     $workoutExeciseRow = @$el

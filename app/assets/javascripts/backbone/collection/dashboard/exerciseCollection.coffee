@@ -1,0 +1,1 @@
+class Weightyplates.Collections.ExerciseCollection extends Backbone.Collection
