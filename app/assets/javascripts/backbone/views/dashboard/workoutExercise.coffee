@@ -245,7 +245,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #a detail entry will be removed
     @exerciseAssociation.get("entry_detail")
       .remove(@exerciseAndDetails
-        .get("recentlyRemovedDetailsAssociatedModel"))
+      .get("recentlyRemovedDetailsAssociatedModel"))
 
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)

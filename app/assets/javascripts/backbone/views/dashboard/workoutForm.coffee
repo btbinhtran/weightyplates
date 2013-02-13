@@ -155,6 +155,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   divider: ->
     console.log JSON.stringify(@associatedModelUser)
+    console.log @associatedModelUser.toJSON()["workout"]
 
   fromSaveButtonTrigger: ->
     #need to specify the caller because of sharing of function with close button
@@ -215,6 +216,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
   saveWorkout: ->
     #prepare the json for sending
     jsonData = JSON.stringify(@associatedModelUser)
+
 
     #formatting the jsonData by removing the first '[' and last ']'
     jsonDataLastRightBracketIndex = jsonData.lastIndexOf(']')
