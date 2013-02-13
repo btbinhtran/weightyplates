@@ -9,8 +9,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-weight-input': 'validateChange'
     'blur .add-workout-reps-input': 'validateChange'
-    'focus .add-workout-weight-input': 'focusHighlight'
-    #'click .group-set-number': 'clickOnView'
 
   initialize: (options) ->
     #make all references of 'this' to reference the main object
@@ -25,15 +23,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #keep track of the view exercises being added and count them
     detailViews = @exerciseAndDetails.get("detailViews")
     detailViewsCount = @exerciseAndDetails.get("detailViewsCount") + 1
-    detailViews.push({view:@, viewId: @cid, viewSetNumber: detailViewsCount})
+    detailViews.push({view: @, viewId: @cid, viewSetNumber: detailViewsCount})
     @exerciseAndDetails.set("detailViewsCount", detailViewsCount)
-                      .set("detailViews", detailViews)
+      .set("detailViews", detailViews)
 
     #creating detailsAssociation model for this view
     associationDetailParams = {set_number: detailViewsCount + "", weight: null, reps: null}
     @detailsAssociation = new Weightyplates.Models.AssociationDetail(associationDetailParams)
-
-
 
     #actual details view count
     @exerciseAndDetails.set("actualDetailViewsCount", @exerciseAndDetails.get("actualDetailViewsCount") + 1)
@@ -53,9 +49,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #remove the remove button in the beginning when there is only one detail
     if @exerciseAndDetails.get("detailViews").length == 1
       $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button')
-                              .addClass('hide-add-workout-reps-remove-button')
-      @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
-      @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
+        .addClass('hide-add-workout-reps-remove-button')
+      @exerciseAndDetails.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
+      @exerciseAndDetails.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
     else
       $hiddenDetailRemove = @exerciseAndDetails.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
@@ -68,8 +64,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #click event on the container element for highlighting of details view
     @$el.click (event)->
       $this = $(this)
-      #console.log $this
-      #console.log "clicked details"
 
       #if check for presence of clicked details view
       #if already occupied that means overwrite it
@@ -108,11 +102,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #log info for newly created details set and signal update to parent view
     @model.set("recentDetailsViewAction", "adding")
-          .set("recentlyAddedDetailsViewId", @cid)
-          .set("recentlyAddedDetailsAssociatedModelId", @detailsAssociation.cid)
-
-    #console.log "added a detail"
-    #console.log @model.attributes
+      .set("recentlyAddedDetailsViewId", @cid)
+      .set("recentlyAddedDetailsAssociatedModelId", @detailsAssociation.cid)
 
     #add the view id as an actual id on element
     #allows for easier referencing when sorting details
@@ -123,7 +114,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     this
 
-
   addDetails: ->
     #prepare a new div to insert another details view
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
@@ -132,19 +122,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     new Weightyplates.Views.WorkoutDetail(model: @model, exerciseAndDetails: @exerciseAndDetails)
 
   removeDetails: ()->
-
-    #console.log "removing details^^^^^^^^^^^^^^^^^^^^^^^^^^^^6"
-
-    #console.log @exerciseAndDetails.get("lastClickDetails")
-
     #setting actual details view count
     @exerciseAndDetails.set("actualDetailViewsCount", @exerciseAndDetails.get("actualDetailViewsCount") - 1)
 
     #list of views
     detailViews = @exerciseAndDetails.get("detailViews")
-
-    #console.log "detail view"
-    #console.log detailViews
 
     #the current view id
     currentCiewId = @cid
@@ -157,36 +139,46 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #update the exerciseAndDetails after removal
     @exerciseAndDetails.set("detailViews", detailViewsFiltered)
 
-    #console.log "filtered view"
-    #console.log @exerciseAndDetails.get("detailViews")
-
-    thisView = @
-
-    #console.log "attempt to get sibling"
-    #console.log @$el.siblings()
-
-    #details removal fadeout animation
-    @$el.fadeOut(300, ->
-      #remove view and event listeners attached to it; event handlers first
-      thisView.stopListening()
-      thisView.undelegateEvents()
-      thisView.remove()
-    )
 
     #remove the exercise remove button, if only one exercise left is left as a result
     if detailViewsFiltered.length == 1
       $hiddenDetailRemove = @exerciseAndDetails.get("detailViews")[0].view.$el
         .find('.add-workout-reps-remove-button')
         .addClass('hide-add-workout-reps-remove-button')
-      @exerciseAndDetails.set("hiddenDetailRemoveButton",$hiddenDetailRemove)
+      @exerciseAndDetails.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
+
+    thisView = @
+    console.log "start detail delete"
+    #details removal fadeout animation
+
+    ###
+    @$el.fadeOut(300, ->
+      #remove view and event listeners attached to it; event handlers first
+      thisView.stopListening()
+      thisView.undelegateEvents()
+      thisView.remove()
+    )
+    ###
+
+    thisView.stopListening()
+    thisView.undelegateEvents()
+    thisView.remove()
+
+
+    console.log "end detail delete"
 
     #set info for view and send signal to exercise to remove the detail entry from json
     signalExerciseForm = @model.get "signalExerciseForm"
     @model.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociation)
-          .set("recentDetailsViewAction", "removing")
-          .set("recentlyRemovedDetailsViewId", @cid)
-          .set("recentlyRemovedDetailsAssociatedModelId", @detailsAssociation.cid)
-          .set("signalExerciseForm", signalExerciseForm * -1)
+      .set("recentDetailsViewAction", "removing")
+      .set("recentlyRemovedDetailsViewId", @cid)
+      .set("recentlyRemovedDetailsAssociatedModelId", @detailsAssociation.cid)
+      .set("signalExerciseForm", signalExerciseForm * -1)
+
+
+
+
+
 
   toTitleCase: (str) ->
     #utility function for title casing the key
@@ -260,7 +252,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     else
       #console.log "removing error"
-
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()
       @privateDetails.set(errorKey, false)
@@ -273,11 +264,3 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #silent prevents model change event
       @detailsAssociation.unset(invalidAttribute, {silent: true})
-
-  focusHighlight: (event) ->
-    #$(event.target).closest('.details-set-weight').addClass()
-    #console.log @
-    #console.log @$el
-
-  clickOnView: (event)->
-    $(event.target).closest('.details-set-weight').addClass('high-light-details')

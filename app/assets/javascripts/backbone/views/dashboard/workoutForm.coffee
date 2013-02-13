@@ -52,13 +52,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #form view gets the FormAndExercises model
     exerciseView = new Weightyplates.Views.WorkoutExercise(model: @modelFormAndExercises)
 
-    ###
-    $exerciseGrouping = @$el.find('.exercise-grouping')
-    $exerciseGrouping.sortable
-      axis: 'y'
-    ###
-
-
     #add hint in workout name
     @hintInWorkoutName()
     this
@@ -175,11 +168,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       @modelFormAndExercises.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
-    #console.log "validating before saving"
-
     #get data from associated model to evaluate validness
     associatedModels = @associatedModelUser.get("workout[0]").get("workout_entry")
-
     workoutEntryLength = associatedModels.length
 
     #process the data in the private model

@@ -19,7 +19,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #keep track of the exerciseviews and count
     exerciseViews = @model.get("exerciseViews")
     exerciseViewsCount = @model.get("exerciseViewsCount") + 1
-    exerciseViews.push({view:@, viewId: @cid, viewExerciseNumber: exerciseViewsCount})
+    exerciseViews.push({view: @, viewId: @cid, viewExerciseNumber: exerciseViewsCount})
     @model.set("exerciseViewsCount", exerciseViewsCount)
     @model.set("exerciseViews", exerciseViews)
 
@@ -40,62 +40,21 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #indicate which exercise associated model was recently added
     @model.set("recentlyAddedExerciseAssociatedModel", @exerciseAssociation)
 
-
-    #console.log "exercise before"
-    #console.log @exerciseAndDetails
-
-
-
     #model between exercises and details
     @exerciseAndDetails = new Weightyplates.Models.ExerciseAndDetails()
 
-    #console.log "exercise after"
-    #console.log @exerciseAndDetails
-
-    #manual reset of details index views
-    #not clearing properly for newly created exercises
+    #manual reset of details index views for not clearing properly
+    #seem to affect arrays types on model even after new instantiation
     @exerciseAndDetails.set("detailsViewIndex", [])
-
-    #console.log mostRecentDetailView
-    #console.log _.last(mostRecentDetailView)
-
-    #console.log "new exercise created and the exerciseanddetails model"
-    #console.log @exerciseAndDetails
 
     #allows child view to request a change in associated model for the parent
     @exerciseAndDetails.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
-
-    #console.log "this exercise detail"
-
-    #console.log "model now is"
-    #console.log @exerciseAndDetails
 
     #allows parent view to know of this view's requests
     @exerciseAndDetails.on("change:signalExerciseForm", @updateDetailsHandler, @)
 
     #private model for exercise
     @privateExerciseModel = new Weightyplates.Models.PrivateExercise()
-
-    ###
-    #get the child detail view
-    Backbone.on("detailsAndExercise:newDetailsAdded", (view, id, aId) ->
-     ##console.log "the details association id is"
-     ##console.log aId
-      prevNewlyAddedDetails = @privateExerciseModel.get("newlyAddedDetails")
-      prevNewlyAddedDetails.push({id:id, aId: aId, index: prevNewlyAddedDetails.length})
-      @privateExerciseModel.set("newlyAddedDetails", prevNewlyAddedDetails)
-
-      view.privateDetails.set("triggerFromExercise", "fromExercise")
-    , @)
-
-    Backbone.on("detailsAndExercise:requestHighlighting", ->
-     ##console.log "highlighting is requested"
-      detailForHighlighting = @exerciseAndDetails.get("toBeHighlightedDetail")
-     ##console.log @$el.find('#' + detailForHighlighting).trigger('click')
-    , @)
-    ###
-
-
 
     #render the template
     @render(exercisePhrase, @model.get("optionListEntries"), exerciseViewsCount)
@@ -118,7 +77,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #remove the remove button in the beginning when there is only one exercise
     if @model.get("exerciseViews").length == 1
       $hiddenExerciseRemove = @$el.find('.add-workout-exercise-remove-button').addClass('hide-add-workout-button')
-      @model.set("hiddenExerciseRemoveButton",$hiddenExerciseRemove)
+      @model.set("hiddenExerciseRemoveButton", $hiddenExerciseRemove)
     else
       $hiddenExerciseRemove = @model.get "hiddenExerciseRemoveButton"
       $hiddenExerciseRemove.removeClass('hide-add-workout-button')
@@ -149,7 +108,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         $(@).off()
       out: ->
 
-    #insert entries into option list
+        #insert entries into option list
     $optionLists =  $workoutExeciseRow.find('.add-workout-exercise-drop-downlist')
 
     #attaching event listener here because it's not a backbone event
@@ -212,28 +171,22 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           #the next item after last dropped
           #console.log $(ui.item).next('.details-set-weight')
           #get the item after dragged item and move dragged item before that item
-        #update the exercise association model appropriately
-        #console.log exerciseAssociationModel.get("entry_detail")
+          #update the exercise association model appropriately
+          #console.log exerciseAssociationModel.get("entry_detail")
 
-    #highlight the first details upon exercise creation
+          #highlight the first details upon exercise creation
     $(@.el).find('.details-set-weight').trigger("click")
 
     #return this
     this
 
   updateAssociatedModelAdd: ->
-    #console.log "adding a detail view for exercise---------------------------_"
-    #console.log @
-
-    #console.log @exerciseAndDetails
-    #console.log @exerciseAndDetails.attributes
-
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
     if @exerciseAssociation.get("entry_detail")
       @exerciseAssociation.get("entry_detail")
         .add(@exerciseAndDetails
-        .get("recentlyAddedDetailsAssociatedModel"))
+          .get("recentlyAddedDetailsAssociatedModel"))
     else
       @exerciseAssociation.set({entry_detail: [@exerciseAndDetails.get("recentlyAddedDetailsAssociatedModel")]})
 
@@ -242,22 +195,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     associationId = @exerciseAndDetails.get("recentlyAddedDetailsAssociatedModelId")
     detailsViewInfo = {id: viewId, aId: associationId}
     detailsIndex = @exerciseAndDetails.get("detailsViewIndex")
-
-
-
     detailsIndex.push(detailsViewInfo)
-
-   ##console.log "details index is "
-   ##console.log detailsIndex
-
     @exerciseAndDetails.set("detailsViewIndex", detailsIndex)
 
     #signal to parent view that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
 
   updateDetailsHandler: ->
-   ##console.log "responding to a request"
-
+    #responding to a request
     request = @exerciseAndDetails.get("recentDetailsViewAction")
     if request == "removing"
       @updateAssociatedModelRemove()
@@ -265,41 +210,32 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       @highLightDetails()
 
   highLightDetails: ->
-    console.log "highlighting details"
+    #perform a click to hightlight when the last focused highlighted detail was deleted
     detailForHighlighting = @exerciseAndDetails.get("toBeHighlightedDetail")
     @$el.find('#' + detailForHighlighting).trigger('click')
 
-
   updateAssociatedModelRemove: ()->
-    #console.log "begin update associated model remove"
-
-   ##console.log "in the exercise removal"
-
+    #update associated model remove
     recentlyRemovedAssociatedModelId = @exerciseAndDetails.get("recentlyRemovedDetailsAssociatedModel").cid
-
-    #console.log recentlyRemovedAssociatedModelId
-
     detailsInfo = @exerciseAndDetails.get("detailsViewIndex")
-    #console.log @exerciseAndDetails
-
-   ##console.log detailsInfo
-
 
     indexOfDeleted = null
     itemTracked = null
     toHighLightDetailView = null
 
+    #determine if the next detail or previous detail should be highlighted
     _(detailsInfo).each (el) ->
       if(el.aId == recentlyRemovedAssociatedModelId)
-
         indexOfDeleted = _.indexOf(detailsInfo, el)
         if(indexOfDeleted == detailsInfo.length - 1)
-         ##console.log("get the previous one")
+          ##console.log("get the previous one")
           toHighLightDetailView = detailsInfo[indexOfDeleted - 1]
         else
-         ##console.log('one after')
+          ##console.log('one after')
           toHighLightDetailView = detailsInfo[indexOfDeleted + 1]
         itemTracked = detailsInfo[indexOfDeleted]
+
+    console.log "start id tracking"
 
     @exerciseAndDetails.set("toBeHighlightedDetail", toHighLightDetailView.id)
 
@@ -309,7 +245,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #a detail entry will be removed
     @exerciseAssociation.get("entry_detail")
       .remove(@exerciseAndDetails
-      .get("recentlyRemovedDetailsAssociatedModel"))
+        .get("recentlyRemovedDetailsAssociatedModel"))
 
     #signal to parent that a update is needed
     @model.set("signalParentForm", @model.get("signalParentForm") * -1)
@@ -326,9 +262,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
   addExercise: (event)->
     #create a new grouping container for the new exercise
     @$el.parent().append("<div class='exercise-grouping row-fluid' id='exercise-grouping'></div>")
-
-   ##console.log "the model before adding new exercise is "
-   ##console.log @model
 
     #generate a new exercise entry
     new Weightyplates.Views.WorkoutExercise(model: @model)
@@ -348,8 +281,21 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #update the model after removal
     @model.set("exerciseViews", exerciseViewsFiltered)
 
+    #remove the exercise remove button, if only one exercise left is left as a result
+    if exerciseViewsFiltered.length == 1
+      $hiddenExerciseRemove = @model.get("exerciseViews")[0].view.$el
+        .find('.add-workout-exercise-remove-button')
+        .addClass('hide-add-workout-button')
+      @model.set("hiddenExerciseRemoveButton", $hiddenExerciseRemove)
+
+    #send signal to form to remove the exercise entry from json
+    signalParentForm = @model.get "signalParentForm"
+    @model.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
+    @model.set("signalParentForm", signalParentForm * -1)
+
     thisView = @
 
+    ###
     #exercise removal fadeout animation
     @$el.fadeOut(200, ->
       #remove view and event listeners attached to it; event handlers first
@@ -357,18 +303,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       thisView.undelegateEvents()
       thisView.remove()
     )
+    ###
 
-    #remove the exercise remove button, if only one exercise left is left as a result
-    if exerciseViewsFiltered.length == 1
-      $hiddenExerciseRemove = @model.get("exerciseViews")[0].view.$el
-        .find('.add-workout-exercise-remove-button')
-        .addClass('hide-add-workout-button')
-      @model.set("hiddenExerciseRemoveButton",$hiddenExerciseRemove)
-
-    #send signal to form to remove the exercise entry from json
-    signalParentForm = @model.get "signalParentForm"
-    @model.set("recentlyRemovedExerciseAssociatedModel", @exerciseAssociation)
-    @model.set("signalParentForm", signalParentForm * -1)
+    thisView.stopListening()
+    thisView.undelegateEvents()
+    thisView.remove()
 
   validateListChange: (event)->
     #getting the selected value from the option list
@@ -391,16 +330,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #first blick if for removing and second block is for adding
     hasErrors = _.has(@exerciseAssociation.errors, "exercise_id")
     if hasErrors == false and @exerciseAndDetails.get("dropDownListError") == true
-
-      #console.log "removing errors exercise"
-
       $controlGroup.removeClass('error')
       $dropDownList.siblings().remove()
       @exerciseAndDetails.set("dropDownListError", false)
       #@exerciseAssociation.unset("invalidExercise", {silent: true})
     else if hasErrors == true and @exerciseAndDetails.get("dropDownListError") == false
-
-      #console.log "adding exercise errors"
 
       $controlGroup.addClass('error')
 
@@ -409,7 +343,3 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       $dropDownList.after(alertMsg)
       @exerciseAndDetails.set("dropDownListError", true)
       @exerciseAssociation.set("exercise_id", null)
-
-
-
-
