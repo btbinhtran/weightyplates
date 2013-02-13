@@ -323,6 +323,7 @@
       }
       .group-weights-and-reps-items{
 
+
       }
       .group-set-number{
         .add-workout-set-label{
@@ -336,6 +337,7 @@
       }
 
       .weight-and-rep-inputs{
+        float: left;
         .weight-input-area{
           @media (max-width: 47.9375em){
             margin-bottom: 7px;

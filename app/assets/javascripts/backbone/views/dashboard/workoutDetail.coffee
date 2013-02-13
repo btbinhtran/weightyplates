@@ -80,8 +80,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #add class for any click inside details if there was no class
       if $this.hasClass('high-light-details') == false
+        #for clicks that are not on the remove button for details
         if $(event.target).hasClass('add-workout-reps-remove-button') == false
-          #console.log "didn't click on remove button"
           $this.addClass('high-light-details')
           exerciseAndDetails.set("lastClickDetails", $this)
           exerciseAndDetails.set("lastClickDetailsCid", detailsId)
@@ -89,38 +89,22 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
           #for clicking remove on non-highlighted details
           #need this because a click on a non-highlighted details registered a last click details for the model
           lastViewFocused = exerciseAndDetails.get("lastClickDetails")
-          #console.log "last focused"
-          #console.log  lastViewFocused
-          #console.log "this clicked"
-          #console.log exerciseAndDetails.get("lastClickDetails")
           lastViewFocused.trigger("click")
 
+      isRemoveButton = $(event.target).hasClass('add-workout-reps-remove-button')
+      isVisibleRemoveButton = $('.add-workout-reps-remove-button :visible')
+      hasClassHighlighted = $this.hasClass('high-light-details')
 
-      if $(event.target).hasClass('add-workout-reps-remove-button') == true
-        if  $('.add-workout-reps-remove-button :visible')
-          #console.log "clicked before and now on the delete key"
-          #console.log exerciseAndDetails.get("lastClickDetails").attr("id")
-          #console.log $this.attr("id")
-          if $this.hasClass('high-light-details') == true
-            console.log "deleting current highlighted"
-            #viewId = exerciseAndDetails.get("toBeHighlightedDetail")
-            #Backbone.trigger "detailsAndExercise:requestHighlighting"
-            exerciseAndDetails.set("recentDetailsViewAction", "highlighting")
-            #if viewId == $this.attr("id")
-            #  console.log "highlight"
-            signalExerciseForm = exerciseAndDetails.get "signalExerciseForm"
-            exerciseAndDetails.set("signalExerciseForm", signalExerciseForm * -1)
-
-
+      if isRemoveButton and isVisibleRemoveButton and hasClassHighlighted
+        #mark that it is highlighted but is getting deleted
+        exerciseAndDetails.set("recentDetailsViewAction", "highlighting")
+        #signal to parent view to highlight neighboring detail view
+        signalExerciseForm = exerciseAndDetails.get "signalExerciseForm"
+        exerciseAndDetails.set("signalExerciseForm", signalExerciseForm * -1)
 
       #blur if the click is not into the input field
       if event.target.tagName != "INPUT"
         $(this).find(':focus').blur()
-
-    #console.log $(event.target).closest('.details-set-weight')
-
-    #trigger event for newly created details set
-    #Backbone.trigger "detailsAndExercise:newDetailsAdded", @, @cid, @detailsAssociation.cid
 
     #log info for newly created details set and signal update to parent view
     @model.set("recentDetailsViewAction", "adding")

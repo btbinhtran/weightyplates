@@ -174,17 +174,34 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       forcePlaceHolderSize: true
       delay: 100
       revert: 50
+
       activate: (event, ui) ->
         #notify the dragged detail view for changes if necessary
-        exerciseViewEl.find('#' + $(ui.item).attr("id")).trigger('click')
+        detailId = $(ui.item).attr("id")
+        focusInput = exerciseViewEl.find("##{detailId} :focus")
+        #there is actually a focused input before initiating the sort
+        if focusInput.length > 0
+          classNameFocused = focusInput[0].className
+          exerciseViewEl.find('#' + detailId + ' :input.' + classNameFocused).trigger('click')
+          #for the dropped event to cause the blur event for validation to trigger
+          exerciseAndDetailsModel.set("focusedInputWhenDragged", true)
+          exerciseAndDetailsModel.set("classNameOfInputFocus", classNameFocused)
+        else
+          # no input focus; general click ok
+          exerciseViewEl.find('#' + detailId).trigger('click')
+
       deactivate: (event, ui)->
-        console.log "sorting done"
+        #trigger a blur event to make up for the blur validation when sorting
+        if exerciseAndDetailsModel.get("focusedInputWhenDragged")
+          focusInput = exerciseAndDetailsModel.get("classNameOfInputFocus")
+          detailId = $(ui.item).attr("id")
+          exerciseViewEl.find("##{detailId} :input.#{focusInput}").trigger('blur')
 
+          #reset the model info
+          exerciseAndDetailsModel.set("focusedInputWhenDragged", false)
+          exerciseAndDetailsModel.set("classNameOfInputFocus", null)
 
-
-
-
-        #if the prev is blank than it is first
+        #for updating the json
         $prevItem = $(ui.item).prev('.details-set-weight')
         if $prevItem.length == 1
           #console.log "there is something before it"
@@ -288,49 +305,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #update the private model details views for removing a detail
     @exerciseAndDetails.set("detailsViewIndex", _.difference(detailsInfo, itemTracked))
-
-    ###
-   ##console.log "recently removed-------"
-    recentlyRemovedAssociatedModelId = @exerciseAndDetails.get("recentlyRemovedDetailsAssociatedModel").cid
-
-    detailsInfo = @privateExerciseModel.get("newlyAddedDetails")
-    #console.log JSON.stringify(detailsInfo)
-    #console.log  @exerciseAndDetails.get("recentlyRemovedDetailsAssociatedModel")
-
-   ##console.log recentlyRemovedAssociatedModelId
-   ##console.log detailsInfo
-
-    indexOfDeleted = null
-    itemTracked = null
-    toHighLightDetailView = null
-
-    #process the detail views to be highlighted when deleting a detail view that was last highlighted
-    _(detailsInfo).each (el) ->
-      if(el.aId == recentlyRemovedAssociatedModelId)
-
-        indexOfDeleted = _.indexOf(detailsInfo, el)
-        if(indexOfDeleted == detailsInfo.length - 1)
-         ##console.log("get the previous one")
-          toHighLightDetailView = detailsInfo[indexOfDeleted - 1]
-        else
-         ##console.log('one after')
-          toHighLightDetailView = detailsInfo[indexOfDeleted + 1]
-        itemTracked = detailsInfo[indexOfDeleted]
-
-    #console.log "to highlight is "
-    #console.log toHighLightDetailView.id
-
-    #to indicate which detail will need to be highlighted
-    @exerciseAndDetails.set("toBeHighlightedDetail", toHighLightDetailView.id)
-
-    #$(@.el).find('#' + toHighLightDetailView.id).trigger("click")
-
-    #update the private model details views for removing a detail
-    @privateExerciseModel.set("newlyAddedDetails", _.difference(detailsInfo, itemTracked))
-
-   ##console.log "details views are now"
-   ##console.log @privateExerciseModel.get("newlyAddedDetails")
-    ###
 
     #a detail entry will be removed
     @exerciseAssociation.get("entry_detail")

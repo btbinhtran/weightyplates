@@ -20,4 +20,6 @@ class Weightyplates.Models.ExerciseAndDetails extends Backbone.Model
     lastClickDetailsCid: null
     signalViewHighlight: -1
     toBeHighlightedDetail: null
+    focusedInputWhenDragged: false
+    classNameOfInputFocus: null
 
