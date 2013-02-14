@@ -2,6 +2,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   template: JST['dashboard/workout_entry_exercise']
 
+  el: '#exercise-grouping'
+
   events:
     'click .add-workout-exercise-add-button': 'addExercise'
     'click .add-workout-exercise-remove-button': 'removeExercise'
@@ -9,13 +11,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'focus .add-workout-exercise-drop-downlist': 'checkForEntries'
     'blur .add-workout-exercise-drop-downlist': 'validateListChange'
 
-  el: '#exercise-grouping'
-
   #==============================================Initialize
   initialize: (options)->
     #make all references of 'this' to reference the main object
     _.bindAll(@)
-    
+
+    #for when another exercise view creates this view
     formAndExercisesModel = options.formAndExercisesModel
 
     #keep track of the exerciseviews and count
@@ -23,7 +24,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exerciseViewsCount = formAndExercisesModel.get("exerciseViewsCount") + 1
     exerciseViews.push({view: @, viewId: @cid, viewExerciseNumber: exerciseViewsCount})
     formAndExercisesModel.set("exerciseViewsCount", exerciseViewsCount)
-    formAndExercisesModel.set("exerciseViews", exerciseViews)
+                        .set("exerciseViews", exerciseViews)
 
     #need to add one for starting at a zero index
     exercisePhrase = "Exercise #{exerciseViewsCount}"
@@ -102,7 +103,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #the workout details row has a model between the exercises and its details
     #have to initialize model to default values because it can take on old values from other exercise sets
-
     new Weightyplates.Views.WorkoutDetail({exerciseAndDetails: @getModel('ExerciseAndDetails')})
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
@@ -126,7 +126,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #attaching event listener here because it's not a backbone event
     $optionList.hoverIntent settings
 
-    $detailsSet = $(@.el).find('.dashboard-exercise-set')
+    $detailsSet = $(@el).find('.dashboard-exercise-set')
 
     #exercise and details model
     exerciseAndDetailsModel = @getModel('ExerciseAndDetails')
@@ -139,7 +139,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     exerciseViewEl = @$el
 
-    #----------------------------------------------Sortable List with JqueryUi
+    #----------------------------------------------Sortable Details List with JqueryUi
 
     #make the details sortable
     $detailsSet.sortable
@@ -192,8 +192,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           #update the exercise association model appropriately
           #console.log exerciseAssociationModel.get("entry_detail")
 
-          #highlight the first details upon exercise creation
-    $(@.el).find('.details-set-weight').trigger("click")
+    #highlight the first details upon exercise creation
+    $(@el).find('.details-set-weight').trigger("click")
 
     #return this
     this
@@ -340,8 +340,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     )
     ###
 
-    thisView.stopListening()
-    thisView.undelegateEvents()
     thisView.remove()
 
   validateListChange: (event)->
@@ -353,29 +351,28 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #attempt to set the attribute
     attributeToChange = "exercise_id"
     validateAllParams = {validateAll: true, changedAttribute: attributeToChange}
-    @getModel('AssociationExercise').set(attributeToChange, selectedId, validateAllParams)
+    associationExerciseModel = @getModel('AssociationExercise')
+    associationExerciseModel.set(attributeToChange, selectedId, validateAllParams)
 
     #get errors if they exist
-    @getModel('AssociationExercise').errors["exercise_id"] || ''
+    associationExerciseModel.errors["exercise_id"] || ''
 
     #cache elements
     $controlGroup = $parentElement.find('.dropdown-control')
     $dropDownList = $parentElement.find(".#{event.target.className}")
 
     #adding and removal of validation error messages
-    #first blick if for removing and second block is for adding
-    hasErrors = _.has(@getModel('AssociationExercise').errors, "exercise_id")
+    #first block if for removing and second block is for adding
+    hasErrors = _.has(associationExerciseModel.errors, "exercise_id")
     if hasErrors == false and @getModel('ExerciseAndDetails').get("dropDownListError") == true
       $controlGroup.removeClass('error')
       $dropDownList.siblings().remove()
       @getModel('ExerciseAndDetails').set("dropDownListError", false)
-      #@getModel('AssociationExercise').unset("invalidExercise", {silent: true})
+      #associationExerciseModel.unset("invalidExercise", {silent: true})
     else if hasErrors == true and @getModel('ExerciseAndDetails').get("dropDownListError") == false
-
       $controlGroup.addClass('error')
-
-      errors = @getModel('AssociationExercise').errors["exercise_id"]
+      errors = associationExerciseModel.errors["exercise_id"]
       alertMsg = "<div class='alert alert-error select-list-error-msg'>#{errors}</div>"
       $dropDownList.after(alertMsg)
       @getModel('ExerciseAndDetails').set("dropDownListError", true)
-      @getModel('AssociationExercise').set("exercise_id", null)
+      associationExerciseModel.set("exercise_id", null)

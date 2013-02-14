@@ -48,7 +48,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       associatedWorkoutModel
       privateFormModel
     ])
-    console.log @
 
     #call render
     @render()
@@ -69,6 +68,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     _.filter(@collection.models, (model) ->
       model.constructor.name == modelName
     )[0]
+
+  getEventTarget: (event)->
+    $(event.target)
 
   updateAssociatedModel: ->
     #add and removal check for entries
@@ -91,9 +93,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       workoutEntryParams = {workout_entry: [formAndExerciseModel.get "recentlyAddedExerciseAssociatedModel"]}
       associationWorkoutModel.set(workoutEntryParams)
 
-  getEventTarget: (event)->
-    $(event.target)
-
   focusInWorkoutName: (event) ->
     $this = @getEventTarget(event)
     if $this.attr('class') == "dashboard-workout-name-input hint"
@@ -107,7 +106,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         .addClass "hint"
 
   hintInWorkoutName: ->
-    $workoutNameInput = $('input.dashboard-workout-name-input')
+    $workoutNameInput = @$el.find('input.dashboard-workout-name-input')
     $workoutNameInput
       .val(@getModel('FormAndExercises').get("workoutNameHint"))
       .addClass('hint')
@@ -139,7 +138,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #cache the condition of the workout name
     workoutName = @getModel('FormAndExercises').get("workoutName")
     workoutNameCond = !_.isNull(workoutName) and !_.isUndefined(workoutName)
-
     changesCond = (unfilledFields < totalFields) or errorFields > 0
 
     #for the workout name
@@ -160,9 +158,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   addNote: ->
     #console.log JSON.stringify(@getModel('AssociationUserSession'))
-    if $('.text-area-row').length < 1
+    if @$el.find('.text-area-row').length < 1
       templateNote = @templateNote()
-      $('.workout-entry-exercise-and-sets-row').after(templateNote)
+      @$el.find('.workout-entry-exercise-and-sets-row').after(templateNote)
 
   divider: ->
     console.log JSON.stringify(@getModel('AssociationUserSession'))
@@ -229,7 +227,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #prepare the json for sending
     jsonData = JSON.stringify(@getModel('AssociationUserSession'))
 
-
     #formatting the jsonData by removing the first '[' and last ']'
     jsonDataLastRightBracketIndex = jsonData.lastIndexOf(']')
 
@@ -262,7 +259,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   clickSave: (event)->
     event.preventDefault()
-    $(':focus').trigger('blur')
+    @$el.find(':focus').trigger('blur')
     @validateBeforeSave()
 
   clickCancelMouseDown: (event)->
@@ -270,8 +267,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   clickCancel: (event)->
     event.preventDefault()
-    $(':focus').trigger('blur')
-    $('#workout-form-main-close-button').trigger('click')
+    @$el.find(':focus').trigger('blur')
+    @$el.find('#workout-form-main-close-button').trigger('click')
 
 
 

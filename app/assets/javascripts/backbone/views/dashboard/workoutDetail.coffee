@@ -14,7 +14,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-    #get the exerciseAndDetails model from options
+    #get the exerciseAndDetails model from options from other details creating this view
     exerciseAndDetailsModel = options.exerciseAndDetails
 
     #private model for details
@@ -66,7 +66,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
 
     #cache element info
-    exerciseAndDetails = exerciseAndDetailsModel
     detailsEl = @$el
     detailsId = @cid
 
@@ -76,9 +75,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #if check for presence of clicked details view
       #if already occupied that means overwrite it
-      notNullLastClickDetails = !_.isNull(exerciseAndDetails.get("lastClickDetails"))
-      if notNullLastClickDetails and detailsId != exerciseAndDetails.get("lastClickDetailsCid")
-        prevHighlighted = exerciseAndDetails.get("lastClickDetails")
+      notNullLastClickDetails = !_.isNull(exerciseAndDetailsModel.get("lastClickDetails"))
+      if notNullLastClickDetails and detailsId != exerciseAndDetailsModel.get("lastClickDetailsCid")
+        prevHighlighted = exerciseAndDetailsModel.get("lastClickDetails")
         prevHighlighted.removeClass('high-light-details')
         prevHighlighted.find(':focus').blur()
 
@@ -87,12 +86,12 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         #for clicks that are not on the remove button for details
         if $(event.target).hasClass('add-workout-reps-remove-button') == false
           $this.addClass('high-light-details')
-          exerciseAndDetails.set("lastClickDetails", $this)
-          exerciseAndDetails.set("lastClickDetailsCid", detailsId)
+          exerciseAndDetailsModel.set("lastClickDetails", $this)
+          exerciseAndDetailsModel.set("lastClickDetailsCid", detailsId)
         else
           #for clicking remove on non-highlighted details
           #need this because a click on a non-highlighted details registered a last click details for the model
-          lastViewFocused = exerciseAndDetails.get("lastClickDetails")
+          lastViewFocused = exerciseAndDetailsModel.get("lastClickDetails")
           lastViewFocused.trigger("click")
 
       isRemoveButton = $(event.target).hasClass('add-workout-reps-remove-button')
@@ -101,10 +100,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       if isRemoveButton and isVisibleRemoveButton and hasClassHighlighted
         #mark that it is highlighted but is getting deleted
-        exerciseAndDetails.set("recentDetailsViewAction", "highlighting")
+        exerciseAndDetailsModel.set("recentDetailsViewAction", "highlighting")
         #signal to parent view to highlight neighboring detail view
-        signalExerciseForm = exerciseAndDetails.get "signalExerciseForm"
-        exerciseAndDetails.set("signalExerciseForm", signalExerciseForm * -1)
+        signalExerciseForm = exerciseAndDetailsModel.get "signalExerciseForm"
+        exerciseAndDetailsModel.set("signalExerciseForm", signalExerciseForm * -1)
 
       #blur if the click is not into the input field
       if event.target.tagName != "INPUT"
