@@ -19,7 +19,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     exerciseAndDetailsModel = options.exerciseAndDetails
 
     #private model for details
-    @privateDetailsModel = new Weightyplates.Models.PrivateDetails()
+    privateDetailsModel = new Weightyplates.Models.PrivateDetails()
 
     #keep track of the view exercises being added and count them
     detailViews = exerciseAndDetailsModel.get("detailViews")
@@ -30,7 +30,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     #creating detailsAssociation model for this view
     associationDetailParams = {set_number: detailViewsCount + "", weight: null, reps: null}
-    @detailsAssociationModel = new Weightyplates.Models.AssociationDetail(associationDetailParams)
+    detailsAssociationModel = new Weightyplates.Models.AssociationDetail(associationDetailParams)
 
     #actual details view count
     exerciseActualDetailsViewsCount = exerciseAndDetailsModel.get("actualDetailViewsCount") + 1
@@ -39,13 +39,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #adding models to the details collection
     @collection = new Weightyplates.Collections.DetailCollection([
       exerciseAndDetailsModel
+      detailsAssociationModel
+      privateDetailsModel
     ])
+
+    console.log @collection
 
     @render(detailViewsCount)
 
   render: (detailViewsCount) ->
-
-
     #insert template into element
     @$el.append(@template())
 
@@ -111,19 +113,18 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       if event.target.tagName != "INPUT"
         $(this).find(':focus').blur()
 
+    associationDetailModel = @getModel('AssociationDetail')
     #log info for newly created details set and signal update to parent view
     exerciseAndDetailsModel.set("recentDetailsViewAction", "adding")
       .set("recentlyAddedDetailsViewId", @cid)
-      .set("recentlyAddedDetailsAssociatedModelId", @detailsAssociationModel.cid)
+      .set("recentlyAddedDetailsAssociatedModelId", associationDetailModel.cid)
 
     #add the view id as an actual id on element
     #allows for easier referencing when sorting details
     detailsEl.attr("id", detailsId)
 
     #to signal to parent view, exercise, what child has been added
-    exerciseAndDetailsModel.set("recentlyAddedDetailsAssociatedModel", @detailsAssociationModel)
-
-
+    exerciseAndDetailsModel.set("recentlyAddedDetailsAssociatedModel", associationDetailModel)
 
     this
 
@@ -137,16 +138,17 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #create the new details view
-    workoutDetailsParams = {model: @getModel('ExerciseAndDetails'), exerciseAndDetails: @getModel('ExerciseAndDetails')}
+    workoutDetailsParams = {exerciseAndDetails: @getModel('ExerciseAndDetails')}
     new Weightyplates.Views.WorkoutDetail(workoutDetailsParams)
 
   removeDetails: ()->
     #setting actual details view count
-    actualDetailsViewCount = @getModel('ExerciseAndDetails').get("actualDetailViewsCount") - 1
-    @getModel('ExerciseAndDetails').set("actualDetailViewsCount", actualDetailsViewCount)
+    exerciseAndDetailModel = @getModel('ExerciseAndDetails')
+    actualDetailsViewCount = exerciseAndDetailModel.get("actualDetailViewsCount") - 1
+    exerciseAndDetailModel.set("actualDetailViewsCount", actualDetailsViewCount)
 
     #list of views
-    detailViews = @getModel('ExerciseAndDetails').get("detailViews")
+    detailViews = exerciseAndDetailModel.get("detailViews")
 
     #the current view id
     currentCiewId = @cid
@@ -157,15 +159,14 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     )
 
     #update the exerciseAndDetails after removal
-    @getModel('ExerciseAndDetails').set("detailViews", detailViewsFiltered)
-
+    exerciseAndDetailModel.set("detailViews", detailViewsFiltered)
 
     #remove the exercise remove button, if only one exercise left is left as a result
     if detailViewsFiltered.length == 1
-      $hiddenDetailRemove = @getModel('ExerciseAndDetails').get("detailViews")[0].view.$el
+      $hiddenDetailRemove = exerciseAndDetailModel.get("detailViews")[0].view.$el
         .find('.add-workout-reps-remove-button')
         .addClass('hide-add-workout-reps-remove-button')
-      @getModel('ExerciseAndDetails').set("hiddenDetailRemoveButton", $hiddenDetailRemove)
+      exerciseAndDetailModel.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
 
     thisView = @
     #console.log "start detail delete"
@@ -180,18 +181,18 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     )
     ###
 
-    thisView.stopListening()
-    thisView.undelegateEvents()
     thisView.remove()
 
     #console.log "end detail delete"
 
+
     #set info for view and send signal to exercise to remove the detail entry from json
-    signalExerciseForm = @getModel('ExerciseAndDetails').get "signalExerciseForm"
-    @getModel('ExerciseAndDetails').set("recentlyRemovedDetailsAssociatedModel", @detailsAssociationModel)
+    associationDetailModel = @getModel('AssociationDetail')
+    signalExerciseForm = exerciseAndDetailModel.get "signalExerciseForm"
+    exerciseAndDetailModel.set("recentlyRemovedDetailsAssociatedModel", associationDetailModel)
       .set("recentDetailsViewAction", "removing")
       .set("recentlyRemovedDetailsViewId", @cid)
-      .set("recentlyRemovedDetailsAssociatedModelId", @detailsAssociationModel.cid)
+      .set("recentlyRemovedDetailsAssociatedModelId", associationDetailModel.cid)
       .set("signalExerciseForm", signalExerciseForm * -1)
 
   toTitleCase: (str) ->
@@ -203,10 +204,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #prevState is used as a temporary variable to save the actual last state
     #lastState = prevState
     #prevState = currentState
-    isValidState = @privateDetailsModel.get("prevIsValidState#{inputType}")
-    @privateDetailsModel.set("lastIsValidState#{inputType}", isValidState)
-    @privateDetailsModel.set("prevIsValidState#{inputType}", validness)
-    @privateDetailsModel.set("currentIsValidState#{inputType}", validness)
+    privateDetailsModel = @getModel('PrivateDetails')
+    isValidState = privateDetailsModel.get("prevIsValidState#{inputType}")
+    privateDetailsModel.set("lastIsValidState#{inputType}", isValidState)
+                      .set("prevIsValidState#{inputType}", validness)
+                      .set("currentIsValidState#{inputType}", validness)
 
   validateChange: (event)->
     #get the element and its value
@@ -223,8 +225,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       addCharS = 's'
 
     #attempt to set the attribute
+    associationDetailModel = @getModel('AssociationDetail')
     validateAllParam = {validateAll: true, changedAttribute: "#{attributeToChange + addCharS}"}
-    @detailsAssociationModel.set("#{attributeToChange + addCharS}", inputValue, validateAllParam)
+    associationDetailModel.set("#{attributeToChange + addCharS}", inputValue, validateAllParam)
 
     #cache elements
     $parentElement = @$el
@@ -239,29 +242,31 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     errorKey = "#{attributeToChange}InputError"
 
     #get errors if they exist
-    @detailsAssociationModel.errors["#{inputType + addCharS}"] || ''
+    associationDetailModel.errors["#{inputType + addCharS}"] || ''
 
     #generate the error or remove if validated
-    if _.has(@detailsAssociationModel.errors, "#{inputType + addCharS}") == true
+    privateDetailsModel = @getModel('PrivateDetails')
+    if _.has(associationDetailModel.errors, "#{inputType + addCharS}") == true
 
       $controlGroup.addClass('error')
 
       #append to the error msg box if there is not one yet
-      if @privateDetailsModel.get(errorKey) == false
-        errors = @detailsAssociationModel.errors["#{inputType + addCharS}"]
+
+      if privateDetailsModel.get(errorKey) == false
+        errors = associationDetailModel.errors["#{inputType + addCharS}"]
 
         #makes sure if there are multiple error messages they are started on new line
         alertMsg = "<div class='alert alert-error #{errorClass} list-error-msg'><p>#{errors.join('</br>')}</p></div>"
 
         $weightAndRepArea.append(alertMsg)
-        @privateDetailsModel.set(errorKey, true)
+        privateDetailsModel.set(errorKey, true)
       else
         #break the array of errors on the comma with br for new line
-        errorMsg = @detailsAssociationModel.errors["#{inputType + addCharS}"]
+        errorMsg = associationDetailModel.errors["#{inputType + addCharS}"]
         $weightAndRepArea.find(".#{errorClass}").html("<p>#{errorMsg.join('</br>')}</p>")
 
-      @detailsAssociationModel.set("#{attributeToChange + addCharS}", null)
-      @detailsAssociationModel.set(invalidAttribute, true)
+      associationDetailModel.set("#{attributeToChange + addCharS}", null)
+      associationDetailModel.set(invalidAttribute, true)
 
       #console.log "error in the validation"
 
@@ -269,13 +274,13 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       #console.log "removing error"
       $controlGroup.removeClass('error')
       $weightAndRepArea.find(".#{errorClass}").remove()
-      @privateDetailsModel.set(errorKey, false)
+      privateDetailsModel.set(errorKey, false)
 
       #should only set the weight if there is a valid, non-empty data value
       if inputValue != ""
-        @detailsAssociationModel.set("#{attributeToChange + addCharS}", inputValue + "")
+        associationDetailModel.set("#{attributeToChange + addCharS}", inputValue + "")
       else
-        @detailsAssociationModel.set("#{attributeToChange + addCharS}", null)
+        associationDetailModel.set("#{attributeToChange + addCharS}", null)
 
       #silent prevents model change event
-      @detailsAssociationModel.unset(invalidAttribute, {silent: true})
+      associationDetailModel.unset(invalidAttribute, {silent: true})
