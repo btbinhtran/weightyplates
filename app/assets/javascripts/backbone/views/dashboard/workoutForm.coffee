@@ -54,7 +54,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #add hint in workout name
     @hintInWorkoutName()
+
     this
+
+  getModel: (modelName) ->
+    _.filter(@collection.models, (model) ->
+      model.constructor.name == modelName
+    )[0]
 
   updateAssociatedModel: ->
     #add and removal check for entries

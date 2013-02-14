@@ -9,10 +9,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-weight-input': 'validateChange'
     'blur .add-workout-reps-input': 'validateChange'
-    'click .add-workout-set-label': 'rangeCheck'
-
-  rangeCheck: ->
-    console.log $('.details-set-weight')
 
   initialize: (options) ->
 
@@ -20,16 +16,16 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     _.bindAll(@)
 
     #get the exerciseAndDetails model from options
-    @exerciseAndDetailsModel = options.exerciseAndDetails
+    exerciseAndDetailsModel = options.exerciseAndDetails
 
     #private model for details
     @privateDetailsModel = new Weightyplates.Models.PrivateDetails()
 
     #keep track of the view exercises being added and count them
-    detailViews = @exerciseAndDetailsModel.get("detailViews")
-    detailViewsCount = @exerciseAndDetailsModel.get("detailViewsCount") + 1
+    detailViews = exerciseAndDetailsModel.get("detailViews")
+    detailViewsCount = exerciseAndDetailsModel.get("detailViewsCount") + 1
     detailViews.push({view: @, viewId: @cid, viewSetNumber: detailViewsCount})
-    @exerciseAndDetailsModel.set("detailViewsCount", detailViewsCount)
+    exerciseAndDetailsModel.set("detailViewsCount", detailViewsCount)
       .set("detailViews", detailViews)
 
     #creating detailsAssociation model for this view
@@ -37,11 +33,19 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @detailsAssociationModel = new Weightyplates.Models.AssociationDetail(associationDetailParams)
 
     #actual details view count
-    @exerciseAndDetailsModel.set("actualDetailViewsCount", @exerciseAndDetailsModel.get("actualDetailViewsCount") + 1)
+    exerciseActualDetailsViewsCount = exerciseAndDetailsModel.get("actualDetailViewsCount") + 1
+    exerciseAndDetailsModel.set("actualDetailViewsCount", exerciseActualDetailsViewsCount)
+
+    #adding models to the details collection
+    @collection = new Weightyplates.Collections.DetailCollection([
+      exerciseAndDetailsModel
+    ])
 
     @render(detailViewsCount)
 
   render: (detailViewsCount) ->
+
+
     #insert template into element
     @$el.append(@template())
 
@@ -52,17 +56,18 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     @$el.removeAttr("id")
 
     #remove the remove button in the beginning when there is only one detail
-    if @exerciseAndDetailsModel.get("detailViews").length == 1
+    exerciseAndDetailsModel = @getModel('ExerciseAndDetails')
+    if exerciseAndDetailsModel.get("detailViews").length == 1
       $hiddenDetailRemove = @$el.find('.add-workout-reps-remove-button')
         .addClass('hide-add-workout-reps-remove-button')
-      @exerciseAndDetailsModel.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
-      @exerciseAndDetailsModel.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
+      exerciseAndDetailsModel.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
+      exerciseAndDetailsModel.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
     else
-      $hiddenDetailRemove = @exerciseAndDetailsModel.get "hiddenDetailRemoveButton"
+      $hiddenDetailRemove = exerciseAndDetailsModel.get "hiddenDetailRemoveButton"
       $hiddenDetailRemove.removeClass('hide-add-workout-reps-remove-button')
 
     #cache element info
-    exerciseAndDetails = @exerciseAndDetailsModel
+    exerciseAndDetails = exerciseAndDetailsModel
     detailsEl = @$el
     detailsId = @cid
 
@@ -72,7 +77,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
       #if check for presence of clicked details view
       #if already occupied that means overwrite it
-      if !_.isNull(exerciseAndDetails.get("lastClickDetails")) and detailsId != exerciseAndDetails.get("lastClickDetailsCid")
+      notNullLastClickDetails = !_.isNull(exerciseAndDetails.get("lastClickDetails"))
+      if notNullLastClickDetails and detailsId != exerciseAndDetails.get("lastClickDetailsCid")
         prevHighlighted = exerciseAndDetails.get("lastClickDetails")
         prevHighlighted.removeClass('high-light-details')
         prevHighlighted.find(':focus').blur()
@@ -106,7 +112,7 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         $(this).find(':focus').blur()
 
     #log info for newly created details set and signal update to parent view
-    @exerciseAndDetailsModel.set("recentDetailsViewAction", "adding")
+    exerciseAndDetailsModel.set("recentDetailsViewAction", "adding")
       .set("recentlyAddedDetailsViewId", @cid)
       .set("recentlyAddedDetailsAssociatedModelId", @detailsAssociationModel.cid)
 
@@ -115,23 +121,32 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     detailsEl.attr("id", detailsId)
 
     #to signal to parent view, exercise, what child has been added
-    @exerciseAndDetailsModel.set("recentlyAddedDetailsAssociatedModel", @detailsAssociationModel)
+    exerciseAndDetailsModel.set("recentlyAddedDetailsAssociatedModel", @detailsAssociationModel)
+
+
 
     this
+
+  getModel: (modelName) ->
+    _.filter(@collection.models, (model) ->
+      model.constructor.name == modelName
+    )[0]
 
   addDetails: ->
     #prepare a new div to insert another details view
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
     #create the new details view
-    new Weightyplates.Views.WorkoutDetail(model: @exerciseAndDetailsModel, exerciseAndDetails: @exerciseAndDetailsModel)
+    workoutDetailsParams = {model: @getModel('ExerciseAndDetails'), exerciseAndDetails: @getModel('ExerciseAndDetails')}
+    new Weightyplates.Views.WorkoutDetail(workoutDetailsParams)
 
   removeDetails: ()->
     #setting actual details view count
-    @exerciseAndDetailsModel.set("actualDetailViewsCount", @exerciseAndDetailsModel.get("actualDetailViewsCount") - 1)
+    actualDetailsViewCount = @getModel('ExerciseAndDetails').get("actualDetailViewsCount") - 1
+    @getModel('ExerciseAndDetails').set("actualDetailViewsCount", actualDetailsViewCount)
 
     #list of views
-    detailViews = @exerciseAndDetailsModel.get("detailViews")
+    detailViews = @getModel('ExerciseAndDetails').get("detailViews")
 
     #the current view id
     currentCiewId = @cid
@@ -142,15 +157,15 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     )
 
     #update the exerciseAndDetails after removal
-    @exerciseAndDetailsModel.set("detailViews", detailViewsFiltered)
+    @getModel('ExerciseAndDetails').set("detailViews", detailViewsFiltered)
 
 
     #remove the exercise remove button, if only one exercise left is left as a result
     if detailViewsFiltered.length == 1
-      $hiddenDetailRemove = @exerciseAndDetailsModel.get("detailViews")[0].view.$el
+      $hiddenDetailRemove = @getModel('ExerciseAndDetails').get("detailViews")[0].view.$el
         .find('.add-workout-reps-remove-button')
         .addClass('hide-add-workout-reps-remove-button')
-      @exerciseAndDetailsModel.set("hiddenDetailRemoveButton", $hiddenDetailRemove)
+      @getModel('ExerciseAndDetails').set("hiddenDetailRemoveButton", $hiddenDetailRemove)
 
     thisView = @
     #console.log "start detail delete"
@@ -172,8 +187,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #console.log "end detail delete"
 
     #set info for view and send signal to exercise to remove the detail entry from json
-    signalExerciseForm = @exerciseAndDetailsModel.get "signalExerciseForm"
-    @exerciseAndDetailsModel.set("recentlyRemovedDetailsAssociatedModel", @detailsAssociationModel)
+    signalExerciseForm = @getModel('ExerciseAndDetails').get "signalExerciseForm"
+    @getModel('ExerciseAndDetails').set("recentlyRemovedDetailsAssociatedModel", @detailsAssociationModel)
       .set("recentDetailsViewAction", "removing")
       .set("recentlyRemovedDetailsViewId", @cid)
       .set("recentlyRemovedDetailsAssociatedModelId", @detailsAssociationModel.cid)
@@ -188,7 +203,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #prevState is used as a temporary variable to save the actual last state
     #lastState = prevState
     #prevState = currentState
-    @privateDetailsModel.set("lastIsValidState#{inputType}", @privateDetailsModel.get("prevIsValidState#{inputType}"))
+    isValidState = @privateDetailsModel.get("prevIsValidState#{inputType}")
+    @privateDetailsModel.set("lastIsValidState#{inputType}", isValidState)
     @privateDetailsModel.set("prevIsValidState#{inputType}", validness)
     @privateDetailsModel.set("currentIsValidState#{inputType}", validness)
 
