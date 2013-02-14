@@ -1,5 +1,5 @@
-##= require jquery
-##= require jquery_ujs
+##= require common
+
 ##= require jqueryPluginsManifest
 
 ##= require hamlcoffee
@@ -19,8 +19,6 @@
 ##= require_tree ./backbone/collection/dashboard
 ##= require_tree ./backbone/views/dashboard
 ##= require_tree ./backbone/routers/dashboard
-
-##= require common
 
 window.Weightyplates =
   Models: {}

@@ -4,7 +4,7 @@
     = render 'shared/header_tags'
     = stylesheet_link_tag "application", :media => "all"
     = @home_page ? (stylesheet_link_tag "home/home") : ''
-    = javascript_include_tag "application"
+    = javascript_include_tag "common"
     = csrf_meta_tags
   %body
     = render 'shared/navbar'
