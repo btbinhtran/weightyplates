@@ -11,7 +11,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'blur .add-workout-reps-input': 'validateChange'
 
   initialize: (options) ->
-
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
@@ -42,8 +41,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       detailsAssociationModel
       privateDetailsModel
     ])
-
-    console.log @collection
 
     @render(detailViewsCount)
 
@@ -247,11 +244,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #generate the error or remove if validated
     privateDetailsModel = @getModel('PrivateDetails')
     if _.has(associationDetailModel.errors, "#{inputType + addCharS}") == true
-
       $controlGroup.addClass('error')
-
       #append to the error msg box if there is not one yet
-
       if privateDetailsModel.get(errorKey) == false
         errors = associationDetailModel.errors["#{inputType + addCharS}"]
 

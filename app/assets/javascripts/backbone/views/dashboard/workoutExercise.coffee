@@ -139,6 +139,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     exerciseViewEl = @$el
 
+    #----------------------------------------------Sortable List with JqueryUi
+
     #make the details sortable
     $detailsSet.sortable
       axis: 'y'

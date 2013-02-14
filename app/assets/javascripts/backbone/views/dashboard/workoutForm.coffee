@@ -18,29 +18,37 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #last-row-cancel-button': 'clickCancel'
 
   initialize: ->
-
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
-    #model for workout state
-    @formAndExercisesModel = new Weightyplates.Models.FormAndExercises()
+    #model for workout form and exercises
+    formAndExercisesModel = new Weightyplates.Models.FormAndExercises()
 
     #prepare the option entries
-    @formAndExercisesModel.set("optionListEntries", @formAndExercisesModel.prepareEntries())
+    formAndExercisesModel.set("optionListEntries", formAndExercisesModel.prepareEntries())
 
     #create an associated user model for workouts and further nesting of associated models
-    @associatedUserModel = new Weightyplates.Models.AssociationUserSession()
-    @associatedWorkoutModel = new Weightyplates.Models.AssociationWorkout()
-    @associatedUserModel.set({workout: [@associatedWorkoutModel]})
+    associatedUserModel = new Weightyplates.Models.AssociationUserSession()
+    associatedWorkoutModel = new Weightyplates.Models.AssociationWorkout()
+    associatedUserModel.set({workout: [associatedWorkoutModel]})
 
     #set the workout name date into form and exercises
-    @formAndExercisesModel.set("workoutNameDefault", @associatedUserModel.get("workout").at(0).get("name"))
+    formAndExercisesModel.set("workoutNameDefault", associatedUserModel.get("workout").at(0).get("name"))
 
     #allows child view to notify this view of a requested change
-    @formAndExercisesModel.on("change:signalParentForm", @updateAssociatedModel)
+    formAndExercisesModel.on("change:signalParentForm", @updateAssociatedModel)
 
     #private form model to listen to events from child views
-    @privateFormModel = new Weightyplates.Models.PrivateForm()
+    privateFormModel = new Weightyplates.Models.PrivateForm()
+
+    #adding models to the form collection
+    @collection = new Weightyplates.Collections.FormCollection([
+      formAndExercisesModel
+      associatedUserModel
+      associatedWorkoutModel
+      privateFormModel
+    ])
+    console.log @
 
     #call render
     @render()
@@ -50,7 +58,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @$el.html(@template())
 
     #form view gets the FormAndExercises model
-    exerciseView = new Weightyplates.Views.WorkoutExercise(formAndExercisesModel: @formAndExercisesModel)
+    exerciseView = new Weightyplates.Views.WorkoutExercise(formAndExercisesModel: @getModel('FormAndExercises'))
 
     #add hint in workout name
     @hintInWorkoutName()
@@ -64,32 +72,24 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   updateAssociatedModel: ->
     #add and removal check for entries
-    if @associatedWorkoutModel.get("workout_entry")
+    associationWorkoutModel = @getModel('AssociationWorkout')
+    formAndExerciseModel = @getModel('FormAndExercises')
+    if associationWorkoutModel.get("workout_entry")
       #remove if there is already and entry
-      if @associatedWorkoutModel.get("workout_entry")
-          .get(@formAndExercisesModel
+      if associationWorkoutModel.get("workout_entry")
+          .get(formAndExerciseModel
           .get("recentlyRemovedExerciseAssociatedModel"))
-        @associatedWorkoutModel.get("workout_entry")
-          .remove(@formAndExercisesModel
+        associationWorkoutModel.get("workout_entry")
+          .remove(formAndExerciseModel
           .get("recentlyRemovedExerciseAssociatedModel"))
        else
         #add instead of overwriting if there already a workout entry
-        @associatedWorkoutModel.get("workout_entry")
-          .add(@formAndExercisesModel
+        associationWorkoutModel.get("workout_entry")
+          .add(formAndExerciseModel
           .get("recentlyAddedExerciseAssociatedModel"))
-
     else
-      @associatedWorkoutModel.set({workout_entry: [@formAndExercisesModel.get "recentlyAddedExerciseAssociatedModel"]})
-
-  mouseOverSaveButton: ->
-    #adding a class to the weight input
-    if !_.isNull(@privateFormModel.get("lastFocusedInputEvent"))
-      Backbone.trigger "detailValidate", "acknowledge-save-button"
-
-  mouseOutSaveButton: ->
-    #remove the added class for the weight input
-    if !_.isNull(@privateFormModel.get("lastFocusedInputEvent"))
-      Backbone.trigger "detailValidate", ""
+      workoutEntryParams = {workout_entry: [formAndExerciseModel.get "recentlyAddedExerciseAssociatedModel"]}
+      associationWorkoutModel.set(workoutEntryParams)
 
   getEventTarget: (event)->
     $(event.target)
@@ -101,11 +101,16 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   blurInWorkoutName: (event) ->
     $this = @getEventTarget(event)
-    $this.val(@formAndExercisesModel.get "workoutNameHint").addClass "hint" if $this.val().length == 0
+    if $this.val().length == 0
+      $this
+        .val(@getModel('FormAndExercises').get("workoutNameHint"))
+        .addClass "hint"
 
   hintInWorkoutName: ->
     $workoutNameInput = $('input.dashboard-workout-name-input')
-    $workoutNameInput.val(@formAndExercisesModel.get "workoutNameHint").addClass('hint')
+    $workoutNameInput
+      .val(@getModel('FormAndExercises').get("workoutNameHint"))
+      .addClass('hint')
 
   closeButtonConfirmationHandler: (msg, okRes, notOkRes)->
     if (confirm(msg))
@@ -115,7 +120,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   closeAddWorkoutDialog: (event) ->
     #confirmation messages
-    closeButonConfirmationMsg = @privateFormModel.get("closeButtonConfirmationMsg")
+    closeButonConfirmationMsg = @getModel('PrivateForm').get("closeButtonConfirmationMsg")
     changesMsg = closeButonConfirmationMsg["changes"]
     changeMsg = closeButonConfirmationMsg["change"]
 
@@ -132,7 +137,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     filledFields = totalFields - unfilledFields - errorFields
 
     #cache the condition of the workout name
-    workoutName = @formAndExercisesModel.get("workoutName")
+    workoutName = @getModel('FormAndExercises').get("workoutName")
     workoutNameCond = !_.isNull(workoutName) and !_.isUndefined(workoutName)
 
     changesCond = (unfilledFields < totalFields) or errorFields > 0
@@ -154,14 +159,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       console.log "close out the form"
 
   addNote: ->
-    #console.log JSON.stringify(@associatedUserModel)
+    #console.log JSON.stringify(@getModel('AssociationUserSession'))
     if $('.text-area-row').length < 1
       templateNote = @templateNote()
       $('.workout-entry-exercise-and-sets-row').after(templateNote)
 
   divider: ->
-    console.log JSON.stringify(@associatedUserModel)
-    console.log @associatedUserModel.toJSON()["workout"]
+    console.log JSON.stringify(@getModel('AssociationUserSession'))
+    console.log @getModel('AssociationUserSession').toJSON()["workout"]
 
   fromSaveButtonTrigger: ->
     #need to specify the caller because of sharing of function with close button
@@ -169,18 +174,19 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @validateBeforeSave(theCaller)
 
   getWorkoutName: (event)->
+    formAndExerciseModel = @getModel('FormAndExercises')
     if event.target.className.split(' ').length < 2
-      @formAndExercisesModel.set("workoutName", event.target.value)
+      formAndExerciseModel.set("workoutName", event.target.value)
     else
-      @formAndExercisesModel.set("workoutName", null)
+      formAndExerciseModel.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
     #get data from associated model to evaluate validness
-    associatedModels = @associatedUserModel.get("workout[0]").get("workout_entry")
+    associatedModels = @getModel('AssociationUserSession').get("workout[0]").get("workout_entry")
     workoutEntryLength = associatedModels.length
 
     #process the data in the private model
-    results = @privateFormModel.checkErrorsAndUnfilled(associatedModels, workoutEntryLength)
+    results = @getModel('PrivateForm').checkErrorsAndUnfilled(associatedModels, workoutEntryLength)
 
     #if the close button trigger this action
     if theCaller == "closeAddWorkoutDialog"
@@ -192,7 +198,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   saveWorkoutMsgHandler: (totalFieldErrors, totalUnFilledFields)->
     #get alert messages from model
-    saveWorkoutMsg = @privateFormModel.get("saveWorkoutMsg")
+    saveWorkoutMsg = @getModel('PrivateForm').get("saveWorkoutMsg")
 
     #display appropriate alert message when error or missing fields are encountered or not
     if(totalFieldErrors + totalUnFilledFields) == 0
@@ -221,7 +227,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   saveWorkout: ->
     #prepare the json for sending
-    jsonData = JSON.stringify(@associatedUserModel)
+    jsonData = JSON.stringify(@getModel('AssociationUserSession'))
 
 
     #formatting the jsonData by removing the first '[' and last ']'

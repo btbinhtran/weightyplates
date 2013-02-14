@@ -1,0 +1,1 @@
+class Weightyplates.Collections.FormCollection extends Backbone.Collection
