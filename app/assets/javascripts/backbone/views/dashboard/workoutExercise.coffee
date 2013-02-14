@@ -62,23 +62,24 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @collection = new Weightyplates.Collections.ExerciseCollection([@exerciseAssociationModel, @exerciseAndDetailsModel, @privateExerciseModel])
 
 
-    aModelConstructorName = @collection.at(0).constructor.name
-
-
+    #console.log @collection
+    console.log @getModel('AssociationExercise')
     #console.log @collection.models
+
+
 
     #render the template
     @render(exercisePhrase, @formAndExercisesModel.get("optionListEntries"), exerciseViewsCount)
 
 
+
+
   #==============================================Render
   render: (exercisePhrase, optionsList, exerciseViewsCount)->
-    #console.log "exer render"
     #console.log @exerciseAndDetailsModel
 
     viewElModel = @formAndExercisesModel
 
-    console.log @collection
 
     #the main exercise row
     $workoutExeciseRow = @$el
@@ -201,6 +202,11 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #return this
     this
+
+  getModel: (modelName) ->
+    _.filter(@collection.models, (model) ->
+      model.constructor.name == modelName
+    )[0]
 
   updateAssociatedModelAdd: ->
     #entry details updated the parent exercise

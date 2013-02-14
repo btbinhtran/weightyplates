@@ -9,6 +9,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
     'blur .add-workout-weight-input': 'validateChange'
     'blur .add-workout-reps-input': 'validateChange'
+    'click .add-workout-set-label': 'rangeCheck'
+
+  rangeCheck: ->
+    console.log $('.details-set-weight')
 
   initialize: (options) ->
 
