@@ -19,7 +19,10 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
         $(event.target)
 
     #Weightyplates.Views.WorkoutForm::formUtil = setCollection
-    addWorkoutView = new Weightyplates.Views.WorkoutForm({model: @collection.models[0], inherit: utilityFunctions})
+    formViewParams =
+      model: @collection.models[0]
+      inherit: utilityFunctions
+    addWorkoutView = new Weightyplates.Views.WorkoutForm(formViewParams)
 
 
 #viewButton = new Weightyplates.Views.WorkoutEntryButton(collection: @collection)

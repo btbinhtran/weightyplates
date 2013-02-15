@@ -34,7 +34,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exercisePhrase = "Exercise #{exerciseViewsCount}"
 
     #creating exerciseAssociation model for this view
-    associationExerciseParams = {workout_entry_number: exerciseViewsCount + "", exercise_id: 0}
+    associationExerciseParams =
+      workout_entry_number: exerciseViewsCount + ""
+      exercise_id: 0
     exerciseAssociationModel = new Weightyplates.Models.AssociationExercise(associationExerciseParams)
 
     #model shared between the form and the exercise
@@ -50,7 +52,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #manual reset of details index views for not clearing properly
     #seem to affect arrays types on model even after new instantiation
     #model between exercises and details
-    exerciseAndDetailsParams = {detailViews: [], detailViewsCount: null, detailsViewIndex: []}
+    exerciseAndDetailsParams =
+      detailViews: []
+      detailViewsCount: null
+      detailsViewIndex: []
     exerciseAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails(exerciseAndDetailsParams)
 
     #allows child view to request a change in associated model for the parent
@@ -96,7 +101,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #remove the remove button in the beginning when there is only one exercise
     if formAndExercisesModel.get("exerciseViews").length == 1
-      $hiddenExerciseRemove = @$el.find('.add-workout-exercise-remove-button').addClass('hide-add-workout-button')
+      $hiddenExerciseRemove = @$el.find('.add-workout-exercise-remove-button')
+                                  .addClass('hide-add-workout-button')
       formAndExercisesModel.set("hiddenExerciseRemoveButton", $hiddenExerciseRemove)
     else
       $hiddenExerciseRemove = formAndExercisesModel.get "hiddenExerciseRemoveButton"
@@ -218,7 +224,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       associationExerciseEntryDetail
         .add(exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
     else
-      entryDetailParam = {entry_detail: [exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]}
+      entryDetailParam =
+        entry_detail: [exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]
       associationExerciseModel.set(entryDetailParam)
 
     #keep track of the added details
@@ -355,7 +362,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #attempt to set the attribute
     attributeToChange = "exercise_id"
-    validateAllParams = {validateAll: true, changedAttribute: attributeToChange}
+    validateAllParams =
+      validateAll: true
+      changedAttribute: attributeToChange
     associationExerciseModel = @getModel('AssociationExercise')
     associationExerciseModel.set(attributeToChange, selectedId, validateAllParams)
 

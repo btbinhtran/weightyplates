@@ -54,6 +54,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     ])
 
     #call render
+
     @render(utilityFunctionObj)
 
   render: (utilityFunctionObj)->
@@ -61,7 +62,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     @$el.html(@template())
 
     #form view gets the FormAndExercises model
-    exerciseView = new Weightyplates.Views.WorkoutExercise({formAndExercisesModel: @getModel('FormAndExercises'), inherit: utilityFunctionObj})
+    exerciseViewParam =
+      formAndExercisesModel: @getModel('FormAndExercises')
+      inherit: utilityFunctionObj
+    new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
     #add hint in workout name
     @hintInWorkoutName()
@@ -86,7 +90,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           .add(formAndExerciseModel
           .get("recentlyAddedExerciseAssociatedModel"))
     else
-      workoutEntryParams = {workout_entry: [formAndExerciseModel.get "recentlyAddedExerciseAssociatedModel"]}
+      workoutEntryParams =
+        workout_entry: [formAndExerciseModel.get "recentlyAddedExerciseAssociatedModel"]
       associationWorkoutModel.set(workoutEntryParams)
 
   focusInWorkoutName: (event) ->
