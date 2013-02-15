@@ -193,11 +193,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       .set("recentlyRemovedDetailsAssociatedModelId", associationDetailModel.cid)
       .set("signalExerciseForm", signalExerciseForm * -1)
 
-  toTitleCase: (str) ->
-    #utility function for title casing the key
-    str.replace /\w\S*/g, (txt) ->
-      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-
   validnessStateKeepingForInputs: (inputType, validness)->
     #prevState is used as a temporary variable to save the actual last state
     #lastState = prevState

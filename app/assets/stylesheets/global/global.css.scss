@@ -164,4 +164,9 @@ label, input, button, select, textarea{
     width: 100%;
   }
 }
+.container-fluid{
+  @media (max-width: 47.9375em){
+    padding: 0em;
+  }
+}
 /*Common End*/
