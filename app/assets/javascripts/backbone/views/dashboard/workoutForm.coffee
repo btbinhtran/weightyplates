@@ -22,6 +22,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     utilityFunctionObj = options.inherit
     _.extend(@, utilityFunctionObj)
 
+    console.log @
+
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 

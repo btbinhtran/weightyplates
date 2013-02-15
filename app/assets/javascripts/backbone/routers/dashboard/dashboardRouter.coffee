@@ -23,6 +23,28 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
         str.replace /\w\S*/g, (txt) ->
           txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 
+    anotherFunc = ->
+
+    anotherFunc.prototype = {
+      serialize: ()->
+        console.log 'serialize'
+    }
+
+    augment = (receivingClass, givingClass)->
+      if arguments[2]
+        i = 2
+        len = arguments.length
+        while i < len
+          receivingClass.prototype[arguments[i]] = givingClass.prototype[arguments[i]]
+          i++
+      else
+        for methodName in givingClass.prototype
+          if !receivingClass.prototype[methodName]
+            receivingClass.prototype[methodName] = givingClass.prototype[methodName]
+
+    augment( Weightyplates.Views.WorkoutForm, anotherFunc, 'serialize')
+
+
     #Weightyplates.Views.WorkoutForm::formUtil = setCollection
     formViewParams =
       model: @collection.models[0]
