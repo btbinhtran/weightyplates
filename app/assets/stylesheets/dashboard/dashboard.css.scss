@@ -356,8 +356,6 @@
 
 /* Add Workout End*/
 
-
-
 /*Media Queries Begin*/
 
 @media (max-width: 62.5em) {
@@ -399,302 +397,207 @@
   }
 }
 
-
 @media (max-width: 47.9375em) {
-
-}
-
-
-
-
-
-.dashboard-main-header-row {
-  .main-category {
-    @media (max-width: 47.9375em) {
+  .dashboard-main-header-row {
+    .main-category {
       clear: both;
       width: 100%;
       margin-left: 0%;
     }
-  }
-  .dashboard-image-area {
-    @media (max-width: 47.9375em) {
+    .dashboard-image-area {
       display: none;
     }
-  }
-  #dashboard-manage {
-    @media (max-width: 47.9375em) {
+    #dashboard-manage {
       margin-top: 25px;
     }
   }
-}
 
-.dashboard-manage-subcategory-row {
-  .dashboard-subcategory {
-    @media (max-width: 47.9375em) {
+  .dashboard-manage-subcategory-row {
+    .dashboard-subcategory {
       float: left;
     }
   }
-}
 
-.dashboard-add-workout-modal-row-show {
-  .workout-form-contents {
-    .workout-form-second-wrapper {
-      @media (max-width: 47.9375em) {
+  .dashboard-add-workout-modal-row-show {
+    .workout-form-contents {
+      .workout-form-second-wrapper {
         width: 80%;
         margin: auto;
-      }
-      .dashboard-add-workout-name {
-        @media (max-width: 47.9375em) {
+        .dashboard-add-workout-name {
           margin-left: 0%;
           width: 100%;
         }
       }
     }
-  }
-  .an-entry-detail {
-    @media (max-width: 47.9375em) {
+    .an-entry-detail {
       margin-left: 0% !important;
       width: 100% !important;
-    }
-    .list-error-msg {
-      @media (max-width: 47.9375em) {
+      .list-error-msg {
         width: 95%;
         padding-right: 0px;
         margin-bottom: 1.5em;
       }
     }
   }
-}
-
-.dashboard-add-workout-header-area {
-  .dashboard-add-workout-header-wrapper {
-    @media (max-width: 47.9375em) {
+  .dashboard-add-workout-header-area {
+    .dashboard-add-workout-header-wrapper {
       width: 80%;
       float: left;
     }
-  }
-  .btn-close-area {
-    @media (max-width: 47.9375em) {
+    .btn-close-area {
       width: 20%;
       float: left;
       margin-left: 0%;
     }
-  }
-  #workout-form-main-close-button {
-    @media (max-width: 47.9375em) {
+    #workout-form-main-close-button {
       right: 20%;
     }
   }
 }
 
 .workout-name-area {
-  @media (max-width: 47.9375em) {
-    width: 100% !important;
-  }
+  width: 100% !important;
 }
 
-
 .workout-name-input-area {
-  @media (max-width: 47.9375em) {
-    width: 100% !important;
-    margin-left: 0% !important;
-  }
+  width: 100% !important;
+  margin-left: 0% !important;
 }
 
 .dashboard-workout-name-input {
-  @media (max-width: 47.9375em) {
-    width: 97%;
-  }
+  width: 97%;
 }
 
 .dashboard-add-workout-exercise {
   .exercise-drop-down-area {
-    @media (max-width: 47.9375em) {
-      padding-right: 0em;
-    }
+    padding-right: 0em;
 
   }
-  @media (max-width: 47.9375em) {
-    padding-right: 0px;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    margin-left: 0% !important;
-    width: 100% !important;
-  }
+  padding-right: 0px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  margin-left: 0% !important;
+  width: 100% !important;
   .exercise-wrapper {
-    @media (max-width: 47.9375em) {
-      width: 80%;
-      margin: auto;
-      padding-bottom: 25px;
-    }
+    width: 80%;
+    margin: auto;
+    padding-bottom: 25px;
     .add-remove-exercise-buttons-area {
-      @media (max-width: 47.9375em) {
-        width: 100% !important;
-      }
+      width: 100% !important;
       .add-workout-exercise-button-area {
-        @media (max-width: 47.9375em) {
-          float: left;
-          width: 43%;
-          margin-left: 6%;
-        }
+        float: left;
+        width: 43%;
+        margin-left: 6%;
         .add-workout-exercise-remove-button,
         .add-workout-exercise-add-button {
-          @media (max-width: 47.9375em) {
-            height: 35px;
-          }
+          height: 35px;
         }
         .add-workout-exercise-remove-button {
-          @media (max-width: 47.9375em) {
-            margin-left: -10%;
-          }
+          margin-left: -10%;
         }
       }
     }
     .dropdown-control {
-      @media (max-width: 47.9375em) {
-        margin-bottom: 15px;
-        width: 100%;
-      }
+      margin-bottom: 15px;
+      width: 100%;
     }
   }
 }
 
 .add-workout-exercise-area {
-  @media (max-width: 47.9375em) {
-    margin-bottom: 10px;
-    width: 100% !important;
-  }
+  margin-bottom: 10px;
+  width: 100% !important;
 }
 
 .dashboard-exercise-set {
   .details-set-weight {
-    @media (max-width: 47.9375em) {
-      padding-bottom: 30px;
-      padding-right: 0px;
-      border: 1px solid gray;
-      border-radius: 4px 4px 4px 4px;
-      margin-bottom: 10px;
-      width: 90%;
-      margin-left: 10%;
-    }
+    padding-bottom: 30px;
+    padding-right: 0px;
+    border: 1px solid gray;
+    border-radius: 4px 4px 4px 4px;
+    margin-bottom: 10px;
+    width: 90%;
+    margin-left: 10%;
     .add-remove-buttons {
       .add-workout-button {
-        @media (max-width: 47.9375em) {
-          width: 43%;
-          float: left;
-        }
+        width: 43%;
+        float: left;
       }
       .details-add-button-area {
-        @media (max-width: 47.9375em) {
-          margin-left: 7%;
-        }
+        margin-left: 7%;
       }
       .details-remove-button-area {
-        @media (max-width: 47.9375em) {
-          margin-left: 2%;
-        }
+        margin-left: 2%;
       }
       .add-workout-reps-add-button, .add-workout-reps-remove-button {
-        @media (max-width: 47.9375em) {
-          height: 35px;
-        }
+        height: 35px;
       }
     }
     .indent-set-spacer {
-      @media (max-width: 47.9375em) {
-        display: none;
-      }
+      display: none;
     }
 
     .detail-wrapper {
-      @media (max-width: 47.9375em) {
-        width: 80%;
-        margin: auto;
-      }
+      width: 80%;
+      margin: auto;
       .group-set-number {
-        @media (max-width: 47.9375em) {
-          margin: 15px 0px;
-          width: 100% !important;
-        }
+        margin: 15px 0px;
+        width: 100% !important;
       }
       .group-weights-and-reps-items {
-        @media (max-width: 47.9375em) {
-          width: 100% !important;
-        }
+        width: 100% !important;
 
       }
 
       .weight-and-rep-inputs {
 
         .add-workout-reps-input {
-          @media (max-width: 47.9375em) {
-            width: 100%;
-          }
+          width: 100%;
         }
 
         .weight-input-area {
-          @media (max-width: 47.9375em) {
-            margin-bottom: 7px;
-            width: 100% !important;
-          }
+          margin-bottom: 7px;
+          width: 100% !important;
         }
         .rep-input-area {
-          @media (max-width: 47.9375em) {
-            margin-bottom: 25px;
-            width: 100% !important;
-            margin-left: 0%;
-          }
+          margin-bottom: 25px;
+          width: 100% !important;
+          margin-left: 0%;
         }
 
         .weight-input-wrapper {
-          @media (max-width: 47.9375em) {
-            width: 20%;
-            float: left;
-          }
+          width: 20%;
+          float: left;
         }
 
         .weight-control {
-          @media (max-width: 47.9375em) {
-            margin-left: 0%;
-          }
+          margin-left: 0%;
           .add-workout-weight-input {
-            @media (max-width: 47.9375em) {
-              width: 100%;
-            }
+            width: 100%;
           }
-          @media (max-width: 47.9375em) {
-            width: 70%;
-            float: left;
-            padding: 0px 13px;
-          }
+          width: 70%;
+          float: left;
+          padding: 0px 13px;
         }
         .workout-units-lb-area {
-          @media (max-width: 47.9375em) {
-            width: 10%;
-            margin-left: 0%;
-          }
+          width: 10%;
+          margin-left: 0%;
         }
         .add-workout-reps-label-area {
-          @media (max-width: 47.9375em) {
-            width: 20%;
-            float: left;
-          }
+          width: 20%;
+          float: left;
         }
         .rep-control {
-          @media (max-width: 47.9375em) {
-            float: left;
-            padding: 0px 13px;
-            width: 70%;
-            margin-left: 0% !important;
-          }
+          float: left;
+          padding: 0px 13px;
+          width: 70%;
+          margin-left: 0% !important;
 
         }
       }
       label {
-        @media (max-width: 47.9375em) {
-          margin-top: 0.1em;
-          font-size: 95%;
-        }
+        margin-top: 0.1em;
+        font-size: 95%;
       }
     }
   }
@@ -702,70 +605,52 @@
 }
 
 #last-row-buttons {
-  @media (max-width: 47.9375em) {
-    margin-left: 1.9%;
-    width: 100% !important;
-  }
+  margin-left: 1.9%;
+  width: 100% !important;
 
   #last-row-cancel-button,
   #last-row-note-button,
   #last-row-save-button {
-    @media (max-width: 47.9375em) {
-      width: 95%;
-    }
+    width: 95%;
   }
   .last-row-add-and-cancel-button-area {
-    @media (max-width: 47.9375em) {
-      margin-bottom: 20px;
-      width: 66%;
-      float: left;
-      margin-left: 0% !important;
-    }
+    margin-bottom: 20px;
+    width: 66%;
+    float: left;
+    margin-left: 0% !important;
 
     .last-row-button-individual-wrapper {
-      @media (max-width: 47.9375em) {
-        width: 50%;
-        float: left;
-        margin-left: 0% !important;
-      }
+      width: 50%;
+      float: left;
+      margin-left: 0% !important;
 
     }
     .last-row-button-area-wrapper {
-      @media (max-width: 47.9375em) {
-        width: 100%;
-      }
+      width: 100%;
     }
   }
   .last-row-save-button-area {
-    @media (max-width: 47.9375em) {
-      width: 33%;
-      float: left;
-      margin-left: 0% !important;
-    }
+    width: 33%;
+    float: left;
+    margin-left: 0% !important;
   }
 }
 
 #last-row-cancel-button {
-  @media (max-width: 47.9375em) {
-    margin-left: 0%;
-    width: 100%;
-  }
+  margin-left: 0%;
+  width: 100%;
 }
 
 .dashboard-upcoming-workouts-row {
   p {
-    @media (max-width: 47.9375em) {
-      font-size: 80%;
-      margin-left: 25px;
-    }
+    font-size: 80%;
+    margin-left: 25px;
   }
 }
 
 #for-side-borders {
   #workout-form-container {
-    @media (max-width: 47.9375em) {
-      width: 100%;
-    }
+    width: 100%;
   }
 }
 
