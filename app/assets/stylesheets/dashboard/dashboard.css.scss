@@ -369,20 +369,36 @@
 }
 
 @media (max-width: 62em) {
-
+  .dashboard-main-header-row {
+    .main-category {
+      font-size: 0.9em;
+    }
+  }
 }
 
 @media (max-width: 57.1875em) {
-
-}
-
-@media (max-width: 55.25em) {
-
+  .details-set-weight {
+    label {
+      margin-top: 0.2em;
+      font-size: 80%;
+    }
+  }
 }
 
 @media (max-width: 55.125em) {
-
+  .dashboard-main-header-row {
+    .main-category {
+      font-size: 0.75em;
+    }
+  }
 }
+
+@media (max-width: 51.25em) {
+  #add-workout-name-label {
+    font-size: 85%;
+  }
+}
+
 
 @media (max-width: 47.9375em) {
 
@@ -394,12 +410,6 @@
 
 .dashboard-main-header-row {
   .main-category {
-    @media (max-width: 62em) {
-      font-size: 0.9em;
-    }
-    @media (max-width: 55.125em) {
-      font-size: 0.75em;
-    }
     @media (max-width: 47.9375em) {
       clear: both;
       width: 100%;
@@ -483,11 +493,6 @@
   }
 }
 
-#add-workout-name-label {
-  @media (max-width: 51.25em) {
-    font-size: 85%;
-  }
-}
 
 .workout-name-input-area {
   @media (max-width: 47.9375em) {
@@ -646,11 +651,6 @@
             width: 20%;
             float: left;
           }
-          .add-workout-exercise-entry-label {
-            @media (min-width: 57.1875em) {
-
-            }
-          }
         }
 
         .weight-control {
@@ -691,10 +691,6 @@
         }
       }
       label {
-        @media (max-width: 57.1875em) {
-          margin-top: 0.2em;
-          font-size: 80%;
-        }
         @media (max-width: 47.9375em) {
           margin-top: 0.1em;
           font-size: 95%;
