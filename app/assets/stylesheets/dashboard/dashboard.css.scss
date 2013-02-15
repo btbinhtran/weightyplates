@@ -134,9 +134,7 @@
 }
 
 .dashboard-add-workout-header-area {
-  margin-bottom: 6%;
-  /*background-color: #ff7f50;*/
-  /*background: linear-gradient(to bottom, #464646 0%, #343434 100%) repeat scroll 0 0 transparent;*/
+  margin-bottom: 5%;
   background-image: -webkit-linear-gradient(top, #464646, #343434);
   background-image: -moz-linear-gradient(top, #464646, #343434);
   background-image: -o-linear-gradient(top, #464646, #343434);
@@ -145,8 +143,6 @@
     text-align: left;
     padding-left: 12%;
     color: white;
-    /*background-color: #f4a460;
-   background-color: orange;*/
   }
   .btn-close-area {
     position: relative;
@@ -424,7 +420,7 @@
         width: 80%;
         margin: auto;
       }
-      .dashboard-add-workout-name{
+      .dashboard-add-workout-name {
         @media (max-width: 47.9375em) {
           margin-left: 0%;
           width: 100%;
@@ -464,9 +460,22 @@
   }
 }
 
+.workout-name-area {
+  @media (max-width: 47.9375em) {
+    width: 100% !important;
+  }
+}
+
 #add-workout-name-label {
   @media (max-width: 51.25em) {
     font-size: 85%;
+  }
+}
+
+.workout-name-input-area {
+  @media (max-width: 47.9375em) {
+    width: 100% !important;
+    margin-left: 0% !important;
   }
 }
 
@@ -477,10 +486,6 @@
 }
 
 .dashboard-add-workout-exercise {
-  @media (max-width: 47.9375em) {
-    margin-left: 0%;
-    width: 100%;
-  }
   .exercise-drop-down-area {
     @media (max-width: 47.9375em) {
       padding-right: 0em;
@@ -491,6 +496,8 @@
     padding-right: 0px;
     margin-top: 20px;
     margin-bottom: 15px;
+    margin-left: 0% !important;
+    width: 100% !important;
   }
   .exercise-wrapper {
     @media (max-width: 47.9375em) {
@@ -498,27 +505,33 @@
       margin: auto;
       padding-bottom: 25px;
     }
-    .add-workout-exercise-button-area {
+    .add-remove-exercise-buttons-area {
       @media (max-width: 47.9375em) {
-        float: left;
-        width: 43%;
-        margin-left: 6%;
+        width: 100% !important;
       }
-      .add-workout-exercise-remove-button,
-      .add-workout-exercise-add-button {
+      .add-workout-exercise-button-area {
         @media (max-width: 47.9375em) {
-          height: 35px;
+          float: left;
+          width: 43%;
+          margin-left: 6%;
         }
-      }
-      .add-workout-exercise-remove-button {
-        @media (max-width: 47.9375em) {
-          margin-left: -10%;
+        .add-workout-exercise-remove-button,
+        .add-workout-exercise-add-button {
+          @media (max-width: 47.9375em) {
+            height: 35px;
+          }
+        }
+        .add-workout-exercise-remove-button {
+          @media (max-width: 47.9375em) {
+            margin-left: -10%;
+          }
         }
       }
     }
     .dropdown-control {
       @media (max-width: 47.9375em) {
         margin-bottom: 15px;
+        width: 100%;
       }
     }
   }
@@ -527,6 +540,7 @@
 .add-workout-exercise-area {
   @media (max-width: 47.9375em) {
     margin-bottom: 10px;
+    width: 100% !important;
   }
 }
 
@@ -634,7 +648,7 @@
             padding: 0px 13px;
           }
         }
-        .workout-units-lb-area{
+        .workout-units-lb-area {
           @media (max-width: 47.9375em) {
             width: 10%;
           }
@@ -678,7 +692,7 @@
 }
 
 #last-row-buttons {
-  @media (max-width: 47.9375em){
+  @media (max-width: 47.9375em) {
     margin-left: 1.9%;
   }
 

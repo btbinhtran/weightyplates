@@ -7,7 +7,7 @@
           %label.add-workout-exercise-label#an-Exercise-label Exercise
         .span6.control-group.dropdown-control
           %select.add-workout-exercise-drop-downlist
-        .span3
+        .span3.add-remove-exercise-buttons-area
           .span4.offset4.add-workout-exercise-button-area
             %button.btn.add-workout-exercise-add-button +
           .span4.add-workout-exercise-button-area

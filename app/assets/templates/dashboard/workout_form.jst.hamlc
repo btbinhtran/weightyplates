@@ -10,9 +10,9 @@
       .row-fluid.workout-form-second-wrapper
         .span9.offset1.dashboard-add-workout-name#workout-name-container
           .row-fluid
-            .span3
+            .span3.workout-name-area
               %label#add-workout-name-label Workout Name
-            .span9
+            .span9.workout-name-input-area
               %input{class: "dashboard-workout-name-input", type: "text"}
         .workout-entry-exercise-and-sets-row
           .exercise-grouping.row-fluid#exercise-grouping
