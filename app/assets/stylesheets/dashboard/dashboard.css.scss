@@ -429,6 +429,10 @@
     }
   }
   .an-entry-detail {
+    @media (max-width: 47.9375em) {
+      margin-left: 0% !important;
+      width: 100% !important;
+    }
     .list-error-msg {
       @media (max-width: 47.9375em) {
         width: 95%;
@@ -545,15 +549,6 @@
 }
 
 .dashboard-exercise-set {
-  /*background-color: #d3d3d3;*/
-  label:hover {
-    cursor: move;
-  }
-  .high-light-details {
-    label, p {
-      color: #c3515e;
-    }
-  }
   .details-set-weight {
     @media (max-width: 47.9375em) {
       padding-bottom: 30px;
@@ -601,7 +596,14 @@
       .group-set-number {
         @media (max-width: 47.9375em) {
           margin: 15px 0px;
+          width: 100% !important;
         }
+      }
+      .group-weights-and-reps-items{
+        @media (max-width: 47.9375em) {
+          width: 100% !important;
+        }
+
       }
 
       .weight-and-rep-inputs {
@@ -615,11 +617,14 @@
         .weight-input-area {
           @media (max-width: 47.9375em) {
             margin-bottom: 7px;
+            width: 100% !important;
           }
         }
         .rep-input-area {
           @media (max-width: 47.9375em) {
             margin-bottom: 25px;
+            width: 100% !important;
+            margin-left: 0%;
           }
         }
 
@@ -636,7 +641,9 @@
         }
 
         .weight-control {
-
+          @media (max-width: 47.9375em) {
+            margin-left: 0%;
+          }
           .add-workout-weight-input {
             @media (max-width: 47.9375em) {
               width: 100%;
@@ -651,6 +658,7 @@
         .workout-units-lb-area {
           @media (max-width: 47.9375em) {
             width: 10%;
+            margin-left: 0%;
           }
           .add-workout-units {
             @media (max-width: 70.8125em) {
@@ -672,6 +680,7 @@
             float: left;
             padding: 0px 13px;
             width: 70%;
+            margin-left: 0% !important;
           }
 
         }
@@ -694,6 +703,7 @@
 #last-row-buttons {
   @media (max-width: 47.9375em) {
     margin-left: 1.9%;
+    width: 100% !important;
   }
 
   #last-row-cancel-button,
@@ -708,12 +718,14 @@
       margin-bottom: 20px;
       width: 66%;
       float: left;
+      margin-left: 0% !important;
     }
 
     .last-row-button-individual-wrapper {
       @media (max-width: 47.9375em) {
         width: 50%;
         float: left;
+        margin-left: 0% !important;
       }
 
     }
@@ -727,6 +739,7 @@
     @media (max-width: 47.9375em) {
       width: 33%;
       float: left;
+      margin-left: 0% !important;
     }
   }
 
