@@ -11,10 +11,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'blur .add-workout-reps-input': 'validateChange'
 
   initialize: (options) ->
-    #inherit utility functions
-    utilityFunctionObj = options.inherit
-    _.extend(@, utilityFunctionObj)
-
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
@@ -136,7 +132,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     exerAndDetsModel = @getModel('ExerciseAndDetails')
     workoutDetailsParams =
       exerciseAndDetails: exerAndDetsModel
-      inherit: exerAndDetsModel.get('utilityFunction')
     new Weightyplates.Views.WorkoutDetail(workoutDetailsParams)
 
   removeDetails: ()->

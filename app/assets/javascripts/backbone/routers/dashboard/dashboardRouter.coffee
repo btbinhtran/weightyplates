@@ -4,12 +4,12 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
 
   initialize: ->
     @collection = new Weightyplates.Collections.DashboardItems()
-
     @collection.reset(Weightyplates.PreloadModels)
 
   index: ->
     #functions for extending the form view and child views
-    utilityFunctions =
+    extendingClass = ->
+    extendingClass.prototype = {
       getModel: (modelName) ->
         _.filter(@collection.models, (model) ->
           model.constructor.name == modelName
@@ -22,12 +22,6 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
         #utility function for title casing the key
         str.replace /\w\S*/g, (txt) ->
           txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-
-    anotherFunc = ->
-
-    anotherFunc.prototype = {
-      serialize: ()->
-        console.log 'serialize'
     }
 
     augment = (receivingClass, givingClass)->
@@ -38,17 +32,21 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
           receivingClass.prototype[arguments[i]] = givingClass.prototype[arguments[i]]
           i++
       else
-        for methodName in givingClass.prototype
-          if !receivingClass.prototype[methodName]
-            receivingClass.prototype[methodName] = givingClass.prototype[methodName]
+        keysGiving = _.keys(givingClass.prototype)
+        keyCountGiving = _.keys(givingClass.prototype).length
+        i = 0
+        while i < keyCountGiving
+          keyGiving = keysGiving[i]
+          if !receivingClass.prototype[keyGiving]
+            receivingClass.prototype[keyGiving] = givingClass.prototype[keyGiving]
+          i++
 
-    augment( Weightyplates.Views.WorkoutForm, anotherFunc, 'serialize')
+    augment( Weightyplates.Views.WorkoutForm, extendingClass)
+    augment( Weightyplates.Views.WorkoutExercise, extendingClass)
+    augment( Weightyplates.Views.WorkoutDetail, extendingClass)
 
-
-    #Weightyplates.Views.WorkoutForm::formUtil = setCollection
     formViewParams =
       model: @collection.models[0]
-      inherit: utilityFunctions
     addWorkoutView = new Weightyplates.Views.WorkoutForm(formViewParams)
 
 #viewButton = new Weightyplates.Views.WorkoutEntryButton(collection: @collection)

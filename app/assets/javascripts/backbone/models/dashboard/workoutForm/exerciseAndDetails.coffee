@@ -1,7 +1,6 @@
 class Weightyplates.Models.ExerciseAndDetails extends Backbone.Model
 
   defaults:
-    utilityFunction: null
     detailViews: []
     detailViewsCount: null
     actualDetailViewsCount: 0

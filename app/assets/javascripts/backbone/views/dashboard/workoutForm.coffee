@@ -19,10 +19,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   initialize: (options)->
     #inherit utility functions
-    utilityFunctionObj = options.inherit
-    _.extend(@, utilityFunctionObj)
 
-    console.log @
+    #console.log @
 
     #make all references of 'this' to reference the main object
     _.bindAll(@)
@@ -57,16 +55,15 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #call render
 
-    @render(utilityFunctionObj)
+    @render()
 
-  render: (utilityFunctionObj)->
+  render: ()->
     #load the view template
     @$el.html(@template())
 
     #form view gets the FormAndExercises model
     exerciseViewParam =
       formAndExercisesModel: @getModel('FormAndExercises')
-      inherit: utilityFunctionObj
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
     #add hint in workout name

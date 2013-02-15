@@ -12,11 +12,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     'blur .add-workout-exercise-drop-downlist': 'validateListChange'
 
   #==============================================Initialize
-  initialize: (options)->
-    #inherit utility functions
-    utilityFunctionObj = options.inherit
-    _.extend(@, utilityFunctionObj)
-
+  initialize: (options) ->
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
@@ -74,9 +70,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       exerciseAndDetailsModel
       privateExerciseModel
     ])
-
-    #put util object in model for sibling views
-    @getModel('ExerciseAndDetails').set('utilityFunction', utilityFunctionObj)
 
     #render the template
     @render(exercisePhrase, formAndExercisesModel, exerciseViewsCount)
@@ -307,10 +300,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #create a new grouping container for the new exercise
     @$el.parent().append("<div class='exercise-grouping row-fluid' id='exercise-grouping'></div>")
 
-    utilObj = @getModel('ExerciseAndDetails').get('utilityFunction')
-
     #generate a new exercise entry
-    new Weightyplates.Views.WorkoutExercise({formAndExercisesModel: @getModel('FormAndExercises'), inherit: utilObj})
+    new Weightyplates.Views.WorkoutExercise({formAndExercisesModel: @getModel('FormAndExercises')})
 
   removeExercise: ()->
     #list of all the views
