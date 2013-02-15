@@ -233,95 +233,33 @@
     }
   }
   .details-set-weight {
-    @media (max-width: 47.9375em) {
-      padding-bottom: 30px;
-      border: 1px solid gray;
-      border-radius: 4px 4px 4px 4px;
-      margin-bottom: 10px;
-      width: 90%;
-      margin-left: 10%;
-    }
+
     padding-right: 20px;
     padding-top: 10px;
     border: 1px solid transparent;
     .add-remove-buttons {
       margin-top: -2px;
-      .add-workout-button {
-        @media (max-width: 47.9375em) {
-          width: 43%;
-          float: left;
-        }
-      }
-      .details-add-button-area {
-        @media (max-width: 47.9375em) {
-          margin-left: 7%;
-        }
-      }
-      .details-remove-button-area {
-        @media (max-width: 47.9375em) {
-          margin-left: 2%;
-        }
-      }
       .add-workout-reps-add-button, .add-workout-reps-remove-button {
         width: 100%;
-        @media (max-width: 47.9375em) {
-          height: 35px;
-        }
       }
     }
     .indent-set-spacer {
       margin-left: 0%;
-      @media (max-width: 47.9375em) {
-        display: none;
-      }
-    }
-
-    @media (max-width: 47.9375em) {
-      padding-right: 0px;
     }
     .detail-wrapper {
-      @media (max-width: 47.9375em) {
-        width: 80%;
-        margin: auto;
-      }
-      .group-weights-and-reps-items {
-
-      }
       .group-set-number {
         .add-workout-set-label {
           text-align: right;
           margin-top: 0.2em;
         }
-        @media (max-width: 47.9375em) {
-          margin-top: 10px;
-          margin-bottom: 15px;
-        }
       }
 
       .weight-and-rep-inputs {
         float: left;
-        .weight-input-area {
-          @media (max-width: 47.9375em) {
-            margin-bottom: 7px;
-          }
-        }
-        .rep-input-area {
-          @media (max-width: 47.9375em) {
-            margin-bottom: 25px;
-          }
-        }
-
         .weight-input-wrapper {
-          @media (max-width: 47.9375em) {
-            width: 20%;
-            float: left;
-          }
           .add-workout-exercise-entry-label {
             text-align: right;
             margin-top: 0.2em;
-            @media (min-width: 57.1875em) {
-              margin-top: 0.1em;
-            }
           }
         }
 
@@ -329,36 +267,17 @@
           padding: 0px 7px;
           .add-workout-weight-input {
             width: 90%;
-            @media (max-width: 47.9375em) {
-              width: 100%;
-            }
-          }
-          @media (max-width: 47.9375em) {
-            width: 70%;
-            float: left;
-            padding: 0px 13px;
           }
         }
         .add-workout-units {
           text-align: center;
           margin-bottom: 0;
           margin-top: 0.1em;
-          @media (max-width: 70.8125em) {
-            margin-top: 0.2em
-          }
-
-          @media (max-width: 68.2em) {
-            margin-top: 0em
-          }
         }
         .add-workout-reps-input {
           width: 93%;
         }
         .add-workout-reps-label-area {
-          @media (max-width: 47.9375em) {
-            width: 20%;
-            float: left;
-          }
           .add-workout-reps-label {
             text-align: right;
             margin-bottom: 0;
@@ -367,20 +286,6 @@
         }
         .rep-control {
           padding-left: 7px;
-          @media (max-width: 47.9375em) {
-            float: left;
-            padding-left: 13px;
-            width: 70%;
-          }
-
-        }
-      }
-      label, p {
-        @media (max-width: 57.1875em) {
-          font-size: 80%;
-        }
-        @media (max-width: 47.9375em) {
-          font-size: 95%;
         }
       }
     }
@@ -605,6 +510,13 @@
 
 .dashboard-add-workout-exercise {
 
+  .exercise-drop-down-area {
+    @media (max-width: 47.9375em) {
+      padding-right: 0px;
+    }
+
+
+  }
   @media (max-width: 47.9375em) {
     padding-right: 0px;
     margin-top: 20px;
@@ -645,6 +557,171 @@
 .add-workout-exercise-area {
   @media (max-width: 47.9375em) {
     margin-bottom: 10px;
+  }
+}
+
+.dashboard-exercise-set {
+  /*background-color: #d3d3d3;*/
+  label:hover {
+    cursor: move;
+  }
+  .high-light-details {
+    label, p {
+      color: #c3515e;
+    }
+  }
+  .details-set-weight {
+    @media (max-width: 47.9375em) {
+      padding-bottom: 30px;
+      padding-right:0px;
+      border: 1px solid gray;
+      border-radius: 4px 4px 4px 4px;
+      margin-bottom: 10px;
+      width: 90%;
+      margin-left: 10%;
+    }
+    .add-remove-buttons {
+      .add-workout-button {
+        @media (max-width: 47.9375em) {
+          width: 43%;
+          float: left;
+        }
+      }
+      .details-add-button-area {
+        @media (max-width: 47.9375em) {
+          margin-left: 7%;
+        }
+      }
+      .details-remove-button-area {
+        @media (max-width: 47.9375em) {
+          margin-left: 2%;
+        }
+      }
+      .add-workout-reps-add-button, .add-workout-reps-remove-button {
+        @media (max-width: 47.9375em) {
+          height: 35px;
+        }
+      }
+    }
+    .indent-set-spacer {
+      @media (max-width: 47.9375em) {
+        display: none;
+      }
+    }
+
+
+    .detail-wrapper {
+      @media (max-width: 47.9375em) {
+        width: 80%;
+        margin: auto;
+      }
+      .group-set-number {
+        @media (max-width: 47.9375em) {
+          margin-top: 10px;
+          margin-bottom: 15px;
+        }
+      }
+
+      .weight-and-rep-inputs {
+
+        .add-workout-reps-input {
+          @media (max-width: 47.9375em) {
+            width: 100%;
+          }
+        }
+
+        .weight-input-area {
+          @media (max-width: 47.9375em) {
+            margin-bottom: 7px;
+          }
+        }
+        .rep-input-area {
+          @media (max-width: 47.9375em) {
+            margin-bottom: 25px;
+          }
+        }
+
+        .weight-input-wrapper {
+          @media (max-width: 47.9375em) {
+            width: 20%;
+            float: left;
+          }
+          .add-workout-exercise-entry-label {
+            @media (min-width: 57.1875em) {
+              margin-top: 0.1em;
+            }
+          }
+        }
+
+        .weight-control {
+          @media (max-width: 47.9375em) {
+            padding: 0px;
+          }
+          .add-workout-weight-input {
+            @media (max-width: 47.9375em) {
+              width: 100%;
+            }
+          }
+          @media (max-width: 47.9375em) {
+            width: 70%;
+            float: left;
+            padding-left: 13px;
+          }
+        }
+        .add-workout-units {
+          @media (max-width: 70.8125em) {
+            margin-top: 0.2em
+          }
+
+          @media (max-width: 68.2em) {
+            margin-top: 0em
+          }
+        }
+        .add-workout-reps-label-area {
+          @media (max-width: 47.9375em) {
+            width: 20%;
+            float: left;
+          }
+          .add-workout-reps-label {
+            text-align: right;
+            margin-bottom: 0;
+            margin-top: 0.2em;
+          }
+        }
+        .rep-control {
+          @media (max-width: 47.9375em) {
+            float: left;
+            padding-left: 13px;
+            width: 70%;
+          }
+
+        }
+      }
+      label, p {
+        @media (max-width: 57.1875em) {
+          font-size: 80%;
+        }
+        @media (max-width: 47.9375em) {
+          font-size: 95%;
+        }
+      }
+    }
+  }
+  .details-set-weight:hover {
+    cursor: move;
+  }
+  .ui-sortable-helper {
+    border: 1px solid #c0c0c0;
+    background-color: #fafafa;
+    padding-right: 15px;
+    margin-left: 30px;
+    cursor: move;
+  }
+  .place-holder {
+    height: 10px;
+    background-color: #ED4A5A;
+    border-color: #ff4500;
+    margin-bottom: 10px;;
   }
 }
 
