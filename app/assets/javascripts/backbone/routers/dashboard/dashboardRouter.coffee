@@ -7,16 +7,13 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     @collection.reset(Weightyplates.PreloadModels)
 
   index: ->
-    #functions for extending the form view and child views
-    extendingClass = ->
-    extendingClass.prototype = {
+    #the Mixin object used for extending
+    MixIn = ->
+    MixIn.prototype = {
       getModel: (modelName) ->
         _.filter(@collection.models, (model) ->
           model.constructor.name == modelName
         )[0]
-
-      getEventTarget: (event)->
-        $(event.target)
 
       toTitleCase: (str) ->
         #utility function for title casing the key
@@ -24,6 +21,7 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
           txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
     }
 
+    #functions for extending the form view and child views
     augment = (receivingClass, givingClass)->
       if arguments[2]
         i = 2
@@ -41,9 +39,26 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
             receivingClass.prototype[keyGiving] = givingClass.prototype[keyGiving]
           i++
 
-    augment( Weightyplates.Views.WorkoutForm, extendingClass)
-    augment( Weightyplates.Views.WorkoutExercise, extendingClass)
-    augment( Weightyplates.Views.WorkoutDetail, extendingClass)
+    #provide the methods to the backbone objects (views, models, etc.)
+    augment(
+      Weightyplates.Views.WorkoutForm,
+      MixIn,
+      'getModel'
+    )
+
+    augment(
+      Weightyplates.Views.WorkoutExercise,
+      MixIn,
+      'getModel'
+    )
+
+    augment(Weightyplates.Views.WorkoutDetail, MixIn)
+
+    augment(
+      Weightyplates.Models.AssociationDetail,
+      MixIn,
+      'toTitleCase'
+    )
 
     formViewParams =
       model: @collection.models[0]

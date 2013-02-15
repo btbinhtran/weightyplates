@@ -94,12 +94,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       associationWorkoutModel.set(workoutEntryParams)
 
   focusInWorkoutName: (event) ->
-    $this = @getEventTarget(event)
+    $this = $(event.target)
     if $this.attr('class') == "dashboard-workout-name-input hint"
       $this.val("").removeClass("hint")
 
   blurInWorkoutName: (event) ->
-    $this = @getEventTarget(event)
+    $this = $(event.target)
     if $this.val().length == 0
       $this
         .val(@getModel('FormAndExercises').get("workoutNameHint"))

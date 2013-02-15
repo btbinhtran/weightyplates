@@ -1,5 +1,6 @@
 class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
+
   defaults:
     weight: null
     reps: null
@@ -23,13 +24,17 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       onlyDigits:(attr) ->
         attrVal = attr.validateAttrVal
-        if isNaN(attrVal * 1) and attrVal.replace(/\s*/g, '').length > attrVal.replace(/\D/g, '').length
-          #console.log "not a number"
+        notANum = isNaN(attrVal * 1)
+        replacedLeadingZeroLength = attrVal.replace(/\s*/g, '').length
+        replacedNonDigitsLength = attrVal.replace(/\D/g, '').length
+        if notANum and replacedLeadingZeroLength > replacedNonDigitsLength
           "#{attr.checkAttribute} can only have digits."
 
       decimalIntent:(attr) ->
         attrVal = attr.validateAttrVal
-        if attrVal.search(/[0-9][.]/) >=0 and attrVal.search(/[.][0-9]/) < 0
+        singleDigitLeftWithDecimal = attrVal.search(/[0-9][.]/)
+        periodAndSingleDigitRight = attrVal.search(/[.][0-9]/)
+        if singleDigitLeftWithDecimal >=0 and periodAndSingleDigitRight < 0
           "#{attr.checkAttribute} has improper decimal form if intended."
 
       noNegativeZero:(attr) ->
@@ -38,42 +43,61 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
 
       largerThanZero:(attr) ->
         validateAttr = attr.validateAttrVal
-        if((validateAttr * 1) <= 0 and validateAttr != "" and $.trim(attr.validateAttrVal).length != 0)
+        lessThanZero = ((validateAttr * 1) <= 0)
+        notABlank = (validateAttr != "")
+        notOnlySpaces = ($.trim(attr.validateAttrVal).length != 0)
+        if(lessThanZero and notABlank and notOnlySpaces)
           "#{attr.checkAttribute} must be greater than 0."
 
       noPeriodEnd:(attr) ->
         validateAttr = attr.validateAttrVal
-        periodAtEnd = _.indexOf(validateAttr, ".") == (validateAttr.length - 1)
-        if(!isNaN(validateAttr * 1) and periodAtEnd and validateAttr != "")
+        periodAtEnd = (_.indexOf(validateAttr, ".") == (validateAttr.length - 1))
+        notANumber = !isNaN(validateAttr * 1)
+        notABlank = (validateAttr != "")
+        if(notANumber and periodAtEnd and notABlank)
           "#{attr.checkAttribute} can't end with a period."
 
       noDecimal: (attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
-        if(parts.length == 2 and parts[0].length >= 0 and parts[1].length >= 1)
+        leftAndRight = parts.length == 2
+        leftMoreThanZero = parts[0].length >= 0
+        rightGreaterEqualOne = parts[1].length >= 1
+        if(leftAndRight and leftMoreThanZero and rightGreaterEqualOne)
           "#{attr.checkAttribute} can not be a decimal."
 
       noLeadingZeroDecimal:(attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
-        if((_.indexOf(parts[0], "0") != _.lastIndexOf(parts[0], "0")) and parts.length == 2)
+        moreThanOneZero = (_.indexOf(parts[0], "0") != _.lastIndexOf(parts[0], "0"))
+        leftAndRight = parts.length == 2
+        if(moreThanOneZero and leftAndRight)
           "#{attr.checkAttribute} has too many leading zeros in decimal."
 
       noLeadingZeroPartDecimal:(attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
-        if((_.indexOf(parts[0], "0") == _.lastIndexOf(parts[0], "0")) and parts[0].length ==2 and parts.length == 2 and _.indexOf(parts[0], "0") != -1)
+        onlyOneZero = (_.indexOf(parts[0], "0") == _.lastIndexOf(parts[0], "0"))
+        twoDigitsLeftOfDecimal = (parts[0].length == 2)
+        twoParts = (parts.length == 2)
+        if(onlyOneZero and twoDigitsLeftOfDecimal and twoParts)
           "#{attr.checkAttribute} has unneeded zero if decimal."
 
       noLeadingInteger:(attr) ->
         validateAttr = attr.validateAttrVal
-        if(_.indexOf(validateAttr, ".") == -1 and (validateAttr.replace(/^0+/, '').length != validateAttr.length) and validateAttr.length > 1)
+        hasNoPeriod = (_.indexOf(validateAttr, ".") == -1)
+        leadingZerosPresent = (validateAttr.replace(/^0+/, '').length != validateAttr.length)
+        lengthGreaterThanOne = validateAttr.length > 1
+        if(hasNoPeriod and leadingZerosPresent and lengthGreaterThanOne)
           "#{attr.checkAttribute} number can't have leading zeros."
 
       noScientificNotation:(attr) ->
         validateAttr = attr.validateAttrVal
         scientificParts = validateAttr.split('e')
-        if(scientificParts.length == 2 and !isNaN(scientificParts[0]*1) and !isNaN(scientificParts[1]*1))
+        inScientificNotations = scientificParts.length == 2
+        leftIsNumber = !isNaN(scientificParts[0]*1)
+        rightIsNumber = !isNaN(scientificParts[1]*1)
+        if(inScientificNotations and leftIsNumber and rightIsNumber)
           "#{attr.checkAttribute} can't be in scientific notation."
 
     validateWith: (options) =>
@@ -89,10 +113,10 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       i = 0
       errorsArray = []
       while i < itemsToValidateLength
-
-        if !_.isUndefined(@::validator.rules[validateOptions[i]](options))
+        validateOption = @::validator.rules[validateOptions[i]](options)
+        if !_.isUndefined(validateOption)
           #for storing multiple errors
-          errorsArray.push(@::validator.rules[validateOptions[i]](options))
+          errorsArray.push(validateOption)
 
           #storing the error if there is one
           errors[options.checkAttribute] = errorsArray
@@ -102,21 +126,18 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       #return errors
       errors
 
-    utilities:
-      #capitalize first letter of word function
-      toTitleCase: (str) ->
-        str.replace /\w\S*/g, (txt) ->
-          txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    withAttribute: (attr, attrVal) =>
+      #cache a reference to parent object
+      validator = @::validator
 
-    withAttribute: (attr, attrVal) ->
       #set key for attr val
-      @attrValidations[attr].validateAttrVal = attrVal
+      validator.attrValidations[attr].validateAttrVal = attrVal
 
       #set key for attr name
-      @attrValidations[attr].checkAttribute = @utilities["toTitleCase"](attr)
+      validator.attrValidations[attr].checkAttribute = @::toTitleCase(attr)
 
       #get the rules defined for the attr
-      @validateWith(@attrValidations[attr])
+      validator.validateWith(validator.attrValidations[attr])
 
     attrValidations:
       weight:
