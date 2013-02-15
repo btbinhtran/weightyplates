@@ -13,6 +13,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   #==============================================Initialize
   initialize: (options)->
+    #inherit utility functions
+    utilityFunctionObj = options.inherit
+    _.extend(@, utilityFunctionObj)
+
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
@@ -66,6 +70,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       privateExerciseModel
     ])
 
+    #put util object in model for sibling views
+    @getModel('ExerciseAndDetails').set('utilityFunction', utilityFunctionObj)
+
     #render the template
     @render(exercisePhrase, formAndExercisesModel, exerciseViewsCount)
 
@@ -103,7 +110,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #the workout details row has a model between the exercises and its details
     #have to initialize model to default values because it can take on old values from other exercise sets
-    new Weightyplates.Views.WorkoutDetail({exerciseAndDetails: @getModel('ExerciseAndDetails')})
+    exerciseAndDetailsModel = @getModel('ExerciseAndDetails')
+    new Weightyplates.Views.WorkoutDetail({exerciseAndDetails: exerciseAndDetailsModel, inherit: exerciseAndDetailsModel.get('utilityFunction')})
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     @$el.find('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
@@ -197,11 +205,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #return this
     this
-
-  getModel: (modelName) ->
-    _.filter(@collection.models, (model) ->
-      model.constructor.name == modelName
-    )[0]
 
   updateAssociatedModelAdd: ->
     #entry details updated the parent exercise
@@ -297,8 +300,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #create a new grouping container for the new exercise
     @$el.parent().append("<div class='exercise-grouping row-fluid' id='exercise-grouping'></div>")
 
+    utilObj = @getModel('ExerciseAndDetails').get('utilityFunction')
+
     #generate a new exercise entry
-    new Weightyplates.Views.WorkoutExercise(formAndExercisesModel: @getModel('FormAndExercises'))
+    new Weightyplates.Views.WorkoutExercise({formAndExercisesModel: @getModel('FormAndExercises'), inherit: utilObj})
 
   removeExercise: ()->
     #list of all the views

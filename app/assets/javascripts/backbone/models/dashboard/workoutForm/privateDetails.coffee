@@ -1,6 +1,7 @@
 class Weightyplates.Models.PrivateDetails extends Backbone.Model
 
   defaults:
+    utilityFunction: null
     weightInputError: false
     repInputError: false
     notifyFromButton: null

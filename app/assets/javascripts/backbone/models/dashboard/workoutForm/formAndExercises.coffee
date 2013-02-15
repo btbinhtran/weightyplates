@@ -16,7 +16,6 @@ class Weightyplates.Models.FormAndExercises extends Backbone.Model
     exerciseAssociatedModels: []
     workoutNameDefault: null
     workoutName: null
-    utilityFunctionObj: null
 
   prepareEntries: ->
     @modelOfExercises = new Weightyplates.Models.ListOfExercises(model: gon.exercises)

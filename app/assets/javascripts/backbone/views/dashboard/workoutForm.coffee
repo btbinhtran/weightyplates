@@ -17,7 +17,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'mousedown #last-row-cancel-button': 'clickCancelMouseDown'
     'click #last-row-cancel-button': 'clickCancel'
 
-  initialize: ->
+  initialize: (options)->
+    #inherit utility functions
+    utilityFunctionObj = options.inherit
+    _.extend(@, utilityFunctionObj)
+
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
@@ -50,27 +54,19 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     ])
 
     #call render
-    @render()
+    @render(utilityFunctionObj)
 
-  render: ()->
+  render: (utilityFunctionObj)->
     #load the view template
     @$el.html(@template())
 
     #form view gets the FormAndExercises model
-    exerciseView = new Weightyplates.Views.WorkoutExercise(formAndExercisesModel: @getModel('FormAndExercises'))
+    exerciseView = new Weightyplates.Views.WorkoutExercise({formAndExercisesModel: @getModel('FormAndExercises'), inherit: utilityFunctionObj})
 
     #add hint in workout name
     @hintInWorkoutName()
 
     this
-
-  getModel: (modelName) ->
-    _.filter(@collection.models, (model) ->
-      model.constructor.name == modelName
-    )[0]
-
-  getEventTarget: (event)->
-    $(event.target)
 
   updateAssociatedModel: ->
     #add and removal check for entries
