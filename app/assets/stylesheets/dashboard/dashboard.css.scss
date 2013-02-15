@@ -250,7 +250,6 @@
       .group-set-number {
         .add-workout-set-label {
           text-align: right;
-          margin-top: 0.2em;
         }
       }
 
@@ -259,12 +258,11 @@
         .weight-input-wrapper {
           .add-workout-exercise-entry-label {
             text-align: right;
-            margin-top: 0.2em;
           }
         }
 
         .weight-control {
-          padding: 0px 7px;
+          padding: 0px 9px;
           .add-workout-weight-input {
             width: 90%;
           }
@@ -273,8 +271,7 @@
           float: left;
           .add-workout-units {
             text-align: center;
-            margin-bottom: 0;
-            margin-top: 0.1em;
+
           }
         }
 
@@ -284,8 +281,7 @@
         .add-workout-reps-label-area {
           .add-workout-reps-label {
             text-align: right;
-            margin-bottom: 0;
-            margin-top: 0.2em;
+
           }
         }
         .rep-control {
@@ -314,9 +310,11 @@
 
 .last-row-button-container {
   float: left;
+  margin: 0.5em 0em 1em;
 }
 
 #last-row-buttons {
+
   button {
     height: 35px;
   }
@@ -324,49 +322,12 @@
     width: 100%;
 
   }
-  #last-row-cancel-button,
-  #last-row-note-button,
-  #last-row-save-button {
-    @media (max-width: 47.9375em) {
-      width: 95%;
-    }
-  }
-  .last-row-add-and-cancel-button-area {
-    @media (max-width: 47.9375em) {
-      margin-bottom: 20px;
-      width: 66%;
-      float: left;
-    }
-
-    .last-row-button-individual-wrapper {
-      @media (max-width: 47.9375em) {
-        width: 50%;
-        float: left;
-      }
-
-    }
-    .last-row-button-area-wrapper {
-      @media (max-width: 47.9375em) {
-        width: 100%;
-      }
-    }
-  }
-  .last-row-save-button-area {
-    @media (max-width: 47.9375em) {
-      width: 33%;
-      float: left;
-    }
-  }
 
 }
 
 #last-row-cancel-button {
   width: 94%;
   margin-left: 6%;
-  @media (max-width: 47.9375em) {
-    margin-left: 0%;
-    width: 100%;
-  }
 }
 
 .min-row-height {
@@ -379,16 +340,10 @@
   background-color: #fafafa;
   border: 1px solid #858585;
   border-top: none;
-  p {
-    @media (max-width: 47.9375em) {
-      font-size: 80%;
-      margin-left: 25px;
-    }
-
-  }
 }
 
 #last-row-container {
+  margin-top: 0.3em;
   margin-left: 8%;
   width: 80%;
   float: left;
@@ -402,9 +357,6 @@
   background-color: #f5f5f5;
   #workout-form-container {
     float: left;
-    @media (max-width: 47.9375em) {
-      width: 100%;
-    }
   }
 }
 
@@ -619,8 +571,7 @@
       }
       .group-set-number {
         @media (max-width: 47.9375em) {
-          margin-top: 10px;
-          margin-bottom: 15px;
+          margin: 15px 0px;
         }
       }
 
@@ -650,7 +601,7 @@
           }
           .add-workout-exercise-entry-label {
             @media (min-width: 57.1875em) {
-              margin-top: 0.1em;
+
             }
           }
         }
@@ -674,10 +625,10 @@
           }
           .add-workout-units {
             @media (max-width: 70.8125em) {
-              margin-top: 0.2em
+
             }
             @media (max-width: 68.2em) {
-              margin-top: 0em
+
             }
           }
         }
@@ -685,11 +636,6 @@
           @media (max-width: 47.9375em) {
             width: 20%;
             float: left;
-          }
-          .add-workout-reps-label {
-            text-align: right;
-            margin-bottom: 0;
-            margin-top: 0.2em;
           }
         }
         .rep-control {
@@ -701,31 +647,84 @@
 
         }
       }
-      label, p {
+      label {
         @media (max-width: 57.1875em) {
+          margin-top: 0.2em;
           font-size: 80%;
         }
         @media (max-width: 47.9375em) {
+          margin-top: 0.1em;
           font-size: 95%;
         }
       }
     }
   }
-  .details-set-weight:hover {
-    cursor: move;
+
+}
+
+#last-row-buttons {
+  @media (max-width: 47.9375em){
+    margin-left: 1.9%;
   }
-  .ui-sortable-helper {
-    border: 1px solid #c0c0c0;
-    background-color: #fafafa;
-    padding-right: 15px;
-    margin-left: 30px;
-    cursor: move;
+
+  #last-row-cancel-button,
+  #last-row-note-button,
+  #last-row-save-button {
+    @media (max-width: 47.9375em) {
+      width: 95%;
+    }
   }
-  .place-holder {
-    height: 10px;
-    background-color: #ED4A5A;
-    border-color: #ff4500;
-    margin-bottom: 10px;;
+  .last-row-add-and-cancel-button-area {
+    @media (max-width: 47.9375em) {
+      margin-bottom: 20px;
+      width: 66%;
+      float: left;
+    }
+
+    .last-row-button-individual-wrapper {
+      @media (max-width: 47.9375em) {
+        width: 50%;
+        float: left;
+      }
+
+    }
+    .last-row-button-area-wrapper {
+      @media (max-width: 47.9375em) {
+        width: 100%;
+      }
+    }
+  }
+  .last-row-save-button-area {
+    @media (max-width: 47.9375em) {
+      width: 33%;
+      float: left;
+    }
+  }
+
+}
+
+#last-row-cancel-button {
+  @media (max-width: 47.9375em) {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+.dashboard-upcoming-workouts-row {
+  p {
+    @media (max-width: 47.9375em) {
+      font-size: 80%;
+      margin-left: 25px;
+    }
+
+  }
+}
+
+#for-side-borders {
+  #workout-form-container {
+    @media (max-width: 47.9375em) {
+      width: 100%;
+    }
   }
 }
 
