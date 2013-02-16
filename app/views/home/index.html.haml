@@ -1,34 +1,35 @@
-.row-fluid.home-page-top-main-area
-  .span6.exclaim-span
-    .container-fluid.exclaim-signup
-      .row-fluid
-        %h1 Welcome to Weighty Plates
-      .row-fluid.tagline-phrase-area
-        .workout-dumbbell-image-area
-          %img{alt: "workout-dumbbell-img", src: "/assets/icons/home/1359028030_physical_education.png"}
-        %h2{id: "better-features-tag"} Better features makes for a better tracker.
-      .row-fluid.tryout-weighty-plates-link-area
-        %a{href: calculator_path} I want to try out Weighty Plates
-      %form{action: new_user_registration_path}
-        %button{type: "submit", class: "btn mainpage-signup-btn btn-custom"} Sign me up already!
-  .span5.loginarea-span
-    .mainpage-box.row-fluid
-      %h2 Login for Returning Users
-      = form_for(resource, :as => resource_name, :html => {:class => ''}, :url => session_path(resource_name)) do |f|
-        .row-fluid.mainpage-inputrow
-          = f.label :email
-          = f.email_field :email, class: 'mainpage-form-field'
-        .row-fluid.mainpage-inputrow
-          = f.label :password
-          = f.password_field :password, class: 'mainpage-form-field'
-        .row-fluid.mainpage-inputrow
-          - if devise_mapping.rememberable?
-            %label(for="user_remember_me")
-            = f.check_box :remember_me, :id => "user_remember_me"
-            %p{id: "remember-me-phrase"} Remember me
-        .row-fluid.mainpage-inputrow.mainpage-lastrow
-          = link_to "Forgot password?", new_user_password_path, class: 'forgotpassword-button'
-          = f.submit "Sign in", :class => 'btn mainpage-sign-in-button'
+.hero-unit
+  .row-fluid.home-page-top-main-area
+    .span6.exclaim-span
+      .container-fluid.exclaim-signup
+        .row-fluid
+          %h1 Welcome to Weighty Plates
+        .row-fluid.tagline-phrase-area
+          .workout-dumbbell-image-area
+            %img{alt: "workout-dumbbell-img", src: "/assets/icons/home/1359028030_physical_education.png"}
+          %h2{id: "better-features-tag"} Better features makes for a better tracker.
+        .row-fluid.tryout-weighty-plates-link-area
+          %a{href: calculator_path} I want to try out Weighty Plates
+        %form{action: new_user_registration_path}
+          %button{type: "submit", class: "btn mainpage-signup-btn btn-custom"} Sign me up already!
+    .span5.loginarea-span
+      .mainpage-box.row-fluid
+        %h2 Login for Returning Users
+        = form_for(resource, :as => resource_name, :html => {:class => ''}, :url => session_path(resource_name)) do |f|
+          .row-fluid.mainpage-inputrow
+            = f.label :email
+            = f.email_field :email, class: 'mainpage-form-field'
+          .row-fluid.mainpage-inputrow
+            = f.label :password
+            = f.password_field :password, class: 'mainpage-form-field'
+          .row-fluid.mainpage-inputrow
+            - if devise_mapping.rememberable?
+              %label(for="user_remember_me")
+              = f.check_box :remember_me, :id => "user_remember_me"
+              %p{id: "remember-me-phrase"} Remember me
+          .row-fluid.mainpage-inputrow.mainpage-lastrow
+            = link_to "Forgot password?", new_user_password_path, class: 'forgotpassword-button'
+            = f.submit "Sign in", :class => 'btn mainpage-sign-in-button'
 
 
 
