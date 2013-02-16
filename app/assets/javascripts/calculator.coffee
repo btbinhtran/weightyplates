@@ -23,5 +23,5 @@ window.Weightyplates =
     new Weightyplates.Routers.Calculator
     Backbone.history.start()
 
-$(document).ready ->
+$ ->
   Weightyplates.init()

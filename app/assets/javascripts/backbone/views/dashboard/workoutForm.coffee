@@ -18,15 +18,12 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     'click #last-row-cancel-button': 'clickCancel'
 
   initialize: (options)->
-    #inherit utility functions
-
-    #console.log @
-
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
     #model for workout form and exercises
-    formAndExercisesModel = new Weightyplates.Models.FormAndExercises()
+    #manual clearing of arrays properties in models
+    formAndExercisesModel = new Weightyplates.Models.FormAndExercises({      exerciseViews: []})
 
     #prepare the option entries
     formAndExercisesModel.set("optionListEntries", formAndExercisesModel.prepareEntries())

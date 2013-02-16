@@ -13,6 +13,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   #==============================================Initialize
   initialize: (options) ->
+    console.log "init exer"
+
     #make all references of 'this' to reference the main object
     _.bindAll(@)
 
@@ -54,6 +56,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       detailsViewIndex: []
     exerciseAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails(exerciseAndDetailsParams)
 
+    console.log "exercise model is now"
+    console.log exerciseAndDetailsModel
+
     #allows child view to request a change in associated model for the parent
     exerciseAndDetailsModel.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
 
@@ -92,6 +97,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #remove the id of the exercise row because subsequent exercise will have the same id
     @$el.removeAttr("id")
 
+    console.log formAndExercisesModel.get("exerciseViews")
+    ###
+
     #remove the remove button in the beginning when there is only one exercise
     if formAndExercisesModel.get("exerciseViews").length == 1
       $hiddenExerciseRemove = @$el.find('.add-workout-exercise-remove-button')
@@ -100,6 +108,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     else
       $hiddenExerciseRemove = formAndExercisesModel.get "hiddenExerciseRemoveButton"
       $hiddenExerciseRemove.removeClass('hide-add-workout-button')
+
+    ###
 
     #details container is for the set and weight rows
     $detailsContainer = $workoutExeciseRow.find('.an-entry-detail')

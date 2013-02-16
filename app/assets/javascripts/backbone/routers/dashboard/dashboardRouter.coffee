@@ -1,12 +1,15 @@
 class Weightyplates.Routers.Dashboard extends Backbone.Router
   routes:
     '': 'index'
+    'pastworkouts': 'pastworkouts'
 
   initialize: ->
     @collection = new Weightyplates.Collections.DashboardItems()
     @collection.reset(Weightyplates.PreloadModels)
 
   index: ->
+    console.log "index router"
+    console.log addWorkoutView
     #the Mixin object used for extending
     MixIn = ->
     MixIn.prototype = {
@@ -63,6 +66,11 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     formViewParams =
       model: @collection.models[0]
     addWorkoutView = new Weightyplates.Views.WorkoutForm(formViewParams)
+
+  pastworkouts: ->
+    console.log 'past workouts'
+    $('#workout-form-container').empty();
+    $('#workout-form-container').html("<p>Pastworkouts</p>")
 
 #viewButton = new Weightyplates.Views.WorkoutEntryButton(collection: @collection)
 #$('.add-workout-button-area').html(viewButton.render().el)
