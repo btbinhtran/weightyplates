@@ -13,7 +13,6 @@
 ##= require_tree ./backbone/views/calculator
 ##= require_tree ./backbone/routers/calculator
 
-##= require application.js
 
 window.Weightyplates =
   Models: {}
