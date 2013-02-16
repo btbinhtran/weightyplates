@@ -120,12 +120,14 @@
     }
     .an-entry-detail {
       .list-error-msg {
+        background-color: #c61824;
         float: left;
         font-size: 0.85em;
         margin-bottom: 0.8em;
         width: 100%;
         p {
           margin-bottom: 0px;
+          color: #f1f1f1;
         }
       }
     }
