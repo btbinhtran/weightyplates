@@ -8,7 +8,6 @@ class DashboardController < ApplicationController
     end
   end
 
-
   def index
     gon.exercises = Exercise.all
   end

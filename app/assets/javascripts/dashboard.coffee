@@ -1,4 +1,3 @@
-##= require common
 
 ##= require jqueryPluginsManifest
 
@@ -29,7 +28,7 @@ window.Weightyplates =
     new Weightyplates.Routers.Dashboard()
     Backbone.history.start()
 
-$(document).ready ->
+$ ->
   Weightyplates.init()
 
 
