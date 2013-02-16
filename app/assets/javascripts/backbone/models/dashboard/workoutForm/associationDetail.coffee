@@ -60,9 +60,10 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
       noDecimal: (attr) ->
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
-        leftAndRight = parts.length == 2
-        leftMoreThanZero = parts[0].length >= 0
-        rightGreaterEqualOne = parts[1].length >= 1
+        leftAndRight = (parts.length == 2)
+        leftMoreThanZero = (parts[0].length >= 0)
+        partOne = parts[1] || false
+        rightGreaterEqualOne = (partOne || false)
         if(leftAndRight and leftMoreThanZero and rightGreaterEqualOne)
           "#{attr.checkAttribute} can not be a decimal."
 
@@ -70,7 +71,7 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
         validateAttr = attr.validateAttrVal
         parts = validateAttr.split('.')
         moreThanOneZero = (_.indexOf(parts[0], "0") != _.lastIndexOf(parts[0], "0"))
-        leftAndRight = parts.length == 2
+        leftAndRight = (parts.length == 2)
         if(moreThanOneZero and leftAndRight)
           "#{attr.checkAttribute} has too many leading zeros in decimal."
 
@@ -87,14 +88,14 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
         validateAttr = attr.validateAttrVal
         hasNoPeriod = (_.indexOf(validateAttr, ".") == -1)
         leadingZerosPresent = (validateAttr.replace(/^0+/, '').length != validateAttr.length)
-        lengthGreaterThanOne = validateAttr.length > 1
+        lengthGreaterThanOne = (validateAttr.length > 1)
         if(hasNoPeriod and leadingZerosPresent and lengthGreaterThanOne)
           "#{attr.checkAttribute} number can't have leading zeros."
 
       noScientificNotation:(attr) ->
         validateAttr = attr.validateAttrVal
         scientificParts = validateAttr.split('e')
-        inScientificNotations = scientificParts.length == 2
+        inScientificNotations = (scientificParts.length == 2)
         leftIsNumber = !isNaN(scientificParts[0]*1)
         rightIsNumber = !isNaN(scientificParts[1]*1)
         if(inScientificNotations and leftIsNumber and rightIsNumber)
@@ -129,15 +130,16 @@ class Weightyplates.Models.AssociationDetail extends Backbone.AssociatedModel
     withAttribute: (attr, attrVal) =>
       #cache a reference to parent object
       validator = @::validator
+      attrAndRules = validator.attrValidations[attr]
 
       #set key for attr val
-      validator.attrValidations[attr].validateAttrVal = attrVal
+      attrAndRules.validateAttrVal = attrVal
 
       #set key for attr name
-      validator.attrValidations[attr].checkAttribute = @::toTitleCase(attr)
+      attrAndRules.checkAttribute = @::toTitleCase(attr)
 
       #get the rules defined for the attr
-      validator.validateWith(validator.attrValidations[attr])
+      validator.validateWith(attrAndRules)
 
     attrValidations:
       weight:
