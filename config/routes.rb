@@ -10,7 +10,7 @@ Weightyplates::Application.routes.draw do
     get 'users/logout' => 'devise/sessions#destroy'
   end
 
-  resources :users
+  #resources :users
 
   use_doorkeeper
 
