@@ -137,6 +137,18 @@
 @media (max-width: 68.75em) {
   .exclaim-span {
     width: 100% !important;
+    margin-top: 5%;
+    .workout-dumbbell-image-area {
+      width: 25%;
+      margin: auto;
+      margin-top: 2%;
+      float: none;
+    }
+    #better-features-tag {
+      float: left;
+      width: 100%;
+      padding: 1% 0% 2% 0%;
+    }
   }
   .mainpage-signup-btn {
     height: 3.75em;
@@ -150,6 +162,9 @@
     font-size: 0.8em;
     padding: 10px 10px 0 7px;
   }
+  .navbar .brand {
+    margin-left: 5px !important;
+  }
 }
 
 @media (min-width: 68.75em) {
@@ -158,11 +173,29 @@
   }
 }
 
+@media (max-width: 42.375em) {
+  .workout-dumbbell-image-area {
+    width: 55% !important;
+    margin: auto;
+  }
+}
+
+@media (max-width: 25.3125em) {
+  .mainpage-signup-btn {
+    width: 100%;
+  }
+}
+
 @media (max-width: 21.875em) {
-  font-size: 0.9375em;
   .exclaim-signup {
-    a, h1, h2, h3 {
-      font-size: 0.9375em;
+    h1 {
+      font-size: 2em;
+    }
+    h2{
+      font-size: 1.4em;
+    }
+    a, h3{
+      font-size: 0.95em;
     }
   }
 }
