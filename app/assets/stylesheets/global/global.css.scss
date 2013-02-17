@@ -10,14 +10,6 @@
   font-style: normal;
 }
 
-.navbar-link {
-  color: #7598ab;
-}
-
-.navbar-link:hover {
-  color: #b4c3cc;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -26,6 +18,14 @@
 
 .mainbody-container {
   padding-top: 5%;
+}
+
+.navbar-link {
+  color: #7598ab;
+}
+
+.navbar-link:hover {
+  color: #b4c3cc;
 }
 
 label {
@@ -114,7 +114,6 @@ label, input, button, select, textarea {
 
 .navbar-inverse .navbar-inner {
   background-color: #252525;
-
   background-image: -moz-linear-gradient(top, #5d5253, #4f4647);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5d5253), to(#4f4647));
   background-image: -webkit-linear-gradient(top, #5d5253, #4f4647);
@@ -127,7 +126,6 @@ label, input, button, select, textarea {
 }
 
 .navbar-inner {
-
   a {
     text-decoration: none;
     color: #EFEFEF;

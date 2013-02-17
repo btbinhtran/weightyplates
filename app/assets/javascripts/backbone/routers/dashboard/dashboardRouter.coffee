@@ -67,10 +67,26 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
       model: @collection.models[0]
     addWorkoutView = new Weightyplates.Views.WorkoutForm(formViewParams)
 
+    #highlighting the sub-category type
+    $('#workout-main')
+      .addClass('dashboard-active-subcategory')
+      .removeClass(' dashboard-inactive-subcategory')
+    $('#past-workouts')
+      .removeClass('dashboard-active-subcategory')
+      .addClass(' dashboard-inactive-subcategory')
+
   pastworkouts: ->
     console.log 'past workouts'
+    #highlighting the sub-category type
     $('#workout-form-container').empty();
     $('#workout-form-container').html("<p>Pastworkouts</p>")
+    $('#past-workouts')
+      .addClass('dashboard-active-subcategory')
+      .removeClass(' dashboard-inactive-subcategory')
+    $('#workout-main')
+      .removeClass('dashboard-active-subcategory')
+      .addClass(' dashboard-inactive-subcategory')
+
 
 #viewButton = new Weightyplates.Views.WorkoutEntryButton(collection: @collection)
 #$('.add-workout-button-area').html(viewButton.render().el)

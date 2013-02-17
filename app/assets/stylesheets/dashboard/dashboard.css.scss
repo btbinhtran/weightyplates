@@ -174,7 +174,6 @@
 }
 
 .dashboard-add-workout-exercise {
-  /*background-color: #adff2f;*/
   .exercise-drop-down-area {
     background-color: #494848;
     padding-right: 20px;
@@ -441,6 +440,7 @@
       }
     }
   }
+
   .dashboard-add-workout-header-area {
     .dashboard-add-workout-header-wrapper {
       width: 80%;
@@ -537,7 +537,6 @@
       .indent-set-spacer {
         display: none;
       }
-
       .detail-wrapper {
         width: 80%;
         margin: auto;
@@ -549,13 +548,10 @@
           width: 100% !important;
 
         }
-
         .weight-and-rep-inputs {
-
           .add-workout-reps-input {
             width: 100%;
           }
-
           .weight-input-area {
             margin-bottom: 7px;
             width: 100% !important;
@@ -565,12 +561,10 @@
             width: 100% !important;
             margin-left: 0%;
           }
-
           .weight-input-wrapper {
             width: 20%;
             float: left;
           }
-
           .weight-control {
             margin-left: 0%;
             .add-workout-weight-input {
@@ -608,7 +602,6 @@
   #last-row-buttons {
     margin-left: 1.9%;
     width: 100% !important;
-
     #last-row-cancel-button,
     #last-row-note-button,
     #last-row-save-button {
@@ -619,7 +612,6 @@
       width: 66%;
       float: left;
       margin-left: 0% !important;
-
       .last-row-button-individual-wrapper {
         width: 50%;
         float: left;
