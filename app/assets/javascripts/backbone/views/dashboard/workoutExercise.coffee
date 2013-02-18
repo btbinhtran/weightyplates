@@ -158,7 +158,37 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #----------------------------------------------Sortable Details List with JqueryUi
 
-    is_dragging = false;
+    rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo)->
+
+      #get ids of all the views in the index
+      allDetailsId = _.pluck(detailViewsIndex, 'id')
+
+      #the index of dragged item before it was dragged
+      draggedOldIndex =  _.indexOf(allDetailsId, draggedDetailId)
+
+      #the item's original index which is now the item before the dragged item
+      prevItemIndexOfDragged = _.indexOf(allDetailsId,  neighboringItem.attr("id"))
+
+      #the index info of the dragged item
+      indexOfDragged = detailViewsIndex[draggedOldIndex]
+
+      #the index info of the item before the dragged item
+      indexItemPrevTheDragged = detailViewsIndex[prevItemIndexOfDragged]
+
+      #create a temp array for storing into the previous
+      tempArray = []
+
+      if areaInfo == "somethingBefore"
+        console.log "something before the dragged"
+        tempArray.push(indexItemPrevTheDragged, indexOfDragged)
+      else
+        tempArray.push(indexOfDragged, indexItemPrevTheDragged)
+
+      #overwrite the item before the dragged item in the index view
+      detailViewsIndex[prevItemIndexOfDragged] = tempArray
+
+      #flatten the index view array and store to model
+      exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
 
     #make the details sortable
     $detailsSet.sortable
@@ -172,8 +202,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       tolerance: "pointer"
 
       activate: (event, ui) ->
-        is_dragging = true
-
         #notify the dragged detail view for changes if necessary
         $detailViewDragged = $(ui.item)
         detailId = $detailViewDragged.attr("id")
@@ -193,6 +221,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         #dropped item id
         detailId = $(ui.item)[0].id
 
+        #get the detail views
+        detailViewsIndex = exerciseAndDetailsModel.get("detailsViewIndex")
+
         #for updating the json
         $prevItem = $(ui.item).prev('.details-set-weight')
 
@@ -208,51 +239,13 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
         if $prevItem.length == 1
           #console.log "there is something before it"
-
-          #get the whole index view
-          detailViewsIndex = exerciseAndDetailsModel.get("detailsViewIndex")
-
-          #get ids of all the views in the index
-          allDetailsId = _.pluck(detailViewsIndex, 'id')
-
-          #the index of dragged item before it was dragged
-          draggedOldIndex =  _.indexOf(allDetailsId, detailId)
-
-          #the item's original index which is now the item before the dragged item
-          prevItemIndexOfDragged = _.indexOf(allDetailsId,  $prevItem.attr("id"))
-
-          #the index info of the dragged item
-          indexOfDragged = detailViewsIndex[draggedOldIndex]
-
-          #the index info of the item before the dragged item
-          indexItemPrevTheDragged = detailViewsIndex[prevItemIndexOfDragged]
-
-          #create a temp array for storing into the previous
-          tempArray = []
-          tempArray.push(indexItemPrevTheDragged, indexOfDragged)
-
-          #overwrite the item before the dragged item in the index view
-          detailViewsIndex[prevItemIndexOfDragged] = tempArray
-
-          #flatten the index view array and store to model
-          exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
+          rearrangeViews(detailViewsIndex, detailId, $prevItem, "somethingBefore")
 
         else
-          #console.log "nothing before it now"
-          console.log "the next item after last dropped"
+
           $nextItem = $(ui.item).next('.details-set-weight')
 
-          console.log "dragged details view id"
-          console.log $(ui.item)[0]
-          console.log detailId
-
-          console.log "next view id"
-          console.log $nextItem
-          console.log $nextItem.attr("id")
-
-          console.log "whole view index"
           detailViewsIndex = exerciseAndDetailsModel.get("detailsViewIndex")
-          console.log detailViewsIndex
 
           allDetailsId = _.pluck(detailViewsIndex, 'id')
 
