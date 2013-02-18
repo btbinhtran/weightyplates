@@ -190,12 +190,13 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           $detailViewDragged.trigger('click')
 
       deactivate: (event, ui)->
-        is_dragging = false
+        #dropped item id
+        detailId = $(ui.item)[0].id
 
         #trigger a blur event to make up for the blur validation when sorting
         if exerciseAndDetailsModel.get("focusedInputWhenDragged")
           focusInput = exerciseAndDetailsModel.get("classNameOfInputFocus")
-          detailId = $(ui.item)[0].id
+          #detailId = $(ui.item)[0].id
           $("##{detailId} :input.#{focusInput}").trigger('blur')
 
           #reset the model info
@@ -207,7 +208,57 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         if $prevItem.length == 1
           #console.log "there is something before it"
           #get the item before the dragged item and move dragged item after that item
-          #console.log $prevItem
+          #console.log  $(ui.item).before()
+          #console.log $prevItem.attr("id")
+
+
+          console.log "dragged details view id"
+          console.log $(ui.item)[0]
+          console.log detailId
+
+          console.log "prev view id"
+          console.log $prevItem
+          console.log $prevItem.attr("id")
+
+
+          console.log "whole view index"
+          detailViewsIndex = exerciseAndDetailsModel.get("detailsViewIndex")
+          console.log detailViewsIndex
+
+          allDetailsId = _.pluck(detailViewsIndex, 'id')
+
+          console.log allDetailsId
+
+          console.log "dragged item index before"
+          draggedOldIndex =  _.indexOf(allDetailsId,  detailId)
+          console.log draggedOldIndex
+
+          console.log "before item index orig"
+          prevItemIndexOfDragged = _.indexOf(allDetailsId,  $prevItem.attr("id"))
+
+          console.log "value of dragged"
+          console.log detailViewsIndex[draggedOldIndex]
+
+          console.log "value of prev"
+          console.log detailViewsIndex[prevItemIndexOfDragged]
+
+          tempArray = []
+          tempArray.push(detailViewsIndex[prevItemIndexOfDragged], detailViewsIndex[draggedOldIndex])
+
+          detailViewsIndex[prevItemIndexOfDragged] = tempArray
+
+          console.log "inter view"
+          console.log detailViewsIndex
+
+          console.log _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex]))
+
+
+
+
+
+
+
+
         else
           #console.log "nothing before it now"
           #the next item after last dropped
