@@ -193,6 +193,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         #dropped item id
         detailId = $(ui.item)[0].id
 
+        #for updating the json
+        $prevItem = $(ui.item).prev('.details-set-weight')
+
         #trigger a blur event to make up for the blur validation when sorting
         if exerciseAndDetailsModel.get("focusedInputWhenDragged")
           focusInput = exerciseAndDetailsModel.get("classNameOfInputFocus")
@@ -203,53 +206,35 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           exerciseAndDetailsModel.set("focusedInputWhenDragged", false)
           exerciseAndDetailsModel.set("classNameOfInputFocus", null)
 
-        #for updating the json
-        $prevItem = $(ui.item).prev('.details-set-weight')
         if $prevItem.length == 1
           #console.log "there is something before it"
-          #get the item before the dragged item and move dragged item after that item
-          #console.log  $(ui.item).before()
-          #console.log $prevItem.attr("id")
 
-
-          console.log "dragged details view id"
-          console.log $(ui.item)[0]
-          console.log detailId
-
-          console.log "prev view id"
-          console.log $prevItem
-          console.log $prevItem.attr("id")
-
-
-          console.log "whole view index"
+          #get the whole index view
           detailViewsIndex = exerciseAndDetailsModel.get("detailsViewIndex")
-          console.log detailViewsIndex
 
+          #get ids of all the views in the index
           allDetailsId = _.pluck(detailViewsIndex, 'id')
 
-          console.log allDetailsId
+          #the index of dragged item before it was dragged
+          draggedOldIndex =  _.indexOf(allDetailsId, detailId)
 
-          console.log "dragged item index before"
-          draggedOldIndex =  _.indexOf(allDetailsId,  detailId)
-          console.log draggedOldIndex
-
-          console.log "before item index orig"
+          #the item's original index which is now the item before the dragged item
           prevItemIndexOfDragged = _.indexOf(allDetailsId,  $prevItem.attr("id"))
 
-          console.log "value of dragged"
-          console.log detailViewsIndex[draggedOldIndex]
+          #the index info of the dragged item
+          indexOfDragged = detailViewsIndex[draggedOldIndex]
 
-          console.log "value of prev"
-          console.log detailViewsIndex[prevItemIndexOfDragged]
+          #the index info of the item before the dragged item
+          indexItemPrevTheDragged = detailViewsIndex[prevItemIndexOfDragged]
 
+          #create a temp array for storing into the previous
           tempArray = []
-          tempArray.push(detailViewsIndex[prevItemIndexOfDragged], detailViewsIndex[draggedOldIndex])
+          tempArray.push(indexItemPrevTheDragged, indexOfDragged)
 
+          #overwrite the item before the dragged item in the index view
           detailViewsIndex[prevItemIndexOfDragged] = tempArray
 
-          console.log "inter view"
-          console.log detailViewsIndex
-
+          #flatten the index view array and store to model
           exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
 
         else
@@ -358,10 +343,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     detailsInfo = exerciseAndDetailsModel.get("detailsViewIndex")
     formAndExercisesModel = @getModel('FormAndExercises')
 
-
-    console.log 'details just before removing'
-    console.log detailsInfo
-
     indexOfDeleted = null
     itemTracked = null
     toHighLightDetailView = null
@@ -369,26 +350,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #determine if the next detail or previous detail should be highlighted
     _(detailsInfo).each (el) ->
       if(el.aId == recentlyRemovedAssociatedModelId)
-
-        console.log "el"
-        console.log el
-
-        console.log "details info"
-        console.log detailsInfo
-
         indexOfDeleted = _.indexOf(detailsInfo, el)
-        console.log "index of deleted"
-        console.log indexOfDeleted
-
         if(indexOfDeleted == detailsInfo.length - 1)
-          console.log("get the previous one")
+          #console.log("get the previous one")
           toHighLightDetailView = detailsInfo[indexOfDeleted - 1]
         else
-          console.log('one after')
+          #console.log('one after')
           toHighLightDetailView = detailsInfo[indexOfDeleted + 1]
         itemTracked = detailsInfo[indexOfDeleted]
-
-    console.log toHighLightDetailView.id
 
     exerciseAndDetailsModel.set("toBeHighlightedDetail", toHighLightDetailView.id)
 

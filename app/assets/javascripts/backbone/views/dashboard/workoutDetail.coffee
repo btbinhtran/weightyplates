@@ -7,6 +7,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   events:
     'click .add-workout-reps-add-button': 'addDetails'
     'click .add-workout-reps-remove-button': 'removeDetails'
+    'focus .add-workout-weight-input': 'highlightDetails'
+    'focus .add-workout-reps-input': 'highlightDetails'
     'blur .add-workout-weight-input': 'validateChange'
     'blur .add-workout-reps-input': 'validateChange'
 
@@ -123,6 +125,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     exerciseAndDetailsModel.set("recentlyAddedDetailsAssociatedModel", associationDetailModel)
 
     this
+
+  highlightDetails: (event)->
+   $(event.target).trigger('click')
 
   addDetails: ->
     #prepare a new div to insert another details view
