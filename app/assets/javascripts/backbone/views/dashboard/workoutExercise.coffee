@@ -252,26 +252,53 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
           exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
 
-
-
-
-
-
-
-
         else
           #console.log "nothing before it now"
-          #the next item after last dropped
-          #console.log $(ui.item).next('.details-set-weight')
-          #get the item after dragged item and move dragged item before that item
-          #update the exercise association model appropriately
-          #console.log exerciseAssociationModel.get("entry_detail")
+          console.log "the next item after last dropped"
+          $nextItem = $(ui.item).next('.details-set-weight')
 
-    ###
-    $detailsSet.mousemove ->
-      if(is_dragging)
-        console.log "dragging in sortable"
-    ###
+          console.log "dragged details view id"
+          console.log $(ui.item)[0]
+          console.log detailId
+
+          console.log "next view id"
+          console.log $nextItem
+          console.log $nextItem.attr("id")
+
+          console.log "whole view index"
+          detailViewsIndex = exerciseAndDetailsModel.get("detailsViewIndex")
+          console.log detailViewsIndex
+
+          allDetailsId = _.pluck(detailViewsIndex, 'id')
+
+          console.log allDetailsId
+
+          console.log "dragged item index before"
+          draggedOldIndex =  _.indexOf(allDetailsId,  detailId)
+          console.log draggedOldIndex
+
+          console.log "before item index orig"
+          nextItemIndexOfDragged = _.indexOf(allDetailsId, $nextItem.attr("id"))
+
+          console.log "value of dragged"
+          console.log detailViewsIndex[draggedOldIndex]
+
+          console.log "value of prev"
+          console.log detailViewsIndex[nextItemIndexOfDragged]
+
+          tempArray = []
+          tempArray.push(detailViewsIndex[draggedOldIndex], detailViewsIndex[nextItemIndexOfDragged])
+
+          detailViewsIndex[nextItemIndexOfDragged] = tempArray
+
+          console.log "inter view"
+          console.log detailViewsIndex
+
+          exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
+
+    #get the item after dragged item and move dragged item before that item
+          #update the exercise association model appropriately
+
 
 
     #highlight the first details upon exercise creation
