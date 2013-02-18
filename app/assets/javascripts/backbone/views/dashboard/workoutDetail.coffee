@@ -9,6 +9,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     'click .add-workout-reps-remove-button': 'removeDetails'
     'focus .add-workout-weight-input': 'highlightDetails'
     'focus .add-workout-reps-input': 'highlightDetails'
+    'focus .add-workout-reps-add-button': 'highlightDetails'
+    'focus .add-workout-reps-remove-button': 'highlightDetails'
     'blur .add-workout-weight-input': 'validateChange'
     'blur .add-workout-reps-input': 'validateChange'
 
@@ -108,8 +110,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
         exerciseAndDetailsModel.set("signalExerciseForm", signalExerciseForm * -1)
 
       #blur if the click is not into the input field
-      if event.target.tagName != "INPUT"
-        $(this).find(':focus').blur()
+      #if event.target.tagName != "INPUT"
+      #  $(this).find(':focus').blur()
 
     associationDetailModel = @getModel('AssociationDetail')
     #log info for newly created details set and signal update to parent view
@@ -127,7 +129,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     this
 
   highlightDetails: (event)->
-   $(event.target).trigger('click')
+    if event.target.tagName == "BUTTON" and event.target.className.split(' ')[1] == "btn"
+      $(event.target).parents('.details-set-weight').trigger('click')
+    else
+      $(event.target).trigger('click')
 
   addDetails: ->
     #prepare a new div to insert another details view
@@ -200,8 +205,8 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     privateDetailsModel = @getModel('PrivateDetails')
     isValidState = privateDetailsModel.get("prevIsValidState#{inputType}")
     privateDetailsModel.set("lastIsValidState#{inputType}", isValidState)
-                      .set("prevIsValidState#{inputType}", validness)
-                      .set("currentIsValidState#{inputType}", validness)
+      .set("prevIsValidState#{inputType}", validness)
+      .set("currentIsValidState#{inputType}", validness)
 
   validateChange: (event)->
     #get the element and its value

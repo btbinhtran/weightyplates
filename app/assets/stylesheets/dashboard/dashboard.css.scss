@@ -230,6 +230,10 @@
     border: 1px solid transparent;
     .add-remove-buttons {
       margin-top: -2px;
+      .focused-details-button{
+        outline: thin dotted #333333;
+        outline-offset: -2px;
+      }
       .add-workout-reps-add-button, .add-workout-reps-remove-button {
         width: 100%;
       }
