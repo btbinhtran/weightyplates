@@ -8,8 +8,8 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     @collection.reset(Weightyplates.PreloadModels)
 
   index: ->
-    console.log "index router"
-    console.log addWorkoutView
+    #console.log "index router"
+    #console.log addWorkoutView
     #the Mixin object used for extending
     MixIn = ->
     MixIn.prototype = {
@@ -76,7 +76,7 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
       .addClass(' dashboard-inactive-subcategory')
 
   pastworkouts: ->
-    console.log 'past workouts'
+    #console.log 'past workouts'
     #highlighting the sub-category type
     $('#workout-form-container').empty();
     $('#workout-form-container').html("<p>Pastworkouts</p>")

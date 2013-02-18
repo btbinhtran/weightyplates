@@ -13,7 +13,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   #==============================================Initialize
   initialize: (options) ->
-    console.log "init exer"
+    #console.log "init exer"
 
     #make all references of 'this' to reference the main object
     _.bindAll(@)
@@ -56,8 +56,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       detailsViewIndex: []
     exerciseAndDetailsModel = new Weightyplates.Models.ExerciseAndDetails(exerciseAndDetailsParams)
 
-    console.log "exercise model is now"
-    console.log exerciseAndDetailsModel
+    #console.log "exercise model is now"
+    #console.log exerciseAndDetailsModel
 
     #allows child view to request a change in associated model for the parent
     exerciseAndDetailsModel.on("change:recentlyAddedDetailsAssociatedModel", @updateAssociatedModelAdd, @)
@@ -97,7 +97,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #remove the id of the exercise row because subsequent exercise will have the same id
     @$el.removeAttr("id")
 
-    console.log formAndExercisesModel.get("exerciseViews")
+    #console.log formAndExercisesModel.get("exerciseViews")
     ###
 
     #remove the remove button in the beginning when there is only one exercise
@@ -158,17 +158,22 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #----------------------------------------------Sortable Details List with JqueryUi
 
+    is_dragging = false;
+
     #make the details sortable
     $detailsSet.sortable
       axis: 'y'
       opacity: 0.9
       containment: 'parent'
       placeholder: 'place-holder'
-      forcePlaceHolderSize: true
+      forcePlaceHolderSize: false
       delay: 100
       revert: 50
+      tolerance: "pointer"
 
       activate: (event, ui) ->
+        is_dragging = true
+
         #notify the dragged detail view for changes if necessary
         $detailViewDragged = $(ui.item)
         detailId = $detailViewDragged.attr("id")
@@ -185,6 +190,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           $detailViewDragged.trigger('click')
 
       deactivate: (event, ui)->
+        is_dragging = false
+
         #trigger a blur event to make up for the blur validation when sorting
         if exerciseAndDetailsModel.get("focusedInputWhenDragged")
           focusInput = exerciseAndDetailsModel.get("classNameOfInputFocus")
@@ -208,6 +215,13 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           #get the item after dragged item and move dragged item before that item
           #update the exercise association model appropriately
           #console.log exerciseAssociationModel.get("entry_detail")
+
+    ###
+    $detailsSet.mousemove ->
+      if(is_dragging)
+        console.log "dragging in sortable"
+    ###
+
 
     #highlight the first details upon exercise creation
     $(@el).find('.details-set-weight').trigger("click")
