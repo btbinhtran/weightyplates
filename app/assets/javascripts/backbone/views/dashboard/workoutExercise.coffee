@@ -250,7 +250,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           console.log "inter view"
           console.log detailViewsIndex
 
-          console.log _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex]))
+          exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
 
 
 
@@ -331,6 +331,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     detailsInfo = exerciseAndDetailsModel.get("detailsViewIndex")
     formAndExercisesModel = @getModel('FormAndExercises')
 
+
+    console.log 'details just before removing'
+    console.log detailsInfo
+
     indexOfDeleted = null
     itemTracked = null
     toHighLightDetailView = null
@@ -338,16 +342,26 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #determine if the next detail or previous detail should be highlighted
     _(detailsInfo).each (el) ->
       if(el.aId == recentlyRemovedAssociatedModelId)
+
+        console.log "el"
+        console.log el
+
+        console.log "details info"
+        console.log detailsInfo
+
         indexOfDeleted = _.indexOf(detailsInfo, el)
+        console.log "index of deleted"
+        console.log indexOfDeleted
+
         if(indexOfDeleted == detailsInfo.length - 1)
-          ##console.log("get the previous one")
+          console.log("get the previous one")
           toHighLightDetailView = detailsInfo[indexOfDeleted - 1]
         else
-          ##console.log('one after')
+          console.log('one after')
           toHighLightDetailView = detailsInfo[indexOfDeleted + 1]
         itemTracked = detailsInfo[indexOfDeleted]
 
-    #console.log "start id tracking"
+    console.log toHighLightDetailView.id
 
     exerciseAndDetailsModel.set("toBeHighlightedDetail", toHighLightDetailView.id)
 
