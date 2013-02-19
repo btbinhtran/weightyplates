@@ -179,7 +179,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       tempArray = []
 
       if areaInfo == "somethingBefore"
-        console.log "something before the dragged"
         tempArray.push(indexItemPrevTheDragged, indexOfDragged)
       else
         tempArray.push(indexOfDragged, indexItemPrevTheDragged)
@@ -219,13 +218,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
       deactivate: (event, ui)->
         #dropped item id
-        detailId = $(ui.item)[0].id
+        $uiItem = $(ui.item)
+        detailId = $uiItem[0].id
 
         #get the detail views
         detailViewsIndex = exerciseAndDetailsModel.get("detailsViewIndex")
 
-        #for updating the json
-        $prevItem = $(ui.item).prev('.details-set-weight')
+        #for updating the index and the association models
+        $prevItem = $uiItem.prev('.details-set-weight')
+        $nextItem = $uiItem.next('.details-set-weight')
 
         #trigger a blur event to make up for the blur validation when sorting
         if exerciseAndDetailsModel.get("focusedInputWhenDragged")
@@ -238,46 +239,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           exerciseAndDetailsModel.set("classNameOfInputFocus", null)
 
         if $prevItem.length == 1
-          #console.log "there is something before it"
+          #there is something before the dragged item
           rearrangeViews(detailViewsIndex, detailId, $prevItem, "somethingBefore")
 
         else
+          #there is something after the dragged item
+          rearrangeViews(detailViewsIndex, detailId, $nextItem, "somethingAfter")
 
-          $nextItem = $(ui.item).next('.details-set-weight')
-
-          detailViewsIndex = exerciseAndDetailsModel.get("detailsViewIndex")
-
-          allDetailsId = _.pluck(detailViewsIndex, 'id')
-
-          console.log allDetailsId
-
-          console.log "dragged item index before"
-          draggedOldIndex =  _.indexOf(allDetailsId,  detailId)
-          console.log draggedOldIndex
-
-          console.log "before item index orig"
-          nextItemIndexOfDragged = _.indexOf(allDetailsId, $nextItem.attr("id"))
-
-          console.log "value of dragged"
-          console.log detailViewsIndex[draggedOldIndex]
-
-          console.log "value of prev"
-          console.log detailViewsIndex[nextItemIndexOfDragged]
-
-          tempArray = []
-          tempArray.push(detailViewsIndex[draggedOldIndex], detailViewsIndex[nextItemIndexOfDragged])
-
-          detailViewsIndex[nextItemIndexOfDragged] = tempArray
-
-          console.log "inter view"
-          console.log detailViewsIndex
-
-          exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
-
-    #get the item after dragged item and move dragged item before that item
-          #update the exercise association model appropriately
-
-
+      #get the item after dragged item and move dragged item before that item
+      #update the exercise association model appropriately
 
     #highlight the first details upon exercise creation
     $(@el).find('.details-set-weight').trigger("click")
