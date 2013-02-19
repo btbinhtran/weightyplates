@@ -13,3 +13,8 @@ $(document).ready () ->
     $('#flash_notice').fadeOut(250, ->
       $(this).remove()
     )
+
+
+
+
+

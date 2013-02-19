@@ -208,7 +208,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         #there is actually a focused input before initiating the sort
         if focusInput.length > 0
           classNameFocused = focusInput[0].className
-          $("##{detailId} :input.#{classNameFocused}").trigger('click')
+          $("##{detailId}").trigger('click')
           #for the dropped event to cause the blur event for validation to trigger
           exerciseAndDetailsModel.set("focusedInputWhenDragged", true)
           exerciseAndDetailsModel.set("classNameOfInputFocus", classNameFocused)

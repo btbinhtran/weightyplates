@@ -52,6 +52,11 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     #insert template into element
     @$el.append(@template())
 
+    inputElements = @$el.find('input')
+    inputElements.each ->
+      $(this).click ->
+        console.log "clicking input"
+
     #attach the right set number onto the set label
     @$el.find('.add-workout-set-label').text('S' + detailViewsCount)
 
@@ -131,10 +136,9 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
   highlightDetails: (event)->
     if event.target.tagName == "BUTTON" and event.target.className.split(' ')[1] == "btn"
       $(event.target).parents('.details-set-weight').trigger('click')
-    else
-      $(event.target).trigger('click')
 
   addDetails: ->
+
     #prepare a new div to insert another details view
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
