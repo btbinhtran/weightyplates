@@ -192,6 +192,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       #console.log "save handler"
 
   saveWorkoutMsgHandler: (totalFieldErrors, totalUnFilledFields)->
+    @saveWorkout()
+    ###
     #get alert messages from model
     saveWorkoutMsg = @getModel('PrivateForm').get("saveWorkoutMsg")
 
@@ -219,6 +221,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
             alert saveWorkoutMsg["missingField"]
           else
             alert saveWorkoutMsg["missingFields"]
+    ###
 
   saveWorkout: ->
     #prepare the json for sending
@@ -234,7 +237,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log properlyFormattedJson
 
-    ###
+
     $.ajax
       type: "POST"
       url: "/api/workouts"
@@ -249,7 +252,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
           "The following error occurred: " +
           textStatus + errorThrown
         )
-    ###
+
 
   clickSaveMouseDown: (event)->
     event.preventDefault()

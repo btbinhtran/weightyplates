@@ -160,7 +160,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #----------------------------------------------Sortable Details List with JqueryUi
 
-    rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail)->
+    rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail) ->
+
       #entry details association models
       entryDetailsModel =  associationExerciseEntryDetail.models
 

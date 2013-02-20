@@ -11,6 +11,17 @@ class WorkoutsController < ApplicationController
   end
 
   def create
+    puts params[:workout]
+
+    #should have only one workout
+    params[:workout].each do |exercise|
+      #should have at least one exercise for a workout
+
+
+    end
+
+    respond_with(current_user.workouts.create(params[:workout]))
+=begin
     #params is the original params
     #formatted as {"unit"=>"kg", "name"=>"a name", "workout_entry"=>{"exercise_id"=>"1", "workout_id"=>""}}
 
@@ -22,6 +33,7 @@ class WorkoutsController < ApplicationController
 
     #the callback will create the workout_entry for the given workout
     respond_with(current_user.workouts.create(params[:workout]), :callback => workout_Fields_Satisfy(backup_orig_params))
+=end
   end
 
   def update
@@ -39,6 +51,7 @@ class WorkoutsController < ApplicationController
 
   private
 
+=begin
 #only executes when workout is successfully created
   def workout_Fields_Satisfy(backup_orig_params)
 
@@ -107,7 +120,7 @@ class WorkoutsController < ApplicationController
 
 
   end
-
+=end
 
 end
 
