@@ -199,7 +199,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         tempArray2.push(nextToItemAssociation, toMoveDetails)
       else
         tempArray.push(indexOfDragged, indexItemNextToTheDragged)
-        tempArray2.push(nextToItemAssociation, toMoveDetails)
+        tempArray2.push(toMoveDetails, nextToItemAssociation)
 
       #overwrite the item before the dragged item in the index view
       detailViewsIndex[nextToItemIndexOfDragged] = tempArray
