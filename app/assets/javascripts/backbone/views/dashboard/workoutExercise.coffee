@@ -161,7 +161,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #----------------------------------------------Sortable Details List with JqueryUi
 
     rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail)->
-
+      #entry details association models
       entryDetailsModel =  associationExerciseEntryDetail.models
 
       #get ids of all the views in the index
@@ -173,13 +173,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       #the index of dragged item before it was dragged
       draggedOldIndex =  _.indexOf(allDetailsId, draggedDetailId)
 
-      console.log "old index dragged"
-      console.log draggedOldIndex
-
       #the item's original index which is now the item next to the dragged item
       nextToItemIndexOfDragged = _.indexOf(allDetailsId,  neighboringItem.attr("id"))
-
-      #console.log neighboringItem
 
       #the index info of the dragged item
       indexOfDragged = detailViewsIndex[draggedOldIndex]
@@ -201,27 +196,21 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         tempArray.push(indexOfDragged, indexItemNextToTheDragged)
         tempArray2.push(toMoveDetails, nextToItemAssociation)
 
-      #overwrite the item before the dragged item in the index view
+      #overwrite the item next to the dragged item in the index view
+      #do it for association details model too
       detailViewsIndex[nextToItemIndexOfDragged] = tempArray
       entryDetailsModel[nextToItemIndexOfDragged] = tempArray2
-
-
-
 
       #flatten the index view array and store to model
       exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
 
+      #shift dragged details around for association details
+      #delete the old model belonging to dragged details
+      #update the association details when done
       delete entryDetailsModel[draggedOldIndex]
-
-      console.log entryDetailsModel
       entryDetailsModel = _.flatten(_.without(entryDetailsModel, nextToItemAssociation))
-      console.log entryDetailsModel
       entryDetailsModel = _.compact(entryDetailsModel)
-      #console.log newDetails
-      console.log entryDetailsModel
       associationExerciseEntryDetail.models = entryDetailsModel
-
-
 
     #make the details sortable
     $detailsSet.sortable
@@ -274,40 +263,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
         if $prevItem.length == 1
           #there is something before the dragged item
-
-          rearrangeViews(detailViewsIndex, detailId, $prevItem, "somethingBefore", associationExerciseEntryDetail)
-
-
-          console.log associationExerciseEntryDetail
-
-          ###
-          #update the exercise association model appropriately
-          entryDetailsModel = associationExerciseEntryDetail.models
-
-          detailsAssociationIds = _.pluck(entryDetailsModel, 'cid')
-          console.log exerciseAndDetailsModel.get("detailsViewIndex")
-
-          console.log infoOfSorted
-
-          console.log detailsAssociationIds
-          ###
-
-
+          neighborInfo = "somethingBefore"
+          neighborPosition = $prevItem
         else
           #there is something after the dragged item
-          infoOfSorted = rearrangeViews(detailViewsIndex, detailId, $nextItem, "somethingAfter", associationExerciseEntryDetail)
+          neighborInfo = "somethingAfter"
+          neighborPosition = $nextItem
 
-          ###
-          #update the exercise association model appropriately
-          entryDetailsModel = associationExerciseEntryDetail.models
-
-          detailsAssociationIds = _.pluck(entryDetailsModel, 'cid')
-          console.log exerciseAndDetailsModel.get("detailsViewIndex")
-
-          console.log infoOfSorted
-
-          console.log detailsAssociationIds
-          ###
+        #update index view and the details json
+        rearrangeViews(detailViewsIndex, detailId, neighborPosition, neighborInfo, associationExerciseEntryDetail)
 
 
     #highlight the first details upon exercise creation
