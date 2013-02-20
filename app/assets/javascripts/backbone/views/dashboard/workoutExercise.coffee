@@ -160,13 +160,21 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #----------------------------------------------Sortable Details List with JqueryUi
 
-    rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo)->
+    rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail)->
+
+      entryDetailsModel =  associationExerciseEntryDetail.models
 
       #get ids of all the views in the index
       allDetailsId = _.pluck(detailViewsIndex, 'id')
 
+      #association ids for details
+      detailsAssociationIds = _.pluck(entryDetailsModel, 'cid')
+
       #the index of dragged item before it was dragged
       draggedOldIndex =  _.indexOf(allDetailsId, draggedDetailId)
+
+      console.log "old index dragged"
+      console.log draggedOldIndex
 
       #the item's original index which is now the item next to the dragged item
       nextToItemIndexOfDragged = _.indexOf(allDetailsId,  neighboringItem.attr("id"))
@@ -179,34 +187,40 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       #the index info of the item next to the dragged item
       indexItemNextToTheDragged = detailViewsIndex[nextToItemIndexOfDragged]
 
+      nextToItemAssociation = entryDetailsModel[nextToItemIndexOfDragged]
+      toMoveDetails = entryDetailsModel[draggedOldIndex]
+
       #create a temp array for storing into the previous
       tempArray = []
+      tempArray2 = []
 
       if areaInfo == "somethingBefore"
         tempArray.push(indexItemNextToTheDragged, indexOfDragged)
+        tempArray2.push(nextToItemAssociation, toMoveDetails)
       else
         tempArray.push(indexOfDragged, indexItemNextToTheDragged)
+        tempArray2.push(nextToItemAssociation, toMoveDetails)
 
       #overwrite the item before the dragged item in the index view
       detailViewsIndex[nextToItemIndexOfDragged] = tempArray
+      entryDetailsModel[nextToItemIndexOfDragged] = tempArray2
+
+
+
 
       #flatten the index view array and store to model
       exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
 
-      copyNextToItemIndexOfDragged = nextToItemIndexOfDragged
+      delete entryDetailsModel[draggedOldIndex]
 
-      unless nextToItemIndexOfDragged is 0
-        nextToItemIndexOfDragged -= 1
+      console.log entryDetailsModel
+      entryDetailsModel = _.flatten(_.without(entryDetailsModel, nextToItemAssociation))
+      console.log entryDetailsModel
+      entryDetailsModel = _.compact(entryDetailsModel)
+      #console.log newDetails
+      console.log entryDetailsModel
+      associationExerciseEntryDetail.models = entryDetailsModel
 
-      if areaInfo == "somethingBefore"
-        nextToItemIndexOfDragged += 1
-
-      #for json sorting later
-      indexInfo =
-        draggedIndex:
-          oldIndex: draggedOldIndex
-          newIndex: nextToItemIndexOfDragged
-        neigboringItem: areaInfo
 
 
     #make the details sortable
@@ -260,8 +274,13 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
         if $prevItem.length == 1
           #there is something before the dragged item
-          infoOfSorted = rearrangeViews(detailViewsIndex, detailId, $prevItem, "somethingBefore")
 
+          rearrangeViews(detailViewsIndex, detailId, $prevItem, "somethingBefore", associationExerciseEntryDetail)
+
+
+          console.log associationExerciseEntryDetail
+
+          ###
           #update the exercise association model appropriately
           entryDetailsModel = associationExerciseEntryDetail.models
 
@@ -271,12 +290,14 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           console.log infoOfSorted
 
           console.log detailsAssociationIds
+          ###
 
 
         else
           #there is something after the dragged item
-          infoOfSorted = rearrangeViews(detailViewsIndex, detailId, $nextItem, "somethingAfter")
+          infoOfSorted = rearrangeViews(detailViewsIndex, detailId, $nextItem, "somethingAfter", associationExerciseEntryDetail)
 
+          ###
           #update the exercise association model appropriately
           entryDetailsModel = associationExerciseEntryDetail.models
 
@@ -286,6 +307,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           console.log infoOfSorted
 
           console.log detailsAssociationIds
+          ###
 
 
     #highlight the first details upon exercise creation
