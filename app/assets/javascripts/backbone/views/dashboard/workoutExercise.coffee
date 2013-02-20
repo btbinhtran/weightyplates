@@ -98,7 +98,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @$el.removeAttr("id")
 
     #console.log formAndExercisesModel.get("exerciseViews")
-    ###
+
 
     #remove the remove button in the beginning when there is only one exercise
     if formAndExercisesModel.get("exerciseViews").length == 1
@@ -109,7 +109,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       $hiddenExerciseRemove = formAndExercisesModel.get "hiddenExerciseRemoveButton"
       $hiddenExerciseRemove.removeClass('hide-add-workout-button')
 
-    ###
 
     #details container is for the set and weight rows
     $detailsContainer = $workoutExeciseRow.find('.an-entry-detail')
@@ -156,6 +155,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     exerciseViewEl = @$el
 
+    #entry details association
+    associationExerciseEntryDetail = exerciseAssociationModel.get("entry_detail")
+
     #----------------------------------------------Sortable Details List with JqueryUi
 
     rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo)->
@@ -166,28 +168,46 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       #the index of dragged item before it was dragged
       draggedOldIndex =  _.indexOf(allDetailsId, draggedDetailId)
 
-      #the item's original index which is now the item before the dragged item
-      prevItemIndexOfDragged = _.indexOf(allDetailsId,  neighboringItem.attr("id"))
+      #the item's original index which is now the item next to the dragged item
+      nextToItemIndexOfDragged = _.indexOf(allDetailsId,  neighboringItem.attr("id"))
+
+      #console.log neighboringItem
 
       #the index info of the dragged item
       indexOfDragged = detailViewsIndex[draggedOldIndex]
 
-      #the index info of the item before the dragged item
-      indexItemPrevTheDragged = detailViewsIndex[prevItemIndexOfDragged]
+      #the index info of the item next to the dragged item
+      indexItemNextToTheDragged = detailViewsIndex[nextToItemIndexOfDragged]
 
       #create a temp array for storing into the previous
       tempArray = []
 
       if areaInfo == "somethingBefore"
-        tempArray.push(indexItemPrevTheDragged, indexOfDragged)
+        tempArray.push(indexItemNextToTheDragged, indexOfDragged)
       else
-        tempArray.push(indexOfDragged, indexItemPrevTheDragged)
+        tempArray.push(indexOfDragged, indexItemNextToTheDragged)
 
       #overwrite the item before the dragged item in the index view
-      detailViewsIndex[prevItemIndexOfDragged] = tempArray
+      detailViewsIndex[nextToItemIndexOfDragged] = tempArray
 
       #flatten the index view array and store to model
       exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
+
+      copyNextToItemIndexOfDragged = nextToItemIndexOfDragged
+
+      unless nextToItemIndexOfDragged is 0
+        nextToItemIndexOfDragged -= 1
+
+      if areaInfo == "somethingBefore"
+        nextToItemIndexOfDragged += 1
+
+      #for json sorting later
+      indexInfo =
+        draggedIndex:
+          oldIndex: draggedOldIndex
+          newIndex: nextToItemIndexOfDragged
+        neigboringItem: areaInfo
+
 
     #make the details sortable
     $detailsSet.sortable
@@ -240,14 +260,33 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
         if $prevItem.length == 1
           #there is something before the dragged item
-          rearrangeViews(detailViewsIndex, detailId, $prevItem, "somethingBefore")
+          infoOfSorted = rearrangeViews(detailViewsIndex, detailId, $prevItem, "somethingBefore")
+
+          #update the exercise association model appropriately
+          entryDetailsModel = associationExerciseEntryDetail.models
+
+          detailsAssociationIds = _.pluck(entryDetailsModel, 'cid')
+          console.log exerciseAndDetailsModel.get("detailsViewIndex")
+
+          console.log infoOfSorted
+
+          console.log detailsAssociationIds
+
 
         else
           #there is something after the dragged item
-          rearrangeViews(detailViewsIndex, detailId, $nextItem, "somethingAfter")
+          infoOfSorted = rearrangeViews(detailViewsIndex, detailId, $nextItem, "somethingAfter")
 
-      #get the item after dragged item and move dragged item before that item
-      #update the exercise association model appropriately
+          #update the exercise association model appropriately
+          entryDetailsModel = associationExerciseEntryDetail.models
+
+          detailsAssociationIds = _.pluck(entryDetailsModel, 'cid')
+          console.log exerciseAndDetailsModel.get("detailsViewIndex")
+
+          console.log infoOfSorted
+
+          console.log detailsAssociationIds
+
 
     #highlight the first details upon exercise creation
     $(@el).find('.details-set-weight').trigger("click")

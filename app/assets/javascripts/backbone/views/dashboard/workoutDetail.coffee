@@ -48,14 +48,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
 
     @render(detailViewsCount)
 
+
   render: (detailViewsCount) ->
     #insert template into element
     @$el.append(@template())
-
-    inputElements = @$el.find('input')
-    inputElements.each ->
-      $(this).click ->
-        console.log "clicking input"
 
     #attach the right set number onto the set label
     @$el.find('.add-workout-set-label').text('S' + detailViewsCount)
