@@ -18,6 +18,7 @@ class WorkoutsController < ApplicationController
       require_keys = %w(unit name note workout_entry)
       unit_value = %w(kg lb)
       unit_is_valid = nil
+      name_exist = nil
       #an array to contain the information about the param
       key_cond = []
       #should have only one workout
@@ -32,10 +33,18 @@ class WorkoutsController < ApplicationController
           end
         end
 
+        if key == 'name'
+          name_exist = true
+        end
+
         #should have at least one exercise for a workout
-        # exercise.each do |prop|
-        #   puts prop
-        # end
+        if key == 'workout_entry'
+          puts 'workout entry'
+          params[:workout][:workout_entry].each do |k,v|
+            puts k
+            puts v
+          end
+        end
 
       end
 
@@ -43,10 +52,13 @@ class WorkoutsController < ApplicationController
       if key_cond.length == require_keys.length
         #param must have all the necessary keys
         if key_cond.count(true) == key_cond.size
-          puts "all true"
+          puts "all required fields present"
         end
         if unit_is_valid == true
           puts 'unit is valid'
+        end
+        if name_exist == true
+          puts 'name exists'
         end
     end
 

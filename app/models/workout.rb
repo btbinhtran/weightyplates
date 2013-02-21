@@ -7,5 +7,7 @@ class Workout < ActiveRecord::Base
 
   validates_presence_of :name, :with => /\A\Z/
   validates_presence_of :unit, :inclusion => %w(kg lb)
-  #validates_format_of :note, :with => /\A\Z/
+
+  validates_associated :workout_entries
+
 end
