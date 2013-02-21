@@ -11,14 +11,46 @@ class WorkoutsController < ApplicationController
   end
 
   def create
-    puts params[:workout]
 
-    #should have only one workout
-    params[:workout].each do |exercise|
-      #should have at least one exercise for a workout
+    #check for existence of workout param before continuing
+    if params[:workout]
+      #array to check param against
+      require_keys = %w(unit name note workout_entry)
+      unit_value = %w(kg lb)
+      unit_is_valid = nil
+      #an array to contain the information about the param
+      key_cond = []
+      #should have only one workout
+      params[:workout].each do |key, value|
+        #gather information about the param
+        key_cond.push(require_keys.include? key)
+        if key == 'unit'
+          if value == unit_value[0] || value == unit_value[1]
+            unit_is_valid = true
+          else
+            unit_is_valid = false
+          end
+        end
 
+        #should have at least one exercise for a workout
+        # exercise.each do |prop|
+        #   puts prop
+        # end
 
+      end
+
+      #checking keys for existence
+      if key_cond.length == require_keys.length
+        #param must have all the necessary keys
+        if key_cond.count(true) == key_cond.size
+          puts "all true"
+        end
+        if unit_is_valid == true
+          puts 'unit is valid'
+        end
     end
+
+end
 
     respond_with(current_user.workouts.create(params[:workout]))
 =begin
