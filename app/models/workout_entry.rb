@@ -4,7 +4,7 @@ class WorkoutEntry < ActiveRecord::Base
   belongs_to :exercise
   has_many :entry_details, dependent: :destroy
 
-  attr_accessible :workout_id, :exercise_id, :workout_entry_number, :entry_details_attributes
+  attr_accessible :workout_id, :workout_entry_number,:exercise_id, :entry_details_attributes
   accepts_nested_attributes_for :entry_details
 
   validates :exercise_id, presence: true, numericality: {only_integer: true}, :inclusion => { :in => 1..790 }

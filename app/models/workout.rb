@@ -1,8 +1,7 @@
 class Workout < ActiveRecord::Base
 
-  has_many :workout_entries, dependent: :destroy
-
-  attr_accessible :id, :name, :note, :unit, :workout_entries_attributes
+  has_many :workout_entries
+  attr_accessible :id, :name, :note, :unit,  :workout_entries_attributes
   belongs_to :user
   accepts_nested_attributes_for :workout_entries
 
