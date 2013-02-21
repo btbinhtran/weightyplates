@@ -1,4 +1,5 @@
 class EntryDetail < ActiveRecord::Base
+
   belongs_to :workout_entry
   attr_accessible :workout_entry_id, :reps, :set_number, :weight
 
