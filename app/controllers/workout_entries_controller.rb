@@ -3,6 +3,7 @@ class WorkoutEntriesController < ApplicationController
   before_filter :authenticate_user!
 
   def create
+    puts "in the workoutentries controller"
     @workout = current_user.workouts.find(params[:workout_id])
     if @workout
       respond_with(@workout.workout_entries.create(params[:workout_entry]))

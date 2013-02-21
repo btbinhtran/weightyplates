@@ -12,6 +12,7 @@ class WorkoutsController < ApplicationController
 
   def create
 
+=begin
     #check for existence of workout param before continuing
     if params[:workout]
       #array to check param against
@@ -62,7 +63,8 @@ class WorkoutsController < ApplicationController
         end
     end
 
-end
+    end
+=end
 
     respond_with(current_user.workouts.create(params[:workout]))
 =begin
