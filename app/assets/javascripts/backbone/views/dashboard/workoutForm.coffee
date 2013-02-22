@@ -249,10 +249,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
     #properlyFormattedJson = properlyFormattedJson.replace("workout_entry", 'workout_entries_attributes')
-    #properlyFormattedJson = properlyFormattedJson.replace(/"workout_entry":/g, '"workout_entries_attributes":')
+    properlyFormattedJson = properlyFormattedJson.replace(/"workout_entry":/g, '"workout_entries_attributes":')
 
     #properlyFormattedJson = properlyFormattedJson.replace("entry_detail", 'entry_details_attributes')
-    #properlyFormattedJson = properlyFormattedJson.replace(/"entry_detail":/g, '"entry_details_attributes":')
+    properlyFormattedJson = properlyFormattedJson.replace(/"entry_details":/g, '"entry_details_attributes":')
 
     #console.log properlyFormattedJson
 

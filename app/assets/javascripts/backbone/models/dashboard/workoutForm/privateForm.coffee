@@ -44,8 +44,8 @@ class Weightyplates.Models.PrivateForm extends Backbone.Model
       #exercise counter
       ++exerciseCount
 
-      entryDetailLength = associatedModels.at(i).get("entry_detail").length
-      entryDetailModel = associatedModels.at(i).get("entry_detail")
+      entryDetailLength = associatedModels.at(i).get("entry_details").length
+      entryDetailModel = associatedModels.at(i).get("entry_details")
 
       j = 0
       while j <= entryDetailLength - 1
