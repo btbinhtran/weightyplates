@@ -6,21 +6,34 @@ class WorkoutsController < ApplicationController
     respond_with(current_user.workouts)
   end
 
-  def new
-    @parent.build_workout_entry
-  end
-
   def show
     respond_with(current_user.workouts.find(params[:id]))
   end
 
   def create
+    #information = request.raw_post
+    #data_parsed = JSON.parse(information)
+
+    p params[:workout]
+    #hash = JSON.parse(params[:workout])
+    #p hash
+
+    #workout_param = params[:workout].except("workout_entry")
+
+    current_user_workouts = current_user.workouts
+    params[:workout].each do |k,v|
+      @workout = current_user_workouts.create(v)
+
+      if @workout.save
+        render :json => @workout
+      else
+        render :json => { :errors => @workout_entry.errors.full_messages }, :status => 422
+      end
+    end
 
 
 
-    respond_with(current_user.workouts.create(params[:workout]))
-    #@parent.save
-    #respond_with(@parent )
+    #respond_with(current_user.workouts.create(params[:workout]))
   end
 
   def update

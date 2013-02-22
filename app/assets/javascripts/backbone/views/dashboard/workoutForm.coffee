@@ -236,20 +236,22 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
     #properlyFormattedJson = properlyFormattedJson.replace("workout_entry", 'workout_entries_attributes')
-    properlyFormattedJson = properlyFormattedJson.replace(/"workout_entry":/g, '"workout_entries_attributes":')
+    #properlyFormattedJson = properlyFormattedJson.replace(/"workout_entry":/g, '"workout_entries_attributes":')
 
     #properlyFormattedJson = properlyFormattedJson.replace("entry_detail", 'entry_details_attributes')
-    properlyFormattedJson = properlyFormattedJson.replace(/"entry_detail":/g, '"entry_details_attributes":')
+    #properlyFormattedJson = properlyFormattedJson.replace(/"entry_detail":/g, '"entry_details_attributes":')
 
     #console.log properlyFormattedJson
 
+    associationUserModel = @getModel('AssociationUserSession')
 
+    console.log associationUserModel.toJSON()
     $.ajax
       type: "POST"
       url: "/api/workouts"
       dataType: "JSON"
-      contentType: 'application/json',
-      data: properlyFormattedJson
+      #contentType: 'application/json',
+      data: associationUserModel.toJSON()
       #accept: 'application/json'
       success: () ->
 
