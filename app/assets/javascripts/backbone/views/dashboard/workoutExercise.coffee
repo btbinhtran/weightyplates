@@ -37,6 +37,9 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       exercise_id: 0
     exerciseAssociationModel = new Weightyplates.Models.AssociationExercise(associationExerciseParams)
 
+    console.log "exerciseAssociationModel"
+    console.log exerciseAssociationModel
+
     #model shared between the form and the exercise
     exerciseAssociatedModels = formAndExercisesModel.get("exerciseAssociatedModels")
 
@@ -156,7 +159,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exerciseViewEl = @$el
 
     #entry details association
-    associationExerciseEntryDetail = exerciseAssociationModel.get("entry_detail")
+    associationExerciseEntryDetail = exerciseAssociationModel.get("entry_details")
 
     #----------------------------------------------Sortable Details List with JqueryUi
 
@@ -285,7 +288,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #entry details updated the parent exercise
     #subsequent entry details will be added instead
     associationExerciseModel = @getModel('AssociationExercise')
-    associationExerciseEntryDetail = associationExerciseModel.get("entry_detail")
+    associationExerciseEntryDetail = associationExerciseModel.get("entry_details")
     exerciseAndDetailsModel = @getModel('ExerciseAndDetails')
     formAndExerciseModel = @getModel('FormAndExercises')
 
@@ -294,7 +297,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         .add(exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel"))
     else
       entryDetailParam =
-        entry_detail: [exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]
+        entry_details: [exerciseAndDetailsModel.get("recentlyAddedDetailsAssociatedModel")]
       associationExerciseModel.set(entryDetailParam)
 
     #keep track of the added details
@@ -355,7 +358,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #a detail entry will be removed
     @getModel('AssociationExercise')
-      .get("entry_detail")
+      .get("entry_details")
       .remove(exerciseAndDetailsModel.get("recentlyRemovedDetailsAssociatedModel"))
 
     #signal to parent that a update is needed

@@ -31,6 +31,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #create an associated user model for workouts and further nesting of associated models
     associatedUserModel = new Weightyplates.Models.AssociationUserSession()
     associatedWorkoutModel = new Weightyplates.Models.AssociationWorkout()
+
+    console.log "newly instantiated associatedworkoutmodel"
+    console.log associatedWorkoutModel
+
     associatedUserModel.set({workout: [associatedWorkoutModel]})
 
     #set the workout name date into form and exercises
@@ -72,22 +76,25 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #add and removal check for entries
     associationWorkoutModel = @getModel('AssociationWorkout')
     formAndExerciseModel = @getModel('FormAndExercises')
-    if associationWorkoutModel.get("workout_entry")
+    console.log "getting workout entries"
+    console.log associationWorkoutModel.get("workout_entries")
+
+    if associationWorkoutModel.get("workout_entries")
       #remove if there is already and entry
-      if associationWorkoutModel.get("workout_entry")
+      if associationWorkoutModel.get("workout_entries")
           .get(formAndExerciseModel
           .get("recentlyRemovedExerciseAssociatedModel"))
-        associationWorkoutModel.get("workout_entry")
+        associationWorkoutModel.get("workout_entries")
           .remove(formAndExerciseModel
           .get("recentlyRemovedExerciseAssociatedModel"))
        else
         #add instead of overwriting if there already a workout entry
-        associationWorkoutModel.get("workout_entry")
+        associationWorkoutModel.get("workout_entries")
           .add(formAndExerciseModel
           .get("recentlyAddedExerciseAssociatedModel"))
     else
       workoutEntryParams =
-        workout_entry: [formAndExerciseModel.get "recentlyAddedExerciseAssociatedModel"]
+        workout_entries: [formAndExerciseModel.get "recentlyAddedExerciseAssociatedModel"]
       associationWorkoutModel.set(workoutEntryParams)
 
   focusInWorkoutName: (event) ->
@@ -176,8 +183,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExerciseModel.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
+    console.log 'associated model'
+    console.log @getModel('AssociationUserSession')
+
     #get data from associated model to evaluate validness
-    associatedModels = @getModel('AssociationUserSession').get("workout[0]").get("workout_entry")
+    associatedModels = @getModel('AssociationUserSession').get("workout[0]").get("workout_entries")
+
+
+
     workoutEntryLength = associatedModels.length
 
     #process the data in the private model

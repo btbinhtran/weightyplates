@@ -19,6 +19,10 @@ class Weightyplates.Models.PrivateForm extends Backbone.Model
       missingFields: "Please fill in missing fields before submitting."
 
   checkErrorsAndUnfilled: (associatedModels, workoutEntryLength) ->
+    console.log "associated model is now "
+    console.log associatedModels
+
+
     i = 0
     missingExerciseFieldCount = 0
     missingDetailFieldCount = 0

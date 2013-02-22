@@ -4,7 +4,7 @@ class Weightyplates.Models.AssociationWorkout extends Backbone.AssociatedModel
     @relations = [
                   {
                     type: Backbone.Many,
-                    key: 'workout_entry',
+                    key: 'workout_entries',
                     relatedModel: Weightyplates.Models.AssociationExercise
                   }
                 ]
