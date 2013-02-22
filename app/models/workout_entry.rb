@@ -2,7 +2,7 @@ class WorkoutEntry < ActiveRecord::Base
 
   belongs_to :workout
   belongs_to :exercise
-  has_many :entry_details, dependent: :destroy
+  has_many :entry_details, dependent: :destroy, :inverse_of => :workout_entry
 
   attr_accessible :workout_id, :workout_entry_number,:exercise_id, :entry_details_attributes
   accepts_nested_attributes_for :entry_details

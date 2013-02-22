@@ -235,9 +235,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
-    properlyFormattedJson = properlyFormattedJson.replace("workout_entry", 'workout_entries_attributes')
-    properlyFormattedJson = properlyFormattedJson.replace("entry_detail", 'entry_details_attributes')
-    console.log properlyFormattedJson
+    #properlyFormattedJson = properlyFormattedJson.replace("workout_entry", 'workout_entries_attributes')
+    properlyFormattedJson = properlyFormattedJson.replace(/"workout_entry":/g, '"workout_entries_attributes":')
+
+    #properlyFormattedJson = properlyFormattedJson.replace("entry_detail", 'entry_details_attributes')
+    properlyFormattedJson = properlyFormattedJson.replace(/"entry_detail":/g, '"entry_details_attributes":')
+
+    #console.log properlyFormattedJson
 
 
     $.ajax
@@ -246,6 +250,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       dataType: "JSON"
       contentType: 'application/json',
       data: properlyFormattedJson
+      #accept: 'application/json'
       success: () ->
 
         #console.log @

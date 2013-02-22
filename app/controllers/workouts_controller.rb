@@ -6,12 +6,21 @@ class WorkoutsController < ApplicationController
     respond_with(current_user.workouts)
   end
 
+  def new
+    @parent.build_workout_entry
+  end
+
   def show
     respond_with(current_user.workouts.find(params[:id]))
   end
 
   def create
+
+
+
     respond_with(current_user.workouts.create(params[:workout]))
+    #@parent.save
+    #respond_with(@parent )
   end
 
   def update
