@@ -41,7 +41,7 @@ class WorkoutsController < ApplicationController
           v2["entry_details"].each do |k3, v3|
             p "entry details are"
             p v3
-            @workout_entry.entry_details.create(v3["entry_details"])
+            @workout_entry.entry_details.create(v3)
             p @workout.workout_entries
             p @workout_entry.entry_details
           end
