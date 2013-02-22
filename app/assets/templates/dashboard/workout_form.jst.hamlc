@@ -32,4 +32,4 @@
                   .span12
                     %button#last-row-save-button.last-row-buttons.btn Save
   .row-fluid.for-ajax-request
-    %p Something
+    %p Saving your workout, please wait.
