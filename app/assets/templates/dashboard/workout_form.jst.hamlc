@@ -1,5 +1,5 @@
 .dashboard-add-workout-modal-row-show.row-fluid
-  .row-fluid
+  .row-fluid.dashboard-add-workout-modal-row-area
     .span12.dashboard-add-workout-header-area
       .row-fluid
         .span7.dashboard-add-workout-header-wrapper
@@ -31,3 +31,5 @@
                 .row-fluid
                   .span12
                     %button#last-row-save-button.last-row-buttons.btn Save
+  .row-fluid.for-ajax-request
+    %p Something

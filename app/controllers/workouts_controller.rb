@@ -11,7 +11,6 @@ class WorkoutsController < ApplicationController
   end
 
   def create
-
     #creating the workout
     current_user_workouts = current_user.workouts
     params[:workout].each do |k,v|
@@ -30,7 +29,6 @@ class WorkoutsController < ApplicationController
         render :json => { :errors => @workout.errors.full_messages }, :status => 422
       end
     end
-
   end
 
   def update

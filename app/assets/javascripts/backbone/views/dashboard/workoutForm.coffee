@@ -32,9 +32,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     associatedUserModel = new Weightyplates.Models.AssociationUserSession()
     associatedWorkoutModel = new Weightyplates.Models.AssociationWorkout()
 
-    console.log "newly instantiated associatedworkoutmodel"
-    console.log associatedWorkoutModel
-
     associatedUserModel.set({workout: [associatedWorkoutModel]})
 
     #set the workout name date into form and exercises
@@ -76,8 +73,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #add and removal check for entries
     associationWorkoutModel = @getModel('AssociationWorkout')
     formAndExerciseModel = @getModel('FormAndExercises')
-    console.log "getting workout entries"
-    console.log associationWorkoutModel.get("workout_entries")
 
     if associationWorkoutModel.get("workout_entries")
       #remove if there is already and entry
@@ -183,13 +178,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExerciseModel.set("workoutName", null)
 
   validateBeforeSave: (theCaller)->
-    console.log 'associated model'
-    console.log @getModel('AssociationUserSession')
-
     #get data from associated model to evaluate validness
     associatedModels = @getModel('AssociationUserSession').get("workout[0]").get("workout_entries")
-
-
 
     workoutEntryLength = associatedModels.length
 
@@ -202,7 +192,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       results
     else
       @saveWorkoutMsgHandler(results.totalFieldErrors, results.totalUnFilledFields)
-      #console.log "save handler"
 
   saveWorkoutMsgHandler: (totalFieldErrors, totalUnFilledFields)->
     @saveWorkout()
@@ -249,31 +238,37 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     properlyFormattedJson = rightBracketRemovedJson.replace("[", '')
 
     #properlyFormattedJson = properlyFormattedJson.replace("workout_entry", 'workout_entries_attributes')
-    properlyFormattedJson = properlyFormattedJson.replace(/"workout_entry":/g, '"workout_entries_attributes":')
+    #properlyFormattedJson = properlyFormattedJson.replace(/"workout_entry":/g, '"workout_entries_attributes":')
 
     #properlyFormattedJson = properlyFormattedJson.replace("entry_detail", 'entry_details_attributes')
-    properlyFormattedJson = properlyFormattedJson.replace(/"entry_details":/g, '"entry_details_attributes":')
-
-    #console.log properlyFormattedJson
+    #properlyFormattedJson = properlyFormattedJson.replace(/"entry_details":/g, '"entry_details_attributes":')
 
     associationUserModel = @getModel('AssociationUserSession')
 
-    console.log associationUserModel.toJSON()
+    $viewElement = @$el
+
+    console.log properlyFormattedJson
     $.ajax
       type: "POST"
       url: "/api/workouts"
       dataType: "JSON"
-      #contentType: 'application/json',
       data: associationUserModel.toJSON()
-      #accept: 'application/json'
+      beforeSend: ->
+        console.log 'sending request'
+        console.log $viewElement.find('.for-ajax-request')
+          .addClass('showSpinner')
       success: () ->
-
+        console.log "successfully save workout."
         #console.log @
+        $viewElement.find('.for-ajax-request')
+          .removeClass('showSpinner')
       error: (jqXHR, textStatus, errorThrown) ->
         console.log(
           "The following error occurred: " +
           textStatus + errorThrown
         )
+        $viewElement.find('.for-ajax-request')
+          .removeClass('showSpinner')
 
 
   clickSaveMouseDown: (event)->

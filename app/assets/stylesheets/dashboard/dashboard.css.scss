@@ -94,6 +94,7 @@
 }
 
 .dashboard-add-workout-modal-row-show {
+  position: relative;
   width: 80%;
   margin: 4.5% 10%;
   float: left;
@@ -101,6 +102,15 @@
   border: 1px solid #999999;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
+  .for-ajax-request{
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: none;
+  }
+  .showSpinner{
+    display: block;
+  }
   .workout-form-contents {
     margin-left: 0%;
     .workout-form-second-wrapper {

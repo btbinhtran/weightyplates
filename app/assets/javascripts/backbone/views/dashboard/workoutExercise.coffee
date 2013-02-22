@@ -37,9 +37,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       exercise_id: 0
     exerciseAssociationModel = new Weightyplates.Models.AssociationExercise(associationExerciseParams)
 
-    console.log "exerciseAssociationModel"
-    console.log exerciseAssociationModel
-
     #model shared between the form and the exercise
     exerciseAssociatedModels = formAndExercisesModel.get("exerciseAssociatedModels")
 
