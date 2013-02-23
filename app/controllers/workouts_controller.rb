@@ -13,6 +13,7 @@ class WorkoutsController < ApplicationController
   def create
     #creating the workout
     current_user_workouts = current_user.workouts
+
     params[:workout].each do |k, v|
       @workout = current_user_workouts.create(v.except("workout_entries"))
       if @workout.save
