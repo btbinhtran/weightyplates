@@ -35,6 +35,7 @@ group :development, :test do
 end
 
 group :test do
+  gem "shoulda-matchers", "~> 1.4.2"
   gem 'capybara', '2.0.2'
   gem 'factory_girl_rails', '4.1.0'
   gem 'rb-fsevent', '0.9.3', require: false

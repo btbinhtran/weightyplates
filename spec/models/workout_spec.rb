@@ -9,6 +9,8 @@ describe Workout do
 
   it { should respond_to(:user) }
 
+  it { should ensure_inclusion_of(:unit).in_array( %w(kg lb)) }
+
   it "should have created_at order default scope" do
     workouts = []
     3.times do |num|
@@ -56,11 +58,11 @@ describe Workout do
   end
 
   it "should not save if the unit is not in kg or lb" do
-    @workout.unit = "232r"
+    #@workout.unit = "232r"
     #@workout = Workout.new(:unit => 'blah blah', :name => 'Just a name', :note => 'A note')
 
     #@workout = FactoryGirl.build(:workout, :unit => "sagfsd")
-    @workout.should_not be_valid
+    #@workout.should_not be_valid
 
 
 
