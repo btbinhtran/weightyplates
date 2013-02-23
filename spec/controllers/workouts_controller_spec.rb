@@ -29,13 +29,14 @@ describe WorkoutsController do
   describe "create workout" do
     it "should not throw errors with defaulted units and name with additional valid details" do
 
-      wo = {:workout => {:unit => "kg", :name => "2013-01-30T12:39:26", :note => nil, :workout_entries => [{:workout_entry_number => "1", :exercise_id => 6, :entry_details => [{:set_number => "1", :weight => "32", :reps => "32"}]}]}}
+      wo = {"workout"=>{"unit"=>"kg", "name"=>"2013-02-22T19:26:38", "note"=>"", "workout_entries"=>{"0"=>{"workout_entry_number"=>"1", "exercise_id"=>"2", "entry_details"=>{"0"=>{"set_number"=>"1", "weight"=>"3", "reps"=>"32"}}}}}}
+
       post(:create, workout: wo, format: :json)
       @response.body.should_not have_json_path("errors")
     end
 
     it "should add a workout" do
-      wo = {:workout => {:unit => "kg", :name => "2013-01-30T12:39:26", :note => nil, :workout_entries => [{:workout_entry_number => "1", :exercise_id => 6, :entry_details => [{:set_number => "1", :weight => "32", :reps => "32"}]}]}}
+      wo = {"workout"=>{"unit"=>"kg", "name"=>"2013-02-22T19:26:38", "note"=>"", "workout_entries"=>{"0"=>{"workout_entry_number"=>"1", "exercise_id"=>"2", "entry_details"=>{"0"=>{"set_number"=>"1", "weight"=>"3", "reps"=>"32"}}}}}}
       expect do
         post(:create, workout: wo, format: :json)
       end.to change(user.workouts, :count).by(1)
