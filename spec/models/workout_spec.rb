@@ -33,16 +33,15 @@ describe Workout do
 
     it { should respond_to(:workout_entries) }
 
-    it "should destroy associated workout entries" do
-      workout_entries = @workout.workout_entries.dup
+    it "should not have associated workout entries when workout is destroyed" do
+      workout_entries = @workout.workout_entries
       @workout.destroy
-      workout_entries.should_not be_empty
+      workout_entries.should be_empty
       workout_entries.each do |workout_entry|
         WorkoutEntry.find_by_id(workout_entry.id).should be_nil
       end
     end
   end
-
 
   it "should not be valid without a name" do
     @workout.name = nil

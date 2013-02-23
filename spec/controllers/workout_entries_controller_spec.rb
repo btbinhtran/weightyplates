@@ -30,6 +30,10 @@ describe WorkoutEntriesController do
       @response.body.should_not have_json_path("errors")
     end
 
+
+
+
+
   end
 
   describe "update workout entry" do
