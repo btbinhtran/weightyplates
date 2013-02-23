@@ -249,6 +249,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     console.log properlyFormattedJson
 
+    $areaOverLayForAjax = $viewElement.find('.for-ajax-request')
+
     opts =
       lines: 11 # The number of lines to draw
       length: 30 # The length of each line
@@ -273,20 +275,21 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       data: associationUserModel.toJSON()
       beforeSend: ->
         console.log 'sending request'
-        $spinnerArea = $viewElement.find('.for-ajax-request')
+        $spinnerArea = $areaOverLayForAjax
         $spinnerArea.addClass('showSpinner')
         spinner = new Spinner(opts).spin($spinnerArea[0])
       success: () ->
         console.log "successfully save workout."
         #console.log @
-        $viewElement.find('.for-ajax-request')
+        $areaOverLayForAjax
           .removeClass('showSpinner')
       error: (jqXHR, textStatus, errorThrown) ->
+        console.log jqXHR.status
         console.log(
           "The following error occurred: " +
           textStatus + errorThrown
         )
-        $viewElement.find('.for-ajax-request')
+        $areaOverLayForAjax
           .removeClass('showSpinner')
 
 
