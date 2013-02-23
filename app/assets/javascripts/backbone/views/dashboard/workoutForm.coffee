@@ -248,6 +248,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     $viewElement = @$el
 
     console.log properlyFormattedJson
+    console.log associationUserModel.toJSON()
 
     $areaOverLayForAjax = $viewElement.find('.for-ajax-request')
 

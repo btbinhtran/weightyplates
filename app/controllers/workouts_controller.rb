@@ -13,20 +13,28 @@ class WorkoutsController < ApplicationController
   def create
     #creating the workout
     current_user_workouts = current_user.workouts
-    params[:workout].each do |k,v|
+    params[:workout].each do |k, v|
       @workout = current_user_workouts.create(v.except("workout_entries"))
       if @workout.save
         v["workout_entries"].each do |k2, v2|
           #creating the workout entries
           @workout_entry = @workout.workout_entries.create(v2.except("entry_details"))
-          v2["entry_details"].each do |k3, v3|
-            #creating the entry details
-            @workout_entry.entry_details.create(v3)
+          if @workout_entry.save
+            v2["entry_details"].each do |k3, v3|
+              #creating the entry details
+              @entry_details = @workout_entry.entry_details.create(v3)
+              if @entry_details.save
+                render :json => @workout
+              else
+                render :json => {:errors => @entry_details.errors.full_messages}, :status => 422
+              end
+            end
+          else
+            render :json => {:errors => @workout_entry.errors.full_messages}, :status => 422
           end
         end
-        render :json => @workout
       else
-        render :json => { :errors => @workout.errors.full_messages }, :status => 422
+        render :json => {:errors => @workout.errors.full_messages}, :status => 422
       end
     end
   end
