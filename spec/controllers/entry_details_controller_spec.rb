@@ -26,6 +26,14 @@ describe EntryDetailsController do
     end
   end
 
+    it "should have an associated workout entry" do
+      attrs = { reps: 10, set_number: 1, weight: 240 }
+      expect do
+        post(:create, entry_detail: attrs, workout_id: workout.id, workout_entry_id: workout_entry.id)
+      end.to change(workout_entry.entry_details, :count).by(1)
+    end
+
+
   describe "update entry detail" do
     it "should update an entry detail" do
       entry_detail = FactoryGirl.create(:entry_detail, workout_entry_id: workout_entry.id)

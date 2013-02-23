@@ -17,14 +17,15 @@ describe WorkoutEntry do
       FactoryGirl.create(:entry_detail, workout_entry: @work_entry, created_at: 1.hour.ago)
     end
     it "should destroy associated entry details" do
-      entry_details = @work_entry.entry_details.dup
+      entry_details = @work_entry.entry_details
       @work_entry.destroy
-      entry_details.should_not be_empty
+      entry_details.should be_empty
       entry_details.each do |detail|
         EntryDetail.find_by_id(detail.id).should be_nil
       end
     end
   end
+
   it { should respond_to(:entry_details) }
 
   it "should be invalid without exercise_id" do

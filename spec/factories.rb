@@ -9,7 +9,7 @@ FactoryGirl.define do
   factory :workout do
     name "workout name"
     note "a note"
-    unit "kilograms"
+    unit "kg"
   end
 
   factory :entry_detail do

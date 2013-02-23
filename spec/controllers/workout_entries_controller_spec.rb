@@ -30,9 +30,17 @@ describe WorkoutEntriesController do
       @response.body.should_not have_json_path("errors")
     end
 
+    it "should have errors when a workout entry's exercise id is missing" do
+      wo_entry = { :workout_entry_number => 1}
+      post :create, format: :json, workout_entry: wo_entry, workout_id: workout.id
+      @response.body.should have_json_path("errors")
+    end
 
-
-
+    it "should have errors when a workout entry's workout entry number is missing" do
+      wo_entry = {:exercise_id => exercise.id}
+      post :create, format: :json, workout_entry: wo_entry, workout_id: workout.id
+      @response.body.should have_json_path("errors")
+    end
 
   end
 
