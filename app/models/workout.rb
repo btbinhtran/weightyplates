@@ -5,7 +5,7 @@ class Workout < ActiveRecord::Base
   belongs_to :user
 
   validates_presence_of :name #, :with => /\A\Z/
-  validates_inclusion_of :unit, :in => %w(kg lb)
+  validates :unit, :presence => true, :inclusion => {:in => %w(kg lb)}
   validates_associated :workout_entries
 
   default_scope order("created_at DESC")

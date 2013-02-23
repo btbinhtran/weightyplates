@@ -57,20 +57,6 @@ describe Workout do
     @workout.should_not be_valid
   end
 
-  it "should not save if the unit is not in kg or lb" do
-    #@workout.unit = "232r"
-    #@workout = Workout.new(:unit => 'blah blah', :name => 'Just a name', :note => 'A note')
-
-    #@workout = FactoryGirl.build(:workout, :unit => "sagfsd")
-    #@workout.should_not be_valid
-
-
-
-    #@workout_save = @workout.save
-    #p "workout save"
-    #p @workout
-    #@workout.should_not be_valid
-  end
 
   it "should be valid without a note" do
     @workout.note = nil
