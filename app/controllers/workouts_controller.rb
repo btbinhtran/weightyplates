@@ -14,7 +14,7 @@ class WorkoutsController < ApplicationController
     model_names = %w(workout workout_entry entry_detail)
     @workout = nil
 
-    def process_name(params, model_names, level, item_on, parent_level, parent_item)
+    def process_name(params, model_names, level, item_on, parent_level, parent_item, workout)
 =begin
       p "params"
       p params
@@ -30,88 +30,60 @@ class WorkoutsController < ApplicationController
       p parent_item
 =end
       current_item = model_names[level].pluralize(2)
-      nested_item = model_names[level + 1].pluralize(2)
+      if model_names[level + 1]
+        nested_item = model_names[level + 1].pluralize(2)
+      end
+
 
       if (level == 0) && (item_on == 0)
         @workout = current_user.workouts.create((params["0"]).except(nested_item))
         p 'created workout'
-        p "item last seen "
-        p item_on
-        process_name(params, model_names, level + 1, item_on, 0, 0)
+        parent_level = 0
+        process_name(params, model_names, level + 1, item_on, (parent_level + 1), 0, @workout)
       else
         p 'not in workout'
-        p current_item
-        p params["0"]
-        p params["0"][current_item]
-        p "item on is"
 
-        #@workout.send(current_item.to_sym).create(params["0"][current_item]["#{item_on}"])
-        current_entry = (params["0"][current_item]["#{item_on}"]).except(nested_item)
-        p current_entry
-        @workout.send(current_item.to_sym).create(current_entry)
+        #intermediate levels of nesting
+        if model_names[level + 1]
+          with_nested = params["0"][current_item]["#{item_on}"]
+          p 'stringify'
 
-
-        #p @workout.send(current_item.to_sym)
-        #p params["0"][current_item]["#{item_on}"]
-        #p item_on
-      end
-
-
-      #p "showing params"
-      #p params
-      #last_key = params.keys.last
-      #p "last key"
-=begin
-      p "position is"
-      p position
-
-      #p last_key
-      #current_item = models[position].pluralize(2)
-      #nested_item = models[position + 1].pluralize(2)
-
-      #p "params are"
-      #p (params["0"])
-
-      if position == 0
-        @workout = current_user.workouts.create((params["0"]).except(nested_item))
-        p @workout
-        p "workout creation started"
-        #puts params["0"]
-        #puts params["0"][nested_item]
-        process_name(params["0"][nested_item], 1, models)
-      end
-
-      if position != 0
-        puts "after created workout"
-        puts params["0"]
-
-        params.each do |k, v|
-          p "iterating"
-          #p current_item
-          #p hash_ref
-          p v
-          @workout.send(current_item.to_sym).create(v.except(nested_item))
-          #p @workout.current_item.create(v.except(nested_item))
-          #p v["workout_entries"].size
-          #p @workout.workout_entries
-          #p "nested item"
-          #p v[nested_item]
-
-
-
-          #size_of_nested = v[nested_item].size
-          #process_name(v[nested_item], 1, models)
-          #current_user.workouts.create(v.except("workout_entries"))
+          current_entry = with_nested.except(nested_item)
+          #p current_entry
+          @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
+          p @workout
+          workout = @workout_entry
+          p "the nested item is"
+          p nested_item
+          if nested_item
+            p "nested item"
+            p @workout[current_item]
+            process_name(params, model_names, level + 1, 0, (parent_level + 1), 0,  workout)
+          end
+        else
+          #most inner level of nesting
+          if !model_names[level + 1]
+            p 'most inner level'
+            p current_item
+            p  workout
+            #@workout.send(current_item.to_sym).create(current_entry)
+            #p params["0"][current_item]
+            #p params["0"][current_item].size
+            #p item_on
+            #p (params["0"][current_item]["#{item_on}"])
+          end
         end
 
+
+
+
       end
-=end
 
     end
 
     #p models[1].pluralize(2)
     #params, models, level, item_on, parent_level, parent_item
-    process_name(params[:workout], model_names, 0, 0, "n/a", "n/a")
+    process_name(params[:workout], model_names, 0, 0, "n/a", "n/a", @workout)
     render :json => {:errors => @workout.errors.full_messages}, :status => 422
 =begin
     #creating the workout
