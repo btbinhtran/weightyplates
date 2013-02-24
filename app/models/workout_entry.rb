@@ -10,4 +10,6 @@ class WorkoutEntry < ActiveRecord::Base
   validates :workout_id, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
   validates :workout_entry_number, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
 
+  validates_associated :entry_details
+
 end
