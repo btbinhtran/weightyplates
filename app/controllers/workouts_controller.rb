@@ -11,9 +11,40 @@ class WorkoutsController < ApplicationController
   end
 
   def create
+    models = %w(workout workout_entry entry_detail)
+
+    def process_name(params, position, models)
+      #p "showing params"
+      #p params
+      #last_key = params.keys.last
+      #p "last key"
+
+      #p last_key
+      nested_item = models[position + 1].pluralize(2)
+
+      #p "params are"
+      #p (params["0"])
+
+      if position == 0
+        current_user.workouts.create((params["0"]).except(nested_item))
+        p "workout creation started"
+      end
+
+      params.each do |k, v|
+        p "iterating"
+        #p v["workout_entries"].size
+        p v[nested_item]
+        #current_user.workouts.create(v.except("workout_entries"))
+      end
+    end
+
+    #p models[1].pluralize(2)
+
+    process_name(params[:workout], 0, models)
+    render :json => {:errors => @workout.errors.full_messages}, :status => 422
+=begin
     #creating the workout
     current_user_workouts = current_user.workouts
-
     params[:workout].each do |k, v|
       @workout = current_user_workouts.create(v.except("workout_entries"))
       if @workout.save
@@ -38,6 +69,9 @@ class WorkoutsController < ApplicationController
         render :json => {:errors => @workout.errors.full_messages}, :status => 422
       end
     end
+
+=end
+
   end
 
   def update

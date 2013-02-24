@@ -4,6 +4,8 @@ class Workout < ActiveRecord::Base
   attr_accessible :id, :name, :note, :unit, :workout_entries
   belongs_to :user
 
+  accepts_nested_attributes_for :workout_entries
+
   validates_presence_of :name #, :with => /\A\Z/
   validates :unit, :presence => true, :inclusion => {:in => %w(kg lb)}
   validates_associated :workout_entries
