@@ -12,35 +12,60 @@ class WorkoutsController < ApplicationController
 
   def create
     models = %w(workout workout_entry entry_detail)
-
-    def process_name(params, position, models)
+    @workout = nil
+    workout_entries = nil
+    hash_ref = {:workout_entries => workout_entries}
+    def process_name(params, position, models, hash_ref)
       #p "showing params"
       #p params
       #last_key = params.keys.last
       #p "last key"
 
+      p "position is"
+      p position
+
       #p last_key
+      current_item = models[position].pluralize(2)
       nested_item = models[position + 1].pluralize(2)
 
       #p "params are"
       #p (params["0"])
 
       if position == 0
-        current_user.workouts.create((params["0"]).except(nested_item))
+        @workout = current_user.workouts.create((params["0"]).except(nested_item))
+        p @workout
         p "workout creation started"
+        #puts params["0"]
+        #puts params["0"][nested_item]
+        process_name(params["0"][nested_item], 1, models, hash_ref)
       end
 
-      params.each do |k, v|
-        p "iterating"
-        #p v["workout_entries"].size
-        p v[nested_item]
-        #current_user.workouts.create(v.except("workout_entries"))
+      if position != 0
+        puts "after created workout"
+        puts params
+        params.each do |k, v|
+          p "iterating"
+          #p current_item
+          #p hash_ref
+          p v
+          @workout.send(current_item.to_sym).create(v.except(nested_item))
+          #p @workout.current_item.create(v.except(nested_item))
+          #p v["workout_entries"].size
+          p @workout.workout_entries
+          p "nested item"
+          p v[nested_item]
+          #size_of_nested = v[nested_item].size
+          #process_name(v[nested_item], 1, models)
+          #current_user.workouts.create(v.except("workout_entries"))
+        end
       end
+
+
     end
 
     #p models[1].pluralize(2)
 
-    process_name(params[:workout], 0, models)
+    process_name(params[:workout], 0, models, hash_ref)
     render :json => {:errors => @workout.errors.full_messages}, :status => 422
 =begin
     #creating the workout
