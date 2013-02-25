@@ -14,8 +14,8 @@ class WorkoutsController < ApplicationController
     model_names = %w(workout workout_entry entry_detail)
     @workout = nil
 
-    def process_name(params, model_names, level, item_on, parent_level, parent_item, workout, item_transversed, with_nested)
-
+    def process_name(params, model_names, level, item_on, parent_level, parent_item, workout, item_transversed, with_nested, request)
+      p "process"
       current_item = model_names[level].pluralize(2)
       if model_names[level + 1]
         nested_item = model_names[level + 1].pluralize(2)
@@ -27,7 +27,7 @@ class WorkoutsController < ApplicationController
         p model_names[level + 1]
         parent_level = 0
         parent_item = 0
-        process_name(params, model_names, level + 1, item_on, parent_level, parent_item, @workout, item_transversed.push(0), with_nested)
+        process_name(params, model_names, level + 1, item_on, parent_level, parent_item, @workout, item_transversed.push(0), with_nested, request)
       else
         p 'not in workout'
 
@@ -36,19 +36,23 @@ class WorkoutsController < ApplicationController
           #p "inter start"
           #p current_item
           #p params["0"][current_item]
-          with_nested = params["0"][current_item]["#{item_on}"]
-          #p 'stringify'
+          if request == false
+            with_nested = params["0"][current_item]["#{item_on}"]
+            #p 'stringify'
 
-          current_entry = with_nested.except(nested_item)
-          #p current_entry
-          @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
-          #p @workout
-          workout = @workout_entry
+            current_entry = with_nested.except(nested_item)
+            #p current_entry
+            @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
+            #p @workout
+            workout = @workout_entry
 
-          p "nested item"
+            p "nested item"
 
 
-          process_name(params, model_names, (level + 1), item_on, (parent_level + 1), 0,  workout, item_transversed.push(item_on),with_nested )
+            process_name(params, model_names, (level + 1), item_on, (parent_level + 1), 0,  workout, item_transversed.push(item_on), with_nested, request)
+          else
+            p "request from child"
+          end
 
         else
           #most inner level of nesting
@@ -68,7 +72,11 @@ class WorkoutsController < ApplicationController
               end
 
 
+
             end
+            request = true
+            item_transversed.pop
+            process_name(params, model_names, (level - 1), item_on, (parent_level - 1), 0,  workout, item_transversed, with_nested, request)
 
             #still need to handle the case where there are no entry details
 
@@ -89,7 +97,7 @@ class WorkoutsController < ApplicationController
 
     #p models[1].pluralize(2)
     #params, models, level, item_on, parent_level, parent_item
-    process_name(params[:workout], model_names, 0, 0, "n/a", "n/a", @workout, %w(), "n/a")
+    process_name(params[:workout], model_names, 0, 0, "n/a", "n/a", @workout, %w(), "n/a", false)
     render :json => {:errors => @workout.errors.full_messages}, :status => 422
 =begin
     #creating the workout
