@@ -2,6 +2,9 @@ class Exercise < ActiveRecord::Base
   self.inheritance_column = nil
   default_scope order("name")
 
+  has_many :exercise_stats
+  has_many :users, :through => :exercise_stats
+
   attr_accessible :name, :type, :muscle, :equipment, :mechanics, :force, :is_sport, :level
 
   validates :name, presence: true, uniqueness: true
