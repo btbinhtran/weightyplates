@@ -49,10 +49,11 @@ class WorkoutsController < ApplicationController
             p "nested item"
 
 
-            process_name(params, model_names, (level + 1), item_on, (parent_level + 1), parent_item,  workout, item_transversed.push(item_on), with_nested, request)
+            process_name(params, model_names, (level + 1), item_on, (parent_level + 1), parent_item, workout, item_transversed.push(item_on), with_nested, request)
           else
             request = false
             p "request from child"
+=begin
             p current_item
             p level
             p item_on
@@ -60,16 +61,38 @@ class WorkoutsController < ApplicationController
             p workout
             p item_transversed
             p with_nested
+            p params["0"][current_item]
+            p "size of current set"
+            p (params["0"][current_item]).size
+=end
+            p 'check model name'
+            if (model_names[1].pluralize(2) == current_item) && (params["0"][current_item]).size == item_on
+              p 'last item just before the outer most parent'
+              current_entry = with_nested.except(nested_item)
+              #p current_entry
+              @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
+            else
+              item_on += 1
 
-            item_on += 1
+              p item_on
 
-            with_nested = params["0"][current_item]["#{item_on}"]
-            #p 'stringify'
 
-            current_entry = with_nested.except(nested_item)
-            #p current_entry
-            @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
-            process_name(params, model_names, (level + 1), (item_on + 1), (parent_level + 1), (parent_item + 1),  workout, item_transversed.push(item_on), with_nested, request)
+              #don't go over the number of items in current level
+              if (params["0"][current_item]).size >= item_on
+                p "other branchQ"
+
+                with_nested = params["0"][current_item]["#{item_on}"]
+                #p 'stringify'
+
+                current_entry = with_nested.except(nested_item)
+                #p current_entry
+                @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
+                process_name(params, model_names, (level + 1), (item_on + 1), (parent_level + 1), (parent_item + 1), workout, item_transversed.push(item_on), with_nested, request)
+
+              end
+
+            end
+
 
           end
 
@@ -78,7 +101,7 @@ class WorkoutsController < ApplicationController
           if !model_names[level + 1]
             p 'most inner level'
             p current_item
-            p  workout
+            p workout
             p "item transverse level"
             p item_transversed
             p with_nested
@@ -86,16 +109,15 @@ class WorkoutsController < ApplicationController
               p "one inner most "
               workout.send(current_item.to_sym).create(with_nested[current_item]["0"])
             else
-              with_nested[current_item].each do |k,v|
+              with_nested[current_item].each do |k, v|
                 workout.send(current_item.to_sym).create(v)
               end
-
 
 
             end
             request = true
             item_transversed.pop
-            process_name(params, model_names, (level - 1), item_on, (parent_level - 1), 0,  workout, item_transversed, with_nested, request)
+            process_name(params, model_names, (level - 1), item_on, (parent_level - 1), 0, workout, item_transversed, with_nested, request)
 
             #still need to handle the case where there are no entry details
 
@@ -106,8 +128,6 @@ class WorkoutsController < ApplicationController
             #p (params["0"][current_item]["#{item_on}"])
           end
         end
-
-
 
 
       end
