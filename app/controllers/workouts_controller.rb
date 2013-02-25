@@ -14,7 +14,7 @@ class WorkoutsController < ApplicationController
     model_names = %w(workout workout_entry entry_detail)
     @workout = nil
 
-    def process_name(params, model_names, level, item_on, parent_level, parent_item, workout, item_transversed)
+    def process_name(params, model_names, level, item_on, parent_level, parent_item, workout, item_transversed, with_nested)
 
       current_item = model_names[level].pluralize(2)
       if model_names[level + 1]
@@ -27,7 +27,7 @@ class WorkoutsController < ApplicationController
         p model_names[level + 1]
         parent_level = 0
         parent_item = 0
-        process_name(params, model_names, level + 1, item_on, parent_level, parent_item, @workout, item_transversed.push(0))
+        process_name(params, model_names, level + 1, item_on, parent_level, parent_item, @workout, item_transversed.push(0), with_nested)
       else
         p 'not in workout'
 
@@ -48,7 +48,7 @@ class WorkoutsController < ApplicationController
           p "nested item"
 
 
-          process_name(params, model_names, (level + 1), item_on, (parent_level + 1), 0,  workout, item_transversed.push(item_on) )
+          process_name(params, model_names, (level + 1), item_on, (parent_level + 1), 0,  workout, item_transversed.push(item_on),with_nested )
 
         else
           #most inner level of nesting
@@ -58,6 +58,20 @@ class WorkoutsController < ApplicationController
             p  workout
             p "item transverse level"
             p item_transversed
+            p with_nested
+            if with_nested[current_item].size == 1
+              p "one inner most "
+              workout.send(current_item.to_sym).create(with_nested[current_item]["0"])
+            else
+              with_nested[current_item].each do |k,v|
+                workout.send(current_item.to_sym).create(v)
+              end
+
+
+            end
+
+            #still need to handle the case where there are no entry details
+
             #@workout.send(current_item.to_sym).create(current_entry)
             #p params["0"][current_item]
             #p params["0"][current_item].size
@@ -75,7 +89,7 @@ class WorkoutsController < ApplicationController
 
     #p models[1].pluralize(2)
     #params, models, level, item_on, parent_level, parent_item
-    process_name(params[:workout], model_names, 0, 0, "n/a", "n/a", @workout, %w())
+    process_name(params[:workout], model_names, 0, 0, "n/a", "n/a", @workout, %w(), "n/a")
     render :json => {:errors => @workout.errors.full_messages}, :status => 422
 =begin
     #creating the workout
