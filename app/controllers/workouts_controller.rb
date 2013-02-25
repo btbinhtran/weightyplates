@@ -49,9 +49,28 @@ class WorkoutsController < ApplicationController
             p "nested item"
 
 
-            process_name(params, model_names, (level + 1), item_on, (parent_level + 1), 0,  workout, item_transversed.push(item_on), with_nested, request)
+            process_name(params, model_names, (level + 1), item_on, (parent_level + 1), parent_item,  workout, item_transversed.push(item_on), with_nested, request)
           else
+            request = false
             p "request from child"
+            p current_item
+            p level
+            p item_on
+            p parent_level
+            p workout
+            p item_transversed
+            p with_nested
+
+            item_on += 1
+
+            with_nested = params["0"][current_item]["#{item_on}"]
+            #p 'stringify'
+
+            current_entry = with_nested.except(nested_item)
+            #p current_entry
+            @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
+            process_name(params, model_names, (level + 1), (item_on + 1), (parent_level + 1), (parent_item + 1),  workout, item_transversed.push(item_on), with_nested, request)
+
           end
 
         else
