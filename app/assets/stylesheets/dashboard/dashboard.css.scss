@@ -75,18 +75,7 @@
   }
 }
 
-.dashboard-add-workout-button-row {
-  margin-bottom: 3em;
-  .add-button-secondary-container {
-    background-color: #CC2538;
-    padding: 1em 0em;
-  }
-  #add-workout {
-    width: 60%;
-    margin-left: 20%;
-    height: 42px;
-  }
-}
+
 
 /* Add Workout Begin*/
 .dashboard-add-workout-modal-row {
@@ -364,7 +353,6 @@
 
 #for-side-borders {
   border: 1px solid #969696;
-  border-bottom: none;
   border-top: none;
   width: 99.8%;
   background-color: #f5f5f5;
@@ -402,6 +390,11 @@
     .main-category {
       font-size: 0.9em;
     }
+  }
+}
+@media (max-width: 57.6857em){
+  .dashboard-manage-subcategory-row{
+    width: 100.1%;
   }
 }
 
@@ -675,6 +668,12 @@
     #workout-form-container {
       width: 100%;
     }
+  }
+}
+
+@media (max-width: 38.3125em){
+  .dashboard-manage-subcategory-row{
+    width: 100.2%;
   }
 }
 

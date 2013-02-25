@@ -10,8 +10,10 @@ gem "thin", "1.5.0"
 gem 'doorkeeper', '~> 0.6.7'
 gem "rabl", "~> 0.7.9"
 gem "backbone-on-rails", "~> 0.9.10.0"
-gem "anjlab-bootstrap-rails", "~> 2.2.2.1", :require => 'bootstrap-rails', :git => 'git://github.com/anjlab/bootstrap-rails.git'
+#gem "anjlab-bootstrap-rails", ">=2.3", :require => 'bootstrap-rails', :git => 'git://github.com/anjlab/bootstrap-rails.git'
 #gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :git => 'git://github.com/anjlab/bootstrap-rails.git', :branch => 'v2.2.2.x'
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
+    :git => 'git://github.com/anjlab/bootstrap-rails.git'
 gem "gon", "~> 4.0.2"
 
 # Gems used only for assets and not required

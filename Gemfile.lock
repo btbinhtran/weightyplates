@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/anjlab/bootstrap-rails.git
-  revision: 1da862754cb05c028cef8fb32ea050b24d9a277c
+  revision: 60f45ff7f986da406984b38d2da5b4a79007578d
   specs:
-    anjlab-bootstrap-rails (2.2.2.1)
+    anjlab-bootstrap-rails (2.3.0.0)
       railties (>= 3.0)
       sass (>= 3.2)
 
@@ -240,7 +240,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  anjlab-bootstrap-rails (~> 2.2.2.1)!
+  anjlab-bootstrap-rails!
   backbone-on-rails (~> 0.9.10.0)
   capybara (= 2.0.2)
   coffee-rails (= 3.2.2)
