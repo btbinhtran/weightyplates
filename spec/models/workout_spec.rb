@@ -11,6 +11,10 @@ describe Workout do
 
   it { should ensure_inclusion_of(:unit).in_array( %w(kg lb)) }
 
+  it { should_not allow_value(nil).for(:name) }
+  it { should_not allow_value(nil).for(:unit) }
+  it { should allow_value(nil).for(:note) }
+
   it "should have created_at order default scope" do
     workouts = []
     3.times do |num|
@@ -45,24 +49,7 @@ describe Workout do
     end
   end
 
-  it "should not be valid without a name" do
-    @workout.name = nil
-    @workout.save
-    @workout.should_not be_valid
-  end
 
-  it "should not be valid without a unit" do
-    @workout.unit = nil
-    @workout.save
-    @workout.should_not be_valid
-  end
-
-
-  it "should be valid without a note" do
-    @workout.note = nil
-    @workout.save
-    @workout.should be_valid
-  end
 
 
 

@@ -53,37 +53,14 @@ describe User do
     end
   end
 
-
-  it "should not be valid without a default_unit" do
-    @user.default_unit = nil
-    @user.save
-    @user.should_not be_valid
-  end
+  it { should_not allow_value(nil).for(:default_unit) }
 
   describe "default_unit" do
-    it "should be valid if it is 'lb'" do
-      @user.default_unit = 'lb'
-      @user.save
-      @user.should be_valid
-    end
+    it { should ensure_inclusion_of(:default_unit).in_array( %w(kg lb)) }
 
-    it "should be valid if it is 'kg'" do
-      @user.default_unit = 'kg'
-      @user.save
-      @user.should be_valid
-    end
-
-    it "should be invalid if not 'lb' or 'kg'" do
-      @user.default_unit = 'hack'
-      @user.save
-      @user.should_not be_valid
-    end
   end
 
-  it "should not be valid without an email" do
-    @user.email = nil
-    @user.should_not be_valid
-  end
+  it { should_not allow_value(nil).for(:email)}
 
   describe "when email address is already taken" do
     it "should not be valid" do
@@ -94,9 +71,5 @@ describe User do
     end
   end
 
-  it "should not be valid without password" do
-    @user.password = nil
-    @user.save
-    @user.should_not be_valid
-  end
+  it { should_not allow_value(nil).for(:password)}
 end
