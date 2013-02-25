@@ -114,10 +114,6 @@ label, input, button, select, textarea {
   position: static;
 }
 
-.navbar-inverse {
-  color: #a2a3a3;
-}
-
 .navbar-inverse .navbar-inner {
   /*
   background-color: #252525;
@@ -154,6 +150,8 @@ label, input, button, select, textarea {
     margin-top: 7px;
   }
 }
+
+
 
 /*escaping the period of successfully*/
 .Signed.out.successfully\. {
@@ -201,6 +199,23 @@ label, input, button, select, textarea {
   .fix-after1280 {
     width: 80em !important;
     margin: auto !important;
+  }
+}
+
+@media (min-width: 61.25em){
+  .navbar .nav {
+    display: block;
+    float: right;
+    left: 0;
+    margin: 0px;
+  }
+  .nav {
+    list-style: none outside none;
+    margin-bottom: 0px;
+    margin-left: 0px;
+  }
+  .navbar .nav > li > a {
+    padding: 3px 5px 8px;
   }
 }
 
