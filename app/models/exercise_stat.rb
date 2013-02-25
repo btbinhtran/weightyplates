@@ -1,5 +1,5 @@
 class ExerciseStat < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
   belongs_to :exercise
 
   attr_accessible :best_reps, :best_weight, :exercise_id, :user_id
