@@ -11,21 +11,7 @@ class WorkoutsController < ApplicationController
   end
 
   def create
-    #creating the workout
-    params[:workout] = {"unit"=>"kg", "name"=>"2013-02-24T21:27:57", "note"=>"", "workout_entries_attributes"=>{"0"=>{"workout_entry_number"=>"1", "exercise_id"=>"1", "entry_details"=>{"0"=>{"set_number"=>"1", "weight"=>"12", "reps"=>"32"}}}, "1"=>{"workout_entry_number"=>"2", "exercise_id"=>"4", "entry_details"=>{"0"=>{"set_number"=>"1", "weight"=>"21", "reps"=>"3"}}}}}
 
-    current_user.workouts.create(params[:workout])
-
-    #@workout = Workout.new
-    #@workout.workout_entries.build
-
-    #params[:workout].each do |k,v|
-    #  current_user.workouts.create(v)
-
-    #end
-    render :json => @workout
-
-=begin
     current_user_workouts = current_user.workouts
     params[:workout].each do |k, v|
       @workout = current_user_workouts.create(v.except("workout_entries"))
@@ -51,9 +37,6 @@ class WorkoutsController < ApplicationController
         render :json => {:errors => @workout.errors.full_messages}, :status => 422
       end
     end
-=end
-
-
   end
 
   def update
