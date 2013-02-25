@@ -26,16 +26,24 @@ class WorkoutsController < ApplicationController
         p 'created workout first'
         parent_level = 0
         parent_item = 0
+
         process_name(params, model_names, level + 1, item_on, parent_level, parent_item, @workout, item_transversed.push(0), with_nested, request)
+
+
       else
         #intermediate levels of nesting
         if model_names[level + 1]
           if request == false
-            p "create w e"
+            #p "create w e"
             with_nested = params["0"][current_item]["#{item_on}"]
             current_entry = with_nested.except(nested_item)
             @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
-            process_name(params, model_names, (level + 1), item_on, (parent_level + 1), parent_item, @workout_entry, item_transversed.push(item_on), with_nested, request)
+            if @workout_entry.save
+              process_name(params, model_names, (level + 1), (item_on + 1), (parent_level + 1), (parent_item + 1), @workout_entry, item_transversed.push(item_on), with_nested, request)
+            else
+              #render :json => {:errors => @workout.errors.full_messages}, :status => 422
+              return {:errors => @workout_entry.errors.full_messages}, :status => 422
+            end
           else
             request = false
             item_on += 1
@@ -46,8 +54,12 @@ class WorkoutsController < ApplicationController
               with_nested = params["0"][current_item]["#{item_on}"]
               current_entry = with_nested.except(nested_item)
               @workout_entry = @workout.send(current_item.to_sym).create(current_entry)
-
-              process_name(params, model_names, (level + 1), (item_on + 1), (parent_level + 1), (parent_item + 1), @workout_entry, item_transversed.push(item_on), with_nested, request)
+              if @workout_entry.save
+                process_name(params, model_names, (level + 1), (item_on + 1), (parent_level + 1), (parent_item + 1), @workout_entry, item_transversed.push(item_on), with_nested, request)
+              else
+                #render :json => {:errors => @workout.errors.full_messages}, :status => 422
+                return {:errors => @workout_entry.errors.full_messages}, :status => 422
+              end
             end
           end
         else
@@ -56,10 +68,17 @@ class WorkoutsController < ApplicationController
             if with_nested[current_item].size == 1
               p "create d e"
               @entry_detail = workout.send(current_item.to_sym).create(with_nested[current_item]["0"])
+              if !@entry_detail.save
+                p "error in entry detail"
+                return {:errors => @entry_detail.errors.full_messages}, :status => 422
+              end
             else
               with_nested[current_item].each do |k, v|
                 p "create d e"
                 @entry_detail = workout.send(current_item.to_sym).create(v)
+                if !@entry_detail.save
+                  return {:errors => @entry_detail.errors.full_messages}, :status => 422
+                end
               end
             end
             request = true
@@ -72,8 +91,17 @@ class WorkoutsController < ApplicationController
       end
     end
 
-    process_name(params[:workout], model_names, 0, 0, "n/a", "n/a", @workout, %w(), "n/a", false)
-    render :json => {:errors => @workout.errors.full_messages}, :status => 422
+    result = process_name(params[:workout], model_names, 0, 0, "n/a", "n/a", @workout, %w(), "n/a", false)
+    p "result is"
+    p result
+
+
+    if result.nil?
+      render :json => result
+    else
+      render :json => {:errors => result[0]}, :status => 422
+    end
+    #render :json => {:errors => @workout.errors.full_messages}, :status => 422
 =begin
     #creating the workout
     current_user_workouts = current_user.workouts
