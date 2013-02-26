@@ -113,6 +113,20 @@ label, input, button, select, textarea {
 .top-nav {
   position: static;
 }
+#left-area-navbar{
+ #main_logo_hover{
+   display: none;
+ }
+}
+#left-area-navbar:hover{
+  #main_logo_hover{
+    display: block;
+  }
+  #main_logo {
+    display: none;
+  }
+
+}
 
 .navbar-inverse .navbar-inner {
   /*
@@ -131,8 +145,6 @@ label, input, button, select, textarea {
   border: 1px solid #222222;
   background-image: none;
   box-shadow: 0 2px 2px rgba(50, 50, 50, 0.75);
-
-
 }
 
 .navbar-inner {
@@ -144,7 +156,7 @@ label, input, button, select, textarea {
     color: #DBDBDB;
     text-decoration: none;
   }
-  #main_logo{
+  .logo_image{
     float: left;
     margin-left: 5px;
     margin-top: 7px;
@@ -216,6 +228,18 @@ label, input, button, select, textarea {
   }
   .navbar .nav > li > a {
     padding: 3px 5px 8px;
+  }
+}
+
+@media (max-width: 61.1875em){
+  .navbar .nav > li > a {
+    text-align: center;
+  }
+  .mainpage-list li {
+    display: block;
+  }
+  .nav-collapse.in {
+    padding: 15px 0px 5px;
   }
 }
 

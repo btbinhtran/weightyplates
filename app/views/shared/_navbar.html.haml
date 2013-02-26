@@ -4,8 +4,10 @@
       %span{class: "icon-bar"}
       %span{class: "icon-bar"}
       %span{class: "icon-bar"}
-    %img{alt: "main_logo", id: "main_logo", src: "/assets/icons/global/weightyplatesLogo.png"}
-    %a.brand(href="/") Weighty Plates
+    %div{id: "left-area-navbar"}
+      %img{alt: "main_logo_hover", class: "logo_image", id: "main_logo_hover", src: "/assets/icons/global/weightyplatesHoverLogo.png"}
+      %img{alt: "main_logo", class: "logo_image", id: "main_logo", src: "/assets/icons/global/weightyplatesLogo.png"}
+      %a.brand(href="/") Weighty Plates
     %nav{class: "nav-collapse"}
       %ul.nav.mainpage-list
         - if user_signed_in?
