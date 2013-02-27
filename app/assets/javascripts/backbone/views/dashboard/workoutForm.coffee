@@ -75,9 +75,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       forcePlaceHolderSize: false
       delay: 100
       revert: 50
-      tolerance: "pointer"
+      #tolerance: "pointer"
 
       activate: (event, ui) ->
+
         #$placeHolder = $exerciseDragContainer.find('.exercise-place-holder')
         #$placeHolder.wrap("<div class='row-fluid' />")
 

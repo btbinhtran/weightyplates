@@ -124,13 +124,18 @@
     width: 100%;
     .exercise-place-holder{
       height: 40px;
-      background-color: red;
+      background-color: #E37D87;
+      border-style: dashed;
+      border-color: #A3414B;
       float: left;
-      width: 100%;
+      width: 103.7%;
     }
     .exercise-grouping {
       float: left;
       margin-top: 20px;
+    }
+    .exercise-grouping.ui-sortable-helper{
+      margin-left: 5%;
     }
     .hide-add-workout-button {
       visibility: hidden;
@@ -320,7 +325,7 @@
     background-color: #E37D87;
     border-style: dashed;
     border-color: #A3414B;
-    margin-bottom: 10px;;
+    margin-bottom: 10px;
   }
 }
 
