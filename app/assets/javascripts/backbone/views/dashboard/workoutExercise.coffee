@@ -217,7 +217,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       axis: 'y'
       opacity: 0.9
       containment: 'parent'
-      placeholder: 'place-holder'
+      placeholder: 'details-place-holder'
       forcePlaceHolderSize: false
       delay: 100
       revert: 50

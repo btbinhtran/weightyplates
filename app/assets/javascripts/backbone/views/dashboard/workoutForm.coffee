@@ -77,6 +77,10 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       revert: 50
       tolerance: "pointer"
 
+      activate: (event, ui) ->
+        #$placeHolder = $exerciseDragContainer.find('.exercise-place-holder')
+        #$placeHolder.wrap("<div class='row-fluid' />")
+
     #add hint in workout name
     @hintInWorkoutName()
 

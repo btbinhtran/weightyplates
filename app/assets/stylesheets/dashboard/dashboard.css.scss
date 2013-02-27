@@ -114,7 +114,9 @@
   .workout-form-contents {
     margin-left: 0%;
     .workout-form-second-wrapper {
-      margin-left: 3.6%;
+      /*margin-left: 3.6%;*/
+      width: 75%;
+      margin: auto;
     }
   }
   .workout-entry-exercise-and-sets-row {
@@ -313,10 +315,11 @@
     margin-left: 30px;
     cursor: move;
   }
-  .place-holder {
+  .details-place-holder {
     height: 40px;
-    background-color: #ED4A5A;
-    border-color: #ff4500;
+    background-color: #E37D87;
+    border-style: dashed;
+    border-color: #A3414B;
     margin-bottom: 10px;;
   }
 }
@@ -355,7 +358,7 @@
 #last-row-container {
   margin-top: 0.3em;
   margin-left: 8%;
-  width: 80%;
+  width: 87%;
   float: left;
 }
 
@@ -453,8 +456,6 @@
   .dashboard-add-workout-modal-row-show {
     .workout-form-contents {
       .workout-form-second-wrapper {
-        width: 80%;
-        margin: auto;
         .dashboard-add-workout-name {
           margin-left: 0%;
           width: 100%;
