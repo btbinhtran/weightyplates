@@ -109,7 +109,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       $hiddenExerciseRemove = formAndExercisesModel.get "hiddenExerciseRemoveButton"
       $hiddenExerciseRemove.removeClass('hide-add-workout-button')
 
-
     #details container is for the set and weight rows
     $detailsContainer = $workoutExeciseRow.find('.an-entry-detail')
 
@@ -212,6 +211,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       entryDetailsModel = _.flatten(_.without(entryDetailsModel, nextToItemAssociation))
       entryDetailsModel = _.compact(entryDetailsModel)
       associationExerciseEntryDetail.models = entryDetailsModel
+
+
+    console.log "sortable"
+    console.log $detailsSet
 
     #make the details sortable
     $detailsSet.sortable

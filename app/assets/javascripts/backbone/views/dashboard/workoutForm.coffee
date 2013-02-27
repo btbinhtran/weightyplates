@@ -64,6 +64,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExercisesModel: @getModel('FormAndExercises')
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
+    #sortable on exercises
+    exerciseViewContainer = @$el.find('.workout-entry-exercise-and-sets-row')
+    console.log "exer container"
+    exerciseViewContainer.sortable
+      axis: 'y'
+      containment: 'parent'
+
     #add hint in workout name
     @hintInWorkoutName()
 

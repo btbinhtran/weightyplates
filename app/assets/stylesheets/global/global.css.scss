@@ -125,6 +125,11 @@ label, input, button, select, textarea {
   #main_logo {
     display: none;
   }
+}
+.btn-navbar:hover{
+  .icon-bar{
+    background-color: #d42727;
+  }
 
 }
 
