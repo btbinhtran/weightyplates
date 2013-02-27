@@ -23,7 +23,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #model for workout form and exercises
     #manual clearing of arrays properties in models
-    formAndExercisesModel = new Weightyplates.Models.FormAndExercises({      exerciseViews: []})
+    formAndExercisesModel = new Weightyplates.Models.FormAndExercises({      exerciseViews: [], exercisesViewIndex: []})
 
     #prepare the option entries
     formAndExercisesModel.set("optionListEntries", formAndExercisesModel.prepareEntries())
@@ -75,7 +75,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       forcePlaceHolderSize: false
       delay: 100
       revert: 50
-      #tolerance: "pointer"
+      tolerance: "pointer"
 
       activate: (event, ui) ->
 
@@ -93,7 +93,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     formAndExerciseModel = @getModel('FormAndExercises')
 
     if associationWorkoutModel.get("workout_entries")
-      #remove if there is already and entry
+      #remove if there is already an entry
       if associationWorkoutModel.get("workout_entries")
           .get(formAndExerciseModel
           .get("recentlyRemovedExerciseAssociatedModel"))
@@ -109,6 +109,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       workoutEntryParams =
         workout_entries: [formAndExerciseModel.get "recentlyAddedExerciseAssociatedModel"]
       associationWorkoutModel.set(workoutEntryParams)
+
+    #console.log "association form"
+    #console.log associationWorkoutModel.get("workout_entries")
+
+    console.log formAndExerciseModel.get("exerciseViews")
 
   focusInWorkoutName: (event) ->
     $this = $(event.target)
@@ -244,6 +249,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     ###
 
   saveWorkout: ->
+    ###
     #prepare the json for sending
     jsonData = JSON.stringify(@getModel('AssociationUserSession'))
 
@@ -260,12 +266,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     #properlyFormattedJson = properlyFormattedJson.replace("entry_detail", 'entry_details_attributes')
     properlyFormattedJson = properlyFormattedJson.replace(/"entry_details":/g, '"entry_details":')
+    ###
 
     associationUserModel = @getModel('AssociationUserSession')
 
     $viewElement = @$el
 
-    console.log properlyFormattedJson
+    #console.log properlyFormattedJson
     console.log associationUserModel.toJSON()
 
     $areaOverLayForAjax = $viewElement.find('.for-ajax-request')

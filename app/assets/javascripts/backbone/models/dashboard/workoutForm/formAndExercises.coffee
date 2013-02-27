@@ -7,6 +7,7 @@ class Weightyplates.Models.FormAndExercises extends Backbone.Model
     optionListEntries: null
     exerciseViews: []
     exerciseViewsCount: null
+    exercisesViewIndex: []
     firstExercise: null
     lastExercise: null
     hiddenExerciseRemoveButton: null
