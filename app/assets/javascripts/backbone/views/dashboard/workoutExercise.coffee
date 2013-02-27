@@ -161,7 +161,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail) ->
 
-      console.log detailViewsIndex
+      #console.log "detailsview index"
+      #console.log detailViewsIndex
 
       #entry details association models
       entryDetailsModel =  associationExerciseEntryDetail.models
@@ -282,7 +283,20 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     exerciseId = @cid
     @$el.attr("id",exerciseId)
 
+    #get information from the new exercise
+    exerciseAssociationId = exerciseAssociationModel.cid
+    exerciseSingleIndex = {id: exerciseId, aId: exerciseAssociationId}
+
+    #get the exercise views index
+    exerciseViewIndex = formAndExercisesModel.get "exercisesViewIndex"
+
     #index the view's id and the associated model id
+    exerciseViewIndex.push(exerciseSingleIndex)
+    formAndExercisesModel.set("exercisesViewIndex",exerciseViewIndex)
+
+    #console.log "the exercise index is "
+    #console.log exerciseViewIndex
+
 
 
     #return this
