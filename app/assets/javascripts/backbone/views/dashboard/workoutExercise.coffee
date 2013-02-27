@@ -212,10 +212,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       entryDetailsModel = _.compact(entryDetailsModel)
       associationExerciseEntryDetail.models = entryDetailsModel
 
-
-    console.log "sortable"
-    console.log $detailsSet
-
     #make the details sortable
     $detailsSet.sortable
       axis: 'y'

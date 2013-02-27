@@ -118,6 +118,14 @@
     }
   }
   .workout-entry-exercise-and-sets-row {
+    float: left;
+    width: 100%;
+    .exercise-place-holder{
+      height: 40px;
+      background-color: red;
+      float: left;
+      width: 100%;
+    }
     .exercise-grouping {
       float: left;
       margin-top: 20px;

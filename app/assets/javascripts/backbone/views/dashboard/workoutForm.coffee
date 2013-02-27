@@ -52,7 +52,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     ])
 
     #call render
-
     @render()
 
   render: ()->
@@ -65,11 +64,18 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
     #sortable on exercises
-    exerciseViewContainer = @$el.find('.workout-entry-exercise-and-sets-row')
-    console.log "exer container"
-    exerciseViewContainer.sortable
+    $exerciseViewContainer = @$el.find('.workout-entry-exercise-and-sets-row')
+    $exerciseDragContainer = @$el.find('.dashboard-add-workout-modal-row-area')
+
+    $exerciseViewContainer.sortable
       axis: 'y'
-      containment: 'parent'
+      opacity: 0.9
+      containment: $exerciseDragContainer
+      placeholder: 'exercise-place-holder'
+      forcePlaceHolderSize: false
+      delay: 100
+      revert: 50
+      tolerance: "pointer"
 
     #add hint in workout name
     @hintInWorkoutName()
