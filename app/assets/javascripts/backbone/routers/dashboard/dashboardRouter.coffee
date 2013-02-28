@@ -8,8 +8,6 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     @collection.reset(Weightyplates.PreloadModels)
 
   index: ->
-    #console.log "index router"
-    #console.log addWorkoutView
     #the Mixin object used for extending
     MixIn = ->
     MixIn.prototype = {
@@ -43,25 +41,36 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
           i++
 
     #provide the methods to the backbone objects (views, models, etc.)
-    augment(
-      Weightyplates.Views.WorkoutForm,
-      MixIn,
-      'getModel'
-    )
+    toAugment = [
+      {class: Weightyplates.Views.WorkoutForm
+      augmentingObj: MixIn
+      items: "getModel"}
 
-    augment(
-      Weightyplates.Views.WorkoutExercise,
-      MixIn,
-      'getModel'
-    )
+      {class: Weightyplates.Views.WorkoutExercise
+      augmentingObj: MixIn
+      items: "getModel"}
 
-    augment(Weightyplates.Views.WorkoutDetail, MixIn)
+      {class: Weightyplates.Models.AssociationDetail
+      augmentingObj: MixIn
+      items: "toTitleCase"}
 
-    augment(
-      Weightyplates.Models.AssociationDetail,
-      MixIn,
-      'toTitleCase'
-    )
+      {class: Weightyplates.Views.WorkoutDetail
+      augmentingObj: MixIn
+      items: "ALL"}
+    ]
+
+    #perform the augmenting
+    (groupAugment = (toAugment, augment) ->
+      l = toAugment.length
+      i = 0
+      while i < l
+        entry = toAugment[i]
+        if entry.items == "ALL"
+          augment(entry.class, entry.augmentingObj)
+        else
+          augment(entry.class, entry.augmentingObj, entry.items)
+        i++
+    )(toAugment, augment)
 
     formViewParams =
       model: @collection.models[0]

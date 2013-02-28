@@ -31,7 +31,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #create an associated user model for workouts and further nesting of associated models
     associatedUserModel = new Weightyplates.Models.AssociationUserSession()
     associatedWorkoutModel = new Weightyplates.Models.AssociationWorkout()
-
     associatedUserModel.set({workout: [associatedWorkoutModel]})
 
     #set the workout name date into form and exercises
@@ -64,28 +63,11 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
     rearrangeViews = (exercisesViewIndex, draggedExerciseId, neighboringItem, areaInfo, associationExercise) ->
-      #console.log "view index"
-      #console.log exercisesViewIndex
-      #console.log "dragged exercise id"
-      #console.log draggedExerciseId
-      #console.log "neighboringItem"
-      #console.log neighboringItem
-      #console.log "areaInfo"
-      #console.log areaInfo
-      #console.log "association exercise detail"
-      #console.log associationExerciseDetail
-
-      #console.log "associa models"
-      #console.log associationExercise
-      #console.log associationExercise.get "workout_entries"
-
       #exercise association models
       exerciseModel = associationExercise.get("workout_entries").models
 
       #get ids of all the views in the index
       allExercisesId = _.pluck(exercisesViewIndex, 'id')
-      #console.log "alldetailsid"
-      #console.log allDetailsId
 
       #association ids for exercises
       exercisesAssociationIds = _.pluck(exerciseModel, 'cid')
@@ -96,12 +78,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
       #the item's original index which is now the item next to the dragged item
       nextToItemIndexOfDragged = _.indexOf(allExercisesId,  neighboringItem.attr("id"))
-
-      #console.log "draggedoldindex"
-      #console.log draggedOldIndex
-
-      #console.log "nextToItemIndexOfDragged"
-      #console.log nextToItemIndexOfDragged
 
       #the item's original index which is now the item next to the dragged item
       nextToItemIndexOfDragged = _.indexOf(allExercisesId,  neighboringItem.attr("id"))
@@ -114,11 +90,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
       nextToItemAssociation = exerciseModel[nextToItemIndexOfDragged]
       toMoveExercises = exerciseModel[draggedOldIndex]
-
-      console.log "next to item"
-      console.log nextToItemAssociation
-      console.log "to move details"
-      console.log toMoveExercises
 
       #create a temp array for storing into the previous
       tempArray = []
@@ -136,56 +107,17 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       exercisesViewIndex[nextToItemIndexOfDragged] = tempArray
       exerciseModel[nextToItemIndexOfDragged] = tempArray2
 
-      console.log "temp1"
-      console.log tempArray
-
-      console.log "temp2"
-      console.log tempArray2
-
-      console.log "form and exercise"
-      console.log formAndExercisesModel
-
-      console.log "exercisesViewIndex[draggedOldIndex]"
-      console.log exercisesViewIndex[draggedOldIndex]
-      console.log 'exercisesViewIndex'
-      console.log exercisesViewIndex
-
-      console.log _.flatten(_.without(exercisesViewIndex, exercisesViewIndex[draggedOldIndex]))
-
       #flatten the index view array and store to model
       formAndExercisesModel.set("exercisesViewIndex", _.flatten(_.without(exercisesViewIndex, exercisesViewIndex[draggedOldIndex])))
-
-      console.log formAndExercisesModel.get "exercisesViewIndex"
-      console.log formAndExercisesModel
-
-      console.log "--00 exercise models"
-      console.log exerciseModel
-
-      console.log "flatten form and exercise models"
-      console.log formAndExercisesModel
-      console.log formAndExercisesModel.get "exercisesViewIndex"
 
       #shift dragged exercises around for association exercises
       #delete the old model belonging to dragged exercises
       #update the association exercises when done
       delete exerciseModel[draggedOldIndex]
-
-      console.log "zero exercise models"
-      console.log exerciseModel
-
       exerciseModel = _.flatten(exerciseModel)
-
-      console.log "first exercise models"
-      console.log exerciseModel
-
       exerciseModel = _.compact(exerciseModel)
 
-      console.log "exercise models"
-      console.log exerciseModel
-
       associationExercise.get("workout_entries").models = exerciseModel
-
-
 
     #sortable on exercises
     $exerciseViewContainer = @$el.find('.workout-entry-exercise-and-sets-row')
@@ -271,7 +203,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #console.log "association form"
     #console.log associationWorkoutModel.get("workout_entries")
 
-    console.log formAndExerciseModel.get("exerciseViews")
+    #console.log formAndExerciseModel.get("exerciseViews")
 
   focusInWorkoutName: (event) ->
     $this = $(event.target)
