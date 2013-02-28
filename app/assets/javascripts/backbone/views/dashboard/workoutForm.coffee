@@ -67,6 +67,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     $exerciseViewContainer = @$el.find('.workout-entry-exercise-and-sets-row')
     $exerciseDragContainer = @$el.find('.dashboard-add-workout-modal-row-area')
 
+    formAndExercisesModel = @getModel('FormAndExercises')
+
     $exerciseViewContainer.sortable
       axis: 'y'
       opacity: 0.9
@@ -81,6 +83,41 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
         #$placeHolder = $exerciseDragContainer.find('.exercise-place-holder')
         #$placeHolder.wrap("<div class='row-fluid' />")
+
+      deactivate: (event, ui) ->
+        #dropped item id
+        $uiItem = $(ui.item)
+        exerciseId = $uiItem[0].id
+
+        #console.log "exercise drop id"
+        #console.log exerciseId
+
+        detailExercisesIndex = formAndExercisesModel.get("exercisesViewIndex")
+
+        #console.log "detailExercisesIndex"
+        #console.log detailExercisesIndex
+
+        #console.log $uiItem
+
+        #for updating the index and the association models
+        $prevItem = $uiItem.prev('.exercise-grouping')
+        $nextItem = $uiItem.next('.exercise-grouping')
+
+        console.log "prev"
+        console.log $prevItem
+        console.log "next"
+        console.log $nextItem
+
+
+        if $prevItem.length == 1
+          #there is something before the dragged item
+          neighborInfo = "somethingBefore"
+          neighborPosition = $prevItem
+        else
+          #there is something after the dragged item
+          neighborInfo = "somethingAfter"
+          neighborPosition = $nextItem
+
 
     #add hint in workout name
     @hintInWorkoutName()

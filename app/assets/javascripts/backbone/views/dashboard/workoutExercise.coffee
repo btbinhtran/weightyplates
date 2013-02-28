@@ -264,17 +264,22 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           exerciseAndDetailsModel.set("focusedInputWhenDragged", false)
           exerciseAndDetailsModel.set("classNameOfInputFocus", null)
 
+        rearrange = false
+
         if $prevItem.length == 1
           #there is something before the dragged item
           neighborInfo = "somethingBefore"
           neighborPosition = $prevItem
-        else
+          rearrange = true
+        else if $nextItem.length == 1
           #there is something after the dragged item
           neighborInfo = "somethingAfter"
           neighborPosition = $nextItem
+          rearrange = true
 
         #update index view and the details json
-        rearrangeViews(detailViewsIndex, detailId, neighborPosition, neighborInfo, associationExerciseEntryDetail)
+        if rearrange == true
+          rearrangeViews(detailViewsIndex, detailId, neighborPosition, neighborInfo, associationExerciseEntryDetail)
 
     #highlight the first details upon exercise creation
     $(@el).find('.details-set-weight').trigger("click")
@@ -296,8 +301,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #console.log "the exercise index is "
     #console.log exerciseViewIndex
-
-
 
     #return this
     this
