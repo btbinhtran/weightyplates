@@ -183,7 +183,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       console.log "exercise models"
       console.log exerciseModel
 
-      exerciseModel.models = exerciseModel
+      associationExercise.get("workout_entries").models = exerciseModel
 
 
 
@@ -344,7 +344,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
   divider: ->
     console.log JSON.stringify(@getModel('AssociationUserSession'))
-    console.log @getModel('AssociationUserSession').toJSON()["workout"]
+    console.log @getModel('AssociationUserSession').toJSON()['workout']
 
   fromSaveButtonTrigger: ->
     #need to specify the caller because of sharing of function with close button
