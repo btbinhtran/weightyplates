@@ -210,6 +210,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       #delete the old model belonging to dragged details
       #update the association details when done
       delete entryDetailsModel[draggedOldIndex]
+
+      console.log "0th exercise models"
+      console.log entryDetailsModel
+
       entryDetailsModel = _.flatten(_.without(entryDetailsModel, nextToItemAssociation))
       entryDetailsModel = _.compact(entryDetailsModel)
       associationExerciseEntryDetail.models = entryDetailsModel

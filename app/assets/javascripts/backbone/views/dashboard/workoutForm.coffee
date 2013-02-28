@@ -63,9 +63,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExercisesModel: @getModel('FormAndExercises')
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
-    rearrangeViews = (exerciseViewsIndex, draggedExerciseId, neighboringItem, areaInfo, associationExercise) ->
+    rearrangeViews = (exercisesViewIndex, draggedExerciseId, neighboringItem, areaInfo, associationExercise) ->
       #console.log "view index"
-      #console.log exerciseViewsIndex
+      #console.log exercisesViewIndex
       #console.log "dragged exercise id"
       #console.log draggedExerciseId
       #console.log "neighboringItem"
@@ -83,7 +83,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       exerciseModel = associationExercise.get("workout_entries").models
 
       #get ids of all the views in the index
-      allExercisesId = _.pluck(exerciseViewsIndex, 'id')
+      allExercisesId = _.pluck(exercisesViewIndex, 'id')
       #console.log "alldetailsid"
       #console.log allDetailsId
 
@@ -107,30 +107,83 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       nextToItemIndexOfDragged = _.indexOf(allExercisesId,  neighboringItem.attr("id"))
 
       #the index info of the dragged item
-      indexOfDragged = exerciseViewsIndex[draggedOldIndex]
+      indexOfDragged = exercisesViewIndex[draggedOldIndex]
 
       #the index info of the item next to the dragged item
-      indexItemNextToTheDragged = exerciseViewsIndex[nextToItemIndexOfDragged]
+      indexItemNextToTheDragged = exercisesViewIndex[nextToItemIndexOfDragged]
 
       nextToItemAssociation = exerciseModel[nextToItemIndexOfDragged]
+      toMoveExercises = exerciseModel[draggedOldIndex]
+
+      console.log "next to item"
+      console.log nextToItemAssociation
+      console.log "to move details"
+      console.log toMoveExercises
 
       #create a temp array for storing into the previous
       tempArray = []
+      tempArray2 = []
 
       if areaInfo == "somethingBefore"
         tempArray.push(indexItemNextToTheDragged, indexOfDragged)
+        tempArray2.push(nextToItemAssociation, toMoveExercises)
       else
         tempArray.push(indexOfDragged, indexItemNextToTheDragged)
+        tempArray2.push(toMoveExercises, nextToItemAssociation)
 
       #overwrite the item next to the dragged item in the index view
       #do it for association details model too
-      exerciseViewsIndex[nextToItemIndexOfDragged] = tempArray
+      exercisesViewIndex[nextToItemIndexOfDragged] = tempArray
+      exerciseModel[nextToItemIndexOfDragged] = tempArray2
+
+      console.log "temp1"
+      console.log tempArray
+
+      console.log "temp2"
+      console.log tempArray2
+
+      console.log "form and exercise"
+      console.log formAndExercisesModel
+
+      console.log "exercisesViewIndex[draggedOldIndex]"
+      console.log exercisesViewIndex[draggedOldIndex]
+      console.log 'exercisesViewIndex'
+      console.log exercisesViewIndex
+
+      console.log _.flatten(_.without(exercisesViewIndex, exercisesViewIndex[draggedOldIndex]))
 
       #flatten the index view array and store to model
-      formAndExercisesModel.set("exercisesViewIndex", _.flatten(_.without(exerciseViewsIndex, exerciseViewsIndex[draggedOldIndex])))
+      formAndExercisesModel.set("exercisesViewIndex", _.flatten(_.without(exercisesViewIndex, exercisesViewIndex[draggedOldIndex])))
 
       console.log formAndExercisesModel.get "exercisesViewIndex"
       console.log formAndExercisesModel
+
+      console.log "--00 exercise models"
+      console.log exerciseModel
+
+      console.log "flatten form and exercise models"
+      console.log formAndExercisesModel
+      console.log formAndExercisesModel.get "exercisesViewIndex"
+
+      #shift dragged exercises around for association exercises
+      #delete the old model belonging to dragged exercises
+      #update the association exercises when done
+      delete exerciseModel[draggedOldIndex]
+
+      console.log "zero exercise models"
+      console.log exerciseModel
+
+      exerciseModel = _.flatten(exerciseModel)
+
+      console.log "first exercise models"
+      console.log exerciseModel
+
+      exerciseModel = _.compact(exerciseModel)
+
+      console.log "exercise models"
+      console.log exerciseModel
+
+      exerciseModel.models = exerciseModel
 
 
 
