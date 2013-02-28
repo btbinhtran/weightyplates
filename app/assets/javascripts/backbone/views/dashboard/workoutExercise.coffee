@@ -421,12 +421,15 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
         .addClass('hide-add-workout-button')
       formAndExercisesModel.set("hiddenExerciseRemoveButton", $hiddenExerciseRemove)
 
+    #remove this view
+    @.remove()
+
     #send signal to form to remove the exercise entry from json
     signalParentForm = formAndExercisesModel.get "signalParentForm"
     formAndExercisesModel.set("recentlyRemovedExerciseAssociatedModel", @getModel('AssociationExercise'))
     formAndExercisesModel.set("signalParentForm", signalParentForm * -1)
 
-    thisView = @
+
 
     ###
     #exercise removal fadeout animation
@@ -438,7 +441,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     )
     ###
 
-    thisView.remove()
+
+
+
+
 
   validateListChange: (event)->
     #getting the selected value from the option list

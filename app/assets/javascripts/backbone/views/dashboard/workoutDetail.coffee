@@ -184,10 +184,10 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
     )
     ###
 
+    #remove this view
     thisView.remove()
 
     #console.log "end detail delete"
-
 
     #set info for view and send signal to exercise to remove the detail entry from json
     associationDetailModel = @getModel('AssociationDetail')

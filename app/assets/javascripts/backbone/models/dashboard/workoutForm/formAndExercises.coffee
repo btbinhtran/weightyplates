@@ -12,7 +12,11 @@ class Weightyplates.Models.FormAndExercises extends Backbone.Model
     lastExercise: null
     hiddenExerciseRemoveButton: null
     recentlyAddedExerciseAssociatedModel: null
+    recentlyAddedExercisesAssociatedModelId: null
+    recentlyAddedExercisesViewId: null
     recentlyRemovedExerciseAssociatedModel: null
+    recentlyRemovedExericsesAssociatedModelId: null
+    recentlyRemovedExercisesViewId: null
     signalParentForm: -1
     exerciseAssociatedModels: []
     workoutNameDefault: null
