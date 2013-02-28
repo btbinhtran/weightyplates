@@ -425,9 +425,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     @.remove()
 
     #send signal to form to remove the exercise entry from json
+    associationExerciseModel = @getModel('AssociationExercise')
     signalParentForm = formAndExercisesModel.get "signalParentForm"
-    formAndExercisesModel.set("recentlyRemovedExerciseAssociatedModel", @getModel('AssociationExercise'))
-    formAndExercisesModel.set("signalParentForm", signalParentForm * -1)
+    formAndExercisesModel.set("recentlyRemovedExerciseAssociatedModel", associationExerciseModel)
+      .set("recentlyRemovedExercisesViewId", @cid)
+      .set("recentlyRemovedExercisesAssociatedModelId", associationExerciseModel.cid)
+      .set("signalParentForm", signalParentForm * -1)
 
 
 
