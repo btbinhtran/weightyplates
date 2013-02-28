@@ -284,6 +284,8 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #highlight the first details upon exercise creation
     $(@el).find('.details-set-weight').trigger("click")
 
+    #------------------------------------------------Exercise View Index
+
     #adding the view id onto the exercise view
     exerciseId = @cid
     @$el.attr("id",exerciseId)

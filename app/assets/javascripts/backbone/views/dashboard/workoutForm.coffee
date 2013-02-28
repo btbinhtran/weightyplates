@@ -63,11 +63,26 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExercisesModel: @getModel('FormAndExercises')
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
+    rearrangeViews = (exerciseViewsIndex, draggedExerciseId, neighboringItem, areaInfo, associationExerciseDetail) ->
+      #console.log "view index"
+      #console.log exerciseViewsIndex
+      #console.log "dragged exercise id"
+      #console.log draggedExerciseId
+      #console.log "neighboringItem"
+      #console.log neighboringItem
+      #console.log "areaInfo"
+      #console.log areaInfo
+      #console.log "association exercise detail"
+      #console.log associationExerciseDetail
+
+
+
     #sortable on exercises
     $exerciseViewContainer = @$el.find('.workout-entry-exercise-and-sets-row')
     $exerciseDragContainer = @$el.find('.dashboard-add-workout-modal-row-area')
 
     formAndExercisesModel = @getModel('FormAndExercises')
+    associationWorkoutModel = @getModel('AssociationWorkout')
 
     $exerciseViewContainer.sortable
       axis: 'y'
@@ -89,34 +104,30 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         $uiItem = $(ui.item)
         exerciseId = $uiItem[0].id
 
-        #console.log "exercise drop id"
-        #console.log exerciseId
-
-        detailExercisesIndex = formAndExercisesModel.get("exercisesViewIndex")
-
-        #console.log "detailExercisesIndex"
-        #console.log detailExercisesIndex
-
-        #console.log $uiItem
+        exercisesIndex = formAndExercisesModel.get("exercisesViewIndex")
 
         #for updating the index and the association models
         $prevItem = $uiItem.prev('.exercise-grouping')
         $nextItem = $uiItem.next('.exercise-grouping')
 
-        console.log "prev"
-        console.log $prevItem
-        console.log "next"
-        console.log $nextItem
+        rearrange = false
 
-
+        #determine if the
         if $prevItem.length == 1
           #there is something before the dragged item
           neighborInfo = "somethingBefore"
           neighborPosition = $prevItem
-        else
+          rearrange = true
+        else if $nextItem.length == 1
           #there is something after the dragged item
           neighborInfo = "somethingAfter"
           neighborPosition = $nextItem
+          rearrange = true
+
+        #update index view and the details json
+        if rearrange == true
+          console.log 'REARRANge'
+          rearrangeViews(exercisesIndex, exerciseId, neighborPosition, neighborInfo, associationWorkoutModel)
 
 
     #add hint in workout name
