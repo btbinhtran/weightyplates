@@ -63,7 +63,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExercisesModel: @getModel('FormAndExercises')
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
-    rearrangeViews = (exerciseViewsIndex, draggedExerciseId, neighboringItem, areaInfo, associationExerciseDetail) ->
+    rearrangeViews = (exerciseViewsIndex, draggedExerciseId, neighboringItem, areaInfo, associationExercise) ->
       #console.log "view index"
       #console.log exerciseViewsIndex
       #console.log "dragged exercise id"
@@ -74,6 +74,63 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       #console.log areaInfo
       #console.log "association exercise detail"
       #console.log associationExerciseDetail
+
+      #console.log "associa models"
+      #console.log associationExercise
+      #console.log associationExercise.get "workout_entries"
+
+      #exercise association models
+      exerciseModel = associationExercise.get("workout_entries").models
+
+      #get ids of all the views in the index
+      allExercisesId = _.pluck(exerciseViewsIndex, 'id')
+      #console.log "alldetailsid"
+      #console.log allDetailsId
+
+      #association ids for exercises
+      exercisesAssociationIds = _.pluck(exerciseModel, 'cid')
+      #console.log exercisesAssociationIds
+
+      #the index of dragged item before it was dragged
+      draggedOldIndex =  _.indexOf(allExercisesId, draggedExerciseId)
+
+      #the item's original index which is now the item next to the dragged item
+      nextToItemIndexOfDragged = _.indexOf(allExercisesId,  neighboringItem.attr("id"))
+
+      #console.log "draggedoldindex"
+      #console.log draggedOldIndex
+
+      #console.log "nextToItemIndexOfDragged"
+      #console.log nextToItemIndexOfDragged
+
+      #the item's original index which is now the item next to the dragged item
+      nextToItemIndexOfDragged = _.indexOf(allExercisesId,  neighboringItem.attr("id"))
+
+      #the index info of the dragged item
+      indexOfDragged = exerciseViewsIndex[draggedOldIndex]
+
+      #the index info of the item next to the dragged item
+      indexItemNextToTheDragged = exerciseViewsIndex[nextToItemIndexOfDragged]
+
+      nextToItemAssociation = exerciseModel[nextToItemIndexOfDragged]
+
+      #create a temp array for storing into the previous
+      tempArray = []
+
+      if areaInfo == "somethingBefore"
+        tempArray.push(indexItemNextToTheDragged, indexOfDragged)
+      else
+        tempArray.push(indexOfDragged, indexItemNextToTheDragged)
+
+      #overwrite the item next to the dragged item in the index view
+      #do it for association details model too
+      exerciseViewsIndex[nextToItemIndexOfDragged] = tempArray
+
+      #flatten the index view array and store to model
+      formAndExercisesModel.set("exercisesViewIndex", _.flatten(_.without(exerciseViewsIndex, exerciseViewsIndex[draggedOldIndex])))
+
+      console.log formAndExercisesModel.get "exercisesViewIndex"
+      console.log formAndExercisesModel
 
 
 
@@ -126,7 +183,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
         #update index view and the details json
         if rearrange == true
-          console.log 'REARRANge'
+          #console.log 'REARRANge'
           rearrangeViews(exercisesIndex, exerciseId, neighborPosition, neighborInfo, associationWorkoutModel)
 
 

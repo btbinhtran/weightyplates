@@ -99,7 +99,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #console.log formAndExercisesModel.get("exerciseViews")
 
-
     #remove the remove button in the beginning when there is only one exercise
     if formAndExercisesModel.get("exerciseViews").length == 1
       $hiddenExerciseRemove = @$el.find('.add-workout-exercise-remove-button')
@@ -118,7 +117,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
     #the workout details row has a model between the exercises and its details
     #have to initialize model to default values because it can take on old values from other exercise sets
     exerciseAndDetailsModel = @getModel('ExerciseAndDetails')
-    new Weightyplates.Views.WorkoutDetail({exerciseAndDetails: exerciseAndDetailsModel, inherit: exerciseAndDetailsModel.get('utilityFunction')})
+    new Weightyplates.Views.WorkoutDetail({exerciseAndDetails: exerciseAndDetailsModel})
 
     #add the number label for the exercise; remove id because subsequent entries will have the same id
     @$el.find('#an-Exercise-label').text(exercisePhrase).removeAttr("id")
