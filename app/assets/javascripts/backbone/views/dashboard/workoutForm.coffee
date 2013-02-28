@@ -62,7 +62,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExercisesModel: @getModel('FormAndExercises')
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
-    rearrangeViews = (exercisesViewIndex, draggedExerciseId, neighboringItem, areaInfo, associationExercise) ->
+    rearrangeViews = (exercisesViewIndex, draggedExerciseId, neighboringItem, areaInfo, associationExercise, formAndExercisesModel) ->
       #exercise association models
       exerciseModel = associationExercise.get("workout_entries").models
 
@@ -169,7 +169,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         #update index view and the details json
         if rearrange == true
           #console.log 'REARRANge'
-          rearrangeViews(exercisesIndex, exerciseId, neighborPosition, neighborInfo, associationWorkoutModel)
+          rearrangeViews(exercisesIndex, exerciseId, neighborPosition, neighborInfo, associationWorkoutModel, formAndExercisesModel)
 
 
     #add hint in workout name

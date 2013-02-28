@@ -158,62 +158,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     #----------------------------------------------Sortable Details List with JqueryUi
 
-    rearrangeViews = (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail) ->
-
-      #console.log "detailsview index"
-      #console.log detailViewsIndex
-
-      #entry details association models
-      entryDetailsModel =  associationExerciseEntryDetail.models
-
-      #get ids of all the views in the index
-      allDetailsId = _.pluck(detailViewsIndex, 'id')
-
-      #association ids for details
-      detailsAssociationIds = _.pluck(entryDetailsModel, 'cid')
-
-      #the index of dragged item before it was dragged
-      draggedOldIndex =  _.indexOf(allDetailsId, draggedDetailId)
-
-      #the item's original index which is now the item next to the dragged item
-      nextToItemIndexOfDragged = _.indexOf(allDetailsId,  neighboringItem.attr("id"))
-
-      #the index info of the dragged item
-      indexOfDragged = detailViewsIndex[draggedOldIndex]
-
-      #the index info of the item next to the dragged item
-      indexItemNextToTheDragged = detailViewsIndex[nextToItemIndexOfDragged]
-
-      nextToItemAssociation = entryDetailsModel[nextToItemIndexOfDragged]
-      toMoveDetails = entryDetailsModel[draggedOldIndex]
-
-      #create a temp array for storing into the previous
-      tempArray = []
-      tempArray2 = []
-
-      if areaInfo == "somethingBefore"
-        tempArray.push(indexItemNextToTheDragged, indexOfDragged)
-        tempArray2.push(nextToItemAssociation, toMoveDetails)
-      else
-        tempArray.push(indexOfDragged, indexItemNextToTheDragged)
-        tempArray2.push(toMoveDetails, nextToItemAssociation)
-
-      #overwrite the item next to the dragged item in the index view
-      #do it for association details model too
-      detailViewsIndex[nextToItemIndexOfDragged] = tempArray
-      entryDetailsModel[nextToItemIndexOfDragged] = tempArray2
-
-      #flatten the index view array and store to model
-      exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
-
-      #shift dragged details around for association details
-      #delete the old model belonging to dragged details
-      #update the association details when done
-      delete entryDetailsModel[draggedOldIndex]
-
-      entryDetailsModel = _.flatten(_.without(entryDetailsModel, nextToItemAssociation))
-      entryDetailsModel = _.compact(entryDetailsModel)
-      associationExerciseEntryDetail.models = entryDetailsModel
+    rearrangeViews = @rearrangeViews
 
     #make the details sortable
     $detailsSet.sortable
@@ -279,7 +224,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
         #update index view and the details json
         if rearrange == true
-          rearrangeViews(detailViewsIndex, detailId, neighborPosition, neighborInfo, associationExerciseEntryDetail)
+          rearrangeViews(detailViewsIndex, detailId, neighborPosition, neighborInfo, associationExerciseEntryDetail, exerciseAndDetailsModel)
 
     #highlight the first details upon exercise creation
     $(@el).find('.details-set-weight').trigger("click")

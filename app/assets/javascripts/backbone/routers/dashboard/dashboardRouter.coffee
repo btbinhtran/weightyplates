@@ -9,8 +9,8 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
 
   index: ->
     #the Mixin object used for extending
-    MixIn = ->
-    MixIn.prototype = {
+    genMixIn = ->
+    genMixIn.prototype = {
       getModel: (modelName) ->
         _.filter(@collection.models, (model) ->
           model.constructor.name == modelName
@@ -20,6 +20,66 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
         #utility function for title casing the key
         str.replace /\w\S*/g, (txt) ->
           txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    }
+
+    viewRearrangeMixin = ->
+    viewRearrangeMixin.prototype = {
+      rearrangeViews: (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail, exerciseAndDetailsModel) ->
+
+        #console.log "detailsview index"
+        #console.log detailViewsIndex
+
+        #entry details association models
+        entryDetailsModel =  associationExerciseEntryDetail.models
+
+        #get ids of all the views in the index
+        allDetailsId = _.pluck(detailViewsIndex, 'id')
+
+        #association ids for details
+        detailsAssociationIds = _.pluck(entryDetailsModel, 'cid')
+
+        #the index of dragged item before it was dragged
+        draggedOldIndex =  _.indexOf(allDetailsId, draggedDetailId)
+
+        #the item's original index which is now the item next to the dragged item
+        nextToItemIndexOfDragged = _.indexOf(allDetailsId,  neighboringItem.attr("id"))
+
+        #the index info of the dragged item
+        indexOfDragged = detailViewsIndex[draggedOldIndex]
+
+        #the index info of the item next to the dragged item
+        indexItemNextToTheDragged = detailViewsIndex[nextToItemIndexOfDragged]
+
+        nextToItemAssociation = entryDetailsModel[nextToItemIndexOfDragged]
+        toMoveDetails = entryDetailsModel[draggedOldIndex]
+
+        #create a temp array for storing into the previous
+        tempArray = []
+        tempArray2 = []
+
+        if areaInfo == "somethingBefore"
+          tempArray.push(indexItemNextToTheDragged, indexOfDragged)
+          tempArray2.push(nextToItemAssociation, toMoveDetails)
+        else
+          tempArray.push(indexOfDragged, indexItemNextToTheDragged)
+          tempArray2.push(toMoveDetails, nextToItemAssociation)
+
+        #overwrite the item next to the dragged item in the index view
+        #do it for association details model too
+        detailViewsIndex[nextToItemIndexOfDragged] = tempArray
+        entryDetailsModel[nextToItemIndexOfDragged] = tempArray2
+
+        #flatten the index view array and store to model
+        exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
+
+        #shift dragged details around for association details
+        #delete the old model belonging to dragged details
+        #update the association details when done
+        delete entryDetailsModel[draggedOldIndex]
+
+        entryDetailsModel = _.flatten(_.without(entryDetailsModel, nextToItemAssociation))
+        entryDetailsModel = _.compact(entryDetailsModel)
+        associationExerciseEntryDetail.models = entryDetailsModel
     }
 
     #functions for extending the form view and child views
@@ -43,19 +103,23 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     #provide the methods to the backbone objects (views, models, etc.)
     toAugment = [
       {class: Weightyplates.Views.WorkoutForm
-      augmentingObj: MixIn
+      augmentingObj: genMixIn
       items: "getModel"}
 
       {class: Weightyplates.Views.WorkoutExercise
-      augmentingObj: MixIn
+      augmentingObj: genMixIn
       items: "getModel"}
 
+      {class: Weightyplates.Views.WorkoutExercise
+      augmentingObj: viewRearrangeMixin
+      items: "ALL"}
+
       {class: Weightyplates.Models.AssociationDetail
-      augmentingObj: MixIn
+      augmentingObj: genMixIn
       items: "toTitleCase"}
 
       {class: Weightyplates.Views.WorkoutDetail
-      augmentingObj: MixIn
+      augmentingObj: genMixIn
       items: "ALL"}
     ]
 
