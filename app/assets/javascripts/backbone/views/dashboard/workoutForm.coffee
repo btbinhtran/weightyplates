@@ -99,7 +99,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
         rearrange = false
 
-        #determine if the
+        #determine if there is an item before or after the dragged item
         if $prevItem.length == 1
           #there is something before the dragged item
           neighborInfo = "somethingBefore"

@@ -24,6 +24,7 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
 
     viewRearrangeMixin = ->
     viewRearrangeMixin.prototype = {
+      #variables refer to details but also works for exercise
       #sharing this view with
       rearrangeViews: (detailsViewIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail, exerciseAndDetailsModel) ->
         #entry details association models
@@ -101,20 +102,12 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     #provide the methods to the backbone objects (views, models, etc.)
     toAugment = [
       {class: Weightyplates.Views.WorkoutForm
-      augmentingObj: viewRearrangeMixin
-      items: "ALL"}
-
-      {class: Weightyplates.Views.WorkoutForm
-      augmentingObj: genMixIn
-      items: "getModel"}
+      augmentingObj: [genMixIn, viewRearrangeMixin]
+      items: ["getModel", "ALL"]}
 
       {class: Weightyplates.Views.WorkoutExercise
-      augmentingObj: genMixIn
-      items: "getModel"}
-
-      {class: Weightyplates.Views.WorkoutExercise
-      augmentingObj: viewRearrangeMixin
-      items: "ALL"}
+      augmentingObj: [genMixIn, viewRearrangeMixin]
+      items: ["getModel", "ALL"]}
 
       {class: Weightyplates.Models.AssociationDetail
       augmentingObj: genMixIn
@@ -131,10 +124,19 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
       i = 0
       while i < l
         entry = toAugment[i]
-        if entry.items == "ALL"
-          augment(entry.class, entry.augmentingObj)
-        else
-          augment(entry.class, entry.augmentingObj, entry.items)
+        #more than one mixin to augment
+        if _.isArray(entry.items)
+          objectLength = (entry.augmentingObj).length
+          j = 0
+          while j < objectLength
+            augment(entry.class, entry.augmentingObj[j])
+            j++
+        #only one mixin to to augment
+        if _.isString(entry.items)
+          if entry.items == "ALL"
+            augment(entry.class, entry.augmentingObj)
+          else
+            augment(entry.class, entry.augmentingObj, entry.items)
         i++
     )(toAugment, augment)
 
