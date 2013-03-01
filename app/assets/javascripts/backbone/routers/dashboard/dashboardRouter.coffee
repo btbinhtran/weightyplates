@@ -25,12 +25,12 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     viewRearrangeMixin = ->
     viewRearrangeMixin.prototype = {
       #sharing this view with
-      rearrangeViews: (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail, exerciseAndDetailsModel) ->
+      rearrangeViews: (detailsViewIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail, exerciseAndDetailsModel) ->
         #entry details association models
         entryDetailsModel =  associationExerciseEntryDetail.models
 
         #get ids of all the views in the index
-        allDetailsId = _.pluck(detailViewsIndex, 'id')
+        allDetailsId = _.pluck(detailsViewIndex, 'id')
 
         #association ids for details
         detailsAssociationIds = _.pluck(entryDetailsModel, 'cid')
@@ -42,10 +42,10 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
         nextToItemIndexOfDragged = _.indexOf(allDetailsId,  neighboringItem.attr("id"))
 
         #the index info of the dragged item
-        indexOfDragged = detailViewsIndex[draggedOldIndex]
+        indexOfDragged = detailsViewIndex[draggedOldIndex]
 
         #the index info of the item next to the dragged item
-        indexItemNextToTheDragged = detailViewsIndex[nextToItemIndexOfDragged]
+        indexItemNextToTheDragged = detailsViewIndex[nextToItemIndexOfDragged]
 
         nextToItemAssociation = entryDetailsModel[nextToItemIndexOfDragged]
         toMoveDetails = entryDetailsModel[draggedOldIndex]
@@ -63,11 +63,12 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
 
         #overwrite the item next to the dragged item in the index view
         #do it for association details model too
-        detailViewsIndex[nextToItemIndexOfDragged] = tempArray
+        detailsViewIndex[nextToItemIndexOfDragged] = tempArray
         entryDetailsModel[nextToItemIndexOfDragged] = tempArray2
 
         #flatten the index view array and store to model
-        exerciseAndDetailsModel.set("detailsViewIndex", _.flatten(_.without(detailViewsIndex, detailViewsIndex[draggedOldIndex])))
+        detailsViewIndexString = detailsViewIndex + ""
+        exerciseAndDetailsModel.set(detailsViewIndexString, _.flatten(_.without(detailsViewIndex, detailsViewIndex[draggedOldIndex])))
 
         #shift dragged details around for association details
         #delete the old model belonging to dragged details
@@ -99,6 +100,10 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
 
     #provide the methods to the backbone objects (views, models, etc.)
     toAugment = [
+      {class: Weightyplates.Views.WorkoutForm
+      augmentingObj: viewRearrangeMixin
+      items: "ALL"}
+
       {class: Weightyplates.Views.WorkoutForm
       augmentingObj: genMixIn
       items: "getModel"}

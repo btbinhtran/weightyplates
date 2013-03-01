@@ -62,62 +62,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExercisesModel: @getModel('FormAndExercises')
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
-    rearrangeViews = (exercisesViewIndex, draggedExerciseId, neighboringItem, areaInfo, associationExercise, formAndExercisesModel) ->
-      #exercise association models
-      exerciseModel = associationExercise.models
-
-      #get ids of all the views in the index
-      allExercisesId = _.pluck(exercisesViewIndex, 'id')
-
-      #association ids for exercises
-      exercisesAssociationIds = _.pluck(exerciseModel, 'cid')
-      #console.log exercisesAssociationIds
-
-      #the index of dragged item before it was dragged
-      draggedOldIndex =  _.indexOf(allExercisesId, draggedExerciseId)
-
-      #the item's original index which is now the item next to the dragged item
-      nextToItemIndexOfDragged = _.indexOf(allExercisesId,  neighboringItem.attr("id"))
-
-      #the item's original index which is now the item next to the dragged item
-      nextToItemIndexOfDragged = _.indexOf(allExercisesId,  neighboringItem.attr("id"))
-
-      #the index info of the dragged item
-      indexOfDragged = exercisesViewIndex[draggedOldIndex]
-
-      #the index info of the item next to the dragged item
-      indexItemNextToTheDragged = exercisesViewIndex[nextToItemIndexOfDragged]
-
-      nextToItemAssociation = exerciseModel[nextToItemIndexOfDragged]
-      toMoveExercises = exerciseModel[draggedOldIndex]
-
-      #create a temp array for storing into the previous
-      tempArray = []
-      tempArray2 = []
-
-      if areaInfo == "somethingBefore"
-        tempArray.push(indexItemNextToTheDragged, indexOfDragged)
-        tempArray2.push(nextToItemAssociation, toMoveExercises)
-      else
-        tempArray.push(indexOfDragged, indexItemNextToTheDragged)
-        tempArray2.push(toMoveExercises, nextToItemAssociation)
-
-      #overwrite the item next to the dragged item in the index view
-      #do it for association details model too
-      exercisesViewIndex[nextToItemIndexOfDragged] = tempArray
-      exerciseModel[nextToItemIndexOfDragged] = tempArray2
-
-      #flatten the index view array and store to model
-      formAndExercisesModel.set("exercisesViewIndex", _.flatten(_.without(exercisesViewIndex, exercisesViewIndex[draggedOldIndex])))
-
-      #shift dragged exercises around for association exercises
-      #delete the old model belonging to dragged exercises
-      #update the association exercises when done
-      delete exerciseModel[draggedOldIndex]
-      exerciseModel = _.flatten(exerciseModel)
-      exerciseModel = _.compact(exerciseModel)
-
-      associationExercise.models = exerciseModel
+    rearrangeViews = @rearrangeViews
 
     #sortable on exercises
     $exerciseViewContainer = @$el.find('.workout-entry-exercise-and-sets-row')
