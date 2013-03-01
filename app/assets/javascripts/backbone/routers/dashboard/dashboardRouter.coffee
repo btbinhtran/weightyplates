@@ -24,11 +24,8 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
 
     viewRearrangeMixin = ->
     viewRearrangeMixin.prototype = {
+      #sharing this view with
       rearrangeViews: (detailViewsIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail, exerciseAndDetailsModel) ->
-
-        #console.log "detailsview index"
-        #console.log detailViewsIndex
-
         #entry details association models
         entryDetailsModel =  associationExerciseEntryDetail.models
 

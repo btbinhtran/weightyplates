@@ -382,8 +382,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       .set("recentlyRemovedExercisesAssociatedModelId", associationExerciseModel.cid)
       .set("signalParentForm", signalParentForm * -1)
 
-
-
     ###
     #exercise removal fadeout animation
     @$el.fadeOut(200, ->
@@ -393,11 +391,6 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       thisView.remove()
     )
     ###
-
-
-
-
-
 
   validateListChange: (event)->
     #getting the selected value from the option list

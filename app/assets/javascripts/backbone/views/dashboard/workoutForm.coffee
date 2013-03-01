@@ -64,7 +64,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     rearrangeViews = (exercisesViewIndex, draggedExerciseId, neighboringItem, areaInfo, associationExercise, formAndExercisesModel) ->
       #exercise association models
-      exerciseModel = associationExercise.get("workout_entries").models
+      exerciseModel = associationExercise.models
 
       #get ids of all the views in the index
       allExercisesId = _.pluck(exercisesViewIndex, 'id')
@@ -117,14 +117,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       exerciseModel = _.flatten(exerciseModel)
       exerciseModel = _.compact(exerciseModel)
 
-      associationExercise.get("workout_entries").models = exerciseModel
+      associationExercise.models = exerciseModel
 
     #sortable on exercises
     $exerciseViewContainer = @$el.find('.workout-entry-exercise-and-sets-row')
     $exerciseDragContainer = @$el.find('.dashboard-add-workout-modal-row-area')
 
     formAndExercisesModel = @getModel('FormAndExercises')
-    associationWorkoutModel = @getModel('AssociationWorkout')
+    associationWorkoutModel = @getModel('AssociationWorkout').get("workout_entries")
 
     $exerciseViewContainer.sortable
       axis: 'y'
