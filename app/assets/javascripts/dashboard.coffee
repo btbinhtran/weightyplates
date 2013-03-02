@@ -1,5 +1,5 @@
 
-
+##= require jquery-ui
 ##= require jqueryPluginsManifest
 
 ##= require hamlcoffee

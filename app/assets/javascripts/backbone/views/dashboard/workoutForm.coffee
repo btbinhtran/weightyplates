@@ -62,6 +62,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExercisesModel: @getModel('FormAndExercises')
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
+
+
+
     rearrangeViews = @rearrangeViews
 
     #sortable on exercises
@@ -70,6 +73,40 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
     formAndExercisesModel = @getModel('FormAndExercises')
     associationWorkoutModel = @getModel('AssociationWorkout').get("workout_entries")
+
+    $viewEl = @$el
+
+    $(window).keydown (event) ->
+      console.log "document "
+      if event.which == 27
+        $(this).trigger('mouseup')
+        if (formAndExercisesModel.get("isSorting") == true)
+          console.log "disable"
+          $exerciseViewContainer.sortable('disable')
+
+          #console.log viewEl
+
+          previd = formAndExercisesModel.get("sortingPrevItem")
+
+          $placeHolder = $viewEl.find('.exercise-place-holder')
+
+          $("##{previd}").after($placeHolder)
+
+
+
+          #console.log formAndExercisesModel.get("sortingPrevItem")
+
+          #$exerciseViewContainer.blur()
+
+          $exerciseViewContainer.sortable('enable')
+          $(this).trigger('mouseup')
+
+    ###
+    $exerciseViewContainer.draggable
+      start:
+        console.log "dragging"
+
+     ###
 
     $exerciseViewContainer.sortable
       axis: 'y'
@@ -82,11 +119,34 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       tolerance: "pointer"
 
       activate: (event, ui) ->
+        formAndExercisesModel.set("isSorting", true)
+        #console.log formAndExercisesModel.get "isSorting"
+
+        $uiItem = $(ui.item)
+        exerciseId = $uiItem[0].id
+        $prevItem = $uiItem.prev('.exercise-grouping')
+        $nextItem = $uiItem.next('.exercise-grouping')
+
+        prevItemId = $prevItem.attr("id")
+        nextItemId = $nextItem.attr("id")
+
+        formAndExercisesModel.set("sortingPrevItem", prevItemId)
+        formAndExercisesModel.set("sortingNextItem", nextItemId)
+
+        #console.log "prev"
+        #console.log $prevItem
+
+
+        #console.log "next"
+        #console.log $nextItem
 
         #$placeHolder = $exerciseDragContainer.find('.exercise-place-holder')
         #$placeHolder.wrap("<div class='row-fluid' />")
 
+
       deactivate: (event, ui) ->
+        formAndExercisesModel.set("isSorting", false)
+        console.log formAndExercisesModel.get "isSorting"
         #dropped item id
         $uiItem = $(ui.item)
         exerciseId = $uiItem[0].id

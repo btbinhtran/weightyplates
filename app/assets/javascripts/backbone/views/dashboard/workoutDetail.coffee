@@ -134,7 +134,6 @@ class Weightyplates.Views.WorkoutDetail extends Backbone.View
       $(event.target).parents('.details-set-weight').trigger('click')
 
   addDetails: ->
-
     #prepare a new div to insert another details view
     @$el.parent().append("<div class='row-fluid details-set-weight' id='latest-details-container'></div>")
 
