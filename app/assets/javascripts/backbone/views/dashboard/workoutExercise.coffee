@@ -224,7 +224,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
         #update index view and the details json
         if rearrange == true
-          rearrangeViews(detailViewsIndex, detailId, neighborPosition, neighborInfo, associationExerciseEntryDetail, exerciseAndDetailsModel)
+          rearrangeViews(detailViewsIndex, detailId, neighborPosition, neighborInfo, associationExerciseEntryDetail, exerciseAndDetailsModel, "detail")
 
     #highlight the first details upon exercise creation
     $(@el).find('.details-set-weight').trigger("click")

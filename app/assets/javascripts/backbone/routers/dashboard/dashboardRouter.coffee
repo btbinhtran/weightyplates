@@ -26,7 +26,7 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
     viewRearrangeMixin.prototype = {
       #variables refer to details but also works for exercise
       #sharing this view with
-      rearrangeViews: (detailsViewIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail, exerciseAndDetailsModel) ->
+      rearrangeViews: (detailsViewIndex, draggedDetailId, neighboringItem, areaInfo, associationExerciseEntryDetail, exerciseAndDetailsModel, whichView) ->
         #entry details association models
         entryDetailsModel =  associationExerciseEntryDetail.models
 
@@ -68,7 +68,14 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
         entryDetailsModel[nextToItemIndexOfDragged] = tempArray2
 
         #flatten the index view array and store to model
-        detailsViewIndexString = detailsViewIndex + ""
+        if whichView == "exercise"
+          detailsViewIndexString =  "exercisesViewIndex"
+        else if whichView == "detail"
+          detailsViewIndexString = "detailsViewIndex"
+
+        #console.log "exer and det"
+        #console.log exerciseAndDetailsModel
+
         exerciseAndDetailsModel.set(detailsViewIndexString, _.flatten(_.without(detailsViewIndex, detailsViewIndex[draggedOldIndex])))
 
         #shift dragged details around for association details
@@ -76,8 +83,13 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
         #update the association details when done
         delete entryDetailsModel[draggedOldIndex]
 
+
         entryDetailsModel = _.flatten(_.without(entryDetailsModel, nextToItemAssociation))
         entryDetailsModel = _.compact(entryDetailsModel)
+        #console.log "entryDetails Model"
+        #console.log entryDetailsModel
+
+
         associationExerciseEntryDetail.models = entryDetailsModel
     }
 
