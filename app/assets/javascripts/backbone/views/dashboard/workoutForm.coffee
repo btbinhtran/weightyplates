@@ -89,9 +89,13 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
           console.log exerciseViewIndex
           item = _.where(exerciseViewIndex, {id: currentlyDragged})
+          $placeHolder = $viewEl.find('.exercise-place-holder')
           if _.indexOf(exerciseViewIndex,item[0]) == 0
-            $placeHolder = $viewEl.find('.exercise-place-holder')
             $("##{currentlyDragged}").after($placeHolder)
+          else
+            prevItem = formAndExercisesModel.get("sortingPrevItem")
+            $("##{prevItem}").after($placeHolder)
+
 
 
 
@@ -132,6 +136,14 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         formAndExercisesModel.set("isSorting", true)
                             .set("currentlyDragged", $(ui.item)[0].id)
 
+        $uiItem = $(ui.item)
+        exerciseId = $uiItem[0].id
+        $prevItem = $uiItem.prev('.exercise-grouping')
+        prevItemId = $prevItem.attr("id")
+
+        console.log "prev item"
+        #console.log $prevItem
+        formAndExercisesModel.set("sortingPrevItem", prevItemId)
         #console.log this.constructor
         #console.log formAndExercisesModel.get "isSorting"
         #console.log formAndExercisesModel.get ""
