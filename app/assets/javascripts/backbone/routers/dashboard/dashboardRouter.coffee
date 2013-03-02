@@ -73,23 +73,14 @@ class Weightyplates.Routers.Dashboard extends Backbone.Router
         else if whichView == "detail"
           detailsViewIndexString = "detailsViewIndex"
 
-        #console.log "exer and det"
-        #console.log exerciseAndDetailsModel
-
         exerciseAndDetailsModel.set(detailsViewIndexString, _.flatten(_.without(detailsViewIndex, detailsViewIndex[draggedOldIndex])))
 
         #shift dragged details around for association details
         #delete the old model belonging to dragged details
         #update the association details when done
         delete entryDetailsModel[draggedOldIndex]
-
-
         entryDetailsModel = _.flatten(_.without(entryDetailsModel, nextToItemAssociation))
         entryDetailsModel = _.compact(entryDetailsModel)
-        #console.log "entryDetails Model"
-        #console.log entryDetailsModel
-
-
         associationExerciseEntryDetail.models = entryDetailsModel
     }
 

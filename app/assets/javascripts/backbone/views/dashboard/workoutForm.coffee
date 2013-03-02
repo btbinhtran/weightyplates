@@ -74,53 +74,36 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     formAndExercisesModel = @getModel('FormAndExercises')
     associationWorkoutModel = @getModel('AssociationWorkout').get("workout_entries")
 
-
+    #this main form backbone view
     $viewEl = @$el
 
     #creating a custom sortable to allow for custom methods in sortable
     (($, undefined_) ->
       $.widget "ui.customSortable", $.ui.sortable,
         keyEvent: (event, ui)->
-          #console.log "works"
+          #get info of currently dragged
           currentlyDragged = formAndExercisesModel.get "currentlyDragged"
           exerciseViewIndex = formAndExercisesModel.get "exercisesViewIndex"
-          console.log "currently dragged"
-          console.log currentlyDragged
-
-          console.log exerciseViewIndex
           item = _.where(exerciseViewIndex, {id: currentlyDragged})
           $placeHolder = $viewEl.find('.exercise-place-holder')
+
+          #nothing before it so take the placeholder to the top
           if _.indexOf(exerciseViewIndex,item[0]) == 0
             $("##{currentlyDragged}").after($placeHolder)
           else
+          #there is something before the dragged item
             prevItem = formAndExercisesModel.get("sortingPrevItem")
             $("##{prevItem}").after($placeHolder)
-
-
-
-
     ) jQuery
 
     $(document).keydown (event) ->
       if event.which == 27
         if (formAndExercisesModel.get("isSorting") == true)
           formAndExercisesModel.set("escPressed", true)
-
+          #call on the custom sortable
           $exerciseViewContainer.customSortable('keyEvent')
+          #trigger the mouse up event to force drag item back into old slot
           $(this).trigger('mouseup')
-          ###
-          console.log formAndExercisesModel.get("sortingPrevItem")
-          console.log formAndExercisesModel.get("sortingNextItem")
-          console.log "----------------------------"
-
-          previd = formAndExercisesModel.get("sortingPrevItem")
-
-          $placeHolder = $viewEl.find('.exercise-place-holder')
-
-          $("##{previd}").aftecustomSortabler($placeHolder)
-
-          $(this).trigger('mouseup')
-          ###
 
     $exerciseViewContainer.customSortable
       axis: 'y'
@@ -133,54 +116,21 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       tolerance: "pointer"
 
       activate: (event, ui) ->
+        #set dragging info
         formAndExercisesModel.set("isSorting", true)
                             .set("currentlyDragged", $(ui.item)[0].id)
 
+        #get info of prev item before dragged
         $uiItem = $(ui.item)
         exerciseId = $uiItem[0].id
         $prevItem = $uiItem.prev('.exercise-grouping')
         prevItemId = $prevItem.attr("id")
 
-        console.log "prev item"
-        #console.log $prevItem
+        #need to set this if there is something before the dragged item
         formAndExercisesModel.set("sortingPrevItem", prevItemId)
-        #console.log this.constructor
-        #console.log formAndExercisesModel.get "isSorting"
-        #console.log formAndExercisesModel.get ""
-        ###
-        $uiItem = $(ui.item)
-        exerciseId = $uiItem[0].id
-        $prevItem = $uiItem.prev('.exercise-grouping')
-        $nextItem = $uiItem.next('.exercise-grouping')
-
-        prevItemId = $prevItem.attr("id")
-        nextItemId = $nextItem.attr("id")
-
-        #console.log $uiItem.siblings()
-        #console.log $uiItem.closest('.exercise-grouping')
-        ###
-        #console.log $prevItem
-        #console.log $nextItem
-
-        #formAndExercisesModel.set("sortingPrevItem", prevItemId)
-        #formAndExercisesModel.set("sortingNextItem", nextItemId)
-
-
-        #console.log "prev"
-        #console.log $prevItem
-
-
-        #console.log "next"
-        #console.log $nextItem
-
-        #$placeHolder = $exerciseDragContainer.find('.exercise-place-holder')
-        #$placeHolder.wrap("<div class='row-fluid' />")
-
 
       deactivate: (event, ui) ->
         formAndExercisesModel.set("isSorting", false)
-        #console.log formAndExercisesModel.get "isSorting"
-        #console.log "deactive"
         #dropped item id
         $uiItem = $(ui.item)
         exerciseId = $uiItem[0].id
@@ -209,10 +159,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         if rearrange == true
           #console.log 'REARRANge'
           rearrangeViews(exercisesIndex, exerciseId, neighborPosition, neighborInfo, associationWorkoutModel, formAndExercisesModel, "exercise")
-          console.log 'EXERCISE AFTER'
-          console.log exercisesIndex
-          console.log formAndExercisesModel.get("exercisesViewIndex")
-
 
     #add hint in workout name
     @hintInWorkoutName()
