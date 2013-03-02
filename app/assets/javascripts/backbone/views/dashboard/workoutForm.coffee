@@ -74,17 +74,19 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     formAndExercisesModel = @getModel('FormAndExercises')
     associationWorkoutModel = @getModel('AssociationWorkout').get("workout_entries")
 
+
     $viewEl = @$el
 
-    $(window).keydown (event) ->
-      console.log "document "
+    $(document).keydown (event) ->
       if event.which == 27
-        $(this).trigger('mouseup')
         if (formAndExercisesModel.get("isSorting") == true)
-          console.log "disable"
-          $exerciseViewContainer.sortable('disable')
+          formAndExercisesModel.set("escPressed", true)
 
-          #console.log viewEl
+          $exerciseViewContainer.sortable('extra')
+          ###
+          console.log formAndExercisesModel.get("sortingPrevItem")
+          console.log formAndExercisesModel.get("sortingNextItem")
+          console.log "----------------------------"
 
           previd = formAndExercisesModel.get("sortingPrevItem")
 
@@ -92,14 +94,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
           $("##{previd}").after($placeHolder)
 
-
-
-          #console.log formAndExercisesModel.get("sortingPrevItem")
-
-          #$exerciseViewContainer.blur()
-
-          $exerciseViewContainer.sortable('enable')
           $(this).trigger('mouseup')
+          ###
 
     ###
     $exerciseViewContainer.draggable
@@ -107,6 +103,9 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         console.log "dragging"
 
      ###
+
+    $.ui.sortable.prototype.extra = ()->
+      console.log "extra"
 
     $exerciseViewContainer.sortable
       axis: 'y'
@@ -118,10 +117,28 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       revert: 50
       tolerance: "pointer"
 
+      ###
+      #change: ->
+      #  console.log "there is a change"
+
+      sort: (event, ui) ->
+        #console.log formAndExercisesModel.get("escPressed")
+        if(formAndExercisesModel.get("escPressed") == true)
+          #console.log "esc pressed"
+          $(ui.sender).sortable('cancel');
+        #console.log "event"
+        #console.log event
+        #if event.which == 27
+        #  console.log "stop"
+      ###
+
       activate: (event, ui) ->
         formAndExercisesModel.set("isSorting", true)
-        #console.log formAndExercisesModel.get "isSorting"
 
+        #console.log this.constructor
+        #console.log formAndExercisesModel.get "isSorting"
+        #console.log formAndExercisesModel.get ""
+        ###
         $uiItem = $(ui.item)
         exerciseId = $uiItem[0].id
         $prevItem = $uiItem.prev('.exercise-grouping')
@@ -130,8 +147,15 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
         prevItemId = $prevItem.attr("id")
         nextItemId = $nextItem.attr("id")
 
-        formAndExercisesModel.set("sortingPrevItem", prevItemId)
-        formAndExercisesModel.set("sortingNextItem", nextItemId)
+        #console.log $uiItem.siblings()
+        #console.log $uiItem.closest('.exercise-grouping')
+        ###
+        #console.log $prevItem
+        #console.log $nextItem
+
+        #formAndExercisesModel.set("sortingPrevItem", prevItemId)
+        #formAndExercisesModel.set("sortingNextItem", nextItemId)
+
 
         #console.log "prev"
         #console.log $prevItem
