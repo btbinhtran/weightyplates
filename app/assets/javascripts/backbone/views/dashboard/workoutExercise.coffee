@@ -164,8 +164,35 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
     rearrangeViews = @rearrangeViews
 
+    #creating a custom sortable to allow for custom methods in sortable
+    (($, undefined_) ->
+      $.widget "ui.detailsSortable", $.ui.sortable,
+        keyEvent: (event, ui)->
+          #get info of currently dragged
+          currentlyDragged = exerciseAndDetailsModel.get "currentlyDragged"
+          detailViewIndex = exerciseAndDetailsModel.get "detailsViewIndex"
+          item = _.where(detailViewIndex, {id: currentlyDragged})
+          $placeHolder = exerciseViewEl.find('.details-place-holder')
+          #nothing before it so take the placeholder to the top
+          if _.indexOf(detailViewIndex,item[0]) == 0
+            $("##{currentlyDragged}").after($placeHolder)
+          else
+            #there is something before the dragged item
+            prevItem = exerciseAndDetailsModel.get("sortingPrevItem")
+            $("##{prevItem}").after($placeHolder)
+    ) jQuery
+
+    $(document).keydown (event) ->
+      if event.which == 27
+        if (exerciseAndDetailsModel.get("isSorting") == true)
+          exerciseAndDetailsModel.set("escPressed", true)
+          #call on the custom sortable
+          $detailsSet.detailsSortable('keyEvent')
+          #trigger the mouse up event to force drag item back into old slot
+          $(this).trigger('mouseup')
+
     #make the details sortable
-    $detailsSet.sortable
+    $detailsSet.detailsSortable
       axis: 'y'
       opacity: 0.9
       containment: 'parent'
@@ -176,6 +203,10 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       tolerance: "pointer"
 
       activate: (event, ui) ->
+        #set dragging info
+        exerciseAndDetailsModel.set("isSorting", true)
+          .set("currentlyDragged", $(ui.item)[0].id)
+
         #notify the dragged detail view for changes if necessary
         $detailViewDragged = $(ui.item)
         detailId = $detailViewDragged.attr("id")
@@ -191,7 +222,17 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
           # no input focus; general click ok
           $detailViewDragged.trigger('click')
 
+        #get info of prev item before dragged
+        $prevItem = $detailViewDragged.prev('.details-set-weight')
+        prevItemId = $prevItem.attr("id")
+
+        #need to set this if there is something before the dragged item
+        exerciseAndDetailsModel.set("sortingPrevItem", prevItemId)
+
       deactivate: (event, ui)->
+        exerciseAndDetailsModel.set("isSorting", false)
+        exerciseAndDetailsModel.set("escPressed", false)
+
         #dropped item id
         $uiItem = $(ui.item)
         detailId = $uiItem[0].id

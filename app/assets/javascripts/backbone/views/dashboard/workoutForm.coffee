@@ -28,8 +28,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #prepare the option entries
     formAndExercisesModel.set("optionListEntries", formAndExercisesModel.prepareEntries())
 
-
-
     #create an associated user model for workouts and further nesting of associated models
     associatedUserModel = new Weightyplates.Models.AssociationUserSession()
     associatedWorkoutModel = new Weightyplates.Models.AssociationWorkout()
@@ -64,9 +62,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
       formAndExercisesModel: @getModel('FormAndExercises')
     new Weightyplates.Views.WorkoutExercise(exerciseViewParam)
 
-
-
-
     rearrangeViews = @rearrangeViews
 
     #sortable on exercises
@@ -76,6 +71,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     formAndExercisesModel = @getModel('FormAndExercises')
     associationWorkoutModel = @getModel('AssociationWorkout').get("workout_entries")
 
+    #---------------------------------------------------Sortable Exercisee
     #this main form backbone view
     $viewEl = @$el
 
@@ -124,7 +120,6 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
         #get info of prev item before dragged
         $uiItem = $(ui.item)
-        exerciseId = $uiItem[0].id
         $prevItem = $uiItem.prev('.exercise-grouping')
         prevItemId = $prevItem.attr("id")
 

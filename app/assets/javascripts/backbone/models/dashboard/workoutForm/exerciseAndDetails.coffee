@@ -22,4 +22,9 @@ class Weightyplates.Models.ExerciseAndDetails extends Backbone.Model
     toBeHighlightedDetail: null
     focusedInputWhenDragged: false
     classNameOfInputFocus: null
+    isSorting: false
+    sortingPrevItem: null
+    sortingNextItem: null
+    escPressed: null
+    currentlyDragged: null
 
