@@ -81,8 +81,12 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
 
   #==============================================Render
   render: (exercisePhrase, formAndExercisesModel, exerciseViewsCount)->
+
+    #console.log "option in form"
+    #console.log formAndExercisesModel.get("optionListEntries")
+
     #console.log @getModel('ExerciseAndDetails')
-    $optionList = formAndExercisesModel.get("optionListEntries")
+    $optionListEntries = formAndExercisesModel.get("optionListEntries")
 
     viewElModel = formAndExercisesModel
 
@@ -130,7 +134,7 @@ class Weightyplates.Views.WorkoutExercise extends Backbone.View
       sensitivity: 10
       interval: 10
       over: ->
-        $(@).html($optionList)
+        $(@).html($optionListEntries)
         $(@).off()
       out: ->
 

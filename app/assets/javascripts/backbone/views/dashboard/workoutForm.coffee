@@ -28,6 +28,8 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
     #prepare the option entries
     formAndExercisesModel.set("optionListEntries", formAndExercisesModel.prepareEntries())
 
+
+
     #create an associated user model for workouts and further nesting of associated models
     associatedUserModel = new Weightyplates.Models.AssociationUserSession()
     associatedWorkoutModel = new Weightyplates.Models.AssociationWorkout()
@@ -131,6 +133,7 @@ class Weightyplates.Views.WorkoutForm extends Backbone.View
 
       deactivate: (event, ui) ->
         formAndExercisesModel.set("isSorting", false)
+        formAndExercisesModel.set("escPressed", false)
         #dropped item id
         $uiItem = $(ui.item)
         exerciseId = $uiItem[0].id
