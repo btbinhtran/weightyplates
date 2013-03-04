@@ -131,6 +131,12 @@
   padding-top: 20px;
 }
 
+.info-start-area{
+  background-color: black;
+  width: 100%;
+  float: left;
+}
+
 @media (max-width: 68.75em) {
   .exclaim-span {
     width: 100% !important;
@@ -156,7 +162,6 @@
   }
 
   #flash_notice p {
-    font-size: 0.8em;
     padding: 10px 10px 0 7px;
   }
   .navbar .brand {

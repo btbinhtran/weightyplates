@@ -17,7 +17,7 @@
 }
 
 .mainbody-container {
-  padding-top: 5%;
+  padding-top: 5.5em;
 }
 
 .navbar-link {
@@ -85,6 +85,8 @@ label, input, button, select, textarea {
 
 #close-button {
   background-image: url(image_path('messages/KnobRemove.png'));
+
+  background-repeat: no-repeat;
   height: 32px;
   width: 32px;
   right: 1em;
@@ -212,6 +214,17 @@ label, input, button, select, textarea {
 }
 
 /*Media Queries Begin*/
+
+@media (min-width: 100em){
+  input[type=checkbox]{
+    -ms-transform: scale(0.7); /* IE */
+    -moz-transform: scale(0.7); /* FF */
+    -webkit-transform: scale(0.7); /* Safari and Chrome */
+    -o-transform: scale(0.7); /* Opera */
+    padding: 10px;
+  }
+}
+
 @media (min-width: 80em) {
   .fix-after1280 {
     width: 80em !important;
@@ -256,13 +269,17 @@ label, input, button, select, textarea {
 
 @media (max-width: 47.9375em) {
   .hero-unit {
-    padding: 60px 30px;
+    padding: 10px 30px;
   }
   .fix-after1280 {
     width: 100%;
   }
   .container-fluid {
     padding: 0em;
+  }
+  #flash_notice {
+    margin-bottom: 0%;
+    margin-top: 3%;
   }
 }
 
