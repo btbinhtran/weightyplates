@@ -57,7 +57,8 @@
 
 #user_remember_me {
   float: left;
-  margin: 3% 0%;
+  margin-top: 0.5em;
+  /*margin: 3% 0%;*/
 }
 
 #remember-me-phrase {
@@ -132,9 +133,18 @@
 }
 
 .info-start-area{
-  background-color: black;
+  margin-top: 2.5em;
+  background-color: #4f4f4f;
+  border: 1px solid gray;
+  border-left: none;
+  border-right: none;
   width: 100%;
   float: left;
+  #info-start-top-header{
+    color: white;
+    text-align: center;
+    font-size: 1.7em;
+  }
 }
 
 @media (max-width: 68.75em) {

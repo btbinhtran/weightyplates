@@ -216,13 +216,7 @@ label, input, button, select, textarea {
 /*Media Queries Begin*/
 
 @media (min-width: 100em){
-  input[type=checkbox]{
-    -ms-transform: scale(0.7); /* IE */
-    -moz-transform: scale(0.7); /* FF */
-    -webkit-transform: scale(0.7); /* Safari and Chrome */
-    -o-transform: scale(0.7); /* Opera */
-    padding: 10px;
-  }
+
 }
 
 @media (min-width: 80em) {
